@@ -1,0 +1,4 @@
+﻿namespace Identity.API.IntegrationEvents
+{
+
+}
