@@ -167,7 +167,7 @@ namespace TemplateWebHost.Customization.StartUp
             hcBuilder
                 .AddRabbitMQ(
                     $"amqp://{Configuration["EventBusConnection"]}",
-                    name: "fund-rabbitmqbus-check",
+                    name: GetName()+"-rabbitmqbus-check",
                     tags: new string[] { "rabbitmqbus" });
 
             return services;
