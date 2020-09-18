@@ -4,7 +4,6 @@ using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
-using Autofac;
 using EMS.BuildingBlocks.IntegrationEventLogEF;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using HealthChecks.UI.Client;
@@ -29,7 +28,7 @@ using Microsoft.IdentityModel.Tokens;
 using RabbitMQ.Client;
 using Serilog;
 using TemplateWebHost.Customization.Filters;
-using TemplateWebHost.Customization.IntegrationEvents;
+using TemplateWebHost.Customization.IntegrationEventService;
 using TemplateWebHost.Customization.Settings;
 
 namespace TemplateWebHost.Customization.StartUp

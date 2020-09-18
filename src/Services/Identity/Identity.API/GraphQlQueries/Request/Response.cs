@@ -1,4 +1,4 @@
-﻿using Microsoft.eShopOnContainers.Services.Identity.API.Models;
+﻿using Identity.API.Context.Models;
 
 namespace Identity.API.Controllers
 {

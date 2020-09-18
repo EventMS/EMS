@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Data.Common;
 using System.Threading.Tasks;
@@ -8,10 +5,12 @@ using EMS.BuildingBlocks.IntegrationEventLogEF;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Utilities;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TemplateWebHost.Customization.Settings;
 
-namespace TemplateWebHost.Customization.IntegrationEvents
+namespace TemplateWebHost.Customization.IntegrationEventService
 {
     public class IntegrationEventService<T> : IIntegrationEventService where T : DbContext
     {

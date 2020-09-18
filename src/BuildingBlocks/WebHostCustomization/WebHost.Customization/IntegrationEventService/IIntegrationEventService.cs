@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using EMS.BuildingBlocks.IntegrationEventLogEF;
 
-namespace TemplateWebHost.Customization.IntegrationEvents
+namespace TemplateWebHost.Customization.IntegrationEventService
 {
     public interface IIntegrationEventService
     {

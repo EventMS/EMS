@@ -12,6 +12,7 @@ using EMS.Events;
 using HotChocolate;
 using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Execution;
+using Identity.API.Context.Models;
 using Identity.API.Controllers;
 using Identity.API.Data;
 using Identity.API.Services;
@@ -20,10 +21,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.eShopOnContainers.Services.Identity.API.Models;
 using Serilog;
-using Template1.API;
-using TemplateWebHost.Customization.IntegrationEvents;
+using TemplateWebHost.Customization.IntegrationEventService;
 
 namespace EMS.Events
 {

@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Reflection;
-using HealthChecks.UI.Client;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.Types;
@@ -14,11 +12,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
 using HotChocolate.AspNetCore.Subscriptions;
 using HotChocolate.Stitching;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Serilog;
 using TemplateWebHost.Customization;
 using TemplateWebHost.Customization.Filters;
 using TemplateWebHost.Customization.StartUp;
@@ -105,7 +101,11 @@ namespace GraphQL.API
             app.UsePlayground();
             app.UseCors("CorsPolicy");
             app.UseRouting();
-
+            app.Use(async (context, next) =>
+            {
+             //   Log.Information("Hit middleware layer");
+                await next.Invoke();
+            });
             app.UseGraphQL();
         }
 

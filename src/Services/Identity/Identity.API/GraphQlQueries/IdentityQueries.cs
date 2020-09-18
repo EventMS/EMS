@@ -1,8 +1,8 @@
 using System.Linq;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
+using Identity.API.Context.Models;
 using Identity.API.Data;
-using Microsoft.eShopOnContainers.Services.Identity.API.Models;
 
 namespace Identity.API.GraphQlQueries
 {

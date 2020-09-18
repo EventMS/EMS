@@ -6,7 +6,7 @@ using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using Template1.API.Context;
 using Template1.API.Controllers.Request;
-using TemplateWebHost.Customization.IntegrationEvents;
+using TemplateWebHost.Customization.IntegrationEventService;
 
 namespace Template1.API.GraphQlQueries
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Template1.API.Infrastructure.Exceptions
+namespace TemplateWebHost.Customization.Exceptions
 {
     /// <summary>
     /// Exception type for app exceptions

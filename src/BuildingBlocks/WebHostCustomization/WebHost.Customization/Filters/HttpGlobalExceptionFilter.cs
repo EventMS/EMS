@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Template1.API.Infrastructure.ActionResults;
-using Template1.API.Infrastructure.Exceptions;
+using TemplateWebHost.Customization.ActionResults;
+using TemplateWebHost.Customization.Exceptions;
 
 namespace TemplateWebHost.Customization.Filters
 {

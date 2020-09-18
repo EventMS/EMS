@@ -1,7 +1,7 @@
 ﻿using HotChocolate;
 using Serilog;
 
-namespace TemplateWebHost.Customization.StartUp
+namespace TemplateWebHost.Customization.Filters
 {
     public class GraphQLErrorFilter : IErrorFilter
     {

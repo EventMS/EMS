@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
 
-namespace Microsoft.eShopOnContainers.Services.Identity.API.Models
+namespace Identity.API.Context.Models
 {
     public class ApplicationUser : IdentityUser
     {
