@@ -10,7 +10,7 @@ using Permission.API.Context;
 namespace Permission.API.Migrations
 {
     [DbContext(typeof(PermissionContext))]
-    [Migration("20200918192222_Init")]
+    [Migration("20200918203649_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,10 +26,6 @@ namespace Permission.API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

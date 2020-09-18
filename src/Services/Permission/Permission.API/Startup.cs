@@ -34,7 +34,6 @@ namespace Permission.API
                 .AddServices(s)
                 .AddAuthorizeDirectiveType()
                 .AddQueryType<PermissionQueries>()
-                .AddMutationType<PermissionMutations>()
                 .Create()
             );
         }

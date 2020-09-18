@@ -20,16 +20,7 @@ namespace Permission.API
 
         public override void MigrateDbContext(IWebHost host)
         {
-            host.MigrateDbContext<PermissionContext>((context, services) =>
-                {
-                    var env = services.GetService<IWebHostEnvironment>();
-                    var settings = services.GetService<IOptions<BaseSettings>>();
-                    var logger = services.GetService<ILogger<PermissionContextSeed>>();
-
-                    new PermissionContextSeed()
-                        .SeedAsync(context, env, settings, logger)
-                        .Wait();
-                })
+            host.MigrateDbContext<PermissionContext>((context, services) => {})
                 .MigrateDbContext<IntegrationEventLogContext>((context, services) => { });
         }
     }

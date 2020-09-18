@@ -22,23 +22,6 @@ namespace Template1.API.Context
         {
             builder.ApplyConfiguration(new Template1EntityTypeConfiguration());
         }
-
-        public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-        {
-            var changedEntities = ChangeTracker
-                .Entries()
-                .Where(_ => _.State == EntityState.Added ||
-                            _.State == EntityState.Modified);
-
-            var errors = new List<ValidationResult>(); // all errors are here
-            foreach (var e in changedEntities)
-            {
-                var vc = new ValidationContext(e.Entity, null, null);
-                Validator.ValidateObject(
-                    e.Entity, vc, true);
-            }
-            return await base.SaveChangesAsync(cancellationToken);
-        }
     }
 
 

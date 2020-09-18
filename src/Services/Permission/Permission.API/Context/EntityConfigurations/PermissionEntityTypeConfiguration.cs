@@ -14,9 +14,6 @@ namespace Permission.API.Context.EntityConfigurations
 
             builder.Property(ci => ci.Id)
                 .IsRequired();
-
-            builder.Property(ci => ci.Name)
-                .IsRequired();
         }
     }
 }

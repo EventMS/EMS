@@ -11,8 +11,7 @@ namespace Permission.API.Migrations
                 name: "Permission",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
