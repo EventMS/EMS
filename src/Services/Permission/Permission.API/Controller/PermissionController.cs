@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace Permission.API.Controller
         public async Task<string> GetPermission([FromBody] Content test)
         {
             Log.Information("Permissions");
+            Log.Information(User.FindFirstValue("id"));
             return test.Query;
         }
     }
