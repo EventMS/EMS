@@ -5,10 +5,10 @@ using Template1.API.Context;
 
 namespace Template1.API.GraphQlQueries
 {
-    public class Query
+    public class Template1Queries
     {
         private readonly Template1Context _context;
-        public Query(Template1Context context)
+        public Template1Queries(Template1Context context)
         {
             _context = context;
         }

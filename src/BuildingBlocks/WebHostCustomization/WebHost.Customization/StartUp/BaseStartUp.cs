@@ -8,6 +8,7 @@ using Autofac;
 using EMS.BuildingBlocks.IntegrationEventLogEF;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using HealthChecks.UI.Client;
+using HotChocolate;
 using HotChocolate.AspNetCore;
 using MassTransit;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
@@ -27,7 +28,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RabbitMQ.Client;
 using Serilog;
-using Template1.API.Infrastructure.Filters;
+using TemplateWebHost.Customization.Filters;
 using TemplateWebHost.Customization.IntegrationEvents;
 using TemplateWebHost.Customization.Settings;
 
@@ -49,6 +50,8 @@ namespace TemplateWebHost.Customization.StartUp
             return services;
         }
 
+
+
         public virtual void ConfigureServices(IServiceCollection services)
         {
             AddAppInsight(services);
@@ -58,13 +61,23 @@ namespace TemplateWebHost.Customization.StartUp
             AddCustomOptions(services);
             AddIntegrationServices(services);
             AddMassTransitServices(services);
-            AddEventBus(services);
-            AddEventBusHandlers(services);
-            AddCustomHealthCheck(services, GetName());
-            AddCustomAuthentication(services, GetName());
+            AddGlobalStateInterceptor(services);
+            AddCustomHealthCheck(services);
+            AddCustomAuthentication(services);
+            AddServices(services);
             services.AddHttpContextAccessor();
-
+            services.AddErrorFilter<GraphQLErrorFilter>();
             AddGraphQlServices(services);
+        }
+
+        public virtual IServiceCollection AddServices(IServiceCollection service)
+        {
+            return service;
+        }
+
+        public virtual IServiceCollection AddGlobalStateInterceptor(IServiceCollection service)
+        {
+            return service;
         }
 
         private IServiceCollection AddMassTransitServices(IServiceCollection services)
@@ -140,7 +153,7 @@ namespace TemplateWebHost.Customization.StartUp
             return services;
         }
 
-        public virtual IServiceCollection AddCustomHealthCheck(IServiceCollection services, string name)
+        public virtual IServiceCollection AddCustomHealthCheck(IServiceCollection services)
         {
             var hcBuilder = services.AddHealthChecks();
 
@@ -148,7 +161,7 @@ namespace TemplateWebHost.Customization.StartUp
                 .AddCheck("self", () => HealthCheckResult.Healthy())
                 .AddSqlServer(
                     Configuration["ConnectionString"],
-                    name: name + "DB-check",
+                    name: GetName() + "DB-check",
                     tags: new string[] { "template1db" });
 
             hcBuilder
@@ -197,22 +210,12 @@ namespace TemplateWebHost.Customization.StartUp
             return services;
         }
 
-        public virtual IServiceCollection AddEventBus(IServiceCollection services)
-        {
-            return services;
-        }
-        
         public virtual IServiceCollection AddIdentityServer(IServiceCollection service)
         {
             return service;
         }
 
-        public virtual IServiceCollection AddEventBusHandlers(IServiceCollection services)
-        {
-            return services;
-        }
-
-        public virtual IServiceCollection AddCustomAuthentication(IServiceCollection services, string audience)
+        public virtual IServiceCollection AddCustomAuthentication(IServiceCollection services)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
@@ -228,6 +231,7 @@ namespace TemplateWebHost.Customization.StartUp
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
+                    //Should use some significant audience, issuer or not use at all. Put secret in settings. 
                     ValidateAudience = true,
                     ValidateIssuer = true,
                     ValidateIssuerSigningKey = true,
@@ -274,13 +278,6 @@ namespace TemplateWebHost.Customization.StartUp
                     Predicate = r => r.Name.Contains("self")
                 });
             });
-
-            ConfigureEventBus(app);
-
-        }
-        protected virtual void ConfigureEventBus(IApplicationBuilder app)
-        {
-            //eventBus.Subscribe<StockTraderCreatedIntegrationEvent, StockTraderCreatedIntegrationEventHandler>();
         }
 
         protected virtual void ConfigureAuth(IApplicationBuilder app)

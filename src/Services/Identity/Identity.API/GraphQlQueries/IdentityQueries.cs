@@ -6,10 +6,10 @@ using Microsoft.eShopOnContainers.Services.Identity.API.Models;
 
 namespace Identity.API.GraphQlQueries
 {
-    public class Query
+    public class IdentityQueries
     {
         private readonly ApplicationDbContext _context;
-        public Query(ApplicationDbContext context)
+        public IdentityQueries(ApplicationDbContext context)
         {
             _context = context;
         }

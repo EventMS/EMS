@@ -36,7 +36,7 @@ namespace EMS.Events
 
 namespace Identity.API.GraphQlQueries
 {
-    public class MutationQuery
+    public class IdentityMutations
     {
         private readonly ApplicationDbContext _context;
         private readonly IIntegrationEventService _integrationEventService;
@@ -46,7 +46,7 @@ namespace Identity.API.GraphQlQueries
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public MutationQuery(ApplicationDbContext context, IIntegrationEventService template1IntegrationEventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint)
+        public IdentityMutations(ApplicationDbContext context, IIntegrationEventService template1IntegrationEventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _integrationEventService = template1IntegrationEventService ?? throw new ArgumentNullException(nameof(template1IntegrationEventService));
@@ -123,11 +123,12 @@ namespace Identity.API.GraphQlQueries
         [Authorize]
         public async Task<ApplicationUser> EditUserAsync(EditUserRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {
-            ApplicationUser user = await _context.Users.SingleAsync(user => user.Id == currentUser.UserId);
+            ApplicationUser user = await _context.Users.SingleAsync(applicationUser => applicationUser.Id == currentUser.UserId);
 
             user.Name = request.Name;
             user.PhoneNumber = request.PhoneNumber;
             _context.Update(user);
+
             var evt = new UserUpdatedIntegrationEvent(user.Id, user.Name);
             await _integrationEventService.SaveEventAndDbContextChangesAsync(evt);
             await _integrationEventService.PublishThroughEventBusAsync(evt);

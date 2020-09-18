@@ -10,12 +10,12 @@ using TemplateWebHost.Customization.IntegrationEvents;
 
 namespace Template1.API.GraphQlQueries
 {
-    public class Mutations
+    public class Template1Mutations
     {
         private readonly Template1Context _context;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public Mutations(Template1Context context, IIntegrationEventService template1IntegrationEventService)
+        public Template1Mutations(Template1Context context, IIntegrationEventService template1IntegrationEventService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _integrationEventService = template1IntegrationEventService ?? throw new ArgumentNullException(nameof(template1IntegrationEventService));

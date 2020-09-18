@@ -54,6 +54,12 @@ namespace TemplateWebHost.Customization.IntegrationEvents
             }
         }
 
+        public async Task SaveContextThenPublishEvent(IntegrationEvent evt, Func<Task> action = null)
+        {
+            await SaveEventAndDbContextChangesAsync(evt, action);
+            await PublishThroughEventBusAsync(evt);
+        }
+
         public async Task SaveEventAndDbContextChangesAsync(IntegrationEvent evt, Func<Task> action = null)
         {
             _logger.LogInformation("----- IntegrationEventService - Saving changes and integrationEvent: {IntegrationEventId}", evt.Id);

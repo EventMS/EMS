@@ -30,13 +30,11 @@ namespace Template1.API
 
         public override IServiceCollection AddGraphQlServices(IServiceCollection services)
         {
-
-            //Services
             return services.AddGraphQL(s => SchemaBuilder.New()
                 .AddServices(s)
                 .AddAuthorizeDirectiveType()
-                .AddQueryType<Query>()
-                .AddMutationType<Mutations>()
+                .AddQueryType<Template1Queries>()
+                .AddMutationType<Template1Mutations>()
                 .Create()
             );
         }

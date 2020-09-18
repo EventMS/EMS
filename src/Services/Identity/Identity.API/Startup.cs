@@ -7,6 +7,7 @@ using GreenPipes;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Interceptors;
+using HotChocolate.Execution.Configuration;
 using Identity.API.Data;
 using Identity.API.GraphQlQueries;
 using Identity.API.Services;
@@ -23,34 +24,6 @@ using TemplateWebHost.Customization.StartUp;
 
 namespace Identity.API
 {
-
-    class ValueEnteredEvent2Consumer :
-        IConsumer<ValueEntered>
-    {
-        public async Task Consume(ConsumeContext<ValueEntered> context)
-        {
-            Log.Information("IdentityValue: {Value}", context.Message.Value);
-            Log.Information("IdentityValue2: {Value2}", context.Message.Value2);
-        }
-    }
-    public class CurrentUser
-    {
-        public string UserId { get; }
-
-        public CurrentUser(string userId)
-        {
-            UserId = userId;
-        }
-    }
-
-    public class CurrentUserGlobalState : GlobalStateAttribute
-    {
-        public CurrentUserGlobalState() : base("currentUser")
-        {
-        }
-    }
-
-
     public class Startup : BaseStartUp<ApplicationDbContext>
     {
         public Startup(IConfiguration configuration) : base(configuration)
@@ -59,20 +32,24 @@ namespace Identity.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
-            busServices.AddConsumer<ValueEnteredEvent2Consumer>();
+            //busServices.AddConsumer<ValueEnteredEvent2Consumer>();
+        }
+
+        public override IServiceCollection AddServices(IServiceCollection service)
+        {
+            service.AddSingleton<JwtService>();
+            return service;
         }
 
         public override IServiceCollection AddGraphQlServices(IServiceCollection services)
         {
-            services.AddSingleton<JwtService>();
-            //Services
-            return services.AddGraphQL(s => SchemaBuilder.New()
+            services.AddGraphQL(s => SchemaBuilder.New()
                 .AddServices(s)
-                .AddQueryType<Query>()
-                .AddMutationType<MutationQuery>()
+                .AddQueryType<IdentityQueries>()
+                .AddMutationType<IdentityMutations>()
                 .AddAuthorizeDirectiveType()
-                .Create()
-            );
+                .Create());
+            return services;
         }
 
         private static OnCreateRequestAsync AuthenticationInterceptor()
@@ -89,6 +66,12 @@ namespace Identity.API
             };
         }
 
+        public override IServiceCollection AddGlobalStateInterceptor(IServiceCollection service)
+        {
+            service.AddQueryRequestInterceptor(AuthenticationInterceptor());
+            return service;
+        }
+
         public override IServiceCollection AddIdentityServer(IServiceCollection service)
         {
             service.AddIdentity<ApplicationUser, IdentityRole>()
@@ -96,11 +79,6 @@ namespace Identity.API
             return service;
         }
 
-        public override IServiceCollection AddEventBusHandlers(IServiceCollection services)
-        {
-            services.AddQueryRequestInterceptor(AuthenticationInterceptor());
-            return services;
-        }
 
         protected override string GetName()
         {

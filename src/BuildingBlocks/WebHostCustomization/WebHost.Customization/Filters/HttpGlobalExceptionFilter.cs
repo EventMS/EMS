@@ -1,50 +1,18 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
+using System.Net;
+using HotChocolate.Execution;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Serilog;
 using Template1.API.Infrastructure.ActionResults;
 using Template1.API.Infrastructure.Exceptions;
 
-namespace Template1.API.Infrastructure.Filters
+namespace TemplateWebHost.Customization.Filters
 {
-
-    public class AuthorizeCheckOperationFilter : IOperationFilter
-    {
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        {
-            // Check for authorize attribute
-            var hasAuthorize = context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any() ||
-                               context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
-
-            if (!hasAuthorize) return;
-
-            operation.Responses.TryAdd("401", new OpenApiResponse { Description = "Unauthorized" });
-            operation.Responses.TryAdd("403", new OpenApiResponse { Description = "Forbidden" });
-
-            var oAuthScheme = new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
-            };
-
-            operation.Security = new List<OpenApiSecurityRequirement>
-            {
-                new OpenApiSecurityRequirement
-                {
-                    [ oAuthScheme ] = new [] { "orderingapi" }
-                }
-            };
-        }
-    }
-
     public class HttpGlobalExceptionFilter : IExceptionFilter
     {
         private readonly IWebHostEnvironment env;
@@ -58,11 +26,14 @@ namespace Template1.API.Infrastructure.Filters
 
         public void OnException(ExceptionContext context)
         {
+            Log.Information(context.Exception.Message);
             logger.LogError(new EventId(context.Exception.HResult),
                 context.Exception,
                 context.Exception.Message);
 
-            if (context.Exception.GetType() == typeof(Template1DomainException) || context.Exception.GetType() == typeof(ValidationException))
+            if (context.Exception.GetType() == typeof(DomainException) 
+                || context.Exception.GetType() == typeof(ValidationException)
+                || context.Exception.GetType() == typeof(QueryException))
             {
                 var problemDetails = new ValidationProblemDetails()
                 {
