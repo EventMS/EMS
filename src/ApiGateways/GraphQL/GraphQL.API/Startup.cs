@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.Types;
@@ -14,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HotChocolate.AspNetCore.Subscriptions;
 using HotChocolate.Stitching;
+using Newtonsoft.Json;
 using Serilog;
 using TemplateWebHost.Customization;
 using TemplateWebHost.Customization.Filters;
@@ -22,6 +25,27 @@ using Path = System.IO.Path;
 
 namespace GraphQL.API
 {
+    public class PermissionService
+    {
+        private readonly HttpClient _client;
+
+        public PermissionService(HttpClient client)
+        {
+            _client = client;
+        }
+
+        public async Task<string> GetPermissions(string body)
+        {
+            HttpContent content = new StringContent(body);
+            var response = await _client.PostAsync("/permissions", content);
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync();
+        }
+    }
+
+
     public class Startup
     {
 
@@ -37,6 +61,23 @@ namespace GraphQL.API
             AddCustomMVC(services);
                 services.AddHttpContextAccessor();
             AddGraphQlServices(services);
+            AddServices(services);
+        }
+
+        public virtual IServiceCollection AddServices(IServiceCollection services)
+        {
+            services.AddHttpClient<PermissionService>("permission",(sp, client) =>
+            {
+                HttpContext context = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
+
+                if (context.Request.Headers.ContainsKey("Authorization"))
+                {
+                    client.DefaultRequestHeaders.Authorization =
+                        AuthenticationHeaderValue.Parse(context.Request.Headers["Authorization"].ToString());
+                }
+                client.BaseAddress = new Uri("http://permission-api");
+            });
+            return services;
         }
 
         public virtual IServiceCollection AddCustomMVC(IServiceCollection services)
@@ -101,11 +142,7 @@ namespace GraphQL.API
             app.UsePlayground();
             app.UseCors("CorsPolicy");
             app.UseRouting();
-            app.Use(async (context, next) =>
-            {
-             //   Log.Information("Hit middleware layer");
-                await next.Invoke();
-            });
+            app.UseMiddleware<PermissionMiddleware>();
             app.UseGraphQL();
         }
 
