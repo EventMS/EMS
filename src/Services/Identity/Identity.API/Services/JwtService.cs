@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -12,16 +13,25 @@ namespace Identity.API.Services
 {
     public class JwtService
     {
+        public JwtService(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        private IConfiguration Configuration { get; }
+
+
         public string GenerateJwtToken(string id, string email)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING");
+            var securityKey = Configuration.GetValue<string>("SecurityKey");
+            var key = Encoding.ASCII.GetBytes(securityKey);
             Log.Information(email);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Issuer = "issuer",
-                Audience = "audience",
+                Issuer = null,
+                Audience = null,
                 Subject = new ClaimsIdentity(new[] 
                 { 
                     new Claim("email", email),

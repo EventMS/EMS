@@ -19,8 +19,8 @@ using Microsoft.Extensions.Options;
 using HotChocolate.AspNetCore.Subscriptions;
 using HotChocolate.Stitching;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Template1.API.Infrastructure.Filters;
 using TemplateWebHost.Customization;
+using TemplateWebHost.Customization.Filters;
 using TemplateWebHost.Customization.StartUp;
 using Path = System.IO.Path;
 

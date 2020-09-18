@@ -221,7 +221,7 @@ namespace TemplateWebHost.Customization.StartUp
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
-
+            var securityKey = Configuration.GetValue<string>("SecurityKey");
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -231,15 +231,12 @@ namespace TemplateWebHost.Customization.StartUp
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    //Should use some significant audience, issuer or not use at all. Put secret in settings. 
-                    ValidateAudience = true,
-                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
                     ValidateIssuerSigningKey = true,
-                    ValidAudience = "audience",
-                    ValidIssuer = "issuer",
                     RequireSignedTokens = false,
                     IssuerSigningKey =
-                        new SymmetricSecurityKey(Encoding.ASCII.GetBytes("THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING"))
+                        new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey))
                 };
 
                 options.RequireHttpsMetadata = false;
