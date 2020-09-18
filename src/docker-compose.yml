@@ -30,6 +30,17 @@ services:
       - identity-api
       - rabbitmq
 
+  permission-api:
+    image: ${REGISTRY:-eshop}/permission.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Permission/Permission.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
+
   graphql-api:
     image: ${REGISTRY:-eshop}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
     build:

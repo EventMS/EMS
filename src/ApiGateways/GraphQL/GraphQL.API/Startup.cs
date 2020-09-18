@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
-using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.Types;
@@ -25,27 +23,6 @@ using Path = System.IO.Path;
 
 namespace GraphQL.API
 {
-    public class PermissionService
-    {
-        private readonly HttpClient _client;
-
-        public PermissionService(HttpClient client)
-        {
-            _client = client;
-        }
-
-        public async Task<string> GetPermissions(string body)
-        {
-            HttpContent content = new StringContent(body);
-            var response = await _client.PostAsync("/permissions", content);
-
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadAsStringAsync();
-        }
-    }
-
-
     public class Startup
     {
 
@@ -69,7 +46,7 @@ namespace GraphQL.API
             services.AddHttpClient<PermissionService>("permission",(sp, client) =>
             {
                 HttpContext context = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
-
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
                 if (context.Request.Headers.ContainsKey("Authorization"))
                 {
                     client.DefaultRequestHeaders.Authorization =

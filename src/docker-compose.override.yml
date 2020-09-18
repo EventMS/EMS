@@ -45,7 +45,6 @@ services:
       - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.GraphQLDb;User Id=sa;Password=Pass@word}
       - identityUrl=http://identity-api
       - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
-      - PicBaseUrl=${ESHOP_STORAGE_CATALOG_URL}
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
       - OrchestratorType=${ORCHESTRATOR_TYPE}
       - PORT=80
@@ -61,13 +60,25 @@ services:
       - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.Template1Db;User Id=sa;Password=Pass@word}
       - identityUrl=http://identity-api
       - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
-      - PicBaseUrl=${ESHOP_STORAGE_CATALOG_URL}
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
       - OrchestratorType=${ORCHESTRATOR_TYPE}
       - PORT=80
       - PATH_BASE=/template1-api
     ports:
       - "5103:80"
+
+  permission-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.PermissionDb;User Id=sa;Password=Pass@word}
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
+      - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PORT=80
+      - PATH_BASE=/permission-api
+    ports:
+      - "5105:80"
 
   webstatus:
     environment:

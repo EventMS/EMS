@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Template1.API.Context.Migrations.Template1Migrations
+namespace Permission.API.Migrations
 {
     public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Template1",
+                name: "Permission",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -16,14 +16,14 @@ namespace Template1.API.Context.Migrations.Template1Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Template1", x => x.Id);
+                    table.PrimaryKey("PK_Permission", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Template1");
+                name: "Permission");
         }
     }
 }

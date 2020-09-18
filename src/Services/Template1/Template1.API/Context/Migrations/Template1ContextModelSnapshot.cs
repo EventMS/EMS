@@ -4,15 +4,13 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Template1.API.Context.Migrations.Template1Migrations
+namespace Template1.API.Context.Migrations
 {
     [DbContext(typeof(Template1Context))]
-    [Migration("20200620085820_Init")]
-    partial class Init
+    partial class Template1ContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
