@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Permission.API.Context;
 using Permission.API.GraphQlQueries;
 using Permission.API.IntegrationEvents;
+using Permission.API.Services;
 using TemplateWebHost.Customization.StartUp;
 
 
@@ -26,6 +27,12 @@ namespace Permission.API
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
             busServices.AddConsumer<UserCreatedEventPermissionConsumer>();
+        }
+
+        public override IServiceCollection AddServices(IServiceCollection service)
+        {
+            service.AddSingleton<JwtService>();
+            return service;
         }
 
         public override IServiceCollection AddGraphQlServices(IServiceCollection services)

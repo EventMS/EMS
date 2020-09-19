@@ -33,9 +33,14 @@ namespace GraphQL.API
                 {
                     var body = await ReadFromBodyOfRequest(context.Request);
                    var content = JsonConvert.DeserializeObject<Content>(body);
-                   var token = await _permissionClient.GetPermissions(content);
-                    //context.Request.Headers.Remove("Authorization");
-                   // context.Request.Headers.Add("Authorization", "Bearer " + token);
+                   //The playground editor spams these instrospection queries
+                   //So to not polute do not allow these these to ask for permission, which they will fail. 
+                   if (!content.OperationName.Equals("IntrospectionQuery"))
+                   {
+                       var token = await _permissionClient.GetPermissions(content);
+                       context.Request.Headers.Remove("Authorization");
+                       context.Request.Headers.Add("Authorization", "Bearer " + token);
+                    }
                 }
                 catch (Exception e)
                 {
