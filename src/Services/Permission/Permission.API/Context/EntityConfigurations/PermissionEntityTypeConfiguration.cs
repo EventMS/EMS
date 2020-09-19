@@ -1,19 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Permission.API.Context.Model;
 
 namespace Permission.API.Context.EntityConfigurations
 {
-    class PermissionEntityTypeConfiguration
-        : IEntityTypeConfiguration<Model.Permission>
+    class UserPermissionEntityTypeConfiguration
+        : IEntityTypeConfiguration<UserPermission>
     {
-        public void Configure(EntityTypeBuilder<Model.Permission> builder)
+        public void Configure(EntityTypeBuilder<UserPermission> builder)
         {
-            builder.ToTable("Permission");
+            builder.ToTable("UserPermission");
 
-            builder.HasKey(ci => ci.Id);
+            builder.HasKey(ci => ci.UserId);
 
-            builder.Property(ci => ci.Id)
-                .IsRequired();
+            builder.Property(ci => ci.UserId)
+                .IsRequired()
+                .ValueGeneratedNever();
         }
     }
 }

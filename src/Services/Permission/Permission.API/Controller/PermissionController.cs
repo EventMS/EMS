@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Permission.API.Context;
 using Serilog;
 
 namespace Permission.API.Controller
@@ -26,12 +28,26 @@ namespace Permission.API.Controller
     [ApiController]
     public class PermissionController : ControllerBase
     {
+        private readonly PermissionContext _permissionContext;
+
+        public PermissionController(PermissionContext permissionContext)
+        {
+            _permissionContext = permissionContext;
+        }
+
 
         [HttpPost]
         public async Task<string> GetPermission([FromBody] Content test)
         {
-            Log.Information("Permissions");
-            Log.Information(User.FindFirstValue("id"));
+            var userId = new Guid(User.FindFirstValue("id"));
+
+            var userPermissions =  await _permissionContext.UserPermissions
+                .Where(user => user.UserId == userId)
+                .Include(user => user.ClubAdminIn)
+                .SingleAsync();
+
+            Log.Information("Generate some token from these permissions based on context");
+
             return test.Query;
         }
     }

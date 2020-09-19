@@ -5,15 +5,13 @@ using HotChocolate;
 
 namespace Permission.API.Context.Model
 {
-    public class Permission : IValidatableObject
+    public class UserPermission : IValidatableObject
     {
-        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
 
-       // public string UserId { get; set; }
+        public ICollection<UserAdministratorPermission> ClubAdminIn { get; set; }
 
-       // public Guid ClubId { get; set; }
-
-        public Permission() { }
+        public UserPermission() { }
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {
             yield break;

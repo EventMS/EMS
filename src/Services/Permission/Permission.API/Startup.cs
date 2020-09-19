@@ -25,7 +25,7 @@ namespace Permission.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
-           // busServices.AddConsumer<PermissionCreatedIntegrationEventConsumer>();
+            busServices.AddConsumer<UserCreatedEventPermissionConsumer>();
         }
 
         public override IServiceCollection AddGraphQlServices(IServiceCollection services)
@@ -40,7 +40,7 @@ namespace Permission.API
 
         protected override string GetName()
         {
-            return "Permission";
+            return "UserPermission";
         }
     }
 }

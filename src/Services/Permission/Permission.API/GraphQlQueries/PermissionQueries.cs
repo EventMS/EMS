@@ -2,6 +2,7 @@ using System.Linq;
 using HotChocolate.Types;
 using HotChocolate.Types.Relay;
 using Permission.API.Context;
+using Permission.API.Context.Model;
 
 namespace Permission.API.GraphQlQueries
 {
@@ -15,6 +16,6 @@ namespace Permission.API.GraphQlQueries
 
         [UsePaging]
         [UseFiltering]
-        public IQueryable<Context.Model.Permission> Permissions => _context.Permissions.AsQueryable();
+        public IQueryable<UserPermission> Permissions => _context.UserPermissions.AsQueryable();
     }
 }

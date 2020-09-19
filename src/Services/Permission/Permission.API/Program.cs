@@ -28,7 +28,7 @@ namespace Permission.API
     public class Program
     {
 
-        public static string AppName = "Permission.API";
+        public static string AppName = "UserPermission.API";
         public static int Main(string[] args)
         {
             return new ProgramHelper(AppName).Run(args);

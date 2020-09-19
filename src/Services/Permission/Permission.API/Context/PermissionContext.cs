@@ -16,11 +16,14 @@ namespace Permission.API.Context
         public PermissionContext(DbContextOptions<PermissionContext> options) : base(options)
         {
         }
-        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<ClubAdministratorPermission> ClubAdministratorPermissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new PermissionEntityTypeConfiguration());
+            builder.ApplyConfiguration(new UserPermissionEntityTypeConfiguration());
+            builder.ApplyConfiguration(new ClubAdministratorPermissionEntityTypeConfiguration());
+            builder.ApplyConfiguration(new UserAdministratorPermissionEntityTypeConfiguration());
         }
     }
 
