@@ -119,7 +119,9 @@ namespace Identity.API.GraphQlQueries
             return response;
         }
 
+
         [Authorize]
+
         public async Task<ApplicationUser> EditUserAsync(EditUserRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {
             ApplicationUser user = await _context.Users.SingleAsync(applicationUser => applicationUser.Id == currentUser.UserId);

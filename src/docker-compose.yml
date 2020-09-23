@@ -30,6 +30,15 @@ services:
       - identity-api
       - rabbitmq
 
+  club-api:
+    image: ${REGISTRY:-eshop}/club.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Club/Club.API/Dockerfile
+    depends_on:
+      - sqldata
+      - rabbitmq
+
   permission-api:
     image: ${REGISTRY:-eshop}/permission.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
