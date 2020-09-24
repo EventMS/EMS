@@ -14,8 +14,6 @@ namespace Permission.API.GraphQlQueries
             _context = context;
         }
 
-        [UsePaging]
-        [UseFiltering]
         public IQueryable<UserPermission> Permissions => _context.UserPermissions.AsQueryable();
     }
 }

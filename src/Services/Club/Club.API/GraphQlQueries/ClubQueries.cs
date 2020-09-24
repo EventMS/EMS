@@ -16,8 +16,6 @@ namespace Club.API.GraphQlQueries
             _context = context;
         }
 
-        [UsePaging]
-        [UseFiltering]
         public IQueryable<Context.Model.Club> Clubs => _context.Clubs.AsQueryable();
 
        // [UsePaging]

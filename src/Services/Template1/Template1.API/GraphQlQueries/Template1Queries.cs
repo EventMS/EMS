@@ -13,8 +13,6 @@ namespace Template1.API.GraphQlQueries
             _context = context;
         }
 
-        [UsePaging]
-        [UseFiltering]
         public IQueryable<Context.Model.Template1> Template1s => _context.Template1s.AsQueryable();
     }
 }

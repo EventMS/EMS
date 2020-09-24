@@ -14,8 +14,6 @@ namespace Identity.API.GraphQlQueries
             _context = context;
         }
 
-        [UsePaging]
-        [UseFiltering]
         public IQueryable<ApplicationUser> Users => _context.Users.AsQueryable();
     }
 }
