@@ -46,7 +46,7 @@ namespace GraphQL.API
                         if (body.Contains("eventId:"))
                         {
                             int startIndex = body.IndexOf("eventId:", StringComparison.Ordinal);
-                            string eventId = body.Substring(startIndex + 9, 36);
+                            string eventId = body.Substring(startIndex + 10, 36);
                             contextInRequest.EventId = eventId;
                         }
 
