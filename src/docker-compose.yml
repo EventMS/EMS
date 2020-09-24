@@ -59,8 +59,8 @@ services:
       - template1-api
       - identity-api
 
-  #webstatus:
-  #  image: ${REGISTRY:-eshop}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
-   # build:
-   #   context: .
-  #    dockerfile: Web/WebStatus/Dockerfile
+  webstatus:
+    image: ${REGISTRY:-eshop}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Web/WebStatus/Dockerfile
