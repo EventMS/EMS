@@ -31,12 +31,6 @@ COPY . .
 WORKDIR /src/Services/Template1/Template1.API
 RUN dotnet publish --no-restore -c Release -o /app
 
-FROM build as unittest
-WORKDIR /src/Services/Template1/Template1.UnitTests
-
-FROM build as functionaltest
-WORKDIR /src/Services/Template1/Template1.FunctionalTests
-
 FROM build AS publish
 
 FROM base AS final

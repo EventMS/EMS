@@ -28,18 +28,12 @@ COPY "NuGet.config" "NuGet.config"
 RUN dotnet restore "EMS.sln"
 
 COPY . .
-WORKDIR /src/Services/Template1/Template1.API
+WORKDIR /src/Services/Club/Club.API
 RUN dotnet publish --no-restore -c Release -o /app
-
-FROM build as unittest
-WORKDIR /src/Services/Template1/Template1.UnitTests
-
-FROM build as functionaltest
-WORKDIR /src/Services/Template1/Template1.FunctionalTests
 
 FROM build AS publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Template1.API.dll"]
+ENTRYPOINT ["dotnet", "Club.API.dll"]
