@@ -12,6 +12,7 @@
     <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="3.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="3.0.0" />
     <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="graphiql" Version="2.0.0" />
     <PackageReference Include="Grpc.AspNetCore.Server" Version="2.25.0" />
     <PackageReference Include="Grpc.Tools" Version="2.25.0" PrivateAssets="All" />

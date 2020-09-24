@@ -19,7 +19,7 @@ namespace Permission.API.Services
         private IConfiguration Configuration { get; }
 
 
-        public string GenerateJwtToken(UserPermission userPermission)
+        public string GenerateJwtToken(Guid userId, UserAdministratorPermission userPermission)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -28,8 +28,12 @@ namespace Permission.API.Services
 
             var subject = new ClaimsIdentity();
             //Attach information in token here somewhere
-            subject.AddClaim(new Claim("id", userPermission.UserId.ToString()));
-
+            subject.AddClaim(new Claim("id", userId.ToString()));
+            if (userPermission != null)
+            {
+                subject.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+            }
+            
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = null,

@@ -17,12 +17,5 @@ namespace Club.API.GraphQlQueries
         }
 
         public IQueryable<Context.Model.Club> Clubs => _context.Clubs.AsQueryable();
-
-       // [UsePaging]
-       // [UseFiltering]
-       // public async Task<List<string>> ClubNames()
-       // {
-       //     return await _context.Clubs.Select(club => club.Name).ToListAsync();
-       // }
     }
 }

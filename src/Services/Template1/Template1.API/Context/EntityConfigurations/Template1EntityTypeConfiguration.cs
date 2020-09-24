@@ -10,9 +10,9 @@ namespace Template1.API.Context.EntityConfigurations
         {
             builder.ToTable("Template1");
 
-            builder.HasKey(ci => ci.Id);
+            builder.HasKey(ci => ci.Template1Id);
 
-            builder.Property(ci => ci.Id)
+            builder.Property(ci => ci.Template1Id)
                 .IsRequired();
 
             builder.Property(ci => ci.Name)

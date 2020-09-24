@@ -1,29 +1,29 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Club.API.Context.Migrations
+namespace Template1.API.Migrations
 {
     public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Club",
+                name: "Template1",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Template1Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Club", x => x.Id);
+                    table.PrimaryKey("PK_Template1", x => x.Template1Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Club");
+                name: "Template1");
         }
     }
 }

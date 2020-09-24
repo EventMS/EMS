@@ -1,30 +1,36 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using EMS.Events;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using Club.API.Context;
 using Club.API.Controllers.Request;
+using HotChocolate.AspNetCore.Authorization;
+using Identity.API;
+using Serilog;
 using TemplateWebHost.Customization.IntegrationEventService;
-
 namespace Club.API.GraphQlQueries
 {
     public class ClubMutations
     {
         private readonly ClubContext _context;
+        private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public ClubMutations(ClubContext context, IIntegrationEventService template1IntegrationEventService)
+        public ClubMutations(ClubContext context, IIntegrationEventService template1IntegrationEventService, IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _integrationEventService = template1IntegrationEventService ?? throw new ArgumentNullException(nameof(template1IntegrationEventService));
+            _mapper = mapper;
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        public async Task<Context.Model.Club> UpdateClubAsync(Guid id, UpdateClubRequest request)
+        [Authorize(Roles = new[] { "Admin" })]
+        public async Task<Context.Model.Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
         {
-            var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.Id == id);
+            var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
 
             if (item == null)
             {
@@ -35,36 +41,35 @@ namespace Club.API.GraphQlQueries
                         .Build());
             }
 
-            item.Name = request.Name;
+            item = _mapper.Map<Context.Model.Club>(request);
+            item.ClubId = clubId;
             _context.Clubs.Update(item);
 
-            var @event = new ClubUpdatedIntegrationEvent(item.Id, item.Name);
+            var @event = _mapper.Map<ClubUpdatedIntegrationEvent>(item);
             await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
             await _integrationEventService.PublishThroughEventBusAsync(@event);
 
             return item;
         }
 
-
-        public async Task<Context.Model.Club> CreateClubAsync(CreateClubRequest request)
+        [Authorize]
+        public async Task<Context.Model.Club> CreateClubAsync(CreateClubRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {
-            var item = new Context.Model.Club()
-            {
-                Name = request.Name
-            };
-
+            var item = _mapper.Map<Context.Model.Club>(request);
+            item.AdminId = currentUser.UserId;
             _context.Clubs.Add(item);
 
-            var @event = new ClubCreatedIntegrationEvent(item.Id, item.Name);
+            var @event = _mapper.Map<ClubCreatedIntegrationEvent>(item);
             await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
             await _integrationEventService.PublishThroughEventBusAsync(@event);
 
             return item;
         }
 
-        public async Task<Context.Model.Club> DeleteClubAsync(Guid id)
+        [Authorize(Roles = new[] { "Admin" })]
+        public async Task<Context.Model.Club> DeleteClubAsync(Guid clubId)
         {
-            var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.Id == id);
+            var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
 
             if (item == null)
             {
@@ -77,7 +82,7 @@ namespace Club.API.GraphQlQueries
 
             _context.Clubs.Remove(item);
 
-            var @event = new ClubDeletedIntegrationEvent(item.Id);
+            var @event = _mapper.Map<ClubDeletedIntegrationEvent>(item);
             await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
             await _integrationEventService.PublishThroughEventBusAsync(@event);
             return item;

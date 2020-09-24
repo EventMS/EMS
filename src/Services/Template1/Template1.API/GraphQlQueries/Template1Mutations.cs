@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using EMS.Events;
 using HotChocolate;
 using HotChocolate.Execution;
@@ -13,18 +14,20 @@ namespace Template1.API.GraphQlQueries
     public class Template1Mutations
     {
         private readonly Template1Context _context;
+        private readonly IMapper _mapper;
         private readonly IIntegrationEventService _integrationEventService;
 
-        public Template1Mutations(Template1Context context, IIntegrationEventService template1IntegrationEventService)
+        public Template1Mutations(Template1Context context, IIntegrationEventService template1IntegrationEventService, IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _integrationEventService = template1IntegrationEventService ?? throw new ArgumentNullException(nameof(template1IntegrationEventService));
+            _mapper = mapper;
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public async Task<Context.Model.Template1> UpdateTemplate1Async(Guid id, UpdateTemplate1Request request)
         {
-            var item = await _context.Template1s.SingleOrDefaultAsync(ci => ci.Id == id);
+            var item = await _context.Template1s.SingleOrDefaultAsync(ci => ci.Template1Id == id);
 
             if (item == null)
             {
@@ -35,10 +38,11 @@ namespace Template1.API.GraphQlQueries
                         .Build());
             }
 
-            item.Name = request.Name;
+            item = _mapper.Map<Context.Model.Template1>(request);
+            item.Template1Id = id;
             _context.Template1s.Update(item);
 
-            var @event = new Template1UpdatedIntegrationEvent(item.Id, item.Name);
+            var @event = _mapper.Map<Template1UpdatedIntegrationEvent>(item);
             await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
             await _integrationEventService.PublishThroughEventBusAsync(@event);
 
@@ -48,14 +52,11 @@ namespace Template1.API.GraphQlQueries
 
         public async Task<Context.Model.Template1> CreateTemplate1Async(CreateTemplate1Request request)
         {
-            var item = new Context.Model.Template1()
-            {
-                Name = request.Name
-            };
+            var item = _mapper.Map<Context.Model.Template1>(request);
 
             _context.Template1s.Add(item);
 
-            var @event = new Template1CreatedIntegrationEvent(item.Id, item.Name);
+            var @event = _mapper.Map<Template1CreatedIntegrationEvent>(item);
             await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
             await _integrationEventService.PublishThroughEventBusAsync(@event);
 
@@ -64,7 +65,7 @@ namespace Template1.API.GraphQlQueries
 
         public async Task<Context.Model.Template1> DeleteTemplate1Async(Guid id)
         {
-            var item = await _context.Template1s.SingleOrDefaultAsync(ci => ci.Id == id);
+            var item = await _context.Template1s.SingleOrDefaultAsync(ci => ci.Template1Id == id);
 
             if (item == null)
             {
@@ -77,7 +78,7 @@ namespace Template1.API.GraphQlQueries
 
             _context.Template1s.Remove(item);
 
-            var @event = new Template1DeletedIntegrationEvent(item.Id);
+            var @event = _mapper.Map<Template1DeletedIntegrationEvent>(item);
             await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
             await _integrationEventService.PublishThroughEventBusAsync(@event);
             return item;

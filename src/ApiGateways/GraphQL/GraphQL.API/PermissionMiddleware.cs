@@ -32,14 +32,30 @@ namespace GraphQL.API
                 try
                 {
                     var body = await ReadFromBodyOfRequest(context.Request);
-                   var content = JsonConvert.DeserializeObject<Content>(body);
-                   //The playground editor spams these instrospection queries
-                   //So to not polute do not allow these these to ask for permission, which they will fail. 
-                   if (!content.OperationName.Equals("IntrospectionQuery"))
-                   {
-                       var token = await _permissionClient.GetPermissions(content);
-                       context.Request.Headers.Remove("Authorization");
-                       context.Request.Headers.Add("Authorization", "Bearer " + token);
+                    body = body.Replace(" ", "");
+                    if (!body.Contains("IntrospectionQuery"))
+                    {
+                        ContextInRequest contextInRequest = new ContextInRequest();
+                        if (body.Contains("clubId:"))
+                        {
+                            int startIndex = body.IndexOf("clubId:", StringComparison.Ordinal);
+                            string clubId = body.Substring(startIndex+9, 36);
+                            contextInRequest.ClubId = clubId;
+                        }
+
+                        if (body.Contains("eventId:"))
+                        {
+                            int startIndex = body.IndexOf("eventId:", StringComparison.Ordinal);
+                            string eventId = body.Substring(startIndex + 9, 36);
+                            contextInRequest.EventId = eventId;
+                        }
+
+                        if (contextInRequest.ClubId != null || contextInRequest.EventId != null)
+                        {
+                            var token = await _permissionClient.GetPermissions(contextInRequest);
+                            context.Request.Headers.Remove("Authorization");
+                            context.Request.Headers.Add("Authorization", "Bearer " + token);
+                        }
                     }
                 }
                 catch (Exception e)

@@ -13,14 +13,7 @@ using Serilog;
 
 namespace Permission.API.Controller
 {
-    public class Content
-    {
-        public string OperationName { get; set; }
-        public Request Variables { get; set; }
-        public string Query { get; set; }
-    }
-
-    public class Request
+    public class ContextInRequest
     {
         public string ClubId { get; set; }
         public string EventId { get; set; }
@@ -41,15 +34,21 @@ namespace Permission.API.Controller
 
         [Authorize]
         [HttpPost]
-        public async Task<string> GetPermission([FromBody] Content test)
+        public async Task<string> GetPermission([FromBody] ContextInRequest context)
         {
             var userId = new Guid(User.FindFirstValue("id"));
 
-            var userPermissions =  await _permissionContext.UserPermissions
-                .Where(user => user.UserId == userId)
-                .Include(user => user.ClubAdminIn)
-                .SingleAsync();
-            return _jwtService.GenerateJwtToken(userPermissions);
+
+            if (context.ClubId != null)
+            {
+                var userPermissions = await _permissionContext.UserAdministratorPermission
+                    .Where(user => user.UserId == userId)
+                    .Where(user => user.ClubId == new Guid(context.ClubId))
+                    .FirstOrDefaultAsync();
+                return _jwtService.GenerateJwtToken(userId, userPermissions);
+            }
+
+            return "Invalid token";
         }
     }
 }

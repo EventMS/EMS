@@ -7,7 +7,7 @@ namespace Template1.API.Context.Model
 {
     public class Template1 : IValidatableObject
     {
-        public Guid Id { get; set; }
+        public Guid Template1Id { get; set; }
 
         public string Name { get; set; }
 

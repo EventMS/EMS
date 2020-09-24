@@ -26,9 +26,9 @@ namespace Club.API
                     var settings = services.GetService<IOptions<BaseSettings>>();
                     var logger = services.GetService<ILogger<ClubContextSeed>>();
 
-                    new ClubContextSeed()
-                        .SeedAsync(context, env, settings, logger)
-                        .Wait();
+                    //new ClubContextSeed()
+                   //     .SeedAsync(context, env, settings, logger)
+                    //    .Wait();
                 })
                 .MigrateDbContext<IntegrationEventLogContext>((context, services) => { });
         }

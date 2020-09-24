@@ -27,6 +27,7 @@ namespace Permission.API
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
             busServices.AddConsumer<UserCreatedEventPermissionConsumer>();
+            busServices.AddConsumer<ClubCreatedIntegrationEventPermissionConsumer>();
         }
 
         public override IServiceCollection AddServices(IServiceCollection service)

@@ -16,9 +16,9 @@ namespace GraphQL.API
             _client = client;
         }
 
-        public async Task<string> GetPermissions(Content body)
+        public async Task<string> GetPermissions(ContextInRequest context)
         {
-            HttpContent content = new StringContent(JsonSerializer.Serialize(body),
+            HttpContent content = new StringContent(JsonSerializer.Serialize(context),
                 Encoding.UTF8,
         "application/json");
             var response = await _client.PostAsync("/api/permission", content);

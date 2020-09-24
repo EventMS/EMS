@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
+using AutoMapper;
 using EMS.BuildingBlocks.IntegrationEventLogEF;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using HealthChecks.UI.Client;
@@ -67,6 +68,7 @@ namespace TemplateWebHost.Customization.StartUp
             services.AddHttpContextAccessor();
             services.AddErrorFilter<GraphQLErrorFilter>();
             AddGraphQlServices(services);
+            services.AddAutoMapper(typeof(T));
         }
 
         public virtual IServiceCollection AddServices(IServiceCollection service)
