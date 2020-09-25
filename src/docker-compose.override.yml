@@ -20,7 +20,7 @@ services:
     ports:
       - "5433:1433"
     volumes:
-      - eshop-sqldata:/var/opt/mssql
+      - ems-sqldata:/var/opt/mssql
 
   rabbitmq:
     ports:
@@ -107,6 +107,6 @@ services:
       - "5104:80"
 
 volumes:
-  eshop-sqldata:
+  ems-sqldata:
     external: false
 
