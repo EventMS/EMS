@@ -12,7 +12,7 @@ services:
     image: rabbitmq:3-management-alpine
 
   identity-api:
-    image: ${REGISTRY:-eshop}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-eventms}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Identity/Identity.API/Dockerfile
@@ -21,7 +21,7 @@ services:
       - rabbitmq
 
   template1-api:
-    image: ${REGISTRY:-eshop}/template1.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-eventms}/template1.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Template1/Template1.API/Dockerfile
@@ -31,7 +31,7 @@ services:
       - rabbitmq
 
   club-api:
-    image: ${REGISTRY:-eshop}/club.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-eventms}/club.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Club/Club.API/Dockerfile
@@ -40,7 +40,7 @@ services:
       - rabbitmq
 
   permission-api:
-    image: ${REGISTRY:-eshop}/permission.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-eventms}/permission.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/Permission/Permission.API/Dockerfile
@@ -51,7 +51,7 @@ services:
 
 
   graphql-api:
-    image: ${REGISTRY:-eshop}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: ApiGateways/GraphQL/GraphQL.API/Dockerfile
