@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Club.API.IntegrationEvents;
+using Club.API.Events;
 using HotChocolate;
 using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 

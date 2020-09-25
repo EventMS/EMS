@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
+namespace EMS.BuildingBlocks.EventLogEF.Migrations
 {
     public partial class AddTransactionId : Migration
     {
@@ -8,7 +8,7 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
         {
             migrationBuilder.AddColumn<string>(
                 name: "TransactionId",
-                table: "IntegrationEventLog",
+                table: "EventLog",
                 nullable: true);
         }
 
@@ -16,7 +16,7 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "TransactionId",
-                table: "IntegrationEventLog");
+                table: "EventLog");
         }
     }
 }

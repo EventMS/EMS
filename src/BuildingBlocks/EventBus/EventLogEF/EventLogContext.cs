@@ -1,24 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF
+namespace EMS.BuildingBlocks.EventLogEF
 {
-    public class IntegrationEventLogContext : DbContext
+    public class EventLogContext : DbContext
     {       
-        public IntegrationEventLogContext(DbContextOptions<IntegrationEventLogContext> options) : base(options)
+        public EventLogContext(DbContextOptions<EventLogContext> options) : base(options)
         {
         }
 
-        public DbSet<IntegrationEventLogEntry> IntegrationEventLogs { get; set; }
+        public DbSet<EventLogEntry> EventLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {          
-            builder.Entity<IntegrationEventLogEntry>(ConfigureIntegrationEventLogEntry);
+            builder.Entity<EventLogEntry>(ConfigureEventLogEntry);
         }
 
-        void ConfigureIntegrationEventLogEntry(EntityTypeBuilder<IntegrationEventLogEntry> builder)
+        void ConfigureEventLogEntry(EntityTypeBuilder<EventLogEntry> builder)
         {
-            builder.ToTable("IntegrationEventLog");
+            builder.ToTable("EventLog");
 
             builder.HasKey(e => e.EventId);
 

@@ -10,25 +10,25 @@ using Club.API.Controllers.Request;
 using HotChocolate.AspNetCore.Authorization;
 using Identity.API;
 using Serilog;
-using TemplateWebHost.Customization.IntegrationEventService;
+using TemplateWebHost.Customization.EventService;
 namespace Club.API.GraphQlQueries
 {
     public class ClubMutations
     {
         private readonly ClubContext _context;
         private readonly IMapper _mapper;
-        private readonly IIntegrationEventService _integrationEventService;
+        private readonly IEventService _eventService;
 
-        public ClubMutations(ClubContext context, IIntegrationEventService template1IntegrationEventService, IMapper mapper)
+        public ClubMutations(ClubContext context, IEventService template1EventService, IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
-            _integrationEventService = template1IntegrationEventService ?? throw new ArgumentNullException(nameof(template1IntegrationEventService));
+            _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         [Authorize(Roles = new[] { "Admin" })]
-        public async Task<Context.Model.Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
+        public async Task<Context.Model.Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {
             var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
 
@@ -43,11 +43,12 @@ namespace Club.API.GraphQlQueries
 
             item = _mapper.Map<Context.Model.Club>(request);
             item.ClubId = clubId;
+            item.AdminId = currentUser.UserId;
             _context.Clubs.Update(item);
 
-            var @event = _mapper.Map<ClubUpdatedIntegrationEvent>(item);
-            await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
-            await _integrationEventService.PublishThroughEventBusAsync(@event);
+            var @event = _mapper.Map<ClubUpdatedEvent>(item);
+            await _eventService.SaveEventAndDbContextChangesAsync(@event);
+            await _eventService.PublishThroughEventBusAsync(@event);
 
             return item;
         }
@@ -59,9 +60,10 @@ namespace Club.API.GraphQlQueries
             item.AdminId = currentUser.UserId;
             _context.Clubs.Add(item);
 
-            var @event = _mapper.Map<ClubCreatedIntegrationEvent>(item);
-            await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
-            await _integrationEventService.PublishThroughEventBusAsync(@event);
+            var @event = _mapper.Map<ClubCreatedEvent>(item);
+            Log.Information(item.AdminId.ToString());
+            await _eventService.SaveEventAndDbContextChangesAsync(@event);
+            await _eventService.PublishThroughEventBusAsync(@event);
 
             return item;
         }
@@ -82,9 +84,9 @@ namespace Club.API.GraphQlQueries
 
             _context.Clubs.Remove(item);
 
-            var @event = _mapper.Map<ClubDeletedIntegrationEvent>(item);
-            await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
-            await _integrationEventService.PublishThroughEventBusAsync(@event);
+            var @event = _mapper.Map<ClubDeletedEvent>(item);
+            await _eventService.SaveEventAndDbContextChangesAsync(@event);
+            await _eventService.PublishThroughEventBusAsync(@event);
             return item;
         }
     }

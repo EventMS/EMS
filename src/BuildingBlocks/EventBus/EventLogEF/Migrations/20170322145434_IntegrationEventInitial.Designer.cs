@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
+namespace EMS.BuildingBlocks.EventLogEF.Migrations
 {
-    [DbContext(typeof(IntegrationEventLogContext))]
-    [Migration("20170322145434_IntegrationEventInitial")]
-    partial class IntegrationEventInitial
+    [DbContext(typeof(EventLogContext))]
+    [Migration("20170322145434_EventInitial")]
+    partial class EventInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -16,7 +16,7 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
                 .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
+            modelBuilder.Entity("Microsoft.eShopOnContainers.BuildingBlocks.EventLogEF.EventLogEntry", b =>
                 {
                     b.Property<Guid>("EventId")
                         .ValueGeneratedOnAdd();
@@ -35,7 +35,7 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("IntegrationEventLog");
+                    b.ToTable("EventLog");
                 });
         }
     }

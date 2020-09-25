@@ -1,12 +1,13 @@
 ﻿using System;
-using EMS.BuildingBlocks.IntegrationEventLogEF;
+using EMS.BuildingBlocks.EventLogEF;
+using EMS.BuildingBlocks.EventLogEF;
 
 
 namespace EMS.Events
 {
-    public class UserCreatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class UserCreatedEvent : Event // All events should inherit from Integration event
     {
-        public UserCreatedIntegrationEvent(string userId, string name)
+        public UserCreatedEvent(string userId, string name)
         {
             UserId = userId;
             Name = name;
@@ -15,12 +16,12 @@ namespace EMS.Events
         public string Name { get; set; }
     }
 
-    public class UserUpdatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class UserUpdatedEvent : Event // All events should inherit from Integration event
     {
         public string UserId { get; set; }
         public string Name { get; set; }
 
-        public UserUpdatedIntegrationEvent(string userId, string name)
+        public UserUpdatedEvent(string userId, string name)
         {
             UserId = userId;
             Name = name;

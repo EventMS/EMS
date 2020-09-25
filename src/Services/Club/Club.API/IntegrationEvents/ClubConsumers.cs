@@ -6,12 +6,12 @@ using EMS.Events;
 using MassTransit;
 using Serilog;
 
-namespace Club.API.IntegrationEvents
+namespace Club.API.Events
 {
-    public class UserCreatedIntegrationEventClubConsumer :
-            IConsumer<UserCreatedIntegrationEvent>
+    public class UserCreatedEventClubConsumer :
+            IConsumer<UserCreatedEvent>
         {
-            public async Task Consume(ConsumeContext<UserCreatedIntegrationEvent> context)
+            public async Task Consume(ConsumeContext<UserCreatedEvent> context)
             {
                 Log.Information("User created event name: {Value}", context.Message.Name);
                 Log.Information("User Id : {Value}", context.Message.Id);

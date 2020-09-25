@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
+namespace EMS.BuildingBlocks.EventLogEF.Migrations
 {
-    [DbContext(typeof(IntegrationEventLogContext))]
-    partial class IntegrationEventLogContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EventLogContext))]
+    partial class EventLogContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -18,7 +18,7 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
+            modelBuilder.Entity("Microsoft.eShopOnContainers.BuildingBlocks.EventLogEF.EventLogEntry", b =>
                 {
                     b.Property<Guid>("EventId")
                         .ValueGeneratedOnAdd();
@@ -39,7 +39,7 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("IntegrationEventLog");
+                    b.ToTable("EventLog");
                 });
 #pragma warning restore 612, 618
         }

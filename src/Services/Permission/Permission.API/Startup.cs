@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Permission.API.Context;
 using Permission.API.GraphQlQueries;
-using Permission.API.IntegrationEvents;
+using Permission.API.Events;
 using Permission.API.Services;
 using TemplateWebHost.Customization.StartUp;
 
@@ -27,7 +27,7 @@ namespace Permission.API
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
             busServices.AddConsumer<UserCreatedEventPermissionConsumer>();
-            busServices.AddConsumer<ClubCreatedIntegrationEventPermissionConsumer>();
+            busServices.AddConsumer<ClubCreatedEventPermissionConsumer>();
         }
 
         public override IServiceCollection AddServices(IServiceCollection service)

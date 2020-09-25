@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
+namespace EMS.BuildingBlocks.EventLogEF.Migrations
 {
-    [DbContext(typeof(IntegrationEventLogContext))]
+    [DbContext(typeof(EventLogContext))]
     [Migration("20190507184807_AddTransactionId")]
     partial class AddTransactionId
     {
@@ -20,7 +20,7 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
+            modelBuilder.Entity("Microsoft.eShopOnContainers.BuildingBlocks.EventLogEF.EventLogEntry", b =>
                 {
                     b.Property<Guid>("EventId")
                         .ValueGeneratedOnAdd();
@@ -41,7 +41,7 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("IntegrationEventLog");
+                    b.ToTable("EventLog");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Template1.API.Context;
 using Template1.API.GraphQlQueries;
-using Template1.API.IntegrationEvents;
+using Template1.API.Events;
 using TemplateWebHost.Customization.StartUp;
 
 
@@ -25,7 +25,7 @@ namespace Template1.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
-            busServices.AddConsumer<Template1CreatedIntegrationEventConsumer>();
+            busServices.AddConsumer<Template1CreatedEventConsumer>();
         }
 
         public override IServiceCollection AddGraphQlServices(IServiceCollection services)

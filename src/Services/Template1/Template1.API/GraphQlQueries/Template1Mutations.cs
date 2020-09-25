@@ -7,7 +7,7 @@ using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using Template1.API.Context;
 using Template1.API.Controllers.Request;
-using TemplateWebHost.Customization.IntegrationEventService;
+using TemplateWebHost.Customization.EventService;
 
 namespace Template1.API.GraphQlQueries
 {
@@ -15,12 +15,12 @@ namespace Template1.API.GraphQlQueries
     {
         private readonly Template1Context _context;
         private readonly IMapper _mapper;
-        private readonly IIntegrationEventService _integrationEventService;
+        private readonly IEventService _eventService;
 
-        public Template1Mutations(Template1Context context, IIntegrationEventService template1IntegrationEventService, IMapper mapper)
+        public Template1Mutations(Template1Context context, IEventService template1EventService, IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
-            _integrationEventService = template1IntegrationEventService ?? throw new ArgumentNullException(nameof(template1IntegrationEventService));
+            _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
@@ -42,9 +42,9 @@ namespace Template1.API.GraphQlQueries
             item.Template1Id = id;
             _context.Template1s.Update(item);
 
-            var @event = _mapper.Map<Template1UpdatedIntegrationEvent>(item);
-            await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
-            await _integrationEventService.PublishThroughEventBusAsync(@event);
+            var @event = _mapper.Map<Template1UpdatedEvent>(item);
+            await _eventService.SaveEventAndDbContextChangesAsync(@event);
+            await _eventService.PublishThroughEventBusAsync(@event);
 
             return item;
         }
@@ -56,9 +56,9 @@ namespace Template1.API.GraphQlQueries
 
             _context.Template1s.Add(item);
 
-            var @event = _mapper.Map<Template1CreatedIntegrationEvent>(item);
-            await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
-            await _integrationEventService.PublishThroughEventBusAsync(@event);
+            var @event = _mapper.Map<Template1CreatedEvent>(item);
+            await _eventService.SaveEventAndDbContextChangesAsync(@event);
+            await _eventService.PublishThroughEventBusAsync(@event);
 
             return item;
         }
@@ -78,9 +78,9 @@ namespace Template1.API.GraphQlQueries
 
             _context.Template1s.Remove(item);
 
-            var @event = _mapper.Map<Template1DeletedIntegrationEvent>(item);
-            await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
-            await _integrationEventService.PublishThroughEventBusAsync(@event);
+            var @event = _mapper.Map<Template1DeletedEvent>(item);
+            await _eventService.SaveEventAndDbContextChangesAsync(@event);
+            await _eventService.PublishThroughEventBusAsync(@event);
             return item;
         }
     }

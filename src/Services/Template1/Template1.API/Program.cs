@@ -1,4 +1,4 @@
-using EMS.BuildingBlocks.IntegrationEventLogEF;
+using EMS.BuildingBlocks.EventLogEF;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -30,7 +30,7 @@ namespace Template1.API
                         .SeedAsync(context, env, settings, logger)
                         .Wait();
                 })
-                .MigrateDbContext<IntegrationEventLogContext>((context, services) => { });
+                .MigrateDbContext<EventLogContext>((context, services) => { });
         }
     }
 

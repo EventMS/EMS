@@ -1,14 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using EMS.BuildingBlocks.IntegrationEventLogEF;
 using Newtonsoft.Json;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF
+namespace EMS.BuildingBlocks.EventLogEF
 {
-    public class IntegrationEventLogEntry
+    public class EventLogEntry
     {
-        private IntegrationEventLogEntry() { }
-        public IntegrationEventLogEntry(IntegrationEvent @event, Guid transactionId)
+        private EventLogEntry() { }
+        public EventLogEntry(Event @event, Guid transactionId)
         {
             EventId = @event.Id;            
             CreationTime = @event.CreationDate;
@@ -23,16 +24,16 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF
         [NotMapped]
         public string EventTypeShortName => EventTypeName.Split('.')?.Last();
         [NotMapped]
-        public IntegrationEvent IntegrationEvent { get; private set; }
+        public Event Event { get; private set; }
         public EventStateEnum State { get; set; }
         public int TimesSent { get; set; }
         public DateTime CreationTime { get; private set; }
         public string Content { get; private set; }
         public string TransactionId { get; private set; }
 
-        public IntegrationEventLogEntry DeserializeJsonContent(Type type)
+        public EventLogEntry DeserializeJsonContent(Type type)
         {
-            IntegrationEvent = JsonConvert.DeserializeObject(Content, type) as IntegrationEvent;
+            Event = JsonConvert.DeserializeObject(Content, type) as Event;
             return this;
         }
     }

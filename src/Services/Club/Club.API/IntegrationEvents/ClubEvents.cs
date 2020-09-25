@@ -1,15 +1,15 @@
 using System;
-using EMS.BuildingBlocks.IntegrationEventLogEF;
+using EMS.BuildingBlocks.EventLogEF;
 
 namespace EMS.Events
 {
-    public class UserCreatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class UserCreatedEvent : Event // All events should inherit from Integration event
     {
         public string UserId { get; set; }
         public string Name { get; set; }
     }
 
-    public class ClubCreatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class ClubCreatedEvent : Event // All events should inherit from Integration event
     {
         public Guid ClubId { get; set; }
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace EMS.Events
         public Guid AdminId { get; set; }
     }
 
-    public class ClubUpdatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class ClubUpdatedEvent : Event // All events should inherit from Integration event
     {
         public Guid ClubId { get; set; }
         public string Name { get; set; }
@@ -32,7 +32,7 @@ namespace EMS.Events
         public string Address { get; set; }
     }
 
-    public class ClubDeletedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class ClubDeletedEvent : Event // All events should inherit from Integration event
     {
         public Guid ClubId { get; set; }
     }

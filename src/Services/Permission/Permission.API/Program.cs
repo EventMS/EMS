@@ -1,4 +1,4 @@
-using EMS.BuildingBlocks.IntegrationEventLogEF;
+using EMS.BuildingBlocks.EventLogEF;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -21,7 +21,7 @@ namespace Permission.API
         public override void MigrateDbContext(IWebHost host)
         {
             host.MigrateDbContext<PermissionContext>((context, services) => {})
-                .MigrateDbContext<IntegrationEventLogContext>((context, services) => { });
+                .MigrateDbContext<EventLogContext>((context, services) => { });
         }
     }
 

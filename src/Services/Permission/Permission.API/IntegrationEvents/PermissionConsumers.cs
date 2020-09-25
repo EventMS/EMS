@@ -10,10 +10,10 @@ using Permission.API.Context;
 using Permission.API.Context.Model;
 using Serilog;
 
-namespace Permission.API.IntegrationEvents
+namespace Permission.API.Events
 {
     public class UserCreatedEventPermissionConsumer :
-            IConsumer<UserCreatedIntegrationEvent>
+            IConsumer<UserCreatedEvent>
     {
         private readonly PermissionContext _permissionContext;
 
@@ -22,7 +22,7 @@ namespace Permission.API.IntegrationEvents
             _permissionContext = permissionContext;
         }
 
-        public async Task Consume(ConsumeContext<UserCreatedIntegrationEvent> context)
+        public async Task Consume(ConsumeContext<UserCreatedEvent> context)
         {
             var userId = new Guid(context.Message.UserId);
             var userAlreadyCreated = _permissionContext.UserPermissions.Find(userId);
@@ -37,17 +37,17 @@ namespace Permission.API.IntegrationEvents
         }
     }
 
-    public class ClubCreatedIntegrationEventPermissionConsumer :
-        IConsumer<ClubCreatedIntegrationEvent>
+    public class ClubCreatedEventPermissionConsumer :
+        IConsumer<ClubCreatedEvent>
     {
         private readonly PermissionContext _permissionContext;
 
-        public ClubCreatedIntegrationEventPermissionConsumer(PermissionContext permissionContext)
+        public ClubCreatedEventPermissionConsumer(PermissionContext permissionContext)
         {
             _permissionContext = permissionContext;
         }
 
-        public async Task Consume(ConsumeContext<ClubCreatedIntegrationEvent> context)
+        public async Task Consume(ConsumeContext<ClubCreatedEvent> context)
         {
             var clubId = context.Message.ClubId;
             var userAlreadyCreated = _permissionContext.ClubAdministratorPermissions.Find(clubId);

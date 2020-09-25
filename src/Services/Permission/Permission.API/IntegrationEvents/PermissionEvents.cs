@@ -1,11 +1,11 @@
 using System;
-using EMS.BuildingBlocks.IntegrationEventLogEF;
+using EMS.BuildingBlocks.EventLogEF;
 
 namespace EMS.Events
 {
-    public class UserCreatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class UserCreatedEvent : Event // All events should inherit from Integration event
     {
-        public UserCreatedIntegrationEvent(string userId, string name)
+        public UserCreatedEvent(string userId, string name)
         {
             UserId = userId;
             Name = name;
@@ -14,7 +14,7 @@ namespace EMS.Events
         public string Name { get; set; }
     }
 
-    public class ClubCreatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class ClubCreatedEvent : Event // All events should inherit from Integration event
     {
         public Guid ClubId { get; set; }
         public string Name { get; set; }
@@ -26,9 +26,9 @@ namespace EMS.Events
         public Guid AdminId { get; set; }
     }
 
-    public class PermissionCreatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class PermissionCreatedEvent : Event // All events should inherit from Integration event
     {
-        public PermissionCreatedIntegrationEvent(Guid template1Id, string name)
+        public PermissionCreatedEvent(Guid template1Id, string name)
         {
             PermissionId = template1Id;
             Name = name;
@@ -37,22 +37,22 @@ namespace EMS.Events
         public string Name { get; set; }
     }
 
-    public class PermissionUpdatedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class PermissionUpdatedEvent : Event // All events should inherit from Integration event
     {
         public Guid PermissionId { get; set; }
         public string Name { get; set; }
 
-        public PermissionUpdatedIntegrationEvent(Guid template1Id, string name)
+        public PermissionUpdatedEvent(Guid template1Id, string name)
         {
             PermissionId = template1Id;
             Name = name;
         }
     }
 
-    public class PermissionDeletedIntegrationEvent : IntegrationEvent // All events should inherit from Integration event
+    public class PermissionDeletedEvent : Event // All events should inherit from Integration event
     {
         public Guid PermissionId { get; set; }
-        public PermissionDeletedIntegrationEvent(Guid template1Id)
+        public PermissionDeletedEvent(Guid template1Id)
         {
             PermissionId = template1Id;
         }

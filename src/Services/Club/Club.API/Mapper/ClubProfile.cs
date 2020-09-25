@@ -14,9 +14,9 @@ namespace Club.API.Mapper
         {
             CreateMap<CreateClubRequest,Context.Model.Club>();
             CreateMap<UpdateClubRequest, Context.Model.Club>();
-            CreateMap<Context.Model.Club, ClubCreatedIntegrationEvent>();
-            CreateMap<Context.Model.Club, ClubUpdatedIntegrationEvent>();
-            CreateMap<Context.Model.Club, ClubDeletedIntegrationEvent>();
+            CreateMap<Context.Model.Club, ClubCreatedEvent>();
+            CreateMap<Context.Model.Club, ClubUpdatedEvent>();
+            CreateMap<Context.Model.Club, ClubDeletedEvent>();
         }
     }
 }

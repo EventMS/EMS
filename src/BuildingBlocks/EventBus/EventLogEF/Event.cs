@@ -1,18 +1,18 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF
+namespace EMS.BuildingBlocks.EventLogEF
 {
-    public class IntegrationEvent
+    public class Event
     {
-        public IntegrationEvent()
+        public Event()
         {
             Id = Guid.NewGuid();
             CreationDate = DateTime.UtcNow;
         }
 
         [JsonConstructor]
-        public IntegrationEvent(Guid id, DateTime createDate)
+        public Event(Guid id, DateTime createDate)
         {
             Id = id;
             CreationDate = createDate;

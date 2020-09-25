@@ -1,14 +1,14 @@
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
+namespace EMS.BuildingBlocks.EventLogEF.Migrations
 {
-    public partial class IntegrationEventInitial : Migration
+    public partial class EventInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "IntegrationEventLog",
+                name: "EventLog",
                 columns: table => new
                 {
                     EventId = table.Column<Guid>(nullable: false),
@@ -20,14 +20,14 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IntegrationEventLog", x => x.EventId);
+                    table.PrimaryKey("PK_EventLog", x => x.EventId);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "IntegrationEventLog");
+                name: "EventLog");
         }
     }
 }

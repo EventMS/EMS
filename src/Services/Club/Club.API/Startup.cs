@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Club.API.Context;
 using Club.API.Controllers.Request;
 using Club.API.GraphQlQueries;
-using Club.API.IntegrationEvents;
+using Club.API.Events;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Interceptors;
 using Identity.API;
@@ -32,7 +32,7 @@ namespace Club.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
-            busServices.AddConsumer<UserCreatedIntegrationEventClubConsumer>();
+            busServices.AddConsumer<UserCreatedEventClubConsumer>();
         }
 
         private static OnCreateRequestAsync AuthenticationInterceptor()

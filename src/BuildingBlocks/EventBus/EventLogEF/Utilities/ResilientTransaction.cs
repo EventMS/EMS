@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF.Utilities
+namespace EMS.BuildingBlocks.EventLogEF.Utilities
 {
     public class ResilientTransaction
     {

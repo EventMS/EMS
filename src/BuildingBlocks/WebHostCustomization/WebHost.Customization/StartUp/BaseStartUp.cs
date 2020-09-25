@@ -5,7 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Text;
 using AutoMapper;
-using EMS.BuildingBlocks.IntegrationEventLogEF;
+using EMS.BuildingBlocks.EventLogEF;
+using EMS.BuildingBlocks.EventLogEF.Services;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using HealthChecks.UI.Client;
 using HotChocolate;
@@ -24,12 +25,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using RabbitMQ.Client;
-using Serilog;
 using TemplateWebHost.Customization.Filters;
-using TemplateWebHost.Customization.IntegrationEventService;
+using TemplateWebHost.Customization.EventService;
 using TemplateWebHost.Customization.Settings;
 
 namespace TemplateWebHost.Customization.StartUp
@@ -112,7 +110,7 @@ namespace TemplateWebHost.Customization.StartUp
         public virtual IServiceCollection AddCustomDbContext(IServiceCollection services)
         {
             AddSqlAndConnectionResilence<T>(services);
-            AddSqlAndConnectionResilence<IntegrationEventLogContext>(services);
+            AddSqlAndConnectionResilence<EventLogContext>(services);
             return services;
         }
 
@@ -204,10 +202,10 @@ namespace TemplateWebHost.Customization.StartUp
 
         public virtual IServiceCollection AddIntegrationServices(IServiceCollection services)
         {
-            services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
-                sp => (DbConnection c) => new IntegrationEventLogService(c));
+            services.AddTransient<Func<DbConnection, IEventLogService>>(
+                sp => (DbConnection c) => new EventLogService(c));
 
-            services.AddTransient<IIntegrationEventService, IntegrationEventService<T>>();
+            services.AddTransient<IEventService, EventService<T>>();
             return services;
         }
 

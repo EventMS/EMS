@@ -38,7 +38,6 @@ namespace Permission.API.Controller
         {
             var userId = new Guid(User.FindFirstValue("id"));
 
-
             if (context.ClubId != null)
             {
                 var userPermissions = await _permissionContext.UserAdministratorPermission

@@ -6,12 +6,12 @@ using EMS.Events;
 using MassTransit;
 using Serilog;
 
-namespace Template1.API.IntegrationEvents
+namespace Template1.API.Events
 {
-    public class Template1CreatedIntegrationEventConsumer :
-            IConsumer<Template1CreatedIntegrationEvent>
+    public class Template1CreatedEventConsumer :
+            IConsumer<Template1CreatedEvent>
         {
-            public async Task Consume(ConsumeContext<Template1CreatedIntegrationEvent> context)
+            public async Task Consume(ConsumeContext<Template1CreatedEvent> context)
             {
                 Log.Information("Template1Value: {Value}", context.Message.Name);
                 Log.Information("Template1Value: {Value}", context.Message.CreationDate);

@@ -6,8 +6,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
-using EMS.BuildingBlocks.IntegrationEventLogEF;
-using EMS.BuildingBlocks.IntegrationEventLogEF.Utilities;
+using EMS.BuildingBlocks.EventLogEF;
+using EMS.BuildingBlocks.EventLogEF.Utilities;
 using EMS.Events;
 using HotChocolate;
 using HotChocolate.AspNetCore.Authorization;
@@ -22,11 +22,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Serilog;
-using TemplateWebHost.Customization.IntegrationEventService;
+using TemplateWebHost.Customization.EventService;
 
 namespace EMS.Events
 {
-    public class ValueEntered : IntegrationEvent
+    public class ValueEntered : Event
     {
         public string Value { get; set; }
         public string Value2 { get; set; }
@@ -38,17 +38,17 @@ namespace Identity.API.GraphQlQueries
     public class IdentityMutations
     {
         private readonly ApplicationDbContext _context;
-        private readonly IIntegrationEventService _integrationEventService;
+        private readonly IEventService _eventService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtService _jwtService;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public IdentityMutations(ApplicationDbContext context, IIntegrationEventService template1IntegrationEventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint)
+        public IdentityMutations(ApplicationDbContext context, IEventService template1EventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
-            _integrationEventService = template1IntegrationEventService ?? throw new ArgumentNullException(nameof(template1IntegrationEventService));
+            _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _userManager = userManager;
             _jwtService = jwtService;
             _signInManager = signInManager;
@@ -92,14 +92,14 @@ namespace Identity.API.GraphQlQueries
                 UserName = request.Email
             };
 
-            var evt = new UserCreatedIntegrationEvent(user.Id, user.Name);
+            var evt = new UserCreatedEvent(user.Id, user.Name);
             //Only do it this way if you have no direct control on context. Otherwise just do it like normally before. 
-            await _integrationEventService.SaveEventAndDbContextChangesAsync(evt, async () =>
+            await _eventService.SaveEventAndDbContextChangesAsync(evt, async () =>
             {
                 var result = await _userManager.CreateAsync(user, request.Password);
-                // var @event = new Template1CreatedIntegrationEvent(item.Id, item.Name);
-                // await _integrationEventService.SaveEventAndDbContextChangesAsync(@event);
-                //  await _integrationEventService.PublishThroughEventBusAsync(@event);
+                // var @event = new Template1CreatedEvent(item.Id, item.Name);
+                // await _eventService.SaveEventAndDbContextChangesAsync(@event);
+                //  await _eventService.PublishThroughEventBusAsync(@event);
                 if (EnumerableExtensions.Any(result.Errors))
                 {
                     throw new QueryException(
@@ -109,7 +109,7 @@ namespace Identity.API.GraphQlQueries
                             .Build());
                 }
             });
-            await _integrationEventService.PublishThroughEventBusAsync(evt);
+            await _eventService.PublishThroughEventBusAsync(evt);
 
             var response = new Response()
             {
@@ -130,9 +130,9 @@ namespace Identity.API.GraphQlQueries
             user.PhoneNumber = request.PhoneNumber;
             _context.Update(user);
 
-            var evt = new UserUpdatedIntegrationEvent(user.Id, user.Name);
-            await _integrationEventService.SaveEventAndDbContextChangesAsync(evt);
-            await _integrationEventService.PublishThroughEventBusAsync(evt);
+            var evt = new UserUpdatedEvent(user.Id, user.Name);
+            await _eventService.SaveEventAndDbContextChangesAsync(evt);
+            await _eventService.PublishThroughEventBusAsync(evt);
             return user;
         }
     }

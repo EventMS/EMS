@@ -10,9 +10,9 @@ namespace Template1.API.Mapper
         {
             CreateMap<CreateTemplate1Request, Template1.API.Context.Model.Template1>();
             CreateMap<UpdateTemplate1Request, Template1.API.Context.Model.Template1>();
-            CreateMap<Template1.API.Context.Model.Template1, Template1CreatedIntegrationEvent>();
-            CreateMap<Template1.API.Context.Model.Template1, Template1UpdatedIntegrationEvent>();
-            CreateMap<Template1.API.Context.Model.Template1, Template1DeletedIntegrationEvent>();
+            CreateMap<Template1.API.Context.Model.Template1, Template1CreatedEvent>();
+            CreateMap<Template1.API.Context.Model.Template1, Template1UpdatedEvent>();
+            CreateMap<Template1.API.Context.Model.Template1, Template1DeletedEvent>();
         }
     }
 }

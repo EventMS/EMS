@@ -4,34 +4,36 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using EMS.BuildingBlocks.IntegrationEventLogEF;
+using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace EMS.BuildingBlocks.IntegrationEventLogEF.Services
+namespace EMS.BuildingBlocks.EventLogEF.Services
 {
-    public class IntegrationEventLogService : IIntegrationEventLogService
+    public class EventLogService : IEventLogService
     {
-        private readonly IntegrationEventLogContext _integrationEventLogContext;
+        private readonly EventLogContext _eventLogContext;
         private readonly DbConnection _dbConnection;
         private readonly List<Type> _eventTypes;
 
-        public IntegrationEventLogService(DbConnection dbConnection)
+        public EventLogService(DbConnection dbConnection)
         {
             _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
-            _integrationEventLogContext = new IntegrationEventLogContext(
-                new DbContextOptionsBuilder<IntegrationEventLogContext>()
+            _eventLogContext = new EventLogContext(
+                new DbContextOptionsBuilder<EventLogContext>()
                     .UseSqlServer(_dbConnection)
                     .Options);
 
             _eventTypes = Assembly.Load(Assembly.GetEntryAssembly().FullName)
                 .GetTypes()
-                .Where(t => t.Name.EndsWith(nameof(IntegrationEvent)))
+                .Where(t => t.Name.EndsWith(nameof(Event)))
                 .ToList();
         }
 
-        public async Task<IEnumerable<IntegrationEventLogEntry>> RetrieveEventLogsFailedToPublishAsync()
+        public async Task<IEnumerable<EventLogEntry>> RetrieveEventLogsFailedToPublishAsync()
         {
-            var result = await _integrationEventLogContext.IntegrationEventLogs
+            var result = await _eventLogContext.EventLogs
                 .Where(e =>e.State == EventStateEnum.PublishedFailed).ToListAsync();
 
             if(result.Any()){
@@ -39,18 +41,18 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Services
                     .Select(e => e.DeserializeJsonContent(_eventTypes.Find(t=> t.Name == e.EventTypeShortName)));
             }
             
-            return new List<IntegrationEventLogEntry>();
+            return new List<EventLogEntry>();
         }
 
-        public Task SaveEventAsync(IntegrationEvent @event, IDbContextTransaction transaction)
+        public Task SaveEventAsync(Event @event, IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
 
-            var eventLogEntry = new IntegrationEventLogEntry(@event, transaction.TransactionId);
+            var eventLogEntry = new EventLogEntry(@event, transaction.TransactionId);
 
-            _integrationEventLogContext.Database.UseTransaction(transaction.GetDbTransaction());
-            _integrationEventLogContext.IntegrationEventLogs.Add(eventLogEntry);
-            return _integrationEventLogContext.SaveChangesAsync();
+            _eventLogContext.Database.UseTransaction(transaction.GetDbTransaction());
+            _eventLogContext.EventLogs.Add(eventLogEntry);
+            return _eventLogContext.SaveChangesAsync();
         }
 
         public Task MarkEventAsPublishedAsync(Guid eventId)
@@ -70,15 +72,15 @@ namespace EMS.BuildingBlocks.IntegrationEventLogEF.Services
 
         private Task UpdateEventStatus(Guid eventId, EventStateEnum status)
         {
-            var eventLogEntry = _integrationEventLogContext.IntegrationEventLogs.Single(ie => ie.EventId == eventId);
+            var eventLogEntry = _eventLogContext.EventLogs.Single(ie => ie.EventId == eventId);
             eventLogEntry.State = status;
 
             if(status == EventStateEnum.InProgress)
                 eventLogEntry.TimesSent++;
 
-            _integrationEventLogContext.IntegrationEventLogs.Update(eventLogEntry);
+            _eventLogContext.EventLogs.Update(eventLogEntry);
 
-            return _integrationEventLogContext.SaveChangesAsync();
+            return _eventLogContext.SaveChangesAsync();
         }
     }
 }

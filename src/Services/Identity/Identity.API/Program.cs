@@ -1,4 +1,4 @@
-﻿using EMS.BuildingBlocks.IntegrationEventLogEF;
+﻿using EMS.BuildingBlocks.EventLogEF;
 using Identity.API.Data;
 using Microsoft.AspNetCore.Hosting;
 using TemplateWebHost.Customization;
@@ -16,7 +16,7 @@ namespace Identity.API
         public override void MigrateDbContext(IWebHost host)
         {
             host.MigrateDbContext<ApplicationDbContext>((_, __) => {})
-                .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
+                .MigrateDbContext<EventLogContext>((_, __) => { });
         }
     }
     public class Program
