@@ -16,7 +16,6 @@ COPY "Services/Template1/Template1.API/Template1.API.csproj" "Services/Template1
 	COPY "Services/Permission/Permission.API/Permission.API.csproj" "Services/Permission/Permission.API/Permission.API.csproj"
 COPY "ApiGateways/GraphQL/GraphQL.API/GraphQL.API.csproj" "ApiGateways/GraphQL/GraphQL.API/GraphQL.API.csproj"
 COPY "Services/Identity/Identity.API/Identity.API.csproj" "Services/Identity/Identity.API/Identity.API.csproj"
-COPY "Web/WebStatus/WebStatus.csproj" "Web/WebStatus/WebStatus.csproj"
 
 COPY "docker-compose.dcproj" "docker-compose.dcproj"
 

@@ -58,9 +58,5 @@ services:
     depends_on:
       - template1-api
       - identity-api
-
-  webstatus:
-    image: ${REGISTRY:-eshop}/webstatus:${PLATFORM:-linux}-${TAG:-latest}
-    build:
-      context: .
-      dockerfile: Web/WebStatus/Dockerfile
+      - club-api
+      - permission-api
