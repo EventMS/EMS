@@ -35,6 +35,10 @@ namespace Permission.API.Events
                 });
                 await _permissionContext.SaveChangesAsync();
             }
+            else
+            {
+                Log.Information("User have already been created with ID: {Id}", context.Message.UserId);
+            }
         }
     }
 

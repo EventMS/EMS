@@ -33,8 +33,12 @@ namespace EMS.BuildingBlocks.EventLogEF.Services
 
         public async Task<IEnumerable<EventLogEntry>> RetrieveEventLogsFailedToPublishAsync()
         {
+            var currentDate = DateTime.UtcNow;
             var result = await _eventLogContext.EventLogs
-                .Where(e =>e.State == EventStateEnum.PublishedFailed).ToListAsync();
+                .Where(e =>e.State == EventStateEnum.PublishedFailed
+                || ((e.State == EventStateEnum.InProgress 
+                     || e.State == EventStateEnum.NotPublished) && e.CreationTime.AddMinutes(5) < currentDate)
+                ).ToListAsync();
 
             if(result.Any()){
                 return result.OrderBy(o => o.CreationTime)
