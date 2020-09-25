@@ -25,6 +25,8 @@ namespace EMS.BuildingBlocks.EventLogEF
         public string EventTypeShortName => EventTypeName.Split('.')?.Last();
         [NotMapped]
         public Event Event { get; private set; }
+        [NotMapped]
+        public Type Type { get; private set; }
         public EventStateEnum State { get; set; }
         public int TimesSent { get; set; }
         public DateTime CreationTime { get; private set; }
@@ -33,6 +35,7 @@ namespace EMS.BuildingBlocks.EventLogEF
 
         public EventLogEntry DeserializeJsonContent(Type type)
         {
+            Type = type;
             Event = JsonConvert.DeserializeObject(Content, type) as Event;
             return this;
         }

@@ -37,6 +37,11 @@ namespace Permission.API.Controller
         public async Task<string> GetPermission([FromBody] ContextInRequest context)
         {
             var userId = new Guid(User.FindFirstValue("id"));
+            if (_permissionContext.UserPermissions.Find(userId) == null)
+            {
+                Log.Information("Request made for user with token, but user is no longer in the system. ");
+                return "No user configured";
+            }
 
             if (context.ClubId != null)
             {
@@ -46,7 +51,7 @@ namespace Permission.API.Controller
                     .FirstOrDefaultAsync();
                 return _jwtService.GenerateJwtToken(userId, userPermissions);
             }
-
+            Log.Information("There should be more context here to decode the expected context.. ");
             return "Invalid token";
         }
     }

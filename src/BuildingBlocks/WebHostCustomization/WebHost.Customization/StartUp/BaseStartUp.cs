@@ -28,6 +28,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using TemplateWebHost.Customization.Filters;
 using TemplateWebHost.Customization.EventService;
+using TemplateWebHost.Customization.OutboxService;
 using TemplateWebHost.Customization.Settings;
 
 namespace TemplateWebHost.Customization.StartUp
@@ -67,6 +68,8 @@ namespace TemplateWebHost.Customization.StartUp
             services.AddErrorFilter<GraphQLErrorFilter>();
             AddGraphQlServices(services);
             services.AddAutoMapper(typeof(T));
+            services.AddHostedService<OutboxHostedService>();
+            services.AddScoped<IOutboxProcessingService, OutboxProcessingService<T>>();
         }
 
         public virtual IServiceCollection AddServices(IServiceCollection service)

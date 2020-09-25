@@ -12,18 +12,18 @@ using TemplateWebHost.Customization.Settings;
 
 namespace TemplateWebHost.Customization.EventService
 {
-    public class EventService<T> : IEventService where T : DbContext
+    public class EventService<TContext> : IEventService where TContext : DbContext
     {
-        private readonly T _context;
+        private readonly TContext _context;
         private readonly IEventLogService _eventLogService;
-        private readonly ILogger<EventService<T>> _logger;
+        private readonly ILogger<EventService<TContext>> _logger;
         private readonly BaseSettings _settings;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly ISendEndpoint _sendEndpoint;
 
         public EventService(
-            ILogger<EventService<T>> logger,
-            T catalogContext,
+            ILogger<EventService<TContext>> logger,
+            TContext catalogContext,
             Func<DbConnection, IEventLogService> eventLogServiceFactory,
             IOptions<BaseSettings> settings, 
             IPublishEndpoint publishEndpoint)
@@ -36,20 +36,32 @@ namespace TemplateWebHost.Customization.EventService
             _settings = settings.Value;
         }
 
-        public async Task PublishThroughEventBusAsync<T2>(T2 evt) where T2 : Event
+        public async Task PublishThroughEventBusAsync<TEvent>(TEvent evt, Type type = null) where TEvent : Event
         {
             try
             {
                 _logger.LogInformation("----- Publishing integration event: {EventId_published} from {AppName} - ({@Event})", evt.Id, _settings.SubscriptionClientName, evt);
 
                 await _eventLogService.MarkEventAsInProgressAsync(evt.Id);
-                await _publishEndpoint.Publish(evt);
+                await Publish(evt, type);
                 await _eventLogService.MarkEventAsPublishedAsync(evt.Id);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "ERROR Publishing integration event: {EventId} from {AppName} - ({@Event})", evt.Id, _settings.SubscriptionClientName, evt);
                 await _eventLogService.MarkEventAsFailedAsync(evt.Id);
+            }
+        }
+
+        private async Task Publish<TEvent>(TEvent evt, Type type) where TEvent : Event
+        {
+            if (type == null)
+            {
+                await _publishEndpoint.Publish(evt);
+            }
+            else
+            {
+                await _publishEndpoint.Publish(evt, type);
             }
         }
 
@@ -76,5 +88,7 @@ namespace TemplateWebHost.Customization.EventService
                 await _eventLogService.SaveEventAsync(evt, _context.Database.CurrentTransaction);
             });
         }
+
+
     }
 }

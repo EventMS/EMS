@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using TemplateWebHost.Customization.EventService;
 using ILogger = Serilog.ILogger;
 
 namespace TemplateWebHost.Customization.StartUp

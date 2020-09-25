@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Events;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Permission.API.Context;
 using Permission.API.Context.Model;
@@ -50,10 +51,20 @@ namespace Permission.API.Events
         public async Task Consume(ConsumeContext<ClubCreatedEvent> context)
         {
             var clubId = context.Message.ClubId;
-            var userAlreadyCreated = _permissionContext.ClubAdministratorPermissions.Find(clubId);
-            if (userAlreadyCreated == null)
+            var permissionAlreadyGiven = await _permissionContext.UserAdministratorPermission
+                .FirstOrDefaultAsync(user => user.UserId == context.Message.AdminId
+                                             && user.ClubId == context.Message.ClubId);
+            if (permissionAlreadyGiven != null)
             {
-                var clubAdmin = new ClubAdministratorPermission
+                Log.Information("ClubCreatedEvent have already been completed previously. ");
+                return;
+            }
+
+
+            var clubCreated = _permissionContext.ClubAdministratorPermissions.Find(clubId);
+            if (clubCreated == null)
+            {
+                clubCreated = new ClubAdministratorPermission
                 {
                     ClubId = clubId,
                     Users = new List<UserAdministratorPermission>()
@@ -62,7 +73,12 @@ namespace Permission.API.Events
                     }
                 };
 
-                await _permissionContext.ClubAdministratorPermissions.AddAsync(clubAdmin);
+                await _permissionContext.ClubAdministratorPermissions.AddAsync(clubCreated);
+                await _permissionContext.SaveChangesAsync();
+            }
+            else
+            {
+                _permissionContext.UserAdministratorPermission.Add(new UserAdministratorPermission() { ClubId = clubId, UserId = context.Message.AdminId });
                 await _permissionContext.SaveChangesAsync();
             }
         }

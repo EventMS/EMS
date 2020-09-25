@@ -38,10 +38,15 @@ namespace EMS.BuildingBlocks.EventLogEF.Services
 
             if(result.Any()){
                 return result.OrderBy(o => o.CreationTime)
-                    .Select(e => e.DeserializeJsonContent(_eventTypes.Find(t=> t.Name == e.EventTypeShortName)));
+                    .Select(e => e.DeserializeJsonContent(GetTypeOfEvent(e)));
             }
             
             return new List<EventLogEntry>();
+        }
+
+        private Type GetTypeOfEvent(EventLogEntry eventLog)
+        {
+            return _eventTypes.Find(t => t.Name == eventLog.EventTypeShortName);
         }
 
         public Task SaveEventAsync(Event @event, IDbContextTransaction transaction)
