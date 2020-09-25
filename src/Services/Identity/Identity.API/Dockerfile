@@ -9,9 +9,6 @@ WORKDIR /src
 # to take advantage of Docker's build cache, to speed up local container builds
 COPY "EMS.sln" "EMS.sln"
 
-COPY "BuildingBlocks/EventBus/EventBus/EventBus.csproj" "BuildingBlocks/EventBus/EventBus/EventBus.csproj"
-COPY "BuildingBlocks/EventBus/EventBusRabbitMQ/EventBusRabbitMQ.csproj" "BuildingBlocks/EventBus/EventBusRabbitMQ/EventBusRabbitMQ.csproj"
-COPY "BuildingBlocks/EventBus/EventBusServiceBus/EventBusServiceBus.csproj" "BuildingBlocks/EventBus/EventBusServiceBus/EventBusServiceBus.csproj"
 COPY "BuildingBlocks/EventBus/EventLogEF/EventLogEF.csproj" "BuildingBlocks/EventBus/EventLogEF/EventLogEF.csproj"
 COPY "BuildingBlocks/WebHostCustomization/WebHost.Customization/TemplateWebHost.Customization.csproj" "BuildingBlocks/WebHostCustomization/WebHost.Customization/TemplateWebHost.Customization.csproj"
 COPY "Services/Template1/Template1.API/Template1.API.csproj" "Services/Template1/Template1.API/Template1.API.csproj"
