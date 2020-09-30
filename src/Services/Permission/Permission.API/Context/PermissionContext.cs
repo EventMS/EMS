@@ -11,7 +11,7 @@ using TemplateWebHost.Customization.Context;
 namespace Permission.API.Context
 {
     using Model;
-    public class PermissionContext : Base1Context<PermissionContext>
+    public class PermissionContext : BaseContext
     {
         public PermissionContext(DbContextOptions<PermissionContext> options) : base(options)
         {

@@ -11,7 +11,7 @@ using TemplateWebHost.Customization.Context;
 namespace Template1.API.Context
 {
     using Model;
-    public class Template1Context : Base1Context<Template1Context>
+    public class Template1Context : BaseContext
     {
         public Template1Context(DbContextOptions<Template1Context> options) : base(options)
         {

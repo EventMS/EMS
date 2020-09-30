@@ -11,7 +11,7 @@ using TemplateWebHost.Customization.Context;
 namespace Club.API.Context
 {
     using Model;
-    public class ClubContext : Base1Context<ClubContext>
+    public class ClubContext : BaseContext
     {
         public ClubContext(DbContextOptions<ClubContext> options) : base(options)
         {
