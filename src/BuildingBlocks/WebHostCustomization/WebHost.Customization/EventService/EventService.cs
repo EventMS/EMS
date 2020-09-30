@@ -36,11 +36,11 @@ namespace TemplateWebHost.Customization.EventService
             _settings = settings.Value;
         }
 
-        public async Task PublishThroughEventBusAsync<TEvent>(TEvent evt, Type type = null) where TEvent : Event
+        public async Task PublishEventAsync<TEvent>(TEvent evt, Type type = null) where TEvent : Event
         {
             try
             {
-                _logger.LogInformation("----- Publishing integration event: {EventId_published} from {AppName} - ({@Event})", evt.Id, _settings.SubscriptionClientName, evt);
+                _logger.LogInformation("----- Publishing event: {EventId_published} from {AppName} - ({@Event})", evt.Id, _settings.SubscriptionClientName, evt);
 
                 await _eventLogService.MarkEventAsInProgressAsync(evt.Id);
                 await Publish(evt, type);
@@ -48,7 +48,7 @@ namespace TemplateWebHost.Customization.EventService
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "ERROR Publishing integration event: {EventId} from {AppName} - ({@Event})", evt.Id, _settings.SubscriptionClientName, evt);
+                _logger.LogError(ex, "ERROR Publishing event: {EventId} from {AppName} - ({@Event})", evt.Id, _settings.SubscriptionClientName, evt);
                 await _eventLogService.MarkEventAsFailedAsync(evt.Id);
             }
         }
@@ -68,7 +68,7 @@ namespace TemplateWebHost.Customization.EventService
         public async Task SaveContextThenPublishEvent(Event evt, Func<Task> action = null)
         {
             await SaveEventAndDbContextChangesAsync(evt, action);
-            await PublishThroughEventBusAsync(evt);
+            await PublishEventAsync(evt);
         }
 
         public async Task SaveEventAndDbContextChangesAsync(Event evt, Func<Task> action = null)

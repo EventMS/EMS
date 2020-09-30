@@ -47,7 +47,7 @@ namespace TemplateWebHost.Customization.OutboxService
                     return;
                 }
 
-                await _eventService.PublishThroughEventBusAsync(eventLogEntry.Event, eventLogEntry.Type);
+                await _eventService.PublishEventAsync(eventLogEntry.Event, eventLogEntry.Type);
             }
             events = await _eventLogService.RetrieveEventLogsFailedToPublishAsync();
             _logger.LogInformation("New count of outbox failed events is: {Count}", events.Count());

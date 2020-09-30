@@ -44,7 +44,7 @@ namespace Template1.API.GraphQlQueries
 
             var @event = _mapper.Map<Template1UpdatedEvent>(item);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishThroughEventBusAsync(@event);
+            await _eventService.PublishEventAsync(@event);
 
             return item;
         }
@@ -58,7 +58,7 @@ namespace Template1.API.GraphQlQueries
 
             var @event = _mapper.Map<Template1CreatedEvent>(item);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishThroughEventBusAsync(@event);
+            await _eventService.PublishEventAsync(@event);
 
             return item;
         }
@@ -80,7 +80,7 @@ namespace Template1.API.GraphQlQueries
 
             var @event = _mapper.Map<Template1DeletedEvent>(item);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishThroughEventBusAsync(@event);
+            await _eventService.PublishEventAsync(@event);
             return item;
         }
     }

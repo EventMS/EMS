@@ -99,7 +99,7 @@ namespace Identity.API.GraphQlQueries
                 var result = await _userManager.CreateAsync(user, request.Password);
                 // var @event = new Template1CreatedEvent(item.Id, item.Name);
                 // await _eventService.SaveEventAndDbContextChangesAsync(@event);
-                //  await _eventService.PublishThroughEventBusAsync(@event);
+                //  await _eventService.PublishEventAsync(@event);
                 if (EnumerableExtensions.Any(result.Errors))
                 {
                     throw new QueryException(
@@ -109,7 +109,7 @@ namespace Identity.API.GraphQlQueries
                             .Build());
                 }
             });
-            await _eventService.PublishThroughEventBusAsync(evt);
+            await _eventService.PublishEventAsync(evt);
 
             var response = new Response()
             {
@@ -132,7 +132,7 @@ namespace Identity.API.GraphQlQueries
 
             var evt = new UserUpdatedEvent(user.Id, user.Name);
             await _eventService.SaveEventAndDbContextChangesAsync(evt);
-            await _eventService.PublishThroughEventBusAsync(evt);
+            await _eventService.PublishEventAsync(evt);
             return user;
         }
     }

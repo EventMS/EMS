@@ -7,7 +7,7 @@ namespace TemplateWebHost.Customization.EventService
     public interface IEventService
     {
         Task SaveEventAndDbContextChangesAsync(Event evt, Func<Task> action = null);
-        Task PublishThroughEventBusAsync<T>(T evt, Type type = null) where T : Event;
+        Task PublishEventAsync<T>(T evt, Type type = null) where T : Event;
         Task SaveContextThenPublishEvent(Event evt, Func<Task> action = null);
     }
 }
