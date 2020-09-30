@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TemplateWebHost.Customization.Context
 {
-    public class BaseContext : DbContext
+    public abstract class BaseContext : DbContext
     {
-        public BaseContext(DbContextOptions options) : base(options)
+        protected BaseContext(DbContextOptions options) : base(options)
         {
         }
 
