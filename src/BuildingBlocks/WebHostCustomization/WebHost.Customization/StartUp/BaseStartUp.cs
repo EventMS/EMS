@@ -65,7 +65,6 @@ namespace TemplateWebHost.Customization.StartUp
             AddCustomAuthentication(services);
             AddServices(services);
             services.AddHttpContextAccessor();
-            services.AddErrorFilter<GraphQLErrorFilter>();
             AddGraphQlServices(services);
             services.AddAutoMapper(typeof(T));
             services.AddHostedService<OutboxHostedService>();

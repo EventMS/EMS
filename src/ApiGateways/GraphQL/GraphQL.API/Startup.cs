@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HotChocolate.AspNetCore.Subscriptions;
+using HotChocolate.Execution;
 using HotChocolate.Stitching;
 using Newtonsoft.Json;
 using Serilog;
@@ -36,7 +37,7 @@ namespace GraphQL.API
         public void ConfigureServices(IServiceCollection services)
         {
             AddCustomMVC(services);
-                services.AddHttpContextAccessor();
+            services.AddHttpContextAccessor();
             AddGraphQlServices(services);
             AddServices(services);
         }
@@ -107,6 +108,22 @@ namespace GraphQL.API
                 {
                     builder.AddSchemaFromHttp(http.Replace("-",""));
                 }
+
+                builder.AddExecutionConfiguration(b =>
+                {
+                    b.AddErrorFilter(error => {
+                        if (error.Extensions.TryGetValue("remote", out object o)
+                            && o is IError originalError)
+                        {
+                            return error.AddExtension(
+                                "remote_code",
+                                originalError.Code);
+                        }
+
+
+                        return error;
+                    });
+                });
             });
 
             services.AddGraphQLSubscriptions();
