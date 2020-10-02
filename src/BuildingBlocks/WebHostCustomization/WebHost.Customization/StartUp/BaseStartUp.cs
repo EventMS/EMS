@@ -3,14 +3,18 @@ using System;
 using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
+using Club.API;
 using EMS.BuildingBlocks.EventLogEF;
 using EMS.BuildingBlocks.EventLogEF.Services;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using HealthChecks.UI.Client;
 using HotChocolate;
 using HotChocolate.AspNetCore;
+using HotChocolate.AspNetCore.Interceptors;
 using MassTransit;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
 using MassTransit.Transactions;
@@ -80,13 +84,28 @@ namespace TemplateWebHost.Customization.StartUp
             services.AddScoped<IOutboxProcessingService, OutboxProcessingService<T>>();
         }
 
+        private static OnCreateRequestAsync AuthenticationInterceptor()
+        {
+            return (context, builder, token) =>
+            {
+                if (context.GetUser().Identity.IsAuthenticated)
+                {
+                    builder.SetProperty("currentUser",
+                        new CurrentUser(new Guid(context.User.FindFirstValue("id"))));
+                }
+
+                return Task.CompletedTask;
+            };
+        }
+        
         public virtual IServiceCollection AddServices(IServiceCollection service)
         {
             return service;
         }
 
-        public virtual IServiceCollection AddGlobalStateInterceptor(IServiceCollection service)
+        private IServiceCollection AddGlobalStateInterceptor(IServiceCollection service)
         {
+            service.AddQueryRequestInterceptor(AuthenticationInterceptor());
             return service;
         }
 

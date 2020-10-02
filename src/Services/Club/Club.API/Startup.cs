@@ -34,27 +34,7 @@ namespace Club.API
         {
             busServices.AddConsumer<UserIsClubMemberClubConsumer>();
         }
-
-        private static OnCreateRequestAsync AuthenticationInterceptor()
-        {
-            return (context, builder, token) =>
-            {
-                if (context.GetUser().Identity.IsAuthenticated)
-                {
-                    builder.SetProperty("currentUser",
-                        new CurrentUser(new Guid(context.User.FindFirstValue("id"))));
-                }
-
-                return Task.CompletedTask;
-            };
-        }
-
-        public override IServiceCollection AddGlobalStateInterceptor(IServiceCollection service)
-        {
-            service.AddQueryRequestInterceptor(AuthenticationInterceptor());
-            return service;
-        }
-
+        
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
             return builder.AddQueryType<ClubQueries>()

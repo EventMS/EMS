@@ -46,26 +46,6 @@ namespace Identity.API
                 .AddMutationType<IdentityMutations>();
         }
 
-        private static OnCreateRequestAsync AuthenticationInterceptor()
-        {
-            return (context, builder, token) =>
-            {
-                if (context.GetUser().Identity.IsAuthenticated)
-                {
-                    builder.SetProperty("currentUser",
-                        new CurrentUser(context.User.FindFirstValue("id")));
-                }
-
-                return Task.CompletedTask;
-            };
-        }
-
-        public override IServiceCollection AddGlobalStateInterceptor(IServiceCollection service)
-        {
-            service.AddQueryRequestInterceptor(AuthenticationInterceptor());
-            return service;
-        }
-
         public override IServiceCollection AddIdentityServer(IServiceCollection service)
         {
             service.AddIdentity<ApplicationUser, IdentityRole>()
