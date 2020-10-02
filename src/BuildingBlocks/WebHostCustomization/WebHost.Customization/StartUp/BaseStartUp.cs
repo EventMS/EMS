@@ -44,9 +44,9 @@ namespace TemplateWebHost.Customization.StartUp
 
         public IConfiguration Configuration { get; }
 
-        public virtual IServiceCollection AddGraphQlServices(IServiceCollection services)
+        public virtual ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
-            return services;
+            return builder;
         }
 
 
@@ -66,7 +66,15 @@ namespace TemplateWebHost.Customization.StartUp
             AddServices(services);
             services.AddHttpContextAccessor();
             services.AddErrorFilter<GraphQlErrorFilter>();
-            AddGraphQlServices(services);
+            services.AddGraphQL((s) => { 
+                var schema = SchemaBuilder.New()
+                 .AddServices(s)
+                 .Use<ValidateInputMiddleware>()
+                 .AddAuthorizeDirectiveType();
+            return AddGraphQlServices(schema).Create();
+            });
+
+
             services.AddAutoMapper(typeof(T));
             services.AddHostedService<OutboxHostedService>();
             services.AddScoped<IOutboxProcessingService, OutboxProcessingService<T>>();

@@ -36,14 +36,11 @@ namespace Permission.API
             return service;
         }
 
-        public override IServiceCollection AddGraphQlServices(IServiceCollection services)
+        public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
-            return services.AddGraphQL(s => SchemaBuilder.New()
-                .AddServices(s)
-                .AddAuthorizeDirectiveType()
-                .AddQueryType<PermissionQueries>()
-                .Create()
-            );
+            return builder
+                .AddQueryType<PermissionQueries>();
+          
         }
 
         protected override string GetName()

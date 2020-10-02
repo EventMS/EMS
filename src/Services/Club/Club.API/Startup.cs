@@ -55,16 +55,10 @@ namespace Club.API
             return service;
         }
 
-        public override IServiceCollection AddGraphQlServices(IServiceCollection services)
+        public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
-            return services.AddGraphQL(s => SchemaBuilder.New()
-                .AddServices(s)
-                .Use<ValidateInputMiddleware>()
-                .AddAuthorizeDirectiveType()
-                .AddQueryType<ClubQueries>()
-                .AddMutationType<ClubMutations>()
-                .Create()
-            );
+            return builder.AddQueryType<ClubQueries>()
+                .AddMutationType<ClubMutations>();
         }
 
         protected override string GetName()

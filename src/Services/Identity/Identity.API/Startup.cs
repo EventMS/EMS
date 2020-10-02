@@ -40,15 +40,10 @@ namespace Identity.API
             return service;
         }
 
-        public override IServiceCollection AddGraphQlServices(IServiceCollection services)
+        public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
-            services.AddGraphQL(s => SchemaBuilder.New()
-                .AddServices(s)
-                .AddQueryType<IdentityQueries>()
-                .AddMutationType<IdentityMutations>()
-                .AddAuthorizeDirectiveType()
-                .Create());
-            return services;
+            return builder.AddQueryType<IdentityQueries>()
+                .AddMutationType<IdentityMutations>();
         }
 
         private static OnCreateRequestAsync AuthenticationInterceptor()

@@ -1,9 +1,3 @@
-using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using EMS.Events;
 using HotChocolate;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
@@ -28,15 +22,11 @@ namespace Template1.API
             busServices.AddConsumer<Template1CreatedEventConsumer>();
         }
 
-        public override IServiceCollection AddGraphQlServices(IServiceCollection services)
+        public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
-            return services.AddGraphQL(s => SchemaBuilder.New()
-                .AddServices(s)
-                .AddAuthorizeDirectiveType()
+            return builder
                 .AddQueryType<Template1Queries>()
-                .AddMutationType<Template1Mutations>()
-                .Create()
-            );
+                .AddMutationType<Template1Mutations>();
         }
 
         protected override string GetName()
