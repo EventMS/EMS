@@ -33,7 +33,6 @@ namespace TemplateWebHost.Customization.Filters
 
         public async Task Invoke(IMiddlewareContext context)
         {
-            Log.Information("Hit!");
             if (context.FieldSelection.Arguments.Count == 0)
             {
                 await _next(context);
@@ -48,6 +47,7 @@ namespace TemplateWebHost.Customization.Filters
             {
                 foreach (var error in errors)
                 {
+                    
                     context.ReportError(ErrorBuilder.New()
                         .SetCode("error.validation")
                         .SetMessage(error.ErrorMessage)
