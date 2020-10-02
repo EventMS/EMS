@@ -19,8 +19,8 @@ using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Interceptors;
 using Identity.API;
 using TemplateWebHost.Customization.StartUp;
-
-
+using Club.API.Context.Model;
+using TemplateWebHost.Customization.Filters;
 
 namespace Club.API
 {
@@ -59,6 +59,7 @@ namespace Club.API
         {
             return services.AddGraphQL(s => SchemaBuilder.New()
                 .AddServices(s)
+                .Use<ValidateInputMiddleware>()
                 .AddAuthorizeDirectiveType()
                 .AddQueryType<ClubQueries>()
                 .AddMutationType<ClubMutations>()

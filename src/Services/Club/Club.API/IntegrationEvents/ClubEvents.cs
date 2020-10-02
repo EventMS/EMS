@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using EMS.BuildingBlocks.EventLogEF;
 
 namespace EMS.Events
@@ -19,6 +20,7 @@ namespace EMS.Events
         public string AccountNumber { get; set; }
         public string Address { get; set; }
         public Guid AdminId { get; set; }
+        public List<String> Locations { get; set; }
     }
 
     public class ClubUpdatedEvent : Event // All events should inherit from Integration event
