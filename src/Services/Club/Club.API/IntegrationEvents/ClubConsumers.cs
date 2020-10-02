@@ -12,7 +12,7 @@ using TemplateWebHost.Customization.EventService;
 namespace Club.API.Events
 {
     public class UserIsClubMemberClubConsumer :
-            IConsumer<UserIsClubMember>
+            IConsumer<UserIsClubMemberEvent>
         {
         private readonly ClubContext _context;
         private readonly IEventService _eventService;
@@ -23,7 +23,7 @@ namespace Club.API.Events
             _eventService = eventService;
         }
 
-        public async Task Consume(ConsumeContext<UserIsClubMember> context)
+        public async Task Consume(ConsumeContext<UserIsClubMemberEvent> context)
             {
             var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == context.Message.ClubId);
             if(club == null)
@@ -36,7 +36,7 @@ namespace Club.API.Events
             }
             club.InstructorIds.Add(context.Message.UserId);
             _context.Clubs.Update(club);
-            var @event = new InstructorAdded()
+            var @event = new InstructorAddedEvent()
             {
                 ClubId = context.Message.ClubId,
                 UserId = context.Message.UserId
