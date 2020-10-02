@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Linq;
 
 namespace Club.API.Context.EntityConfigurations
 {
@@ -36,6 +38,11 @@ namespace Club.API.Context.EntityConfigurations
 
             builder.Property(ci => ci.PhoneNumber)
                 .IsRequired();
+
+            builder.Property(ci => ci.InstructorIds)
+                .HasConversion(v => string.Join(',', v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(v => new Guid(v)).ToHashSet());
+
         }
     }
 }

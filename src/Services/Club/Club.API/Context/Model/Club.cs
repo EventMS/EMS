@@ -28,6 +28,7 @@ namespace Club.API.Context.Model
         public string AccountNumber { get; set; }
         public string Address { get; set; }
         public Guid AdminId { get; set; } 
+        public HashSet<Guid> InstructorIds { get; set; }
 
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {

@@ -11,6 +11,9 @@ using HotChocolate.AspNetCore.Authorization;
 using Club.API;
 using Serilog;
 using TemplateWebHost.Customization.EventService;
+using System.Collections.Generic;
+using Club.API.Context.Model;
+
 namespace Club.API.GraphQlQueries
 {
     public class ClubMutations
@@ -90,5 +93,29 @@ namespace Club.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
             return item;
         }
+
+        [Authorize(Roles = new[] { "Admin" })]
+        public async Task<Context.Model.Club> AddInstructorAsync(Guid clubId, Guid instructorId)
+        {
+            var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
+            if (club == null)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("The provided id is unknown.")
+                        .SetCode("ID_UNKNOWN")
+                        .Build());
+            }
+
+            var @event = new IsUserClubMember()
+            {
+                ClubId = clubId,
+                UserId = instructorId
+            };
+            await _eventService.SaveEventAndDbContextChangesAsync(@event);
+            await _eventService.PublishEventAsync(@event);
+            return club;
+        }
+
     }
 }

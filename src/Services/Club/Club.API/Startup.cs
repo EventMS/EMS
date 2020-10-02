@@ -32,7 +32,7 @@ namespace Club.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
-            busServices.AddConsumer<UserCreatedEventClubConsumer>();
+            busServices.AddConsumer<UserIsClubMemberClubConsumer>();
         }
 
         private static OnCreateRequestAsync AuthenticationInterceptor()

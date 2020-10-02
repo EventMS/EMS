@@ -24,6 +24,8 @@
     <Content Include="Pics\**\*;">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Compile Remove="Context\Migrations\20201002095828_InstructorAdded.cs" />
+    <Compile Remove="Context\Migrations\20201002095828_InstructorAdded.Designer.cs" />
     <Content Update="web.config;">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

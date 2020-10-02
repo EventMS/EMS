@@ -10,6 +10,24 @@ namespace EMS.Events
         public string Name { get; set; }
     }
 
+    public class IsUserClubMember : Event
+    {
+        public Guid ClubId { get; set; }
+        public Guid UserId { get; set; }
+    }
+
+    public class UserIsClubMember : Event
+    {
+        public Guid ClubId { get; set; }
+        public Guid UserId { get; set; }
+    }
+
+    public class InstructorAdded : Event
+    {
+        public Guid ClubId { get; set; }
+        public Guid UserId { get; set; }
+    }
+
     public class ClubCreatedEvent : Event // All events should inherit from Integration event
     {
         public Guid ClubId { get; set; }
