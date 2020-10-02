@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using Club.API;
 using EMS.BuildingBlocks.EventLogEF;
 using EMS.BuildingBlocks.EventLogEF.Utilities;
 using EMS.Events;
@@ -124,7 +125,7 @@ namespace Identity.API.GraphQlQueries
 
         public async Task<ApplicationUser> EditUserAsync(EditUserRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {
-            ApplicationUser user = await _context.Users.SingleAsync(applicationUser => applicationUser.Id == currentUser.UserId);
+            ApplicationUser user = await _context.Users.SingleAsync(applicationUser => applicationUser.Id == currentUser.UserId.ToString());
 
             user.Name = request.Name;
             user.PhoneNumber = request.PhoneNumber;

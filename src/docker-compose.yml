@@ -49,6 +49,16 @@ services:
       - identity-api
       - rabbitmq
 
+  subscription-api:
+    image: ${REGISTRY:-eventms}/subscription.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Subscription/Subscription.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
 
   graphql-api:
     image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
@@ -60,3 +70,4 @@ services:
       - identity-api
       - club-api
       - permission-api
+      - subscription-api

@@ -49,7 +49,7 @@ services:
       - OrchestratorType=${ORCHESTRATOR_TYPE}
       - PORT=80
       - PATH_BASE=/graphql-api
-      - services=template1-api,identity-api,club-api
+      - services=template1-api,identity-api,club-api,subscription-api
     ports:
       - "5102:80"
 
@@ -92,6 +92,19 @@ services:
       - PATH_BASE=/permission-api
     ports:
       - "5105:80"
+
+  subscription-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.SubscriptionDb;User Id=sa;Password=Pass@word}
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
+      - EventBusConnection=-rabbitmq
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - PORT=80
+      - PATH_BASE=/permission-api
+    ports:
+      - "5107:80"
 
 volumes:
   ems-sqldata:

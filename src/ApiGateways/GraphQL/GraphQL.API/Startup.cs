@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
 using HotChocolate;
@@ -14,16 +15,63 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HotChocolate.AspNetCore.Subscriptions;
 using HotChocolate.Execution;
+using HotChocolate.Language;
 using HotChocolate.Stitching;
+using HotChocolate.Stitching.Delegation;
+using HotChocolate.Stitching.Merge;
+using HotChocolate.Stitching.Merge.Rewriters;
 using Newtonsoft.Json;
 using Serilog;
 using TemplateWebHost.Customization;
 using TemplateWebHost.Customization.Filters;
 using TemplateWebHost.Customization.StartUp;
+using DirectiveLocation = HotChocolate.Types.DirectiveLocation;
 using Path = System.IO.Path;
 
 namespace GraphQL.API
 {
+
+    public class RenameDirectiveType : DirectiveType
+    {
+        public const string DirectiveName = "rename";
+        public const string ArgumentName = "name";
+
+        protected override void Configure(IDirectiveTypeDescriptor descriptor)
+        {
+            descriptor.Name(DirectiveName);
+            descriptor.Location(DirectiveLocation.Object);
+            descriptor.Argument(ArgumentName)
+                .Type<NonNullType<NameType>>();
+        }
+    }
+    public class RenameTypeRewriter : ITypeRewriter
+    {
+        public ITypeDefinitionNode Rewrite(ISchemaInfo schema, ITypeDefinitionNode typeDefinition)
+        {
+            var renameDirective = typeDefinition.Directives.SingleOrDefault(d => d.Name.Value == RenameDirectiveType.DirectiveName);
+
+            if (renameDirective != null)
+            {
+                var newNameArgumment = renameDirective.Arguments.Single(a => a.Name.Value == RenameDirectiveType.ArgumentName);
+
+                if (newNameArgumment.Value is StringValueNode stringValue)
+                {
+                    return typeDefinition.Rename(stringValue.Value, schema.Name);
+                }
+            }
+
+            return typeDefinition;
+        }
+    }
+
+    public class DirectHandler :IDirectiveMergeHandler
+    {
+        public void Merge(ISchemaMergeContext context, IReadOnlyList<IDirectiveTypeInfo> directives)
+        {
+            Log.Information("Test");
+            Log.Information(context.ToString());
+        }
+    }
     public class Startup
     {
 
@@ -90,7 +138,7 @@ namespace GraphQL.API
                 {
                     HttpContext context = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
 
-                    if (context.Request.Headers.ContainsKey("Authorization"))
+                    if (context != null && context.Request.Headers.ContainsKey("Authorization"))
                     {
                         client.DefaultRequestHeaders.Authorization =
                             AuthenticationHeaderValue.Parse(
@@ -108,7 +156,30 @@ namespace GraphQL.API
                 {
                     builder.AddSchemaFromHttp(http.Replace("-",""));
                 }
+                builder.AddDocumentRewriter((schema, definitionSchema) =>
+                {
+                    var definitions = new List<IDefinitionNode>();
+                    var schemaName = schema.Name.Value;
+                    if (schemaName.Contains("api"))
+                    {
+                        schemaName = schemaName.Substring(0, schemaName.Length - 3);
+                    }
+                    foreach (var definition in definitionSchema.Definitions)
+                    {
+                        if (definition is ObjectTypeDefinitionNode typeDefinition)
+                        {
+                            if (!(typeDefinition.Name.Value.ToLower().Contains(schemaName)))
+                            {
+                                definitions.Add(typeDefinition.WithName(new NameNode(schemaName + "_" + typeDefinition.Name.Value)));
+                                continue;
+                            }
+                        }
+                        definitions.Add(definition);
+                    }
 
+                    return definitionSchema.WithDefinitions(definitions);
+                });
+                
                 builder.AddExecutionConfiguration(b =>
                 {
                     b.AddErrorFilter(error => {
