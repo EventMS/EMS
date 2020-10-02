@@ -107,13 +107,39 @@ namespace Club.API.GraphQlQueries
                         .Build());
             }
 
-            var @event = new IsUserClubMember()
+            var @event = new IsUserClubMemberEvent()
             {
                 ClubId = clubId,
                 UserId = instructorId
             };
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
+            return club;
+        }
+
+        [Authorize(Roles = new[] { "Admin" })]
+        public async Task<Context.Model.Club> RemoveInstructorAsync(Guid clubId, Guid instructorId)
+        {
+            var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
+            if (club == null)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("The provided id is unknown.")
+                        .SetCode("ID_UNKNOWN")
+                        .Build());
+            }
+
+            if (club.InstructorIds.Remove(instructorId))
+            {
+                var @event = new InstructorDeletedEvent()
+                {
+                    ClubId = clubId,
+                    UserId = instructorId
+                };
+                await _eventService.SaveEventAndDbContextChangesAsync(@event);
+                await _eventService.PublishEventAsync(@event);
+            }
             return club;
         }
 
