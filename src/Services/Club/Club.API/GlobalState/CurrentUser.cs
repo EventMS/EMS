@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Identity.API
+namespace Club.API
 {
     public class CurrentUser
     {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Club.API.Context;
 using Club.API.Controllers.Request;
 using HotChocolate.AspNetCore.Authorization;
-using Identity.API;
+using Club.API;
 using Serilog;
 using TemplateWebHost.Customization.EventService;
 namespace Club.API.GraphQlQueries

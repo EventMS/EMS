@@ -1,6 +1,6 @@
 ﻿using HotChocolate;
 
-namespace Identity.API
+namespace Club.API
 {
     public class CurrentUserGlobalState : GlobalStateAttribute
     {
