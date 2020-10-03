@@ -19,7 +19,7 @@ namespace Subscription.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
-            busServices.AddConsumer<ClubCreatedEventSubscriptionConsumer>();
+            busServices.AddConsumer<ClubCreatedEventConsumer>();
         }
 
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)

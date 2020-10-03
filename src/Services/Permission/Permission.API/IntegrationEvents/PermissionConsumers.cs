@@ -13,12 +13,12 @@ using Serilog;
 
 namespace Permission.API.Events
 {
-    public class UserCreatedEventPermissionConsumer :
+    public class UserCreatedEventConsumer :
             IConsumer<UserCreatedEvent>
     {
         private readonly PermissionContext _permissionContext;
 
-        public UserCreatedEventPermissionConsumer(PermissionContext permissionContext)
+        public UserCreatedEventConsumer(PermissionContext permissionContext)
         {
             _permissionContext = permissionContext;
         }
@@ -42,12 +42,12 @@ namespace Permission.API.Events
         }
     }
 
-    public class ClubCreatedEventPermissionConsumer :
+    public class ClubCreatedEventConsumer :
         IConsumer<ClubCreatedEvent>
     {
         private readonly PermissionContext _permissionContext;
 
-        public ClubCreatedEventPermissionConsumer(PermissionContext permissionContext)
+        public ClubCreatedEventConsumer(PermissionContext permissionContext)
         {
             _permissionContext = permissionContext;
         }

@@ -32,7 +32,7 @@ namespace Club.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
-            busServices.AddConsumer<UserIsClubMemberClubConsumer>();
+            busServices.AddConsumer<UserIsClubMemberConsumer>();
         }
         
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)

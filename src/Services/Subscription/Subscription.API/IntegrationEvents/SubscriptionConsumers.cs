@@ -7,12 +7,12 @@ using Club = Subscription.API.Context.Club;
 
 namespace Subscription.API.IntegrationEvents
 {
-    public class ClubCreatedEventSubscriptionConsumer :
+    public class ClubCreatedEventConsumer :
             IConsumer<ClubCreatedEvent>
     {
         private readonly SubscriptionContext _subscriptionContext;
 
-        public ClubCreatedEventSubscriptionConsumer(SubscriptionContext subscriptionContext)
+        public ClubCreatedEventConsumer(SubscriptionContext subscriptionContext)
         {
             _subscriptionContext = subscriptionContext;
         }

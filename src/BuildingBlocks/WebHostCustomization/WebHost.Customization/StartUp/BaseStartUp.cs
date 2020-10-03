@@ -115,7 +115,6 @@ namespace TemplateWebHost.Customization.StartUp
             services.AddMassTransit(x =>
             {
                 ConfigureMassTransit(x);
-                //x.SetKebabCaseEndpointNameFormatter();
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(GetName(), false));
                 x.UsingRabbitMq((context, config) =>
                 {

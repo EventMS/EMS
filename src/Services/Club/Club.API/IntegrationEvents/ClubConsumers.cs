@@ -11,13 +11,13 @@ using TemplateWebHost.Customization.EventService;
 
 namespace Club.API.Events
 {
-    public class UserIsClubMemberClubConsumer :
+    public class UserIsClubMemberConsumer :
             IConsumer<UserIsClubMemberEvent>
         {
         private readonly ClubContext _context;
         private readonly IEventService _eventService;
 
-        public UserIsClubMemberClubConsumer(ClubContext context, IEventService eventService)
+        public UserIsClubMemberConsumer(ClubContext context, IEventService eventService)
         {
             _context = context;
             _eventService = eventService;
