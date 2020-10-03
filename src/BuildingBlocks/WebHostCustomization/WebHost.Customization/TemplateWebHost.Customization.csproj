@@ -55,4 +55,8 @@
     <ProjectReference Include="..\..\EventBus\EventLogEF\EventLogEF.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Formatters\" />
+  </ItemGroup>
+
 </Project>

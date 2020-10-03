@@ -31,22 +31,20 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://0.0.0.0:80
-      - EventBusConnection=-rabbitmq
+      - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/identity-api
-      - ConnectionString=${ESHOP_AZURE_IDENTITY_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.IdentityDb;User Id=sa;Password=Pass@word}
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - ConnectionString=Server=sqldata;Database=Services.IdentityDb;User Id=sa;Password=Pass@word
     ports:
       - "5101:80"
 
   graphql-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.GraphQLDb;User Id=sa;Password=Pass@word}
+      - ConnectionString=Server=sqldata;Database=Services.GraphQLDb;User Id=sa;Password=Pass@word
       - identityUrl=http://identity-api
       - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
-      - EventBusConnection=-rabbitmq
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/graphql-api
       - services=template1-api,identity-api,club-api,subscription-api
@@ -57,11 +55,10 @@ services:
   template1-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.Template1Db;User Id=sa;Password=Pass@word}
+      - ConnectionString=Server=sqldata;Database=Services.Template1Db;User Id=sa;Password=Pass@word
       - identityUrl=http://identity-api
       - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
-      - EventBusConnection=-rabbitmq
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/template1-api
     ports:
@@ -70,11 +67,10 @@ services:
   club-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.ClubDb;User Id=sa;Password=Pass@word}
+      - ConnectionString=Server=sqldata;Database=Services.ClubDb;User Id=sa;Password=Pass@word
       - identityUrl=http://identity-api
       - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
-      - EventBusConnection=-rabbitmq
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/club-api
     ports:
@@ -83,11 +79,10 @@ services:
   permission-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.PermissionDb;User Id=sa;Password=Pass@word}
+      - ConnectionString=Server=sqldata;Database=Services.PermissionDb;User Id=sa;Password=Pass@word
       - identityUrl=http://identity-api
       - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
-      - EventBusConnection=-rabbitmq
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/permission-api
     ports:
@@ -96,11 +91,10 @@ services:
   subscription-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sqldata;Database=Microsoft.eShopOnContainers.Services.SubscriptionDb;User Id=sa;Password=Pass@word}
+      - ConnectionString=Server=sqldata;Database=SubscriptionDb;User Id=sa;Password=Pass@word
       - identityUrl=http://identity-api
       - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
-      - EventBusConnection=-rabbitmq
-      - OrchestratorType=${ORCHESTRATOR_TYPE}
+      - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/permission-api
     ports:

@@ -16,6 +16,7 @@ using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Interceptors;
 using MassTransit;
+using MassTransit.Definition;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
 using MassTransit.Transactions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -114,10 +115,11 @@ namespace TemplateWebHost.Customization.StartUp
             services.AddMassTransit(x =>
             {
                 ConfigureMassTransit(x);
-                x.SetKebabCaseEndpointNameFormatter();
+                //x.SetKebabCaseEndpointNameFormatter();
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(GetName(), false));
                 x.UsingRabbitMq((context, config) =>
                 {
-                    config.Host("rabbitmq", "/", h =>
+                    config.Host(Configuration["EventBusConnection"], "/", h =>
                     {
                         h.Username("guest");
                         h.Password("guest");

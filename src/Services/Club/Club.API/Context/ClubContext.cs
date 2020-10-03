@@ -30,7 +30,7 @@ namespace Club.API.Context
         public ClubContext CreateDbContext(string[] args)
         {
             var optionsBuilder =  new DbContextOptionsBuilder<ClubContext>()
-                .UseSqlServer("Server=.;Initial Catalog=Microsoft.eShopOnContainers.Services.ClubDb;Integrated Security=true");
+                .UseSqlServer("Server=.;Initial Catalog=Services.ClubDb;Integrated Security=true");
 
             return new ClubContext(optionsBuilder.Options);
         }

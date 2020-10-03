@@ -30,7 +30,7 @@ namespace Template1.API.Context
         public Template1Context CreateDbContext(string[] args)
         {
             var optionsBuilder =  new DbContextOptionsBuilder<Template1Context>()
-                .UseSqlServer("Server=.;Initial Catalog=Microsoft.eShopOnContainers.Services.Template1Db;Integrated Security=true");
+                .UseSqlServer("Server=.;Initial Catalog=Services.Template1Db;Integrated Security=true");
 
             return new Template1Context(optionsBuilder.Options);
         }

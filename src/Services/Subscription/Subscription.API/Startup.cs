@@ -31,7 +31,7 @@ namespace Subscription.API
 
         protected override string GetName()
         {
-            return "ClubSubscription";
+            return "Subscription";
         }
     }
 }

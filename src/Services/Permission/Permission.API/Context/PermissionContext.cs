@@ -34,7 +34,7 @@ namespace Permission.API.Context
         public PermissionContext CreateDbContext(string[] args)
         {
             var optionsBuilder =  new DbContextOptionsBuilder<PermissionContext>()
-                .UseSqlServer("Server=.;Initial Catalog=Microsoft.eShopOnContainers.Services.PermissionDb;Integrated Security=true");
+                .UseSqlServer("Server=.;Initial Catalog=Services.PermissionDb;Integrated Security=true");
 
             return new PermissionContext(optionsBuilder.Options);
         }

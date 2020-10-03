@@ -31,7 +31,7 @@ namespace Subscription.API.Context
         public SubscriptionContext CreateDbContext(string[] args)
         {
             var optionsBuilder =  new DbContextOptionsBuilder<SubscriptionContext>()
-                .UseSqlServer("Server=.;Initial Catalog=Microsoft.eShopOnContainers.Services.SubscriptionDb;Integrated Security=true");
+                .UseSqlServer("Server=.;Initial Catalog=Services.SubscriptionDb;Integrated Security=true");
 
             return new SubscriptionContext(optionsBuilder.Options);
         }
