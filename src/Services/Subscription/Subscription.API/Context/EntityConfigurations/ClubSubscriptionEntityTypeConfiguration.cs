@@ -18,7 +18,9 @@ namespace Subscription.API.Context.EntityConfigurations
                 .IsRequired();
 
             builder.Property(ci => ci.Name)
+                .HasMaxLength(25)
                 .IsRequired();
+                
 
             builder.HasOne(subscription => subscription.Club)
                 .WithMany(club => club.Subscriptions)
@@ -26,7 +28,8 @@ namespace Subscription.API.Context.EntityConfigurations
                 .IsRequired();
 
             builder.Property(ci => ci.Price)
-                .IsRequired();
+                .IsRequired()
+                .HasDefaultValue(0);
         }
     }
 }
