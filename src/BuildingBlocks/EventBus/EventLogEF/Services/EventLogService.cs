@@ -17,6 +17,16 @@ namespace EMS.BuildingBlocks.EventLogEF.Services
         private readonly DbConnection _dbConnection;
         private readonly List<Type> _eventTypes;
 
+        public EventLogService(DbContextOptions<EventLogContext> options)
+        {
+           _eventLogContext = new EventLogContext(options);
+
+            _eventTypes = Assembly.Load(Assembly.GetEntryAssembly().FullName)
+                .GetTypes()
+                .Where(t => t.Name.EndsWith(nameof(Event)))
+                .ToList();
+        }
+
         public EventLogService(DbConnection dbConnection)
         {
             _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
@@ -53,7 +63,7 @@ namespace EMS.BuildingBlocks.EventLogEF.Services
             return _eventTypes.Find(t => t.Name == eventLog.EventTypeShortName);
         }
 
-        public Task SaveEventAsync(Event @event, IDbContextTransaction transaction)
+        public async Task SaveEventAsync(Event @event, IDbContextTransaction transaction)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
 
@@ -61,7 +71,8 @@ namespace EMS.BuildingBlocks.EventLogEF.Services
 
             _eventLogContext.Database.UseTransaction(transaction.GetDbTransaction());
             _eventLogContext.EventLogs.Add(eventLogEntry);
-            return _eventLogContext.SaveChangesAsync();
+            await _eventLogContext.SaveChangesAsync();
+            _eventLogContext.Database.UseTransaction(null);
         }
 
         public Task MarkEventAsPublishedAsync(Guid eventId)
