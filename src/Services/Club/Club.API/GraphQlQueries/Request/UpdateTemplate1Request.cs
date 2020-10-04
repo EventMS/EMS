@@ -1,8 +1,6 @@
-
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Club.API.Controllers.Request
+namespace EMS.Club_Service.API.Controllers.Request
 {
     public class UpdateClubRequest
     {

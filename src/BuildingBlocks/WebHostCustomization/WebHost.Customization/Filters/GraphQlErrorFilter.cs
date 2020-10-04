@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TemplateWebHost.Customization.Filters
+namespace EMS.TemplateWebHost.Customization.Filters
 {
     public class GraphQlErrorFilter : IErrorFilter
     {

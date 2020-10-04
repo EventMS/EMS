@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace TemplateWebHost.Customization.OutboxService
+namespace EMS.TemplateWebHost.Customization.OutboxService
 {
     public class OutboxHostedService : BackgroundService
     {

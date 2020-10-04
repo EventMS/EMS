@@ -1,14 +1,9 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Subscription.API.Context.EntityConfigurations;
-using TemplateWebHost.Customization.Context;
+using EMS.Subscription_Services.API.Context.EntityConfigurations;
+using EMS.TemplateWebHost.Customization.Context;
 
-namespace Subscription.API.Context
+namespace EMS.Subscription_Services.API.Context
 {
     public class SubscriptionContext : BaseContext
     {

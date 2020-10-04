@@ -1,10 +1,8 @@
 using System.Linq;
-using HotChocolate.Types;
-using HotChocolate.Types.Relay;
-using Identity.API.Context.Models;
-using Identity.API.Data;
+using EMS.Identity_Services.API.Context.Models;
+using EMS.Identity_Services.API.Data;
 
-namespace Identity.API.GraphQlQueries
+namespace EMS.Identity_Services.API.GraphQlQueries
 {
     public class IdentityQueries
     {

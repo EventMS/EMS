@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace TemplateWebHost.Customization.OutboxService
+namespace EMS.TemplateWebHost.Customization.OutboxService
 {
     internal interface IOutboxProcessingService
     {

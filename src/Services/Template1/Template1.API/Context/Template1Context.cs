@@ -1,14 +1,9 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Template1.API.Context.EntityConfigurations;
-using TemplateWebHost.Customization.Context;
+using EMS.Template1_Services.API.Context.EntityConfigurations;
+using EMS.TemplateWebHost.Customization.Context;
 
-namespace Template1.API.Context
+namespace EMS.Template1_Services.API.Context
 {
     using Model;
     public class Template1Context : BaseContext

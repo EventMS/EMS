@@ -3,23 +3,22 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Club.API;
-using Club.API.Context;
-using Club.API.Controllers.Request;
-using Club.API.GraphQlQueries;
-using Club.API.Mapper;
+using EMS.Club_Service.API.Context;
+using EMS.Club_Service.API.Context.Model;
+using EMS.Club_Service.API.Controllers.Request;
+using EMS.Club_Service.API.GraphQlQueries;
+using EMS.Club_Service.API.Mapper;
+using EMS.Club_Service_Services.API;
 using EMS.Events;
+using EMS.SharedTesting.Helper;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using Polly;
-using SharedTesting.Helper;
 
-namespace Subscription.API.UnitTests.GraphQL
+namespace EMS.Subscription_Services.API.UnitTests.GraphQL
 {
     [TestFixture]
     class ClubMutationsTests : BaseMutationsSetupTests<ClubContext>
@@ -43,7 +42,7 @@ namespace Subscription.API.UnitTests.GraphQL
             var config = new MapperConfiguration(cfg => {
                 cfg.AddProfile<ClubProfile>();
             });
-            return new AutoMapper.Mapper(config);
+            return new Mapper(config);
         }
         #endregion
 
@@ -104,7 +103,7 @@ namespace Subscription.API.UnitTests.GraphQL
 
             using (var context = _factory.CreateContext())
             {
-                context.Clubs.Add(_mapper.Map<Club.API.Context.Model.Club>(request));
+                context.Clubs.Add(_mapper.Map<Club>(request));
                 context.SaveChanges();
             }
             //Act Assert
@@ -119,7 +118,7 @@ namespace Subscription.API.UnitTests.GraphQL
 
             using (var context = _factory.CreateContext())
             {
-                context.Clubs.Add(_mapper.Map<Club.API.Context.Model.Club>(request));
+                context.Clubs.Add(_mapper.Map<Club>(request));
                 context.SaveChanges();
             }
             //Act Assert
@@ -140,7 +139,7 @@ namespace Subscription.API.UnitTests.GraphQL
         public async Task UpdateClub_ClubIsCreated_DatabaseUpdates()
         {
             var request = UpdateClubRequest();
-            var clubCreated = _mapper.Map<Club.API.Context.Model.Club>(CreateClubRequest());
+            var clubCreated = _mapper.Map<Club>(CreateClubRequest());
             clubCreated.AdminId = _currentUser.UserId;
             using (var context = _factory.CreateContext())
             {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Club.API.Controllers.Request
+namespace EMS.Club_Service.API.Controllers.Request
 {
     public class CreateClubRequest
     {       

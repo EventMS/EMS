@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HotChocolate.Types;
-using HotChocolate.Types.Relay;
-using Club.API.Context;
+using EMS.Club_Service.API.Context;
+using EMS.Club_Service_Services.API;
 using Microsoft.EntityFrameworkCore;
 
-namespace Club.API.GraphQlQueries
+namespace EMS.Club_Service.API.GraphQlQueries
 {
     public class ClubQueries
     {

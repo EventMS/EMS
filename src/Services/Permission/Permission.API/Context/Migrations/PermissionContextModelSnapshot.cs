@@ -3,10 +3,9 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Permission.API.Context;
+using EMS.Permission_Services.API.Context;
 
-namespace Permission.API.Migrations
+namespace EMS.Permission_Services.API.Migrations
 {
     [DbContext(typeof(PermissionContext))]
     partial class PermissionContextModelSnapshot : ModelSnapshot

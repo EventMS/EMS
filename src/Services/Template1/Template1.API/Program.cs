@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Serilog;
-using Template1.API.Context;
-using TemplateWebHost.Customization;
-using TemplateWebHost.Customization.Settings;
-using TemplateWebHost.Customization.StartUp;
+using EMS.Template1_Services.API.Context;
+using EMS.TemplateWebHost.Customization;
+using EMS.TemplateWebHost.Customization.Settings;
+using EMS.TemplateWebHost.Customization.StartUp;
 
-namespace Template1.API
+namespace EMS.Template1_Services.API
 {
 
     public class ProgramHelper : BaseProgramHelper<Startup>

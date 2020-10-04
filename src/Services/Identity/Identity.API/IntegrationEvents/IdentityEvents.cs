@@ -1,6 +1,4 @@
-﻿using System;
-using EMS.BuildingBlocks.EventLogEF;
-using EMS.BuildingBlocks.EventLogEF;
+﻿using EMS.BuildingBlocks.EventLogEF;
 
 
 namespace EMS.Events

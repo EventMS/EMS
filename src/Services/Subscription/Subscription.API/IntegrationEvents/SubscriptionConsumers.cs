@@ -1,11 +1,8 @@
 using System.Threading.Tasks;
 using EMS.Events;
 using MassTransit;
-using Serilog;
-using Subscription.API.Context;
-using Club = Subscription.API.Context.Club;
-
-namespace Subscription.API.IntegrationEvents
+using EMS.Subscription_Services.API.Context;
+namespace EMS.Subscription_Services.API.IntegrationEvents
 {
     public class ClubCreatedEventConsumer :
             IConsumer<ClubCreatedEvent>
@@ -22,7 +19,7 @@ namespace Subscription.API.IntegrationEvents
            var club =  _subscriptionContext.Clubs.Find(context.Message.ClubId);
            if (club == null)
            {
-               _subscriptionContext.Clubs.Add(new Context.Club()
+               _subscriptionContext.Clubs.Add(new Club()
                {
                    ClubId = context.Message.ClubId
                });

@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace TemplateWebHost.Customization.Context
+namespace EMS.TemplateWebHost.Customization.Context
 {
     public abstract class BaseContext : DbContext
     {

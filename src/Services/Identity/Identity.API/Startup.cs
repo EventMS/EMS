@@ -1,27 +1,15 @@
-﻿using System;
-using System.Reflection;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using EMS.Events;
-using GreenPipes;
-using HotChocolate;
-using HotChocolate.AspNetCore;
-using HotChocolate.AspNetCore.Interceptors;
-using HotChocolate.Execution.Configuration;
-using Identity.API.Context.Models;
-using Identity.API.Data;
-using Identity.API.GraphQlQueries;
-using Identity.API.Services;
-using MassTransit;
+﻿using HotChocolate;
+using EMS.Identity_Services.API.Context.Models;
+using EMS.Identity_Services.API.Data;
+using EMS.Identity_Services.API.GraphQlQueries;
+using EMS.Identity_Services.API.Services;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
-using TemplateWebHost.Customization.StartUp;
+using EMS.TemplateWebHost.Customization.StartUp;
 
-namespace Identity.API
+namespace EMS.Identity_Services.API
 {
     public class Startup : BaseStartUp<ApplicationDbContext>
     {

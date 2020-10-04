@@ -1,6 +1,6 @@
 using System;
 
-namespace Permission.API.Context.Model
+namespace EMS.Permission_Services.API.Context.Model
 {
     public class UserAdministratorPermission
     {

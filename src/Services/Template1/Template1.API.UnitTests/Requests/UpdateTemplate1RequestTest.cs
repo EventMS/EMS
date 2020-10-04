@@ -1,8 +1,8 @@
 ﻿using EMS.Shared.Testing.Helpers;
 using NUnit.Framework;
-using Template1.API.Controllers.Request;
+using EMS.Template1_Services.API.Controllers.Request;
 
-namespace Template1.API.UnitTests.Requests
+namespace EMS.Template1_Services.API.UnitTests.Requests
 {
     [TestFixture]
     public class UpdateTemplate1RequestTest

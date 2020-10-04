@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Subscription.API.Context
+namespace EMS.Subscription_Services.API.Context
 {
     public class Club
     {

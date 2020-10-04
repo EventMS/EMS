@@ -1,4 +1,4 @@
-﻿namespace Identity.API.Events
+﻿namespace EMS.Identity_Services.API.Events
 {
 
 }

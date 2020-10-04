@@ -1,4 +1,4 @@
-namespace GraphQL.API
+namespace EMS.GraphQL.API
 {
     public class ContextInRequest
     {

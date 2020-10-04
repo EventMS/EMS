@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Serilog;
-using Subscription.API.Context;
-using TemplateWebHost.Customization;
-using TemplateWebHost.Customization.Settings;
-using TemplateWebHost.Customization.StartUp;
+using EMS.Subscription_Services.API.Context;
+using EMS.TemplateWebHost.Customization;
+using EMS.TemplateWebHost.Customization.Settings;
+using EMS.TemplateWebHost.Customization.StartUp;
 
-namespace Subscription.API
+namespace EMS.Subscription_Services.API
 {
 
     public class ProgramHelper : BaseProgramHelper<Startup>

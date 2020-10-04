@@ -1,29 +1,21 @@
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using System.Transactions;
-using Club.API;
 using EMS.BuildingBlocks.EventLogEF;
-using EMS.BuildingBlocks.EventLogEF.Utilities;
+using EMS.Club_Service_Services.API;
 using EMS.Events;
 using HotChocolate;
 using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Execution;
-using Identity.API.Context.Models;
-using Identity.API.Controllers;
-using Identity.API.Data;
-using Identity.API.Services;
+using EMS.Identity_Services.API.Context.Models;
+using EMS.Identity_Services.API.Controllers;
+using EMS.Identity_Services.API.Data;
+using EMS.Identity_Services.API.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using Serilog;
-using TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.EventService;
 
 namespace EMS.Events
 {
@@ -34,7 +26,7 @@ namespace EMS.Events
     }
 }
 
-namespace Identity.API.GraphQlQueries
+namespace EMS.Identity_Services.API.GraphQlQueries
 {
     public class IdentityMutations
     {

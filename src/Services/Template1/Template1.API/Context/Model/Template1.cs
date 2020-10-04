@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HotChocolate;
 
-namespace Template1.API.Context.Model
+namespace EMS.Template1_Services.API.Context.Model
 {
     public class Template1 : IValidatableObject
     {

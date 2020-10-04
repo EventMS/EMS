@@ -1,9 +1,9 @@
 ﻿using System;
 using EMS.Shared.Testing.Helpers;
 using NUnit.Framework;
-using Subscription.API.GraphQlQueries.Request;
+using EMS.Subscription_Services.API.GraphQlQueries.Request;
 
-namespace Subscription.API.UnitTests.Requests
+namespace EMS.Subscription_Services.API.UnitTests.Requests
 {
     [TestFixture]
     public class CreateSubscriptionRequestTest

@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Retry;
-using TemplateWebHost.Customization.Settings;
+using EMS.TemplateWebHost.Customization.Settings;
 
-namespace Club.API.Context
+namespace EMS.Club_Service.API.Context
 {
     public class ClubContextSeed
     {

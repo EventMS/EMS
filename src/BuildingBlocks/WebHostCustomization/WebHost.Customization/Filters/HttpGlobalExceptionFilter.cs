@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using TemplateWebHost.Customization.ActionResults;
-using TemplateWebHost.Customization.Exceptions;
+using EMS.TemplateWebHost.Customization.ActionResults;
+using EMS.TemplateWebHost.Customization.Exceptions;
 
-namespace TemplateWebHost.Customization.Filters
+namespace EMS.TemplateWebHost.Customization.Filters
 {
     public class HttpGlobalExceptionFilter : IExceptionFilter
     {

@@ -5,11 +5,11 @@ using EMS.Events;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
-using Template1.API.Context;
-using Template1.API.Controllers.Request;
-using TemplateWebHost.Customization.EventService;
+using EMS.Template1_Services.API.Context;
+using EMS.Template1_Services.API.Controllers.Request;
+using EMS.TemplateWebHost.Customization.EventService;
 
-namespace Template1.API.GraphQlQueries
+namespace EMS.Template1_Services.API.GraphQlQueries
 {
     public class Template1Mutations
     {

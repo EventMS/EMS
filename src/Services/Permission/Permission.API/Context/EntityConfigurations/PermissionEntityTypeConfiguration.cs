@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Permission.API.Context.Model;
+using EMS.Permission_Services.API.Context.Model;
 
-namespace Permission.API.Context.EntityConfigurations
+namespace EMS.Permission_Services.API.Context.EntityConfigurations
 {
     class UserPermissionEntityTypeConfiguration
         : IEntityTypeConfiguration<UserPermission>

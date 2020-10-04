@@ -1,4 +1,4 @@
-namespace Identity.API.GraphQlQueries
+namespace EMS.Identity_Services.API.GraphQlQueries
 {
     public class EditUserRequest
     {

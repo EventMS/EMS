@@ -1,10 +1,8 @@
 using System.Linq;
-using HotChocolate.Types;
-using HotChocolate.Types.Relay;
-using Permission.API.Context;
-using Permission.API.Context.Model;
+using EMS.Permission_Services.API.Context;
+using EMS.Permission_Services.API.Context.Model;
 
-namespace Permission.API.GraphQlQueries
+namespace EMS.Permission_Services.API.GraphQlQueries
 {
     public class PermissionQueries
     {

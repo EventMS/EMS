@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Club.API.Context;
+using EMS.Club_Service.API.Context;
 using EMS.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.EventService;
 
-namespace Club.API.Events
+namespace EMS.Club_Service.API.Events
 {
     public class UserIsClubMemberConsumer :
             IConsumer<UserIsClubMemberEvent>

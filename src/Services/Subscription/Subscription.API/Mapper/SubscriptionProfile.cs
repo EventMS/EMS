@@ -1,9 +1,8 @@
 using AutoMapper;
 using EMS.Events;
-using Subscription.API.GraphQlQueries.Request;
-using Subscription.API.IntegrationEvents;
+using EMS.Subscription_Services.API.GraphQlQueries.Request;
 
-namespace Subscription.API.Mapper
+namespace EMS.Subscription_Services.API.Mapper
 {
     public class SubscriptionProfile : Profile
     {

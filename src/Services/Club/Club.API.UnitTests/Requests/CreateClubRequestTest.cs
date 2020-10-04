@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Club.API.Controllers.Request;
-using EMS.Shared.Testing.Helpers;
-using NUnit.Framework;
-
-
-namespace Subscription.API.UnitTests.Requests
+﻿namespace EMS.Subscription_Services.API.UnitTests.Requests
 {
     /*
     [TestFixture]

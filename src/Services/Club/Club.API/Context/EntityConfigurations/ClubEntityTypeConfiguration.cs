@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Linq;
 
-namespace Club.API.Context.EntityConfigurations
+namespace EMS.Club_Service.API.Context.EntityConfigurations
 {
     class ClubEntityTypeConfiguration
         : IEntityTypeConfiguration<Model.Club>

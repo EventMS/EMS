@@ -1,4 +1,4 @@
-namespace TemplateWebHost.Customization.Settings
+namespace EMS.TemplateWebHost.Customization.Settings
 {
     public class BaseSettings
     {

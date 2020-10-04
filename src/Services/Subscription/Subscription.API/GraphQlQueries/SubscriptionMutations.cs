@@ -8,12 +8,11 @@ using HotChocolate;
 using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
-using Subscription.API.Context;
-using Subscription.API.GraphQlQueries.Request;
-using Subscription.API.IntegrationEvents;
-using TemplateWebHost.Customization.EventService;
+using EMS.Subscription_Services.API.Context;
+using EMS.Subscription_Services.API.GraphQlQueries.Request;
+using EMS.TemplateWebHost.Customization.EventService;
 
-namespace Subscription.API.GraphQlQueries
+namespace EMS.Subscription_Services.API.GraphQlQueries
 {
     public class SubscriptionMutations
     {
@@ -30,9 +29,9 @@ namespace Subscription.API.GraphQlQueries
         }
 
         [Authorize(Roles = new[] { "Admin" })]
-        public async Task<Context.ClubSubscription> CreateClubSubscriptionAsync(CreateClubSubscriptionRequest request)
+        public async Task<ClubSubscription> CreateClubSubscriptionAsync(CreateClubSubscriptionRequest request)
         {
-            var item = _mapper.Map<Context.ClubSubscription>(request);
+            var item = _mapper.Map<ClubSubscription>(request);
 
             _context.ClubSubscriptions.Add(item);
 
@@ -45,7 +44,7 @@ namespace Subscription.API.GraphQlQueries
         //This is a bug of the current way of doing it. We CANNOT decode a context that does not indikate ClubId if you have rights. But from the ID
         //The clubId is getAble... 
         [Authorize()]
-        public async Task<Context.ClubSubscription> UpdateClubSubscriptionAsync(Guid id, UpdateClubSubscriptionRequest request)
+        public async Task<ClubSubscription> UpdateClubSubscriptionAsync(Guid id, UpdateClubSubscriptionRequest request)
         {
             var item = await _context.ClubSubscriptions.SingleOrDefaultAsync(ci => ci.SubscriptionId == id);
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace TemplateWebHost.Customization.Exceptions
+namespace EMS.TemplateWebHost.Customization.Exceptions
 {
     /// <summary>
     /// Exception type for app exceptions

@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using TemplateWebHost.Customization.EventService;
-using TemplateWebHost.Customization.Settings;
+using EMS.TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.Settings;
 
 namespace EMS.SharedTesting.Factories
 {

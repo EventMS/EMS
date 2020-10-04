@@ -3,14 +3,12 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EMS.BuildingBlocks.EventLogEF;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.EventService;
 
-namespace TemplateWebHost.Customization.OutboxService
+namespace EMS.TemplateWebHost.Customization.OutboxService
 {
     internal class OutboxProcessingService<T> : IOutboxProcessingService where T:DbContext
     {

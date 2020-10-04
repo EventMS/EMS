@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
-using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Newtonsoft.Json;
 using Serilog;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace GraphQL.API
+namespace EMS.GraphQL.API
 {
 
 

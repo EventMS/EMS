@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EMS.Events;
 using MassTransit;
 using Serilog;
 
-namespace Template1.API.Events
+namespace EMS.Template1_Services.API.Events
 {
     public class Template1CreatedEventConsumer :
             IConsumer<Template1CreatedEvent>

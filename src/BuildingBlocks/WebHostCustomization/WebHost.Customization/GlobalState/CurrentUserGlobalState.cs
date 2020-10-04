@@ -1,6 +1,6 @@
 ﻿using HotChocolate;
 
-namespace Club.API
+namespace EMS.Club_Service_Services.API
 {
     public class CurrentUserGlobalState : GlobalStateAttribute
     {

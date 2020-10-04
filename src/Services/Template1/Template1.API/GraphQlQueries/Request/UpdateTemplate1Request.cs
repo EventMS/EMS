@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace Template1.API.Controllers.Request
+namespace EMS.Template1_Services.API.Controllers.Request
 {
     public class UpdateTemplate1Request
     {

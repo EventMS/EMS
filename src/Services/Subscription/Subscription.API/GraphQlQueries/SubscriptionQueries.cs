@@ -1,9 +1,7 @@
 using System.Linq;
-using HotChocolate.Types;
-using HotChocolate.Types.Relay;
-using Subscription.API.Context;
+using EMS.Subscription_Services.API.Context;
 
-namespace Subscription.API.GraphQlQueries
+namespace EMS.Subscription_Services.API.GraphQlQueries
 {
     public class SubscriptionQueries
     {
@@ -13,8 +11,8 @@ namespace Subscription.API.GraphQlQueries
             _context = context;
         }
 
-        public IQueryable<Context.ClubSubscription> ClubSubscriptions => _context.ClubSubscriptions.AsQueryable();
+        public IQueryable<ClubSubscription> ClubSubscriptions => _context.ClubSubscriptions.AsQueryable();
 
-        public IQueryable<Context.Club> Clubs => _context.Clubs.AsQueryable();
+        public IQueryable<Club> Clubs => _context.Clubs.AsQueryable();
     }
 }

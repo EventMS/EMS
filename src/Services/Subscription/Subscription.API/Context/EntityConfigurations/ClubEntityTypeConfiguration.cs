@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Subscription.API.Context.EntityConfigurations
+namespace EMS.Subscription_Services.API.Context.EntityConfigurations
 {
     class ClubEntityTypeConfiguration
         : IEntityTypeConfiguration<Club>

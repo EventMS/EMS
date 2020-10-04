@@ -1,6 +1,6 @@
-﻿using Identity.API.Context.Models;
+﻿using EMS.Identity_Services.API.Context.Models;
 
-namespace Identity.API.Controllers
+namespace EMS.Identity_Services.API.Controllers
 {
     public class Response
     {

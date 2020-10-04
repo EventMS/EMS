@@ -1,6 +1,6 @@
 using System;
 
-namespace Subscription.API.Context
+namespace EMS.Subscription_Services.API.Context
 {
     public class ClubSubscription
     {

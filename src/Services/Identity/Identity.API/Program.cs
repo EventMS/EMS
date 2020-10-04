@@ -1,10 +1,10 @@
 ﻿using EMS.BuildingBlocks.EventLogEF;
-using Identity.API.Data;
+using EMS.Identity_Services.API.Data;
 using Microsoft.AspNetCore.Hosting;
-using TemplateWebHost.Customization;
-using TemplateWebHost.Customization.StartUp;
+using EMS.TemplateWebHost.Customization;
+using EMS.TemplateWebHost.Customization.StartUp;
 
-namespace Identity.API
+namespace EMS.Identity_Services.API
 {
 
     public class ProgramHelper : BaseProgramHelper<Startup>

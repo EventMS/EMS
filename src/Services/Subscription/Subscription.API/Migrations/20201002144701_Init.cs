@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Subscription.API.Migrations
+namespace EMS.Subscription_Services.API.Migrations
 {
     public partial class Init : Migration
     {

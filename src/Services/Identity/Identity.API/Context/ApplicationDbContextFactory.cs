@@ -1,10 +1,10 @@
 ﻿using System.IO;
-using Identity.API.Data;
+using EMS.Identity_Services.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Identity.API.Context
+namespace EMS.Identity_Services.API.Context
 {
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {

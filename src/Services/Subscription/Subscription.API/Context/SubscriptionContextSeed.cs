@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 using Polly.Retry;
-using TemplateWebHost.Customization.Settings;
+using EMS.TemplateWebHost.Customization.Settings;
 
-namespace Subscription.API.Context
+namespace EMS.Subscription_Services.API.Context
 {
     public class SubscriptionContextSeed
     {

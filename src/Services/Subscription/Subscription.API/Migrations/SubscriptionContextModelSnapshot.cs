@@ -3,10 +3,9 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Subscription.API.Context;
+using EMS.Subscription_Services.API.Context;
 
-namespace Subscription.API.Migrations
+namespace EMS.Subscription_Services.API.Migrations
 {
     [DbContext(typeof(SubscriptionContext))]
     partial class SubscriptionContextModelSnapshot : ModelSnapshot

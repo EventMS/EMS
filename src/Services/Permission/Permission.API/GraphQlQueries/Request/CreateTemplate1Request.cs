@@ -1,4 +1,4 @@
-namespace Permission.API.Controllers.Request
+namespace EMS.Permission_Services.API.Controllers.Request
 {
     public class CreatePermissionRequest
     {

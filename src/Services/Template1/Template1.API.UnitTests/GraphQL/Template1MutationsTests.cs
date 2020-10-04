@@ -1,24 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using EMS.BuildingBlocks.EventLogEF;
-using EMS.BuildingBlocks.EventLogEF.Services;
 using EMS.Events;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using EMS.SharedTesting.Helper;
 using NSubstitute;
 using NUnit.Framework;
-using SharedTesting.Helper;
-using Template1.API.Context;
-using Template1.API.Controllers.Request;
-using Template1.API.GraphQlQueries;
-using Template1.API.Mapper;
-using TemplateWebHost.Customization.Settings;
 
-namespace Template1.API.UnitTests.GraphQL
+using EMS.Template1_Services.API.Context;
+using EMS.Template1_Services.API.Controllers.Request;
+using EMS.Template1_Services.API.GraphQlQueries;
+using EMS.Template1_Services.API.Mapper;
+
+namespace EMS.Template1_Services.API.UnitTests.GraphQL
 {
     [TestFixture]
     class Template1MutationsTests : BaseMutationsSetupTests<Template1Context>

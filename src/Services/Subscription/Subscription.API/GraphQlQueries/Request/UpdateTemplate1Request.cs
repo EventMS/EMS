@@ -1,7 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Subscription.API.GraphQlQueries.Request
+namespace EMS.Subscription_Services.API.GraphQlQueries.Request
 {
     public class UpdateClubSubscriptionRequest
     {

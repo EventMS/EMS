@@ -4,9 +4,9 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.EventService;
 
-namespace SharedTesting.Helper
+namespace EMS.SharedTesting.Helper
 {
     [TestFixture]
     public class BaseMutationsSetupTests<TContext> where  TContext:DbContext

@@ -1,8 +1,7 @@
-﻿using EMS.Shared.Testing.Helpers;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 
-namespace Subscription.API.UnitTests.Requests
+namespace EMS.Subscription_Services.API.UnitTests.Requests
 {
     [TestFixture]
     public class UpdateClubRequestTest

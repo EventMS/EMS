@@ -2,10 +2,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Serilog;
 
-namespace GraphQL.API
+namespace EMS.GraphQL.API
 {
     public class PermissionService
     {

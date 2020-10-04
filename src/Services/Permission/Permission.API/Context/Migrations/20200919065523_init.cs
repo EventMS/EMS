@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Permission.API.Migrations
+namespace EMS.Permission_Services.API.Migrations
 {
     public partial class init : Migration
     {

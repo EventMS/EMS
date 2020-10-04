@@ -1,17 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using TemplateWebHost.Customization.EventService;
 using ILogger = Serilog.ILogger;
 
-namespace TemplateWebHost.Customization.StartUp
+namespace EMS.TemplateWebHost.Customization.StartUp
 {
 
     public class BaseProgramHelper<T> where T : class
@@ -19,7 +16,7 @@ namespace TemplateWebHost.Customization.StartUp
         private readonly String _appName;
         public BaseProgramHelper(string appName)
         {
-            this._appName = appName;
+            _appName = appName;
         }
 
         public virtual void MigrateDbContext(IWebHost host)

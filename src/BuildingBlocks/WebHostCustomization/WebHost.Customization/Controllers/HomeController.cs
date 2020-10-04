@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Identity.API.Controllers
+namespace EMS.Identity_Services.API.Controllers
 {
     public class HomeController : Controller
     {

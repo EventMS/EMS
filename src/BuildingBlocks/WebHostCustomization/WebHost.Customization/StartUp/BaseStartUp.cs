@@ -2,15 +2,14 @@
 using System;
 using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Club.API;
 using EMS.BuildingBlocks.EventLogEF;
 using EMS.BuildingBlocks.EventLogEF.Services;
 using EMS.BuildingBlocks.IntegrationEventLogEF.Services;
+using EMS.Club_Service_Services.API;
 using HealthChecks.UI.Client;
 using HotChocolate;
 using HotChocolate.AspNetCore;
@@ -18,25 +17,22 @@ using HotChocolate.AspNetCore.Interceptors;
 using MassTransit;
 using MassTransit.Definition;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
-using MassTransit.Transactions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using TemplateWebHost.Customization.Filters;
-using TemplateWebHost.Customization.EventService;
-using TemplateWebHost.Customization.OutboxService;
-using TemplateWebHost.Customization.Settings;
+using EMS.TemplateWebHost.Customization.Filters;
+using EMS.TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.OutboxService;
+using EMS.TemplateWebHost.Customization.Settings;
 
-namespace TemplateWebHost.Customization.StartUp
+namespace EMS.TemplateWebHost.Customization.StartUp
 {
     public abstract class BaseStartUp<T> where T:DbContext
     {

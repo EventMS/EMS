@@ -1,20 +1,19 @@
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using EMS.Club_Service.API.Context;
+using EMS.Club_Service.API.Context.Model;
+using EMS.Club_Service.API.Controllers.Request;
+using EMS.Club_Service_Services.API;
 using EMS.Events;
+using EMS.TemplateWebHost.Customization.EventService;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
-using Club.API.Context;
-using Club.API.Controllers.Request;
-using HotChocolate.AspNetCore.Authorization;
-using Club.API;
 using Serilog;
-using TemplateWebHost.Customization.EventService;
-using System.Collections.Generic;
-using Club.API.Context.Model;
 
-namespace Club.API.GraphQlQueries
+namespace EMS.Club_Service.API.GraphQlQueries
 {
     public class ClubMutations
     {
@@ -31,7 +30,7 @@ namespace Club.API.GraphQlQueries
         }
 
         [Authorize(Roles = new[] { "Admin" })]
-        public async Task<Context.Model.Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
+        public async Task<Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
         {
             var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
 
@@ -54,9 +53,9 @@ namespace Club.API.GraphQlQueries
         }
 
         [Authorize]
-        public async Task<Context.Model.Club> CreateClubAsync(CreateClubRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
+        public async Task<Club> CreateClubAsync(CreateClubRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {
-            var item = _mapper.Map<Context.Model.Club>(request);
+            var item = _mapper.Map<Club>(request);
             item.AdminId = currentUser.UserId;
             _context.Clubs.Add(item);
 
@@ -70,7 +69,7 @@ namespace Club.API.GraphQlQueries
         }
 
         [Authorize(Roles = new[] { "Admin" })]
-        public async Task<Context.Model.Club> DeleteClubAsync(Guid clubId)
+        public async Task<Club> DeleteClubAsync(Guid clubId)
         {
             var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
 
@@ -92,7 +91,7 @@ namespace Club.API.GraphQlQueries
         }
 
         [Authorize(Roles = new[] { "Admin" })]
-        public async Task<Context.Model.Club> AddInstructorAsync(Guid clubId, Guid instructorId)
+        public async Task<Club> AddInstructorAsync(Guid clubId, Guid instructorId)
         {
             var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
             if (club == null)
@@ -115,7 +114,7 @@ namespace Club.API.GraphQlQueries
         }
 
         [Authorize(Roles = new[] { "Admin" })]
-        public async Task<Context.Model.Club> RemoveInstructorAsync(Guid clubId, Guid instructorId)
+        public async Task<Club> RemoveInstructorAsync(Guid clubId, Guid instructorId)
         {
             var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
             if (club == null)

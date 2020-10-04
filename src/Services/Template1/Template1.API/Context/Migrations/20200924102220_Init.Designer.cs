@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Template1.API.Context;
+using EMS.Template1_Services.API.Context;
 
-namespace Template1.API.Migrations
+namespace EMS.Template1_Services.API.Migrations
 {
     [DbContext(typeof(Template1Context))]
     [Migration("20200924102220_Init")]

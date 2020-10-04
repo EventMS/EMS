@@ -3,14 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Polly;
 using System.Data.SqlClient;
 
-namespace TemplateWebHost.Customization
+namespace EMS.TemplateWebHost.Customization
 {
     public static class HostExtensions
     {

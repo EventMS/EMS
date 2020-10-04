@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace TemplateWebHost.Customization.Attributes
+namespace EMS.TemplateWebHost.Customization.Attributes
 {
     //https://andrewlock.net/creating-an-empty-guid-validation-attribute/
     [AttributeUsage(

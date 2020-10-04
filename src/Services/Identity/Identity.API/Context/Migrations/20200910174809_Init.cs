@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Identity.API.Migrations
+namespace EMS.Identity_Services.API.Migrations
 {
     public partial class Init : Migration
     {

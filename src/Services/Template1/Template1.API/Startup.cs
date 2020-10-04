@@ -1,15 +1,14 @@
 using HotChocolate;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Template1.API.Context;
-using Template1.API.GraphQlQueries;
-using Template1.API.Events;
-using TemplateWebHost.Customization.StartUp;
+using EMS.Template1_Services.API.Context;
+using EMS.Template1_Services.API.GraphQlQueries;
+using EMS.Template1_Services.API.Events;
+using EMS.TemplateWebHost.Customization.StartUp;
 
 
 
-namespace Template1.API
+namespace EMS.Template1_Services.API
 {
     public class Startup : BaseStartUp<Template1Context>
     {

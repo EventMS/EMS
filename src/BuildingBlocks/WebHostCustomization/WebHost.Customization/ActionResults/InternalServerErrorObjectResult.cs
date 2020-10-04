@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TemplateWebHost.Customization.ActionResults
+namespace EMS.TemplateWebHost.Customization.ActionResults
 {
     public class InternalServerErrorObjectResult : ObjectResult
     {

@@ -3,13 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Serilog;
-using Club.API.Context;
-using TemplateWebHost.Customization;
-using TemplateWebHost.Customization.Settings;
-using TemplateWebHost.Customization.StartUp;
+using EMS.Club_Service.API.Context;
+using EMS.TemplateWebHost.Customization;
+using EMS.TemplateWebHost.Customization.Settings;
+using EMS.TemplateWebHost.Customization.StartUp;
 
-namespace Club.API
+namespace EMS.Club_Service.API
 {
 
     public class ProgramHelper : BaseProgramHelper<Startup>

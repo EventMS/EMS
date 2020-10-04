@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Club.API.Context;
-using Club.API.Events;
+using EMS.Club_Service.API.Context;
+using EMS.Club_Service.API.Context.Model;
+using EMS.Club_Service.API.Events;
 using EMS.Events;
 using EMS.SharedTesting.Factories;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Subscription.API.UnitTests.Consumers
+namespace EMS.Subscription_Services.API.UnitTests.Consumers
 {
     [TestFixture]
     class UserIsClubMemberConsumerTest : BaseConsumerTest<UserIsClubMemberConsumer, ClubContext>
@@ -45,7 +46,7 @@ namespace Subscription.API.UnitTests.Consumers
 
             using (var context = _factory.CreateContext())
             {
-                context.Clubs.Add(new Club.API.Context.Model.Club()
+                context.Clubs.Add(new Club()
                 {
                     Name = "Request",
                     AccountNumber = "12345678",
@@ -84,7 +85,7 @@ namespace Subscription.API.UnitTests.Consumers
 
             using (var context = _factory.CreateContext())
             {
-                context.Clubs.Add(new Club.API.Context.Model.Club()
+                context.Clubs.Add(new Club()
                 {
                     Name = "Request",
                     AccountNumber = "12345678",

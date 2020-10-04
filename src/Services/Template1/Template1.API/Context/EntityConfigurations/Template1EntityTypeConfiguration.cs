@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Template1.API.Context.EntityConfigurations
+namespace EMS.Template1_Services.API.Context.EntityConfigurations
 {
     class Template1EntityTypeConfiguration
         : IEntityTypeConfiguration<Model.Template1>

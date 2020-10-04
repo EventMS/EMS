@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Permission.API.Context;
+using EMS.Permission_Services.API.Context;
 
-namespace Permission.API.Migrations
+namespace EMS.Permission_Services.API.Migrations
 {
     [DbContext(typeof(PermissionContext))]
     [Migration("20200919065523_init")]

@@ -5,10 +5,9 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using System;
 using System.Data.SqlClient;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Hosting;
 
-namespace TemplateWebHost.Customization
+namespace EMS.TemplateWebHost.Customization
 {
     public static class IWebHostExtensions
     {

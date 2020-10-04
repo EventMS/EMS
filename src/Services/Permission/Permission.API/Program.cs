@@ -1,15 +1,10 @@
 using EMS.BuildingBlocks.EventLogEF;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Serilog;
-using Permission.API.Context;
-using TemplateWebHost.Customization;
-using TemplateWebHost.Customization.Settings;
-using TemplateWebHost.Customization.StartUp;
+using EMS.Permission_Services.API.Context;
+using EMS.TemplateWebHost.Customization;
+using EMS.TemplateWebHost.Customization.StartUp;
 
-namespace Permission.API
+namespace EMS.Permission_Services.API
 {
 
     public class ProgramHelper : BaseProgramHelper<Startup>

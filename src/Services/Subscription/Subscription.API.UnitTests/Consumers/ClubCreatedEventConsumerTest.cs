@@ -1,24 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using EMS.Events;
-using HotChocolate.Execution;
-using MassTransit;
-using MassTransit.Testing;
-using Microsoft.EntityFrameworkCore;
-using NSubstitute;
 using NUnit.Framework;
-using SharedTesting.Helper;
-using Subscription.API.Context;
-using Subscription.API.GraphQlQueries;
-using Subscription.API.GraphQlQueries.Request;
-using Subscription.API.IntegrationEvents;
-using Subscription.API.Mapper;
-using Club = Subscription.API.Context.Club;
+using EMS.Subscription_Services.API.Context;
+using EMS.Subscription_Services.API.IntegrationEvents;
 
-namespace Subscription.API.UnitTests.Consumers
+namespace EMS.Subscription_Services.API.UnitTests.Consumers
 {
     [TestFixture]
     class ClubCreatedEventConsumerTest : BaseConsumerTest<ClubCreatedEventConsumer, SubscriptionContext>

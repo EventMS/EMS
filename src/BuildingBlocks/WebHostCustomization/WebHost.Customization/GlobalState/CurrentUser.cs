@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Club.API
+namespace EMS.Club_Service_Services.API
 {
     public class CurrentUser
     {

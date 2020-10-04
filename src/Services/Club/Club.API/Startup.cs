@@ -1,28 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
-using System.Reflection;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
-using EMS.Events;
 using HotChocolate;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Club.API.Context;
-using Club.API.Controllers.Request;
-using Club.API.GraphQlQueries;
-using Club.API.Events;
-using HotChocolate.AspNetCore;
-using HotChocolate.AspNetCore.Interceptors;
-using Identity.API;
-using TemplateWebHost.Customization.StartUp;
-using Club.API.Context.Model;
-using TemplateWebHost.Customization.Filters;
+using EMS.Club_Service.API.Context;
+using EMS.Club_Service.API.GraphQlQueries;
+using EMS.Club_Service.API.Events;
+using EMS.TemplateWebHost.Customization.StartUp;
 
-namespace Club.API
+namespace EMS.Club_Service.API
 {
     public class Startup : BaseStartUp<ClubContext>
     {

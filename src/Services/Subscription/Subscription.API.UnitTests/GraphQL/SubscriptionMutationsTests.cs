@@ -1,21 +1,18 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Events;
+using EMS.SharedTesting.Helper;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
-using SharedTesting.Helper;
-using Subscription.API.Context;
-using Subscription.API.GraphQlQueries;
-using Subscription.API.GraphQlQueries.Request;
-using Subscription.API.Mapper;
-using Club = Subscription.API.Context.Club;
+using EMS.Subscription_Services.API.Context;
+using EMS.Subscription_Services.API.GraphQlQueries;
+using EMS.Subscription_Services.API.GraphQlQueries.Request;
+using EMS.Subscription_Services.API.Mapper;
 
-namespace Subscription.API.UnitTests.GraphQL
+namespace EMS.Subscription_Services.API.UnitTests.GraphQL
 {
     [TestFixture]
     class SubscriptionMutationsTests : BaseMutationsSetupTests<SubscriptionContext>
@@ -49,7 +46,7 @@ namespace Subscription.API.UnitTests.GraphQL
             var clubId = Guid.NewGuid();
             using (var context = _factory.CreateContext())
             {
-                context.Clubs.Add(new Context.Club()
+                context.Clubs.Add(new Club()
                 {
                     ClubId = clubId
                 });
@@ -83,7 +80,7 @@ namespace Subscription.API.UnitTests.GraphQL
             var clubId = Guid.NewGuid();
             using (var context = _factory.CreateContext())
             {
-                context.Clubs.Add(new Context.Club()
+                context.Clubs.Add(new Club()
                 {
                     ClubId = clubId
                 });
@@ -136,7 +133,7 @@ namespace Subscription.API.UnitTests.GraphQL
         public async Task UpdateSubscription_SubscriptionDoesExist_SubscriptionAreUpdated()
         {
             //Arrange
-            var club = new Context.Club()
+            var club = new Club()
             {
                 ClubId = Guid.NewGuid()
             };

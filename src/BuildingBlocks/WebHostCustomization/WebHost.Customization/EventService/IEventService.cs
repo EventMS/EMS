@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using EMS.BuildingBlocks.EventLogEF;
 
-namespace TemplateWebHost.Customization.EventService
+namespace EMS.TemplateWebHost.Customization.EventService
 {
     public interface IEventService
     {

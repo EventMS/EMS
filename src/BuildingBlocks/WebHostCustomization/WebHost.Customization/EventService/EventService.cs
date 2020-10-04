@@ -8,9 +8,9 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using TemplateWebHost.Customization.Settings;
+using EMS.TemplateWebHost.Customization.Settings;
 
-namespace TemplateWebHost.Customization.EventService
+namespace EMS.TemplateWebHost.Customization.EventService
 {
     public class EventService<TContext> : IEventService where TContext : DbContext
     {

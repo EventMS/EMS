@@ -4,10 +4,9 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Permission.API.Context.Model;
-using Serilog;
+using EMS.Permission_Services.API.Context.Model;
 
-namespace Permission.API.Services
+namespace EMS.Permission_Services.API.Services
 {
     public class JwtService
     {

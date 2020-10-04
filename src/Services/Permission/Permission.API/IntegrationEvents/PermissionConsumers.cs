@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using EMS.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Permission.API.Context;
-using Permission.API.Context.Model;
+using EMS.Permission_Services.API.Context;
+using EMS.Permission_Services.API.Context.Model;
 using Serilog;
 
-namespace Permission.API.Events
+namespace EMS.Permission_Services.API.Events
 {
     public class UserCreatedEventConsumer :
             IConsumer<UserCreatedEvent>

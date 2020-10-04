@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
-using System.Reflection;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.Types;
@@ -17,18 +15,13 @@ using HotChocolate.AspNetCore.Subscriptions;
 using HotChocolate.Execution;
 using HotChocolate.Language;
 using HotChocolate.Stitching;
-using HotChocolate.Stitching.Delegation;
 using HotChocolate.Stitching.Merge;
 using HotChocolate.Stitching.Merge.Rewriters;
-using Newtonsoft.Json;
 using Serilog;
-using TemplateWebHost.Customization;
-using TemplateWebHost.Customization.Filters;
-using TemplateWebHost.Customization.StartUp;
+using EMS.TemplateWebHost.Customization.Filters;
 using DirectiveLocation = HotChocolate.Types.DirectiveLocation;
-using Path = System.IO.Path;
 
-namespace GraphQL.API
+namespace EMS.GraphQL.API
 {
 
     public class RenameDirectiveType : DirectiveType

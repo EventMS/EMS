@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using TemplateWebHost.Customization.Attributes;
+using EMS.TemplateWebHost.Customization.Attributes;
 
-namespace Subscription.API.GraphQlQueries.Request
+namespace EMS.Subscription_Services.API.GraphQlQueries.Request
 {
     public class CreateClubSubscriptionRequest
     {

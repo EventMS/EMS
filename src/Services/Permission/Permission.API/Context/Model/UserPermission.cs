@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HotChocolate;
 
-namespace Permission.API.Context.Model
+namespace EMS.Permission_Services.API.Context.Model
 {
     public class UserPermission : IValidatableObject
     {

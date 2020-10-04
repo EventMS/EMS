@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Club.API.Controllers.Request;
+﻿using AutoMapper;
+using EMS.Club_Service.API.Controllers.Request;
 using EMS.Events;
 
-namespace Club.API.Mapper
+namespace EMS.Club_Service.API.Mapper
 {
     public class ClubProfile : Profile
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Club.API.Migrations
+namespace EMS.Club_Service.API.Migrations
 {
     public partial class Init : Migration
     {

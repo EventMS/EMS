@@ -1,22 +1,16 @@
-using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using EMS.Events;
 using HotChocolate;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Permission.API.Context;
-using Permission.API.GraphQlQueries;
-using Permission.API.Events;
-using Permission.API.Services;
-using TemplateWebHost.Customization.StartUp;
+using EMS.Permission_Services.API.Context;
+using EMS.Permission_Services.API.GraphQlQueries;
+using EMS.Permission_Services.API.Events;
+using EMS.Permission_Services.API.Services;
+using EMS.TemplateWebHost.Customization.StartUp;
 
 
 
-namespace Permission.API
+namespace EMS.Permission_Services.API
 {
     public class Startup : BaseStartUp<PermissionContext>
     {
