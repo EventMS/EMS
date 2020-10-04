@@ -26,7 +26,7 @@ namespace EMS.SharedTesting.Factories
                 .UseSqlite(_connection).Options;
         }
 
-        public TContext CreateContext()
+        public TContext CreateContext(bool shouldCreateEventLog = false)
         {
             if (_connection == null)
             {
@@ -38,13 +38,21 @@ namespace EMS.SharedTesting.Factories
                     context.Database.EnsureCreated();
                 }
 
-                using (var context = new EventLogContext(CreateOptions<EventLogContext>()))
+                if (shouldCreateEventLog)
                 {
-                    context.Database.Migrate();
+                    CreateEventLogContext();
                 }
             }
 
             return _TContextCreater(CreateOptions<TContext>());
+        }
+
+        private void CreateEventLogContext()
+        {
+            using (var context = new EventLogContext(CreateOptions<EventLogContext>()))
+            {
+                context.Database.Migrate();
+            }
         }
 
         public void Dispose()

@@ -20,7 +20,7 @@ namespace SharedTesting.Helper
         public void SetUp()
         {
             _factory = new InMemorySqlLiteContextFactory<TContext>(options => Activator.CreateInstance(typeof(TContext), options) as TContext);
-            _context = _factory.CreateContext();
+            _context = _factory.CreateContext(true);
             _publish = Substitute.For<IPublishEndpoint>();
             _eventService = EventServiceFactory.CreateEventService(_context, _publish);
         }
