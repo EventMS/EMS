@@ -26,5 +26,10 @@ namespace EMS.SharedTesting.Factories
                 wrapper,
                 publishEndpoint);
         }
+
+        public static IEventService CreateEventService<TContext>(TContext context) where TContext : DbContext
+        {
+            return CreateEventService(context, Substitute.For<IPublishEndpoint>());
+        }
     }
 }

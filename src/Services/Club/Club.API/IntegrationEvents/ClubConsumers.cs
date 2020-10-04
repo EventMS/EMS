@@ -34,6 +34,11 @@ namespace Club.API.Events
             {
                 club.InstructorIds = new HashSet<Guid>();
             }
+
+            if (club.InstructorIds.Contains(context.Message.UserId))
+            {
+                return; 
+            }
             club.InstructorIds.Add(context.Message.UserId);
             _context.Clubs.Update(club);
             var @event = new InstructorAddedEvent()
