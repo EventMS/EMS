@@ -31,7 +31,7 @@ namespace Club.API.GraphQlQueries
         }
 
         [Authorize(Roles = new[] { "Admin" })]
-        public async Task<Context.Model.Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
+        public async Task<Context.Model.Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
         {
             var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
 
@@ -43,10 +43,7 @@ namespace Club.API.GraphQlQueries
                         .SetCode("ID_UNKNOWN")
                         .Build());
             }
-
-            item = _mapper.Map<Context.Model.Club>(request);
-            item.ClubId = clubId;
-            item.AdminId = currentUser.UserId;
+            _mapper.Map(request, item);
             _context.Clubs.Update(item);
 
             var @event = _mapper.Map<ClubUpdatedEvent>(item);

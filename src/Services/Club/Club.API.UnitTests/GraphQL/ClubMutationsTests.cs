@@ -51,7 +51,7 @@ namespace Subscription.API.UnitTests.GraphQL
         {
             return new CreateClubRequest()
             {
-                Name = "Request",
+                Name = "Create",
                 AccountNumber = "12345678",
                 Address = "Adresse",
                 Description = "Beskrivelse",
@@ -69,12 +69,12 @@ namespace Subscription.API.UnitTests.GraphQL
         {
             return new UpdateClubRequest()
             {
-                Name = "Update2",
-                AccountNumber = "12345678",
-                Address = "Adresse",
-                Description = "Beskrivelse",
-                PhoneNumber = "12345678",
-                RegistrationNumber = "1234",
+                Name = "Update",
+                AccountNumber = "87654321",
+                Address = "Adresse Updated",
+                Description = "Beskrivelse Updated",
+                PhoneNumber = "87654321",
+                RegistrationNumber = "4321",
             };
         }
 
@@ -141,6 +141,7 @@ namespace Subscription.API.UnitTests.GraphQL
         {
             var request = UpdateClubRequest();
             var clubCreated = _mapper.Map<Club.API.Context.Model.Club>(CreateClubRequest());
+            clubCreated.AdminId = _currentUser.UserId;
             using (var context = _factory.CreateContext())
             {
                 
@@ -149,11 +150,18 @@ namespace Subscription.API.UnitTests.GraphQL
             }
 
 
-            await _mutations.UpdateClubAsync(clubCreated.ClubId, request, _currentUser);
+            await _mutations.UpdateClubAsync(clubCreated.ClubId, request);
             using (var context = _factory.CreateContext())
             {
-                var club = context.Clubs.FirstOrDefault(club => club.Name == request.Name);
+                var club = context.Clubs.Find(clubCreated.ClubId);
                 Assert.That(club, Is.Not.Null);
+                Assert.That(club.Name, Is.EqualTo(request.Name));
+                Assert.That(club.PhoneNumber, Is.EqualTo(request.PhoneNumber));
+                Assert.That(club.Address, Is.EqualTo(request.Address));
+                Assert.That(club.Description, Is.EqualTo(request.Description));
+                Assert.That(club.RegistrationNumber, Is.EqualTo(request.RegistrationNumber));
+                Assert.That(club.AccountNumber, Is.EqualTo(request.AccountNumber));
+                Assert.That(club.AdminId, Is.EqualTo(_currentUser.UserId));
                 Assert.That(context.Clubs.Count(), Is.EqualTo(1));
             }
 
@@ -167,7 +175,7 @@ namespace Subscription.API.UnitTests.GraphQL
             var request = UpdateClubRequest();
 
             Assert.ThrowsAsync<QueryException>(async () =>
-                await _mutations.UpdateClubAsync(Guid.NewGuid(), request, _currentUser));
+                await _mutations.UpdateClubAsync(Guid.NewGuid(), request));
             await _publish.Received(0).Publish(Arg.Any<ClubUpdatedEvent>());
         }
         
