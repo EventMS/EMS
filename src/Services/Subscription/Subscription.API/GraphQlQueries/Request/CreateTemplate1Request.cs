@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using TemplateWebHost.Customization.Attributes;
 
 namespace Subscription.API.GraphQlQueries.Request
 {
@@ -7,10 +9,13 @@ namespace Subscription.API.GraphQlQueries.Request
         [Required]
         [MaxLength(25)]
         public string Name { get; set; }
+
         [Required]
         [Range(0,1000000)]
         public int Price { get; set; }
+
         [Required]
-        public string ClubId { get; set; }
+        [NotEmpty]
+        public Guid ClubId { get; set; }
     }
 }
