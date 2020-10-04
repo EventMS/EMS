@@ -77,6 +77,32 @@ namespace Subscription.API.UnitTests.GraphQL
         }
 
         [Test]
+        public async Task CreateSubscription_NameIsReserved_DbFails()
+        {
+            //Arrange
+            var clubId = Guid.NewGuid();
+            using (var context = _factory.CreateContext())
+            {
+                context.Clubs.Add(new Context.Club()
+                {
+                    ClubId = clubId
+                });
+                context.SaveChanges();
+            }
+
+            //Act
+            var request = new CreateClubSubscriptionRequest()
+            {
+                Name = "Supership++",
+                Price = 50,
+                ClubId = clubId
+            };
+            await _mutations.CreateClubSubscriptionAsync(request);
+            Assert.ThrowsAsync<DbUpdateException>(async () =>
+                await _mutations.CreateClubSubscriptionAsync(request));
+        }
+
+        [Test]
         public async Task CreateSubscription_ClubDoesNotExist_DatabaseFails()
         {
             var request = new CreateClubSubscriptionRequest()
