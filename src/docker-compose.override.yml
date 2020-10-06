@@ -47,7 +47,7 @@ services:
       - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/graphql-api
-      - services=template1-api,identity-api,club-api,subscription-api
+      - services=template1-api,identity-api,club-api,subscription-api,clubmember-api
     ports:
       - "5102:80"
 
@@ -96,9 +96,21 @@ services:
       - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
       - PORT=80
-      - PATH_BASE=/permission-api
+      - PATH_BASE=/subscription-api
     ports:
       - "5107:80"
+
+  clubmember-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.ClubMemberDb;User Id=sa;Password=Pass@word
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
+      - EventBusConnection=rabbitmq
+      - PORT=80
+      - PATH_BASE=/clubmember-api
+    ports:
+      - "5108:80"
 
 volumes:
   ems-sqldata:
