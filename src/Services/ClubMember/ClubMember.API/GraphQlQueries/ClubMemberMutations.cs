@@ -62,7 +62,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
             return item;
         }
 
-        public async Task<Context.Model.ClubMember> DeleteClubMemberAsync(Guid userId, Guid clubId)
+        public async Task<ClubMember> DeleteClubMemberAsync(Guid userId, Guid clubId)
         {
             var item = await _context.ClubMembers.SingleOrDefaultAsync(ci => ci.UserId == userId && ci.ClubId == clubId);
 

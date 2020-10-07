@@ -5,19 +5,20 @@ using EMS.Events;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
-using EMS.Template1_Services.API.Context;
-using EMS.Template1_Services.API.Controllers.Request;
+using EMS.Room_Services.API.Context;
+using EMS.Room_Services.API.Context.Model;
+using EMS.Room_Services.API.Controllers.Request;
 using EMS.TemplateWebHost.Customization.EventService;
-using EMS.Template1_Services.API.Context.Model;
-namespace EMS.Template1_Services.API.GraphQlQueries
+
+namespace EMS.Room_Services.API.GraphQlQueries
 {
-    public class Template1Mutations
+    public class RoomMutations
     {
-        private readonly Template1Context _context;
+        private readonly RoomContext _context;
         private readonly IMapper _mapper;
         private readonly IEventService _eventService;
 
-        public Template1Mutations(Template1Context context, IEventService template1EventService, IMapper mapper)
+        public RoomMutations(RoomContext context, IEventService template1EventService, IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
@@ -25,9 +26,9 @@ namespace EMS.Template1_Services.API.GraphQlQueries
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        public async Task<Template1> UpdateTemplate1Async(Guid id, UpdateTemplate1Request request)
+        public async Task<Room> UpdateRoomAsync(Guid id, UpdateRoomRequest request)
         {
-            var item = await _context.Template1s.SingleOrDefaultAsync(ci => ci.Template1Id == id);
+            var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
 
             if (item == null)
             {
@@ -38,11 +39,10 @@ namespace EMS.Template1_Services.API.GraphQlQueries
                         .Build());
             }
 
-            item = _mapper.Map<Template1>(request);
-            item.Template1Id = id;
-            _context.Template1s.Update(item);
+            _mapper.Map(request, item);
+            _context.Rooms.Update(item);
 
-            var @event = _mapper.Map<Template1UpdatedEvent>(item);
+            var @event = _mapper.Map<RoomUpdatedEvent>(item);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
 
@@ -50,22 +50,22 @@ namespace EMS.Template1_Services.API.GraphQlQueries
         }
 
 
-        public async Task<Template1> CreateTemplate1Async(CreateTemplate1Request request)
+        public async Task<Room> CreateRoomAsync(CreateRoomRequest request)
         {
-            var item = _mapper.Map<Template1>(request);
+            var item = _mapper.Map<Room>(request);
 
-            _context.Template1s.Add(item);
+            _context.Rooms.Add(item);
 
-            var @event = _mapper.Map<Template1CreatedEvent>(item);
+            var @event = _mapper.Map<RoomCreatedEvent>(item);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
 
             return item;
         }
 
-        public async Task<Template1> DeleteTemplate1Async(Guid id)
+        public async Task<Room> DeleteRoomAsync(Guid id)
         {
-            var item = await _context.Template1s.SingleOrDefaultAsync(ci => ci.Template1Id == id);
+            var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
 
             if (item == null)
             {
@@ -76,9 +76,9 @@ namespace EMS.Template1_Services.API.GraphQlQueries
                         .Build());
             }
 
-            _context.Template1s.Remove(item);
+            _context.Rooms.Remove(item);
 
-            var @event = _mapper.Map<Template1DeletedEvent>(item);
+            var @event = _mapper.Map<RoomDeletedEvent>(item);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
             return item;

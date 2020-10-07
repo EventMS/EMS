@@ -1,5 +1,6 @@
 using System.Linq;
 using EMS.Template1_Services.API.Context;
+using EMS.Template1_Services.API.Context.Model;
 
 namespace EMS.Template1_Services.API.GraphQlQueries
 {
@@ -11,6 +12,6 @@ namespace EMS.Template1_Services.API.GraphQlQueries
             _context = context;
         }
 
-        public IQueryable<Context.Model.Template1> Template1s => _context.Template1s.AsQueryable();
+        public IQueryable<Template1> Template1s => _context.Template1s.AsQueryable();
     }
 }

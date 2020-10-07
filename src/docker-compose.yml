@@ -69,6 +69,16 @@ services:
       - identity-api
       - rabbitmq
 
+  room-api:
+    image: ${REGISTRY:-eventms}/room.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Room/Room.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
   graphql-api:
     image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
@@ -81,3 +91,4 @@ services:
       - permission-api
       - subscription-api
       - clubmember-api
+      - room-api

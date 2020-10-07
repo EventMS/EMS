@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
 using EMS.BuildingBlocks.EventLogEF;
@@ -71,6 +72,23 @@ namespace EMS.TemplateWebHost.Customization.EventService
             await PublishEventAsync(evt);
         }
 
+        public async Task SaveEventAndDbContextChangesAsync(IEnumerable<Event> events)
+        {
+            _logger.LogInformation("----- EventService - Saving changes and multiple events: {EventId}");
+
+            //Use of an EF Core resiliency strategy when using multiple DbContexts within an explicit BeginTransaction():
+            //See: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency            
+            await ResilientTransaction.New(_context).ExecuteAsync(async () =>
+            {
+                // Achieving atomicity between original database operation and the EventLog thanks to a local transaction
+                await _context.SaveChangesAsync();
+                foreach (var @event in events)
+                {
+                    await _eventLogService.SaveEventAsync(@event, _context.Database.CurrentTransaction);
+                }
+            });
+        }
+
         public async Task SaveEventAndDbContextChangesAsync(Event evt, Func<Task> action = null)
         {
             _logger.LogInformation("----- EventService - Saving changes and event: {EventId}", evt.Id);
@@ -88,7 +106,5 @@ namespace EMS.TemplateWebHost.Customization.EventService
                 await _eventLogService.SaveEventAsync(evt, _context.Database.CurrentTransaction);
             });
         }
-
-
     }
 }
