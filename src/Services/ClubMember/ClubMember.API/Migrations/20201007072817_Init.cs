@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EMS.ClubMember_Services.API.Migrations
 {
-    public partial class Init2 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,7 +29,7 @@ namespace EMS.ClubMember_Services.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClubMember", x => x.UserId);
+                    table.PrimaryKey("PK_ClubMember", x => new { x.UserId, x.ClubId });
                     table.ForeignKey(
                         name: "FK_ClubMember_ClubSubscription_ClubId_NameOfSubscription",
                         columns: x => new { x.ClubId, x.NameOfSubscription },

@@ -12,7 +12,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
             _context = context;
         }
 
-        public IQueryable<Context.Model.ClubMember> ClubMembers => _context.ClubMembers.AsQueryable();
+        public IQueryable<ClubMember> ClubMembers => _context.ClubMembers.AsQueryable();
         public IQueryable<ClubSubscription> ClubSubscriptions => _context.ClubSubscriptions.AsQueryable();
     }
 }

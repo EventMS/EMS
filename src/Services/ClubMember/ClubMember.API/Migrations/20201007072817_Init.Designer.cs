@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.ClubMember_Services.API.Migrations
 {
     [DbContext(typeof(ClubMemberContext))]
-    [Migration("20201006170009_Init2")]
-    partial class Init2
+    [Migration("20201007072817_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,6 @@ namespace EMS.ClubMember_Services.API.Migrations
             modelBuilder.Entity("EMS.ClubMember_Services.API.Context.Model.ClubMember", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ClubId")
@@ -34,7 +33,7 @@ namespace EMS.ClubMember_Services.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserId", "ClubId");
 
                     b.HasIndex("ClubId", "NameOfSubscription");
 

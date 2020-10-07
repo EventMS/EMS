@@ -21,8 +21,4 @@
     <ProjectReference Include="..\ClubMember.API\ClubMember.API.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Consumers\" />
-  </ItemGroup>
-
 </Project>

@@ -22,7 +22,6 @@ namespace EMS.ClubMember_Services.API.Migrations
             modelBuilder.Entity("EMS.ClubMember_Services.API.Context.Model.ClubMember", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ClubId")
@@ -32,7 +31,7 @@ namespace EMS.ClubMember_Services.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserId", "ClubId");
 
                     b.HasIndex("ClubId", "NameOfSubscription");
 
