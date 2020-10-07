@@ -11,6 +11,7 @@ COPY "EMS.sln" "EMS.sln"
 
 COPY "BuildingBlocks/EventBus/EventLogEF/EventLogEF.csproj" "BuildingBlocks/EventBus/EventLogEF/EventLogEF.csproj"
 COPY "BuildingBlocks/WebHostCustomization/WebHost.Customization/TemplateWebHost.Customization.csproj" "BuildingBlocks/WebHostCustomization/WebHost.Customization/TemplateWebHost.Customization.csproj"
+COPY "BuildingBlocks/SharedTesting/SharedTesting.csproj" "BuildingBlocks/SharedTesting/SharedTesting.csproj"
 COPY "Services/Template1/Template1.API/Template1.API.csproj" "Services/Template1/Template1.API/Template1.API.csproj"
 	COPY "Services/Room/Room.API/Room.API.csproj" "Services/Room/Room.API/Room.API.csproj"
 	COPY "Services/ClubMember/ClubMember.API/ClubMember.API.csproj" "Services/ClubMember/ClubMember.API/ClubMember.API.csproj"
@@ -19,6 +20,12 @@ COPY "Services/Template1/Template1.API/Template1.API.csproj" "Services/Template1
 	COPY "Services/Permission/Permission.API/Permission.API.csproj" "Services/Permission/Permission.API/Permission.API.csproj"
 COPY "ApiGateways/GraphQL/GraphQL.API/GraphQL.API.csproj" "ApiGateways/GraphQL/GraphQL.API/GraphQL.API.csproj"
 COPY "Services/Identity/Identity.API/Identity.API.csproj" "Services/Identity/Identity.API/Identity.API.csproj"
+COPY "Services/Template1/Template1.API.UnitTests/Template1.API.UnitTests.csproj" "Services/Template1/Template1.API.UnitTests/Template1.API.UnitTests.csproj"
+COPY "Services/Room/Room.API.UnitTests/Room.API.UnitTests.csproj" "Services/Room/Room.API.UnitTests/Room.API.UnitTests.csproj"
+COPY "Services/ClubMember/ClubMember.API.UnitTests/ClubMember.API.UnitTests.csproj" "Services/ClubMember/ClubMember.API.UnitTests/ClubMember.API.UnitTests.csproj"
+COPY "Services/Subscription/Subscription.API.UnitTests/Subscription.API.UnitTests.csproj" "Services/Subscription/Subscription.API.UnitTests/Subscription.API.UnitTests.csproj"
+COPY "Services/Club/Club.API.UnitTests/Club.API.UnitTests.csproj" "Services/Club/Club.API.UnitTests/Club.API.UnitTests.csproj"
+COPY "Services/Permission/Permission.API/Permission.API.csproj" "Services/Permission/Permission.API/Permission.API.csproj"
 
 COPY "docker-compose.dcproj" "docker-compose.dcproj"
 
