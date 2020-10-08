@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EMS.TemplateWebHost.Customization.Attributes;
 
@@ -17,5 +18,18 @@ namespace EMS.Subscription_Services.API.GraphQlQueries.Request
         [Required]
         [NotEmpty]
         public Guid ClubId { get; set; }
+
+
+        public List<EventPrice> EventPrices { get; set; }
+    }
+
+    public class EventPrice{
+        [Required]
+        [NotEmpty]
+        public Guid EventId { get; set; }
+
+        [Required]
+        [Range(0,1000000)]
+        public float Price { get; set; }
     }
 }

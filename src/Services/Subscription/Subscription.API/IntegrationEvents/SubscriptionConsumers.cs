@@ -26,5 +26,5 @@ namespace EMS.Subscription_Services.API.IntegrationEvents
                await _subscriptionContext.SaveChangesAsync();
            }
         }
-        }
     }
+}
