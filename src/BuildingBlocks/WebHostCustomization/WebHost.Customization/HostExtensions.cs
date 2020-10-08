@@ -6,9 +6,25 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
 using System.Data.SqlClient;
+using System.Linq.Expressions;
+using AutoMapper;
 
 namespace EMS.TemplateWebHost.Customization
 {
+    public static class MyExtensions
+    {
+        public static IMappingExpression<TSource, TDestination> Transform<TSource, TDestination, TSourceMember>(
+            this IMappingExpression<TSource, TDestination> map,
+            Expression<Func<TDestination, object>> selector,
+            Expression<Func<TSource, TSourceMember>> transform
+        )
+        {
+            map.ForMember(selector, config =>
+                config.MapFrom(transform));
+            return map;
+        }
+    }
+
     public static class HostExtensions
     {
         public static bool IsInKubernetes(this IHost host)

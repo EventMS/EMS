@@ -44,7 +44,8 @@ namespace EMS.Room_Services.API.Migrations
                     RoomId = table.Column<Guid>(nullable: false),
                     EventId = table.Column<Guid>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
-                    EndTime = table.Column<DateTime>(nullable: false)
+                    EndTime = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,9 +69,9 @@ namespace EMS.Room_Services.API.Migrations
                 column: "ClubId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Room_Name",
+                name: "IX_Room_Name_ClubId",
                 table: "Room",
-                column: "Name",
+                columns: new[] { "Name", "ClubId" },
                 unique: true);
         }
 

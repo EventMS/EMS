@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.Room_Services.API.Migrations
 {
     [DbContext(typeof(RoomContext))]
-    [Migration("20201007095452_Init")]
+    [Migration("20201008152828_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace EMS.Room_Services.API.Migrations
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
@@ -70,7 +73,7 @@ namespace EMS.Room_Services.API.Migrations
 
                     b.HasIndex("ClubId");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("Name", "ClubId")
                         .IsUnique();
 
                     b.ToTable("Room");

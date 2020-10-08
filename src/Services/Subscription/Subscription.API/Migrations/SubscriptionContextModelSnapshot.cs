@@ -53,7 +53,7 @@ namespace EMS.Subscription_Services.API.Migrations
 
                     b.HasIndex("ClubId");
 
-                    b.HasIndex("Name", "SubscriptionId")
+                    b.HasIndex("Name", "ClubId")
                         .IsUnique();
 
                     b.ToTable("ClubSubscription");

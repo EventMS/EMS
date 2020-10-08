@@ -35,7 +35,9 @@ namespace EMS.Event_Services.API.Controllers.Request
 
     public class SubscriptionEventPriceRequest
     {
+        [Required]
         public Guid SubscriptionId { get; set; }
-        public int Price { get; set; }
+        [Range(0, 10000000)]
+        public float Price { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.Event_Services.API.Migrations
 {
     [DbContext(typeof(EventContext))]
-    [Migration("20201008143530_Init2")]
-    partial class Init2
+    [Migration("20201008152642_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

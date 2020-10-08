@@ -108,7 +108,7 @@ namespace EMS.Event_Services.API.Migrations
                 {
                     SubscriptionId = table.Column<Guid>(nullable: false),
                     EventId = table.Column<Guid>(nullable: false),
-                    Price = table.Column<int>(nullable: false)
+                    Price = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -180,9 +180,10 @@ namespace EMS.Event_Services.API.Migrations
                 column: "SubscriptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Event_ClubId",
+                name: "IX_Event_ClubId_Name",
                 table: "Event",
-                column: "ClubId");
+                columns: new[] { "ClubId", "Name" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Instructor_ClubId",

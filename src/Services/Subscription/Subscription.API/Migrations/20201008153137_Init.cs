@@ -24,8 +24,8 @@ namespace EMS.Subscription_Services.API.Migrations
                 {
                     SubscriptionId = table.Column<Guid>(nullable: false),
                     ClubId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Price = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(maxLength: 25, nullable: false),
+                    Price = table.Column<int>(nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
@@ -44,9 +44,9 @@ namespace EMS.Subscription_Services.API.Migrations
                 column: "ClubId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClubSubscription_Name",
+                name: "IX_ClubSubscription_Name_ClubId",
                 table: "ClubSubscription",
-                column: "Name",
+                columns: new[] { "Name", "ClubId" },
                 unique: true);
         }
 

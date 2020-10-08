@@ -10,7 +10,7 @@ namespace EMS.Room_Services.API.Context.EntityConfigurations
         public void Configure(EntityTypeBuilder<Room> builder)
         {
             builder.ToTable("Room")
-                .HasIndex(ci => new {ci.Name, ci.RoomId})
+                .HasIndex(ci => new {ci.Name, ci.ClubId})
                 .IsUnique();
 
             builder.HasKey(ci => ci.RoomId);

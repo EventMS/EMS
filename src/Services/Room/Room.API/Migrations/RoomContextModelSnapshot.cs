@@ -71,7 +71,7 @@ namespace EMS.Room_Services.API.Migrations
 
                     b.HasIndex("ClubId");
 
-                    b.HasIndex("Name", "RoomId")
+                    b.HasIndex("Name", "ClubId")
                         .IsUnique();
 
                     b.ToTable("Room");
