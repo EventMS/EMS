@@ -89,6 +89,13 @@ namespace EMS.Events
     {
         public Guid SubscriptionId { get; set; }
         public Guid ClubId { get; set; }
+        public List<EventPrice> EventPrices { get; set; }
+    }
+
+    public class EventPrice
+    {
+        public Guid Eventid { get; set; }
+        public float Price { get; set; }
     }
 
     public class TimeslotReservationFailedEvent : Event // All events should inherit from Integration event
