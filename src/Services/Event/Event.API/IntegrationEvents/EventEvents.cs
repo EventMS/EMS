@@ -63,9 +63,10 @@ namespace EMS.Events
         public string Reason { get; set; }
     }
 
-    public class EventCreationFailed : Event // All events should inherit from Integration event
+    public class EventCreationFailedEvent : Event // All events should inherit from Integration event
     {
         public Guid EventId { get; set; }
+        public string Reason { get; set; }
     }
 
     public class InstructorAddedEvent : Event
@@ -93,14 +94,12 @@ namespace EMS.Events
     public class TimeslotReservationFailedEvent : Event // All events should inherit from Integration event
     {
         public Guid EventId { get; set; }
-        public Guid RoomId { get; set; }
         public string Reason { get; set; }
     }
 
     public class TimeslotReservedEvent : Event // All events should inherit from Integration event
     {
         public Guid EventId { get; set; }
-        public Guid RoomId { get; set; }
     }
 
     public class VerifyAvailableTimeslotEvent : Event // All events should inherit from Integration event

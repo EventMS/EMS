@@ -14,6 +14,7 @@ using EMS.Event_Services.API.Context.Model;
 using EMS.Event_Services.API.Controllers.Request;
 using EMS.Event_Services.API.GraphQlQueries;
 using EMS.Event_Services.API.Mapper;
+using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Event_Services.API.UnitTests.GraphQL
@@ -35,6 +36,11 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         {
             var mapper = CreateMapper();
             _mutations = new EventMutations(_context, _eventService, mapper);
+            SetupAnEntireClub();
+        }
+
+        protected void SetupAnEntireClub()
+        {
             _club = new Club()
             {
                 ClubId = Guid.NewGuid()
@@ -65,7 +71,7 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
             }
         }
 
-        private IMapper CreateMapper()
+        protected IMapper CreateMapper()
         {
             var config = new MapperConfiguration(cfg => {
                 cfg.AddProfile<EventProfile>();
@@ -124,6 +130,85 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
             }
 
             await _publish.Received(1).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
+        }
+
+        [Test]
+        public async Task CreateEvent_CreateTwoEventWithSameNameInSameClub_SecondFails()
+        {
+            var request = BasicCreateRequest();
+
+            await _mutations.CreateEventAsync(request);
+            Assert.ThrowsAsync<DbUpdateException>(async () =>
+                await _mutations.CreateEventAsync(request));
+            await _publish.Received(1).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
+        }
+
+        [Test]
+        public async Task CreateEvent_CreateTwoEventWithSameNameInDifferentClubs_DatabaseSavesBoth()
+        {
+            var request = BasicCreateRequest();
+            await _mutations.CreateEventAsync(request);
+            SetupAnEntireClub(); //Creates a new club in DB. 
+            request = BasicCreateRequest();
+            await _mutations.CreateEventAsync(request);
+            using (var context = _factory.CreateContext())
+            {
+                Assert.That(context.Events.Count(e => e.Name == request.Name), Is.EqualTo(2));
+            }
+            await _publish.Received(2).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
+        }
+
+
+        [Test]
+        public async Task CreateEvent_ClubDoesNotExist_Fails()
+        {
+            var request = BasicCreateRequest();
+            request.ClubId = Guid.NewGuid();
+
+            Assert.ThrowsAsync<DbUpdateException>(async () =>
+                await _mutations.CreateEventAsync(request));
+            await _publish.Received(0).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
+        }
+
+        [Test]
+        public async Task CreateEvent_RoomDoesNotExist_Fails()
+        {
+            var request = BasicCreateRequest();
+            request.Locations.RemoveRange(0, 1);
+            request.Locations.Add(Guid.NewGuid());
+
+            Assert.ThrowsAsync<DbUpdateException>(async () =>
+                await _mutations.CreateEventAsync(request));
+            await _publish.Received(0).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
+        }
+
+        [Test]
+        public async Task CreateEvent_SubscriptionDoesNotExist_Fails()
+        {
+            var request = BasicCreateRequest();
+            request.SubscriptionEventPrices.RemoveRange(0, 1);
+            request.SubscriptionEventPrices.Add(new SubscriptionEventPriceRequest()
+            {
+                Price = 50, 
+                SubscriptionId = Guid.NewGuid()
+            });
+
+            Assert.ThrowsAsync<DbUpdateException>(async () =>
+                await _mutations.CreateEventAsync(request));
+            await _publish.Received(0).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
+        }
+
+
+        [Test]
+        public async Task CreateEvent_InstructorDoesNotExist_Fails()
+        {
+            var request = BasicCreateRequest();
+            request.InstructorForEvents.RemoveRange(0,1);
+            request.InstructorForEvents.Add(Guid.NewGuid());
+
+            Assert.ThrowsAsync<DbUpdateException>(async () =>
+                await _mutations.CreateEventAsync(request));
+            await _publish.Received(0).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
         }
     }
 }

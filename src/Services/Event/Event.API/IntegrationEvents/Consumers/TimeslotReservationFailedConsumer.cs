@@ -29,7 +29,8 @@ namespace EMS.Event_Services.API.Events
             {
                 evt.Status = EventStatus.Failed;
                 _context.Events.Update(evt);
-                var @event = _mapper.Map<EventCreationFailed>(evt);
+                var @event = _mapper.Map<EventCreationFailedEvent>(evt);
+                @event.Reason = context.Message.Reason;
                 await _eventService.SaveEventAndDbContextChangesAsync(@event);
                 await _eventService.PublishEventAsync(@event);
             }

@@ -1,34 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using AutoMapper;
 using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.Context.Model;
 using EMS.Events;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Newtonsoft.Json;
 using Serilog;
+using TemplateWebHost.Customization.BasicConsumers;
 
 namespace EMS.Event_Services.API.Events
 {
+
     public class ClubCreatedEventConsumer :
-            IConsumer<ClubCreatedEvent>
+        BasicDuplicateConsumer<EventContext, Club, ClubCreatedEvent>
     {
-        private readonly EventContext _context;
-
-        public ClubCreatedEventConsumer(EventContext context)
+        public ClubCreatedEventConsumer(EventContext context, IMapper mapper) : base(context, mapper)
         {
-            _context = context;
-        }
-
-        public async Task Consume(ConsumeContext<ClubCreatedEvent> context)
-        {
-            var club = _context.Clubs.Find(context.Message.ClubId);
-            if (club == null)
-            {
-                _context.Clubs.Add(new Club()
-                {
-                    ClubId = context.Message.ClubId
-                });
-                await _context.SaveChangesAsync();
-            }
         }
     }
 }

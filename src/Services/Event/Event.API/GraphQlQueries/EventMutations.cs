@@ -58,13 +58,12 @@ namespace EMS.Event_Services.API.GraphQlQueries
             _context.Events.Add(item);
 
             var @event = _mapper.Map<VerifyAvailableTimeslotEvent>(item);
-            @event.RoomIds = request.Locations;
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
 
             return item;
         }
-        /**/
+        /*
 
         public async Task<Event> DeleteEventAsync(Guid eventId)
         {
@@ -85,6 +84,6 @@ namespace EMS.Event_Services.API.GraphQlQueries
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
             return item;
-        }
+        }*/
     }
 }

@@ -1,33 +1,19 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.Context.Model;
 using EMS.Events;
 using MassTransit;
+using TemplateWebHost.Customization.BasicConsumers;
 
 namespace EMS.Event_Services.API.Events
 {
+    //Ensure mappers are on point. 
     public class InstructorAddedEventConsumer :
-        IConsumer<InstructorAddedEvent>
+        BasicDuplicateConsumer<EventContext, Instructor, InstructorAddedEvent>
     {
-        private readonly EventContext _context;
-
-        public InstructorAddedEventConsumer(EventContext context)
+        public InstructorAddedEventConsumer(EventContext context, IMapper mapper) : base(context, mapper)
         {
-            _context = context;
-        }
-
-        public async Task Consume(ConsumeContext<InstructorAddedEvent> context)
-        {
-            var instructor = _context.Instructors.Find(context.Message.UserId);
-            if (instructor == null)
-            {
-                _context.Instructors.Add(new Instructor()
-                {
-                    ClubId = context.Message.ClubId,
-                    InstructorId = context.Message.UserId
-                });
-                await _context.SaveChangesAsync();
-            }
         }
     }
 }

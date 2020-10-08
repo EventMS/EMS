@@ -34,7 +34,11 @@ namespace EMS.Event_Services.API.Context.Model
         }
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {
-            yield break;
+            if (StartTime > EndTime)
+            {
+                yield return new ValidationResult("Starttime must be before Endtime", 
+                    new []{nameof(StartTime), nameof(EndTime)});
+            }
         }
     }
 

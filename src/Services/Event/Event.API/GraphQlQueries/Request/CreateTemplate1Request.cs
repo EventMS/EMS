@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper.Configuration.Annotations;
 using EMS.Event_Services.API.Context.Model;
+using EMS.TemplateWebHost.Customization.Attributes;
 
 namespace EMS.Event_Services.API.Controllers.Request
 {
@@ -14,14 +15,19 @@ namespace EMS.Event_Services.API.Controllers.Request
         [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         [Required]
+        [FutureDate]
         public DateTime StartTime { get; set; }
 
         [Required]
+        [FutureDate]
         public DateTime EndTime { get; set; }
 
+        [Required]
+        [MinLength(1)]
         public List<SubscriptionEventPriceRequest> SubscriptionEventPrices { get; set; }
         public List<Guid> Locations { get; set; }
         public List<Guid> InstructorForEvents { get; set; }
