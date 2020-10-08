@@ -1,23 +1,17 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using EMS.Event_Services.API.Context.Model;
 using EMS.Event_Services.API.Events;
-using EMS.Event_Services.API.Mapper;
 using EMS.Events;
 using EMS.SharedTesting.Factories;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 
 namespace EMS.Room_Services.API.UnitTests.Consumers
 {
     [TestFixture]
-    class TimeslotReservationFailedEventConsumerTest : EventConsumerTest<TimeslotReservationFailedEventConsumer>
+    class TimeslotReservedEventConsumerTest : EventConsumerTest<TimeslotReservedEventConsumer>
     {
         private IPublishEndpoint _publishEndpoint;
 
@@ -27,7 +21,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             var content = _factory.CreateContext(true);
             _publishEndpoint = Substitute.For<IPublishEndpoint>();
             var eventService = EventServiceFactory.CreateEventService(content, _publishEndpoint);
-            _consumer = new TimeslotReservationFailedEventConsumer(content, CreateMapper(), eventService);
+            _consumer = new TimeslotReservedEventConsumer(content, CreateMapper(), eventService);
             _harness.Start().Wait();
         }
 
@@ -42,17 +36,16 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
         {
             SetupAnEntireClub();
             var e = CreateEvent();
-            
-            var @event = new TimeslotReservationFailedEvent()
+
+            var @event = new TimeslotReservedEvent()
             {
                 EventId = Guid.NewGuid(),
-                Reason = "Very bad reason"
             };
 
             await SendEvent(@event);
 
             await _publishEndpoint.Received(0).Publish(
-                Arg.Any<EventCreationFailedEvent>());
+                Arg.Any<EventCreatedEvent>());
         }
 
         [Test]
@@ -61,35 +54,9 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             SetupAnEntireClub();
             var e = CreateEvent();
 
-            var @event = new TimeslotReservationFailedEvent()
+            var @event = new TimeslotReservedEvent()
             {
                 EventId = e.EventId,
-                Reason = "Very bad reason"
-            };
-
-            await SendEvent(@event);
-
-            using(var context = _factory.CreateContext())
-            {
-                var dbEvent = context.Events.Find(e.EventId);
-                Assert.That(dbEvent.Status, Is.EqualTo(EventStatus.Failed));
-            }
-
-
-            await _publishEndpoint.Received(1).Publish(
-                Arg.Is<EventCreationFailedEvent>(e => e.Reason=="Very bad reason"));
-        }
-
-        [Test]
-        public async Task Consume_EventDoesExistInWrongStatus_IsIgnored()
-        {
-            SetupAnEntireClub();
-            var e = CreateEvent(EventStatus.Confirmed);
-
-            var @event = new TimeslotReservationFailedEvent()
-            {
-                EventId = e.EventId,
-                Reason = "Very bad reason"
             };
 
             await SendEvent(@event);
@@ -100,9 +67,32 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
                 Assert.That(dbEvent.Status, Is.EqualTo(EventStatus.Confirmed));
             }
 
+            await _publishEndpoint.Received(1).Publish(
+                Arg.Any<EventCreatedEvent>());
+        }
+
+        [Test]
+        public async Task Consume_EventDoesExistInWrongStatus_IsIgnored()
+        {
+            SetupAnEntireClub();
+            var e = CreateEvent(EventStatus.Failed);
+
+            var @event = new TimeslotReservationFailedEvent()
+            {
+                EventId = e.EventId,
+            };
+
+            await SendEvent(@event);
+
+            using (var context = _factory.CreateContext())
+            {
+                var dbEvent = context.Events.Find(e.EventId);
+                Assert.That(dbEvent.Status, Is.EqualTo(EventStatus.Failed));
+            }
+
 
             await _publishEndpoint.Received(0).Publish(
-                Arg.Any<EventCreationFailedEvent>());
+                Arg.Any<EventCreatedEvent>());
         }
     }
 }
