@@ -94,7 +94,7 @@ namespace EMS.Events
 
     public class EventPrice
     {
-        public Guid Eventid { get; set; }
+        public Guid EventId { get; set; }
         public float Price { get; set; }
     }
 
