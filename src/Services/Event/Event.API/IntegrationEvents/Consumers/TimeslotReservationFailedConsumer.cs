@@ -8,22 +8,24 @@ using MassTransit;
 
 namespace EMS.Event_Services.API.Events
 {
-    public class TimeslotReservationFailedConsumer :
-        IConsumer<TimeslotReservationFailed>
+    public class TimeslotReservationFailedEventConsumer :
+        IConsumer<TimeslotReservationFailedEvent>
     {
         private readonly EventContext _context;
         private readonly IMapper _mapper;
         private readonly IEventService _eventService;
 
-        public TimeslotReservationFailedConsumer(EventContext context)
+        public TimeslotReservationFailedEventConsumer(EventContext context, IMapper mapper, IEventService eventService)
         {
             _context = context;
+            _mapper = mapper;
+            _eventService = eventService;
         }
 
-        public async Task Consume(ConsumeContext<TimeslotReservationFailed> context)
+        public async Task Consume(ConsumeContext<TimeslotReservationFailedEvent> context)
         {
             var evt = _context.Events.Find(context.Message.EventId);
-            if (evt == null && evt.Status == EventStatus.Pending)
+            if (evt != null && evt.Status == EventStatus.Pending)
             {
                 evt.Status = EventStatus.Failed;
                 _context.Events.Update(evt);

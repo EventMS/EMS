@@ -9,7 +9,7 @@ namespace EMS.Subscription_Services.API.Context.EntityConfigurations
         public void Configure(EntityTypeBuilder<ClubSubscription> builder)
         {
             builder.ToTable("ClubSubscription")
-                .HasIndex(ci => ci.Name)
+                .HasIndex(ci => new {ci.Name,ci.SubscriptionId})
                 .IsUnique();
 
             builder.HasKey(ci => ci.SubscriptionId);

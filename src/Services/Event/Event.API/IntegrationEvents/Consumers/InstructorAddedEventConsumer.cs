@@ -18,7 +18,7 @@ namespace EMS.Event_Services.API.Events
 
         public async Task Consume(ConsumeContext<InstructorAddedEvent> context)
         {
-            var instructor = _context.Instructors.Find(context.Message.ClubId);
+            var instructor = _context.Instructors.Find(context.Message.UserId);
             if (instructor == null)
             {
                 _context.Instructors.Add(new Instructor()

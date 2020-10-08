@@ -7,7 +7,7 @@ namespace EMS.Subscription_Services.API.Context
         public Guid SubscriptionId { get; set; }
         public Club Club { get; set; }
         public Guid ClubId { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } //Maybe transform this into a composite key instead of unique by index. 
 
         public int Price { get; set; }
 

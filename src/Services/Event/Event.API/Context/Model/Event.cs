@@ -22,7 +22,7 @@ namespace EMS.Event_Services.API.Context.Model
 
         public DateTime EndTime { get; set; }
 
-        public List<SubscriptionEventPrice> SubscriptionEventPrices { get; set; }
+        public List<ClubSubscriptionEventPrice> SubscriptionEventPrices { get; set; }
 
         public List<RoomEvent> Locations { get; set; }
 
@@ -34,12 +34,7 @@ namespace EMS.Event_Services.API.Context.Model
         }
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {
-            if (Name.Length >3)
-            {
-                yield return new ValidationResult(
-                    "Name must be longer than three charactors",
-                    new[] { nameof(Name)});
-            }
+            yield break;
         }
     }
 

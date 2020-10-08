@@ -11,7 +11,11 @@ namespace EMS.Event_Services.API.GraphQlQueries
         {
             _context = context;
         }
-
+        /*
+        public IQueryable<Event> Events(EventStatus status) => _context.Events
+            .Where(e => e.Status == status)
+            .AsQueryable();
+        */
         public IQueryable<Event> Events => _context.Events.AsQueryable();
     }
 }

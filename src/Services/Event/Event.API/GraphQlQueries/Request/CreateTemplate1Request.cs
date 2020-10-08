@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper.Configuration.Annotations;
 using EMS.Event_Services.API.Context.Model;
 
 namespace EMS.Event_Services.API.Controllers.Request
@@ -22,9 +23,7 @@ namespace EMS.Event_Services.API.Controllers.Request
         public DateTime EndTime { get; set; }
 
         public List<SubscriptionEventPriceRequest> SubscriptionEventPrices { get; set; }
-
         public List<Guid> Locations { get; set; }
-
         public List<Guid> InstructorForEvents { get; set; }
     }
 

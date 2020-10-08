@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,26 +10,59 @@ using NSubstitute;
 using NUnit.Framework;
 
 using EMS.Event_Services.API.Context;
+using EMS.Event_Services.API.Context.Model;
 using EMS.Event_Services.API.Controllers.Request;
 using EMS.Event_Services.API.GraphQlQueries;
 using EMS.Event_Services.API.Mapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Event_Services.API.UnitTests.GraphQL
 {
-    /*
+    
     [TestFixture]
     class EventMutationsTests : BaseMutationsSetupTests<EventContext>
     {
         
         #region Setup
         private EventMutations _mutations;
+        private Club _club;
+        private Room _room;
+        private ClubSubscription _clubSubscription;
+        private Instructor _instructor;
 
         [SetUp]
         public void SetUp()
         {
             var mapper = CreateMapper();
             _mutations = new EventMutations(_context, _eventService, mapper);
+            _club = new Club()
+            {
+                ClubId = Guid.NewGuid()
+            };
+            _room = new Room()
+            {
+                ClubId = _club.ClubId,
+                RoomId = Guid.NewGuid()
+            };
+            _clubSubscription = new ClubSubscription()
+            {
+                ClubId = _club.ClubId,
+                ClubSubscriptionId = Guid.NewGuid()
+            };
+            _instructor = new Instructor()
+            {
+                ClubId = _club.ClubId,
+                InstructorId = Guid.NewGuid()
+            };
 
+            using (var context = _factory.CreateContext())
+            {
+                context.Clubs.Add(_club);
+                context.Rooms.Add(_room);
+                context.Instructors.Add(_instructor);
+                context.Subscriptions.Add(_clubSubscription);
+                context.SaveChanges();
+            }
         }
 
         private IMapper CreateMapper()
@@ -40,38 +75,55 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         #endregion
 
 
+        public CreateEventRequest BasicCreateRequest()
+        {
+            return new CreateEventRequest()
+            {
+                Name = "Test",
+                ClubId = _club.ClubId,
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now,
+                SubscriptionEventPrices = new List<SubscriptionEventPriceRequest>()
+                {
+                    new SubscriptionEventPriceRequest()
+                    {
+                        SubscriptionId = _clubSubscription.ClubSubscriptionId,
+                        Price = 50
+                    }
+                },
+                Description = "Some description",
+                InstructorForEvents = new List<Guid>()
+                {
+                    _instructor.InstructorId
+                },
+                Locations = new List<Guid>()
+                {
+                    _room.RoomId
+                }
+            };
+        }
+
         [Test]
         public async Task CreateEvent_ValidRequest_AddedToDatabase()
         {
-            var request = new CreateEventRequest()
-            {
-                Name = "Te"
-            };
+            var request = BasicCreateRequest();
 
             await _mutations.CreateEventAsync(request);
-
+            
             using (var context = _factory.CreateContext())
             {
-                var template1 = context.Events.FirstOrDefault(template1 => template1.Name == request.Name);
-                Assert.That(template1, Is.Not.Null);
+                var e = context.Events.Include(e => e.InstructorForEvents)
+                    .Include(e => e.Locations)
+                    .Include(e => e.SubscriptionEventPrices)
+                    .FirstOrDefault(e => e.Name == request.Name);
+                Assert.That(e, Is.Not.Null);
+                Assert.That(e.Locations.Count, Is.EqualTo(1));
+                Assert.That(e.InstructorForEvents.Count, Is.EqualTo(1));
+                Assert.That(e.SubscriptionEventPrices.Count, Is.EqualTo(1));
                 Assert.That(context.Events.Count(), Is.EqualTo(1));
             }
 
-            await _publish.Received(1).Publish(Arg.Any<EventCreatedEvent>());
+            await _publish.Received(1).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
         }
-
-        [Test]
-        public async Task CreateEvent_InvalidRequest_DatabaseFails()
-        {
-            var request = new CreateEventRequest()
-            {
-                Name = "Test"
-            };
-
-            Assert.ThrowsAsync<ValidationException>(async () => await _mutations.CreateEventAsync(request));
-            await _publish.Received(0).Publish(Arg.Any<EventCreatedEvent>());
-        }
-
-
-    }*/
+    }
 }

@@ -26,6 +26,7 @@ namespace EMS.Event_Services.API.GraphQlQueries
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
+        /*
         public async Task<Event> UpdateEventAsync(Guid id, UpdateEventRequest request)
         {
             var item = await _context.Events.SingleOrDefaultAsync(ci => ci.EventId == id);
@@ -48,44 +49,26 @@ namespace EMS.Event_Services.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
 
             return item;
-        }
+        }*/
 
 
         public async Task<Event> CreateEventAsync(CreateEventRequest request)
         {
             var item = _mapper.Map<Event>(request);
-            item.InstructorForEvents = request.InstructorForEvents.Select(id => new InstructorForEvent()
-            {
-                EventId = item.EventId,
-                InstructorId = id
-            }).ToList();
-
-            item.Locations = request.Locations.Select(id => new RoomEvent()
-            {
-                RoomId = id,
-                EventId = item.EventId
-            }).ToList();
-
-
-            item.SubscriptionEventPrices = request.SubscriptionEventPrices.Select(subPrice => new SubscriptionEventPrice()
-            {
-                SubscriptionId = subPrice.SubscriptionId,
-                EventId = item.EventId,
-                Price = subPrice.Price
-            }).ToList();
             _context.Events.Add(item);
 
             var @event = _mapper.Map<VerifyAvailableTimeslotEvent>(item);
-            @event.RoomId = item.Locations.First().RoomId;
+            @event.RoomIds = request.Locations;
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
 
             return item;
         }
+        /**/
 
-        public async Task<Event> DeleteEventAsync(Guid id)
+        public async Task<Event> DeleteEventAsync(Guid eventId)
         {
-            var item = await _context.Events.SingleOrDefaultAsync(ci => ci.EventId == id);
+            var item = await _context.Events.SingleOrDefaultAsync(ci => ci.EventId == eventId);
 
             if (item == null)
             {

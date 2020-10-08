@@ -19,11 +19,18 @@ namespace EMS.Event_Services.API.Context
 
         public DbSet<Instructor> Instructors { get; set; }
 
-        public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<ClubSubscription> Subscriptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new ClubEntityTypeConfiguration());
             builder.ApplyConfiguration(new EventEntityTypeConfiguration());
+            builder.ApplyConfiguration(new InstructorEntityTypeConfiguration());
+            builder.ApplyConfiguration(new InstructorForEventsEntityTypeConfiguration());
+            builder.ApplyConfiguration(new RoomEntityTypeConfiguration());
+            builder.ApplyConfiguration(new RoomEventEntityTypeConfiguration());
+            builder.ApplyConfiguration(new SubscriptionEntityTypeConfiguration());
+            builder.ApplyConfiguration(new SubscriptionEventPriceEntityTypeConfiguration());
         }
     }
 

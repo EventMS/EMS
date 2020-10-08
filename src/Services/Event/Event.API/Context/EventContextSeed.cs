@@ -46,9 +46,6 @@ namespace EMS.Event_Services.API.Context
         {
             return new List<Model.Event>()
             {
-                new Model.Event() { Name = "Ma"},
-                new Model.Event() { Name = "Je" },
-                new Model.Event() { Name = "Si" },
             };
         }
 

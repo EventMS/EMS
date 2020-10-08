@@ -18,6 +18,15 @@ namespace EMS.Event_Services.API.Context.EntityConfigurations
 
             builder.Property(ci => ci.Name)
                 .IsRequired();
+
+            builder.Property(ci => ci.Description)
+                .IsRequired();
+
+            builder.Property(ci => ci.EndTime)
+                .IsRequired();
+
+            builder.Property(ci => ci.StartTime)
+                .IsRequired();
         }
     }
 }

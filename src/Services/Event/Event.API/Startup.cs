@@ -22,18 +22,21 @@ namespace EMS.Event_Services.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
+            Log.Information("Type getter tester");
             var type = typeof(IConsumer);
             AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p))
                 .ForAll(p => Log.Information(p.ToString()));
 
+
+
             busServices.AddConsumer<ClubCreatedEventConsumer>();
             busServices.AddConsumer<ClubSubscriptionCreatedEventConsumer>();
             busServices.AddConsumer<InstructorAddedEventConsumer>();
             busServices.AddConsumer<RoomCreatedEventConsumer>();
-            busServices.AddConsumer<TimeslotReservationFailedConsumer>();
-            busServices.AddConsumer<TimeslotReservedConsumer>();
+            busServices.AddConsumer<TimeslotReservationFailedEventConsumer>();
+            busServices.AddConsumer<TimeslotReservedEventConsumer>();
         }
 
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)

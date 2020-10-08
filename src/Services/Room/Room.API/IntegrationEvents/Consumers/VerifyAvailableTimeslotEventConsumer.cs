@@ -41,47 +41,63 @@ namespace EMS.Room_Services.API.Events
 
         public async Task Consume(ConsumeContext<VerifyAvailableTimeslotEvent> context)
         {
-            var room = await _roomContext.Rooms
-                .Include(room => room.Bookings)
-                .FirstOrDefaultAsync(room => room.RoomId == context.Message.RoomId);
-            if (room == null)
+            foreach (var roomId in context.Message.RoomIds)
             {
-                var @eventFailed = new TimeslotReservationFailed()
+                var room = await _roomContext.Rooms
+                    .Include(room => room.Bookings)
+                    .FirstOrDefaultAsync(room => room.RoomId == roomId);
+                if (room == null)
                 {
-                    EventId = context.Message.EventId,
-                    RoomId = context.Message.RoomId,
-                    Reason = "Room does not exist"
+                    var @eventFailed = new TimeslotReservationFailedEvent()
+                    {
+                        EventId = context.Message.EventId,
+                        Reason = "Room does not exist"
+                    };
+                    await _eventService.SaveEventAndDbContextChangesAsync(@eventFailed);
+                    await _eventService.PublishEventAsync(@eventFailed);
+                    return;
+                }
+
+
+                var booking = new Booking()
+                {
+                    EndTime = context.Message.EndTime,
+                    StartTime = context.Message.StartTime
                 };
-                await _eventService.SaveEventAndDbContextChangesAsync(@eventFailed);
-                await _eventService.PublishEventAsync(@eventFailed);
+
+                if (CollisionInBookings(room.Bookings, booking))
+                {
+                    var @eventFailed = new TimeslotReservationFailedEvent()
+                    {
+                        EventId = context.Message.EventId,
+                        Reason = "Timeslot already reserved"
+                    };
+                    await _eventService.SaveEventAndDbContextChangesAsync(@eventFailed);
+                    await _eventService.PublishEventAsync(@eventFailed);
+                    return;
+                }
             }
 
-            var booking = new Booking()
+            foreach (var roomId in context.Message.RoomIds)
             {
-                EventId = context.Message.EventId,
-                EndTime = context.Message.EndTime,
-                RoomId = context.Message.RoomId,
-                StartTime = context.Message.StartTime
-            };
+                var room = await _roomContext.Rooms
+                    .Include(room => room.Bookings)
+                    .FirstOrDefaultAsync(room => room.RoomId == roomId);
 
-            if (CollisionInBookings(room.Bookings, booking))
-            {
-                var @eventFailed = new TimeslotReservationFailed()
+                var booking = new Booking()
                 {
+                    RoomId = room.RoomId,
                     EventId = context.Message.EventId,
-                    RoomId = context.Message.RoomId,
-                    Reason = "Timeslot already reserved"
+                    EndTime = context.Message.EndTime,
+                    StartTime = context.Message.StartTime
                 };
-                await _eventService.SaveEventAndDbContextChangesAsync(@eventFailed);
-                await _eventService.PublishEventAsync(@eventFailed);
+                room.Bookings.Add(booking);
             }
 
-            room.Bookings.Add(booking);
 
-            var @event = new TimeslotReserved()
+            var @event = new TimeslotReservedEvent()
             {
                 EventId = context.Message.EventId,
-                RoomId = context.Message.RoomId
             };
 
             await _eventService.SaveEventAndDbContextChangesAsync(@event);

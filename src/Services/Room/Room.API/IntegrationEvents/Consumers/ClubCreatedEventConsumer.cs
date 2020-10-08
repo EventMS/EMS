@@ -37,7 +37,7 @@ namespace EMS.Room_Services.API.Events
                     {
                         context.Message.Locations.Add("Default");
                     }
-                var club = new Club()
+                    var club = new Club()
                     {
                         ClubId = context.Message.ClubId,
                         Rooms = context.Message.Locations.Select(location => new Room()

@@ -79,6 +79,16 @@ services:
       - identity-api
       - rabbitmq
 
+  event-api:
+    image: ${REGISTRY:-eventms}/event.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Event/Event.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
   graphql-api:
     image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
