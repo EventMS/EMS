@@ -43,10 +43,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Context\Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\WebHostCustomization\WebHost.Customization\TemplateWebHost.Customization.csproj" />
   </ItemGroup>
 
