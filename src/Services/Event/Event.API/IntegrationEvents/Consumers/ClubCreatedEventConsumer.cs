@@ -24,5 +24,14 @@ namespace EMS.Event_Services.API.Events
         public ClubCreatedEventConsumer(EventContext context, IMapper mapper) : base(context, mapper)
         {
         }
+
+        public override async Task AddAction(Club entity)
+        {
+            _context.Subscriptions.Add(new ClubSubscription()
+            {
+                ClubId = entity.ClubId,
+                ClubSubscriptionId = Guid.NewGuid()
+            });
+        }
     }
 }

@@ -41,8 +41,8 @@ namespace TemplateWebHost.Customization.BasicConsumers
     public class BasicDuplicateConsumer<TContext, TType, TEvent> :
         IConsumer<TEvent> where TEvent : class where TType : class where TContext : DbContext
     {
-        private readonly TContext _context;
-        private readonly IMapper _mapper;
+        protected readonly TContext _context;
+        protected readonly IMapper _mapper;
 
         public BasicDuplicateConsumer(TContext context, IMapper mapper)
         {
@@ -50,13 +50,19 @@ namespace TemplateWebHost.Customization.BasicConsumers
             _mapper = mapper;
         }
 
+        public virtual async Task AddAction(TType entity)
+        {
+
+        }
+
         public async Task Consume(ConsumeContext<TEvent> context)
         {
-            var mappedObject = _mapper.Map<TType>(context.Message);
-            var alreadyFound = _context.Set<TType>().Find(_context.FindPrimaryKeyValues(mappedObject).ToArray());
+            var entity = _mapper.Map<TType>(context.Message);
+            var alreadyFound = _context.Set<TType>().Find(_context.FindPrimaryKeyValues(entity).ToArray());
             if (alreadyFound == null)
             {
-                await _context.AddAsync(mappedObject);
+                await _context.AddAsync(entity);
+                await AddAction(entity);
                 await _context.SaveChangesAsync();
             }
         }

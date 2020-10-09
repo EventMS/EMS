@@ -7,7 +7,7 @@ using EMS.Event_Services.API.Context.Model;
 using EMS.Events;
 using MassTransit;
 using MassTransit.Courier.Contracts;
-
+using Serilog;
 
 namespace EMS.Event_Services.API.Events
 {
@@ -26,6 +26,19 @@ namespace EMS.Event_Services.API.Events
             var subscription = _context.Subscriptions.Find(context.Message.SubscriptionId);
             if (subscription == null)
             {
+                ClubSubscription sub;
+                if(context.Message.ReferenceId == null)
+                {
+                    var temp = _context.Subscriptions.FirstOrDefault(); //There are just one if no other is specified
+                    if(temp == null)
+                    {
+                        Log.Information("Could not find a reference ID unexpectedly");                    
+                        return;
+                    }
+                    context.Message.ReferenceId = temp.ClubSubscriptionId;
+                };
+
+
                 _context.Subscriptions.Add(new ClubSubscription()
                 {
                     ClubSubscriptionId = context.Message.SubscriptionId,
@@ -33,7 +46,8 @@ namespace EMS.Event_Services.API.Events
                 });
                 
                 //To be tested
-                foreach (var messageEventPrice in context.Message.EventPrices)
+                foreach (var messageEventPrice in _context.ClubSubscriptionEventPrice
+                    .Where(evtPrice => evtPrice.SubscriptionId == context.Message.ReferenceId).ToList())
                 {
                     _context.ClubSubscriptionEventPrice.Add(new ClubSubscriptionEventPrice()
                     {
