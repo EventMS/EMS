@@ -26,10 +26,9 @@ namespace EMS.Event_Services.API.Events
             var subscription = _context.Subscriptions.Find(context.Message.SubscriptionId);
             if (subscription == null)
             {
-                ClubSubscription sub;
                 if(context.Message.ReferenceId == null)
                 {
-                    var temp = _context.Subscriptions.FirstOrDefault(); //There are just one if no other is specified
+                    var temp = _context.Subscriptions.FirstOrDefault(sub => sub.ClubId == context.Message.ClubId); //There are just one if no other is specified
                     if(temp == null)
                     {
                         Log.Information("Could not find a reference ID unexpectedly");                    

@@ -42,15 +42,8 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             var @event = new ClubSubscriptionCreatedEvent()
             {
                 ClubId = _clubSubscription.ClubId,
-                SubscriptionId = _clubSubscription.ClubSubscriptionId,
-                EventPrices = new List<EventPrice>()
-                {
-                    new EventPrice()
-                    {
-                        EventId = e.EventId,
-                        Price = 35
-                    }
-                }
+                SubscriptionId = Guid.NewGuid(),
+                ReferenceId = _clubSubscription.ClubSubscriptionId
             };
 
             await SendEvent(@event);
@@ -58,8 +51,30 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
 
             using (var context = _factory.CreateContext())
             {
-                Assert.That(context.ClubSubscriptionEventPrice.Count(eventPrice => eventPrice.EventId == e.EventId), 
-                    Is.EqualTo(1));
+                Assert.That(context.Events.Count(), Is.EqualTo(1));
+                Assert.That(context.ClubSubscriptionEventPrice.Count(), Is.EqualTo(2));
+            }
+        }
+
+        [Test]
+        public async Task Consume_CreatesANewSubscriptionWithNoReferences_UpdatesCorrectly()
+        {
+            SetupAnEntireClub();
+            var e = CreateEvent();
+
+            var @event = new ClubSubscriptionCreatedEvent()
+            {
+                ClubId = _clubSubscription.ClubId,
+                SubscriptionId = Guid.NewGuid(),
+            };
+
+            await SendEvent(@event);
+
+
+            using (var context = _factory.CreateContext())
+            {
+                Assert.That(context.Events.Count(), Is.EqualTo(1));
+                Assert.That(context.ClubSubscriptionEventPrice.Count(), Is.EqualTo(2));
             }
         }
         //Test event that does not exists. 

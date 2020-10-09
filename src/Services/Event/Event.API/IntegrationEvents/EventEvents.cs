@@ -89,7 +89,7 @@ namespace EMS.Events
     {
         public Guid SubscriptionId { get; set; }
         public Guid ClubId { get; set; }
-        public Guid ReferenceId { get; set; }
+        public Guid? ReferenceId { get; set; }
     }
 
     public class EventPrice
