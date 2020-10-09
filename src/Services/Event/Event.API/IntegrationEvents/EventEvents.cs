@@ -117,6 +117,14 @@ namespace EMS.Events
         public List<Guid> RoomIds { get; set; }
     }
 
+    public class VerifyChangedTimeslotEvent : Event // All events should inherit from Integration event
+    {
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Guid EventId { get; set; }
+        public List<Guid> RoomIds { get; set; }
+    }
+
     public class RoomCreatedEvent : Event // All events should inherit from Integration event
     {
         public Guid ClubId { get; set; }

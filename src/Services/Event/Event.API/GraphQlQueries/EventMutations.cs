@@ -26,10 +26,10 @@ namespace EMS.Event_Services.API.GraphQlQueries
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        /*
-        public async Task<Event> UpdateEventAsync(Guid id, UpdateEventRequest request)
+        
+        public async Task<Event> UpdateEventAsync(Guid eventId, UpdateEventRequest request)
         {
-            var item = await _context.Events.SingleOrDefaultAsync(ci => ci.EventId == id);
+            var item = await _context.Events.SingleOrDefaultAsync(ci => ci.EventId == eventId);
 
             if (item == null)
             {
@@ -40,16 +40,17 @@ namespace EMS.Event_Services.API.GraphQlQueries
                         .Build());
             }
 
-            item = _mapper.Map<Event>(request);
-            item.EventId = id;
+            item = _mapper.Map(request, item);
             _context.Events.Update(item);
 
-            var @event = _mapper.Map<EventUpdatedEvent>(item);
+            //This is simple without validation. 
+            var @event = _mapper.Map<VerifyChangedTimeslotEvent>(item);
+            @event.RoomIds = request.Locations;
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
 
             return item;
-        }*/
+        }
 
 
         public async Task<Event> CreateEventAsync(CreateEventRequest request)
@@ -58,6 +59,7 @@ namespace EMS.Event_Services.API.GraphQlQueries
             _context.Events.Add(item);
 
             var @event = _mapper.Map<VerifyAvailableTimeslotEvent>(item);
+            @event.RoomIds = request.Locations;
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
 
