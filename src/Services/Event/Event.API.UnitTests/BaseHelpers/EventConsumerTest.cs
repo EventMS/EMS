@@ -53,7 +53,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             };
         }
 
-        protected Event CreateEvent(EventStatus status = EventStatus.Pending)
+        protected Event CreateEvent(EventStatus status = EventStatus.PENDING)
         {
             var @event = CreateMapper().Map<Event>(BasicCreateRequest());
             @event.Status = status;

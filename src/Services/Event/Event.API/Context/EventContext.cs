@@ -21,7 +21,7 @@ namespace EMS.Event_Services.API.Context
 
         public DbSet<ClubSubscription> Subscriptions { get; set; }
 
-        public DbSet<ClubSubscriptionEventPrice> ClubSubscriptionEventPrice { get; set; }
+        public DbSet<EventPrice> ClubSubscriptionEventPrice { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

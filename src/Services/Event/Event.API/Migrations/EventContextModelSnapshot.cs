@@ -46,24 +46,6 @@ namespace EMS.Event_Services.API.Migrations
                     b.ToTable("ClubSubscription");
                 });
 
-            modelBuilder.Entity("EMS.Event_Services.API.Context.Model.ClubSubscriptionEventPrice", b =>
-                {
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SubscriptionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("Price")
-                        .HasColumnType("real");
-
-                    b.HasKey("EventId", "SubscriptionId");
-
-                    b.HasIndex("SubscriptionId");
-
-                    b.ToTable("ClubSubscriptionEventPrice");
-                });
-
             modelBuilder.Entity("EMS.Event_Services.API.Context.Model.Event", b =>
                 {
                     b.Property<Guid>("EventId")
@@ -96,6 +78,24 @@ namespace EMS.Event_Services.API.Migrations
                         .IsUnique();
 
                     b.ToTable("Event");
+                });
+
+            modelBuilder.Entity("EMS.Event_Services.API.Context.Model.EventPrice", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClubSubscriptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.HasKey("EventId", "ClubSubscriptionId");
+
+                    b.HasIndex("ClubSubscriptionId");
+
+                    b.ToTable("EventPrice");
                 });
 
             modelBuilder.Entity("EMS.Event_Services.API.Context.Model.Instructor", b =>
@@ -174,27 +174,27 @@ namespace EMS.Event_Services.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EMS.Event_Services.API.Context.Model.ClubSubscriptionEventPrice", b =>
-                {
-                    b.HasOne("EMS.Event_Services.API.Context.Model.Event", "Event")
-                        .WithMany("SubscriptionEventPrices")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("EMS.Event_Services.API.Context.Model.ClubSubscription", "ClubSubscription")
-                        .WithMany("ClubSubscriptionEventPrices")
-                        .HasForeignKey("SubscriptionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EMS.Event_Services.API.Context.Model.Event", b =>
                 {
                     b.HasOne("EMS.Event_Services.API.Context.Model.Club", null)
                         .WithMany("Events")
                         .HasForeignKey("ClubId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EMS.Event_Services.API.Context.Model.EventPrice", b =>
+                {
+                    b.HasOne("EMS.Event_Services.API.Context.Model.ClubSubscription", "ClubSubscription")
+                        .WithMany("EventPrices")
+                        .HasForeignKey("ClubSubscriptionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("EMS.Event_Services.API.Context.Model.Event", "Event")
+                        .WithMany("EventPrices")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

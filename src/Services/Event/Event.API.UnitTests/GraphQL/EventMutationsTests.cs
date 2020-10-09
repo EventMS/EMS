@@ -120,12 +120,12 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
             {
                 var e = context.Events.Include(e => e.InstructorForEvents)
                     .Include(e => e.Locations)
-                    .Include(e => e.SubscriptionEventPrices)
+                    .Include(e => e.EventPrices)
                     .FirstOrDefault(e => e.Name == request.Name);
                 Assert.That(e, Is.Not.Null);
                 Assert.That(e.Locations.Count, Is.EqualTo(1));
                 Assert.That(e.InstructorForEvents.Count, Is.EqualTo(1));
-                Assert.That(e.SubscriptionEventPrices.Count, Is.EqualTo(1));
+                Assert.That(e.EventPrices.Count, Is.EqualTo(1));
                 Assert.That(context.Events.Count(), Is.EqualTo(1));
             }
 

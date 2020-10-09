@@ -25,9 +25,9 @@ namespace EMS.Event_Services.API.Events
         public async Task Consume(ConsumeContext<TimeslotReservationFailedEvent> context)
         {
             var evt = _context.Events.Find(context.Message.EventId);
-            if (evt != null && evt.Status == EventStatus.Pending)
+            if (evt != null && evt.Status == EventStatus.PENDING)
             {
-                evt.Status = EventStatus.Failed;
+                evt.Status = EventStatus.FAILED;
                 _context.Events.Update(evt);
                 var @event = _mapper.Map<EventCreationFailedEvent>(evt);
                 @event.Reason = context.Message.Reason;

@@ -12,7 +12,6 @@ namespace EMS.Event_Services.API.Context.EntityConfigurations
             builder.ToTable("RoomEvent");
 
             builder.HasKey(ci => new { ci.EventId, ci.RoomId });
-
             builder.HasOne(bc => bc.Event)
                 .WithMany(b => b.Locations)
                 .HasForeignKey(bc => bc.EventId)

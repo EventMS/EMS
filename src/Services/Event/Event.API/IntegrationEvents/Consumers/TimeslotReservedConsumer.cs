@@ -25,9 +25,9 @@ namespace EMS.Event_Services.API.Events
         public async Task Consume(ConsumeContext<TimeslotReservedEvent> context)
         {
             var evt = _context.Events.Find(context.Message.EventId);
-            if (evt != null && evt.Status == EventStatus.Pending)
+            if (evt != null && evt.Status == EventStatus.PENDING)
             {
-                evt.Status = EventStatus.Confirmed;
+                evt.Status = EventStatus.CONFIRMED;
                 _context.Events.Update(evt);
                 var @event = _mapper.Map<EventCreatedEvent>(evt);
                 await _eventService.SaveEventAndDbContextChangesAsync(@event);

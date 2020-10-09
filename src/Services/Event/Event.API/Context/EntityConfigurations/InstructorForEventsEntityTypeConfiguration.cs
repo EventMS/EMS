@@ -12,7 +12,6 @@ namespace EMS.Event_Services.API.Context.EntityConfigurations
             builder.ToTable("InstructorForEvent");
 
             builder.HasKey(ci => new { ci.EventId, ci.InstructorId });
-
             builder.HasOne(bc => bc.Event)
                 .WithMany(b => b.InstructorForEvents)
                 .HasForeignKey(bc => bc.EventId)

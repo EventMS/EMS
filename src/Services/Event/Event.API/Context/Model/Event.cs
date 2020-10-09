@@ -22,7 +22,7 @@ namespace EMS.Event_Services.API.Context.Model
 
         public DateTime EndTime { get; set; }
 
-        public List<ClubSubscriptionEventPrice> SubscriptionEventPrices { get; set; }
+        public List<EventPrice> EventPrices { get; set; }
 
         public List<RoomEvent> Locations { get; set; }
 
@@ -30,7 +30,7 @@ namespace EMS.Event_Services.API.Context.Model
 
         public Event()
         {
-            Status = EventStatus.Pending;
+            Status = EventStatus.PENDING;
         }
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {
@@ -44,8 +44,6 @@ namespace EMS.Event_Services.API.Context.Model
 
     public enum EventStatus
     {
-        Pending,
-        Confirmed,
-        Failed
+        PENDING, CONFIRMED, FAILED
     }
 }

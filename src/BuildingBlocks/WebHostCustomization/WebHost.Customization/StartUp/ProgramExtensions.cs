@@ -59,7 +59,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 .Enrich.WithProperty("ApplicationContext", appName)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.Seq(String.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
+                //.WriteTo.Seq(String.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
         }

@@ -103,26 +103,26 @@ namespace EMS.Event_Services.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClubSubscriptionEventPrice",
+                name: "EventPrice",
                 columns: table => new
                 {
-                    SubscriptionId = table.Column<Guid>(nullable: false),
+                    ClubSubscriptionId = table.Column<Guid>(nullable: false),
                     EventId = table.Column<Guid>(nullable: false),
                     Price = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClubSubscriptionEventPrice", x => new { x.EventId, x.SubscriptionId });
+                    table.PrimaryKey("PK_EventPrice", x => new { x.EventId, x.ClubSubscriptionId });
                     table.ForeignKey(
-                        name: "FK_ClubSubscriptionEventPrice_Event_EventId",
+                        name: "FK_EventPrice_ClubSubscription_ClubSubscriptionId",
+                        column: x => x.ClubSubscriptionId,
+                        principalTable: "ClubSubscription",
+                        principalColumn: "ClubSubscriptionId");
+                    table.ForeignKey(
+                        name: "FK_EventPrice_Event_EventId",
                         column: x => x.EventId,
                         principalTable: "Event",
                         principalColumn: "EventId");
-                    table.ForeignKey(
-                        name: "FK_ClubSubscriptionEventPrice_ClubSubscription_SubscriptionId",
-                        column: x => x.SubscriptionId,
-                        principalTable: "ClubSubscription",
-                        principalColumn: "ClubSubscriptionId");
                 });
 
             migrationBuilder.CreateTable(
@@ -175,15 +175,15 @@ namespace EMS.Event_Services.API.Migrations
                 column: "ClubId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClubSubscriptionEventPrice_SubscriptionId",
-                table: "ClubSubscriptionEventPrice",
-                column: "SubscriptionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Event_ClubId_Name",
                 table: "Event",
                 columns: new[] { "ClubId", "Name" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventPrice_ClubSubscriptionId",
+                table: "EventPrice",
+                column: "ClubSubscriptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Instructor_ClubId",
@@ -214,7 +214,7 @@ namespace EMS.Event_Services.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ClubSubscriptionEventPrice");
+                name: "EventPrice");
 
             migrationBuilder.DropTable(
                 name: "InstructorForEvent");

@@ -40,7 +40,7 @@ namespace EMS.Event_Services.API.Mapper
             CreateMap<Event, EventDeletedEvent>();
             CreateMap<Event, EventCreationFailedEvent>();
             CreateMap<Event, VerifyAvailableTimeslotEvent>();
-            CreateMap<SubscriptionEventPriceRequest, ClubSubscriptionEventPrice>();
+            CreateMap<SubscriptionEventPriceRequest, Context.Model.EventPrice>();
         }
     }
 }

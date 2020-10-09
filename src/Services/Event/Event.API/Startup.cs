@@ -10,7 +10,8 @@ using EMS.Event_Services.API.Events;
 using EMS.TemplateWebHost.Customization.StartUp;
 using MassTransit;
 using Serilog;
-
+using HotChocolate.Types;
+using EMS.Event_Services.API.Context.Model;
 
 namespace EMS.Event_Services.API
 {
@@ -22,15 +23,6 @@ namespace EMS.Event_Services.API
 
         public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
         {
-            Log.Information("Type getter tester");
-            var type = typeof(IConsumer);
-            AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p))
-                .ForAll(p => Log.Information(p.ToString()));
-
-
-
             busServices.AddConsumer<ClubCreatedEventConsumer>();
             busServices.AddConsumer<ClubSubscriptionCreatedEventConsumer>();
             busServices.AddConsumer<InstructorAddedEventConsumer>();

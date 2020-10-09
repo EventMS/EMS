@@ -46,13 +46,13 @@ namespace EMS.Event_Services.API.Events
                 
                 //To be tested
                 foreach (var messageEventPrice in _context.ClubSubscriptionEventPrice
-                    .Where(evtPrice => evtPrice.SubscriptionId == context.Message.ReferenceId).ToList())
+                    .Where(evtPrice => evtPrice.ClubSubscriptionId == context.Message.ReferenceId).ToList())
                 {
-                    _context.ClubSubscriptionEventPrice.Add(new ClubSubscriptionEventPrice()
+                    _context.ClubSubscriptionEventPrice.Add(new Context.Model.EventPrice()
                     {
                         Price = messageEventPrice.Price,
                         EventId = messageEventPrice.EventId,
-                        SubscriptionId = context.Message.SubscriptionId
+                        ClubSubscriptionId = context.Message.SubscriptionId
                     });
                 }
 

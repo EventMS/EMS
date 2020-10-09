@@ -19,7 +19,7 @@ namespace EMS.Events
 
         public DateTime EndTime { get; set; }
 
-        public List<ClubSubscriptionEventPrice> SubscriptionEventPrices { get; set; }
+        public List<Event_Services.API.Context.Model.EventPrice> SubscriptionEventPrices { get; set; }
 
         public List<RoomEvent> Locations { get; set; }
 
@@ -41,7 +41,7 @@ namespace EMS.Events
 
         public DateTime EndTime { get; set; }
 
-        public List<ClubSubscriptionEventPrice> SubscriptionEventPrices { get; set; }
+        public List<Event_Services.API.Context.Model.EventPrice> SubscriptionEventPrices { get; set; }
 
         public List<RoomEvent> Locations { get; set; }
 
