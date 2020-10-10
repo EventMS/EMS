@@ -52,13 +52,16 @@ namespace EMS.Permission_Services.API.Events
             {
                 _permissionContext.Clubs.Add(new Club()
                 {
-                    ClubId = clubId
-                });
-                _permissionContext.Roles.Add(new Role()
-                {
-                    UserId = context.Message.AdminId,
                     ClubId = clubId,
-                    UserRole = "Admin"
+                    Users = new List<Role>()
+                    {
+                        new Role()
+                        {
+                            UserId = context.Message.AdminId,
+                            ClubId = clubId,
+                            UserRole = "Admin"
+                        }
+                    }
                 });
                 _permissionContext.SaveChanges();
             }

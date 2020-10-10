@@ -12,6 +12,7 @@ using EMS.TemplateWebHost.Customization.EventService;
 using EMS.Event_Services.API.Context.Model;
 using EMS.TemplateWebHost.Customization.StartUp;
 using Microsoft.AspNetCore.Authorization;
+using Serilog;
 
 namespace EMS.Event_Services.API.GraphQlQueries
 {
@@ -26,14 +27,17 @@ namespace EMS.Event_Services.API.GraphQlQueries
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Event> UpdateEventAsync(Guid eventId, UpdateEventRequest request)
         {
-            var item = await _context.Events.SingleOrDefaultAsync(ci => ci.EventId == eventId);
-            await IsAdminIn(item.ClubId);
+            var item = await _context.Events
+                .Include(e => e.EventPrices)
+                .Include(e => e.Locations)
+                .Include(e => e.InstructorForEvents)
+                .SingleOrDefaultAsync(ci => ci.EventId == eventId);
+            
 
             if (item == null)
             {
@@ -43,7 +47,7 @@ namespace EMS.Event_Services.API.GraphQlQueries
                         .SetCode("ID_UNKNOWN")
                         .Build());
             }
-
+            await IsAdminIn(item.ClubId);
             item = _mapper.Map(request, item);
             _context.Events.Update(item);
 
@@ -59,7 +63,9 @@ namespace EMS.Event_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Event> CreateEventAsync(CreateEventRequest request)
         {
+            Log.Information(request.ClubId.ToString());
             await IsAdminIn(request.ClubId);
+
             var item = _mapper.Map<Event>(request);
             _context.Events.Add(item);
 

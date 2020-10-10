@@ -20,6 +20,7 @@ namespace EMS.Room_Services.API
         {
             busServices.AddConsumer<ClubCreatedEventConsumer>();
             busServices.AddConsumer<VerifyAvailableTimeslotEventConsumer>();
+            busServices.AddConsumer<VerifyChangedTimeslotEventConsumer>();
         }
 
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)

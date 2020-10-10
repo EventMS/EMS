@@ -26,7 +26,6 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         [HotChocolate.AspNetCore.Authorization.Authorize]
@@ -43,6 +42,8 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
                         .Build());
             }
 
+            await IsAdminIn(item.ClubId);
+
             item.NameOfSubscription = request.NameOfSubscription;
             _context.ClubMembers.Update(item);
 
@@ -55,6 +56,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubMember> CreateClubMemberAsync(CreateClubMemberRequest request)
         {
+            await IsAdminIn(request.ClubId);
             var item = _mapper.Map<ClubMember>(request);
 
             _context.ClubMembers.Add(item);
@@ -79,6 +81,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
                         .SetCode("ID_UNKNOWN")
                         .Build());
             }
+            await IsAdminIn(item.ClubId);
 
             _context.ClubMembers.Remove(item);
 

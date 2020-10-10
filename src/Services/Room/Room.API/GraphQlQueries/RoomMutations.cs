@@ -31,7 +31,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
         public async Task<Room> UpdateRoomAsync(Guid id, UpdateRoomRequest request)
         {
             var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
-            await IsAdminIn(item.ClubId);
+            
 
             if (item == null)
             {
@@ -41,6 +41,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
                         .SetCode("ID_UNKNOWN")
                         .Build());
             }
+            await IsAdminIn(item.ClubId);
 
             _mapper.Map(request, item);
             _context.Rooms.Update(item);
@@ -70,7 +71,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
         public async Task<Room> DeleteRoomAsync(Guid id)
         {
             var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
-            await IsAdminIn(item.ClubId);
+            
             if (item == null)
             {
                 throw new QueryException(
@@ -79,6 +80,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
                         .SetCode("ID_UNKNOWN")
                         .Build());
             }
+            await IsAdminIn(item.ClubId);
 
             _context.Rooms.Remove(item);
 

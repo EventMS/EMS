@@ -27,7 +27,6 @@ namespace EMS.Club_Service.API.GraphQlQueries
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
