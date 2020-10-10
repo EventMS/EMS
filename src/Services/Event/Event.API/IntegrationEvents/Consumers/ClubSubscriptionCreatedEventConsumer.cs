@@ -45,10 +45,10 @@ namespace EMS.Event_Services.API.Events
                 });
                 
                 //To be tested
-                foreach (var messageEventPrice in _context.ClubSubscriptionEventPrice
+                foreach (var messageEventPrice in _context.EventPrices
                     .Where(evtPrice => evtPrice.ClubSubscriptionId == context.Message.ReferenceId).ToList())
                 {
-                    _context.ClubSubscriptionEventPrice.Add(new Context.Model.EventPrice()
+                    _context.EventPrices.Add(new Context.Model.EventPrice()
                     {
                         Price = messageEventPrice.Price,
                         EventId = messageEventPrice.EventId,

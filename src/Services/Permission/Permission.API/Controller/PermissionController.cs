@@ -35,6 +35,8 @@ namespace EMS.Permission_Services.API.Controller
                                user.ClubId == clubId &&
                                user.UserRole == role)
                 .FirstOrDefaultAsync();
+
+            Log.Information("User with Id {userId} has permission {role}", userId, userPermissions?.UserRole);
             return userPermissions == null ? "" : role;
         }
     }
