@@ -23,18 +23,14 @@ namespace EMS.Permission_Services.API.Events
         public async Task Consume(ConsumeContext<UserCreatedEvent> context)
         {
             var userId = new Guid(context.Message.UserId);
-            var userAlreadyCreated = _permissionContext.UserPermissions.Find(userId);
+            var userAlreadyCreated = _permissionContext.Users.Find(userId);
             if (userAlreadyCreated == null)
             {
-                await _permissionContext.UserPermissions.AddAsync(new UserPermission()
+                await _permissionContext.Users.AddAsync(new User()
                 {
                     UserId = userId
                 });
                 await _permissionContext.SaveChangesAsync();
-            }
-            else
-            {
-                Log.Information("User have already been created with ID: {Id}", context.Message.UserId);
             }
         }
     }
@@ -52,37 +48,20 @@ namespace EMS.Permission_Services.API.Events
         public async Task Consume(ConsumeContext<ClubCreatedEvent> context)
         {
             var clubId = context.Message.ClubId;
-            var permissionAlreadyGiven = await _permissionContext.UserAdministratorPermission
-                .FirstOrDefaultAsync(user => user.UserId == context.Message.AdminId
-                                             && user.ClubId == context.Message.ClubId);
-            if (permissionAlreadyGiven != null)
+            if (_permissionContext.Clubs.Find(clubId) == null)
             {
-                Log.Information("ClubCreatedEvent have already been completed previously. ");
-                return;
-            }
-
-
-            var clubCreated = _permissionContext.ClubAdministratorPermissions.Find(clubId);
-            if (clubCreated == null)
-            {
-                clubCreated = new ClubAdministratorPermission
+                _permissionContext.Clubs.Add(new Club()
                 {
+                    ClubId = clubId
+                });
+                _permissionContext.Roles.Add(new Role()
+                {
+                    UserId = context.Message.AdminId,
                     ClubId = clubId,
-                    Users = new List<UserAdministratorPermission>()
-                    {
-                        new UserAdministratorPermission() {ClubId = clubId, UserId = context.Message.AdminId}
-                    }
-                };
-
-                await _permissionContext.ClubAdministratorPermissions.AddAsync(clubCreated);
-                await _permissionContext.SaveChangesAsync();
-            }
-            else
-            {
-                _permissionContext.UserAdministratorPermission.Add(new UserAdministratorPermission() { ClubId = clubId, UserId = context.Message.AdminId });
-                await _permissionContext.SaveChangesAsync();
+                    UserRole = "Admin"
+                });
+                _permissionContext.SaveChanges();
             }
         }
     }
-
 }

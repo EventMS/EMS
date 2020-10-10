@@ -21,7 +21,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             RoleRequirement requirement,
             Guid id)
         {
-            if (await _permissionService.GetPermissions(id) == requirement.Role)
+            if (await _permissionService.GetPermissions(id, requirement.Role) == requirement.Role)
             {
                 context.Succeed(requirement);
             }

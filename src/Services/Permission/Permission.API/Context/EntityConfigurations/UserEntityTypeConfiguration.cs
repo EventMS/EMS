@@ -5,11 +5,11 @@ using EMS.Permission_Services.API.Context.Model;
 namespace EMS.Permission_Services.API.Context.EntityConfigurations
 {
     class UserPermissionEntityTypeConfiguration
-        : IEntityTypeConfiguration<UserPermission>
+        : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<UserPermission> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("UserPermission");
+            builder.ToTable("User");
 
             builder.HasKey(ci => ci.UserId);
 

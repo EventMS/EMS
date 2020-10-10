@@ -16,9 +16,9 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             _client = client;
         }
 
-        public async Task<string> GetPermissions(Guid clubId)
+        public async Task<string> GetPermissions(Guid clubId, string role)
         {
-            var response = await _client.GetAsync("/api/permission/" + clubId);
+            var response = await _client.GetAsync("/api/permission/" + clubId+"/"+role);
 
             response.EnsureSuccessStatusCode();
 

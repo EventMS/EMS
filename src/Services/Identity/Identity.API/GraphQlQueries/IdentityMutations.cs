@@ -112,7 +112,7 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         }
 
 
-        [Authorize]
+        [HotChocolate.AspNetCore.Authorization.Authorize]
 
         public async Task<ApplicationUser> EditUserAsync(EditUserRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {

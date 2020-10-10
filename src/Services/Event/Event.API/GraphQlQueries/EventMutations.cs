@@ -29,7 +29,7 @@ namespace EMS.Event_Services.API.GraphQlQueries
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Event> UpdateEventAsync(Guid eventId, UpdateEventRequest request)
         {
             var item = await _context.Events.SingleOrDefaultAsync(ci => ci.EventId == eventId);
@@ -56,7 +56,7 @@ namespace EMS.Event_Services.API.GraphQlQueries
             return item;
         }
 
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Event> CreateEventAsync(CreateEventRequest request)
         {
             await IsAdminIn(request.ClubId);

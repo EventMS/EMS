@@ -4,12 +4,12 @@ using EMS.Permission_Services.API.Context.Model;
 
 namespace EMS.Permission_Services.API.Context.EntityConfigurations
 {
-    class ClubAdministratorPermissionEntityTypeConfiguration
-        : IEntityTypeConfiguration<ClubAdministratorPermission>
+    class ClubEntityTypeConfiguration
+        : IEntityTypeConfiguration<Club>
     {
-        public void Configure(EntityTypeBuilder<ClubAdministratorPermission> builder)
+        public void Configure(EntityTypeBuilder<Club> builder)
         {
-            builder.ToTable("ClubAdministratorPermission");
+            builder.ToTable("Club");
 
             builder.HasKey(ci => ci.ClubId);
 

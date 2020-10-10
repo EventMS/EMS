@@ -5,14 +5,13 @@ using HotChocolate;
 
 namespace EMS.Permission_Services.API.Context.Model
 {
-    public class ClubAdministratorPermission : IValidatableObject
+    public class User : IValidatableObject
     {
-        public Guid ClubId { get; set; }
+        public Guid UserId { get; set; }
 
-        public ICollection<UserAdministratorPermission> Users { get; set; }
+        public ICollection<Role> Roles { get; set; }
 
-
-        public ClubAdministratorPermission() { }
+        public User() { }
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {
             yield break;

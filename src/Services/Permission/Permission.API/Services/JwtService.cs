@@ -18,7 +18,7 @@ namespace EMS.Permission_Services.API.Services
         private IConfiguration Configuration { get; }
 
 
-        public string GenerateJwtToken(Guid userId, UserAdministratorPermission userPermission)
+        public string GenerateJwtToken(Guid userId, Role userPermission)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();

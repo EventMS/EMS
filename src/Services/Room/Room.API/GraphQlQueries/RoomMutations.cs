@@ -27,7 +27,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
         }
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Room> UpdateRoomAsync(Guid id, UpdateRoomRequest request)
         {
             var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
@@ -52,7 +52,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
             return item;
         }
 
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Room> CreateRoomAsync(CreateRoomRequest request)
         {
             await IsAdminIn(request.ClubId);
@@ -66,7 +66,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
 
             return item;
         }
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Room> DeleteRoomAsync(Guid id)
         {
             var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);

@@ -31,7 +31,7 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             _mapper = mapper;
             _eventService = eventService;
         }
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubSubscription> CreateClubSubscriptionAsync(CreateClubSubscriptionRequest request)
         {
             await IsAdminIn(request.ClubId);
@@ -45,7 +45,7 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
             return item;
         }
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubSubscription> UpdateClubSubscriptionAsync(Guid id, UpdateClubSubscriptionRequest request)
         {
             var item = await _context.ClubSubscriptions.SingleOrDefaultAsync(ci => ci.SubscriptionId == id);

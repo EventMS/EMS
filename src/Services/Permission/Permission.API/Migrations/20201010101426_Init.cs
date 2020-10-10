@@ -3,72 +3,73 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EMS.Permission_Services.API.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ClubAdministratorPermission",
+                name: "Club",
                 columns: table => new
                 {
                     ClubId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClubAdministratorPermission", x => x.ClubId);
+                    table.PrimaryKey("PK_Club", x => x.ClubId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserPermission",
+                name: "User",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPermission", x => x.UserId);
+                    table.PrimaryKey("PK_User", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserAdministratorPermission",
+                name: "Role",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(nullable: false),
-                    ClubId = table.Column<Guid>(nullable: false)
+                    ClubId = table.Column<Guid>(nullable: false),
+                    UserRole = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAdministratorPermission", x => new { x.UserId, x.ClubId });
+                    table.PrimaryKey("PK_Role", x => new { x.UserId, x.ClubId });
                     table.ForeignKey(
-                        name: "FK_UserAdministratorPermission_ClubAdministratorPermission_ClubId",
+                        name: "FK_Role_Club_ClubId",
                         column: x => x.ClubId,
-                        principalTable: "ClubAdministratorPermission",
+                        principalTable: "Club",
                         principalColumn: "ClubId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserAdministratorPermission_UserPermission_UserId",
+                        name: "FK_Role_User_UserId",
                         column: x => x.UserId,
-                        principalTable: "UserPermission",
+                        principalTable: "User",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserAdministratorPermission_ClubId",
-                table: "UserAdministratorPermission",
+                name: "IX_Role_ClubId",
+                table: "Role",
                 column: "ClubId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserAdministratorPermission");
+                name: "Role");
 
             migrationBuilder.DropTable(
-                name: "ClubAdministratorPermission");
+                name: "Club");
 
             migrationBuilder.DropTable(
-                name: "UserPermission");
+                name: "User");
         }
     }
 }

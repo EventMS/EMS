@@ -29,7 +29,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
             _mapper = mapper;
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
         {
             await IsAdminIn(clubId);
@@ -68,7 +68,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
 
             return item;
         }
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> DeleteClubAsync(Guid clubId)
         {
             await IsAdminIn(clubId);
@@ -90,7 +90,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
             return item;
         }
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> AddInstructorAsync(Guid clubId, Guid instructorId)
         {
             await IsAdminIn(clubId);
@@ -113,7 +113,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
             return club;
         }
-
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> RemoveInstructorAsync(Guid clubId, Guid instructorId)
         {
             await IsAdminIn(clubId);

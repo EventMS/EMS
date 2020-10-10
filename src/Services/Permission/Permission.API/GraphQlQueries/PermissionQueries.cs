@@ -12,6 +12,6 @@ namespace EMS.Permission_Services.API.GraphQlQueries
             _context = context;
         }
 
-        public IQueryable<UserPermission> Permissions => _context.UserPermissions.AsQueryable();
+        public IQueryable<User> Permissions => _context.Users.AsQueryable();
     }
 }
