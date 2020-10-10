@@ -25,7 +25,7 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
         public void SetUp()
         {
             var mapper = CreateMapper();
-            _mutations = new Template1Mutations(_context, _eventService, mapper);
+            _mutations = new Template1Mutations(_context, _eventService, mapper, _authorizationService);
 
         }
 

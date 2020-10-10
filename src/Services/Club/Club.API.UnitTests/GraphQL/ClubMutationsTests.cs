@@ -34,7 +34,7 @@ namespace EMS.Subscription_Services.API.UnitTests.GraphQL
         public void SetUp()
         {
             _mapper = CreateMapper();
-            _mutations = new ClubMutations(_context, _eventService, _mapper);
+            _mutations = new ClubMutations(_context, _eventService, _mapper, _authorizationService);
 
         }
 

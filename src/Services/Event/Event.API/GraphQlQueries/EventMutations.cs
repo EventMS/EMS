@@ -10,15 +10,18 @@ using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.Controllers.Request;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.Event_Services.API.Context.Model;
+using EMS.TemplateWebHost.Customization.StartUp;
+using Microsoft.AspNetCore.Authorization;
+
 namespace EMS.Event_Services.API.GraphQlQueries
 {
-    public class EventMutations
+    public class EventMutations : BaseMutations
     {
         private readonly EventContext _context;
         private readonly IMapper _mapper;
         private readonly IEventService _eventService;
 
-        public EventMutations(EventContext context, IEventService template1EventService, IMapper mapper)
+        public EventMutations(EventContext context, IEventService template1EventService, IMapper mapper, IAuthorizationService authorizationService) : base(authorizationService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
@@ -30,6 +33,7 @@ namespace EMS.Event_Services.API.GraphQlQueries
         public async Task<Event> UpdateEventAsync(Guid eventId, UpdateEventRequest request)
         {
             var item = await _context.Events.SingleOrDefaultAsync(ci => ci.EventId == eventId);
+            await IsAdminIn(item.ClubId);
 
             if (item == null)
             {
@@ -55,6 +59,7 @@ namespace EMS.Event_Services.API.GraphQlQueries
 
         public async Task<Event> CreateEventAsync(CreateEventRequest request)
         {
+            await IsAdminIn(request.ClubId);
             var item = _mapper.Map<Event>(request);
             _context.Events.Add(item);
 

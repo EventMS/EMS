@@ -7,21 +7,22 @@ using EMS.Club_Service.API.Controllers.Request;
 using EMS.Club_Service_Services.API;
 using EMS.Events;
 using EMS.TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate;
-using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Execution;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace EMS.Club_Service.API.GraphQlQueries
 {
-    public class ClubMutations
+    public class ClubMutations : BaseMutations
     {
         private readonly ClubContext _context;
         private readonly IMapper _mapper;
         private readonly IEventService _eventService;
 
-        public ClubMutations(ClubContext context, IEventService template1EventService, IMapper mapper)
+        public ClubMutations(ClubContext context, IEventService template1EventService, IMapper mapper, IAuthorizationService authorizationService) : base(authorizationService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
@@ -29,9 +30,9 @@ namespace EMS.Club_Service.API.GraphQlQueries
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
-        [Authorize(Roles = new[] { "Admin" })]
         public async Task<Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
         {
+            await IsAdminIn(clubId);
             var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
 
             if (item == null)
@@ -52,7 +53,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
             return item;
         }
 
-        [Authorize]
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> CreateClubAsync(CreateClubRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {
             var item = _mapper.Map<Club>(request);
@@ -68,9 +69,9 @@ namespace EMS.Club_Service.API.GraphQlQueries
             return item;
         }
 
-        [Authorize(Roles = new[] { "Admin" })]
         public async Task<Club> DeleteClubAsync(Guid clubId)
         {
+            await IsAdminIn(clubId);
             var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
 
             if (item == null)
@@ -90,9 +91,9 @@ namespace EMS.Club_Service.API.GraphQlQueries
             return item;
         }
 
-        [Authorize(Roles = new[] { "Admin" })]
         public async Task<Club> AddInstructorAsync(Guid clubId, Guid instructorId)
         {
+            await IsAdminIn(clubId);
             var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
             if (club == null)
             {
@@ -113,9 +114,9 @@ namespace EMS.Club_Service.API.GraphQlQueries
             return club;
         }
 
-        [Authorize(Roles = new[] { "Admin" })]
         public async Task<Club> RemoveInstructorAsync(Guid clubId, Guid instructorId)
         {
+            await IsAdminIn(clubId);
             var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
             if (club == null)
             {

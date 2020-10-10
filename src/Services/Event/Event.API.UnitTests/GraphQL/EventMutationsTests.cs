@@ -35,7 +35,7 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         public void SetUp()
         {
             var mapper = CreateMapper();
-            _mutations = new EventMutations(_context, _eventService, mapper);
+            _mutations = new EventMutations(_context, _eventService, mapper, _authorizationService);
             SetupAnEntireClub();
         }
 
@@ -89,11 +89,11 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
                 ClubId = _club.ClubId,
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now,
-                SubscriptionEventPrices = new List<SubscriptionEventPriceRequest>()
+                EventPrices = new List<EventPriceRequest>()
                 {
-                    new SubscriptionEventPriceRequest()
+                    new EventPriceRequest()
                     {
-                        SubscriptionId = _clubSubscription.ClubSubscriptionId,
+                        ClubSubscriptionId = _clubSubscription.ClubSubscriptionId,
                         Price = 50
                     }
                 },
@@ -186,11 +186,11 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         public async Task CreateEvent_SubscriptionDoesNotExist_Fails()
         {
             var request = BasicCreateRequest();
-            request.SubscriptionEventPrices.RemoveRange(0, 1);
-            request.SubscriptionEventPrices.Add(new SubscriptionEventPriceRequest()
+            request.EventPrices.RemoveRange(0, 1);
+            request.EventPrices.Add(new EventPriceRequest()
             {
                 Price = 50, 
-                SubscriptionId = Guid.NewGuid()
+                ClubSubscriptionId = Guid.NewGuid()
             });
 
             Assert.ThrowsAsync<DbUpdateException>(async () =>

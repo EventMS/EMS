@@ -9,26 +9,29 @@ using EMS.Room_Services.API.Context;
 using EMS.Room_Services.API.Context.Model;
 using EMS.Room_Services.API.Controllers.Request;
 using EMS.TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.StartUp;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EMS.Room_Services.API.GraphQlQueries
 {
-    public class RoomMutations
+    public class RoomMutations : BaseMutations
     {
         private readonly RoomContext _context;
         private readonly IMapper _mapper;
         private readonly IEventService _eventService;
 
-        public RoomMutations(RoomContext context, IEventService template1EventService, IMapper mapper)
+
+        public RoomMutations(RoomContext context, IEventService template1EventService, IMapper mapper, IAuthorizationService authorizationService) : base(authorizationService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public async Task<Room> UpdateRoomAsync(Guid id, UpdateRoomRequest request)
         {
             var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
+            await IsAdminIn(item.ClubId);
 
             if (item == null)
             {
@@ -52,6 +55,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
 
         public async Task<Room> CreateRoomAsync(CreateRoomRequest request)
         {
+            await IsAdminIn(request.ClubId);
             var item = _mapper.Map<Room>(request);
 
             _context.Rooms.Add(item);
@@ -66,7 +70,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
         public async Task<Room> DeleteRoomAsync(Guid id)
         {
             var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
-
+            await IsAdminIn(item.ClubId);
             if (item == null)
             {
                 throw new QueryException(

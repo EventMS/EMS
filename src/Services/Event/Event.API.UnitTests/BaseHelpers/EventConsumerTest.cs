@@ -33,11 +33,11 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
                 ClubId = _club.ClubId,
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now,
-                SubscriptionEventPrices = new List<SubscriptionEventPriceRequest>()
+                EventPrices = new List<EventPriceRequest>()
                 {
-                    new SubscriptionEventPriceRequest()
+                    new EventPriceRequest()
                     {
-                        SubscriptionId = _clubSubscription.ClubSubscriptionId,
+                        ClubSubscriptionId = _clubSubscription.ClubSubscriptionId,
                         Price = 50
                     }
                 },

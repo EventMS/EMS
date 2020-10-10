@@ -9,16 +9,19 @@ using EMS.ClubMember_Services.API.Context;
 using EMS.ClubMember_Services.API.Context.Model;
 using EMS.ClubMember_Services.API.Controllers.Request;
 using EMS.TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.StartUp;
+using HotChocolate.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EMS.ClubMember_Services.API.GraphQlQueries
 {
-    public class ClubMemberMutations
+    public class ClubMemberMutations : BaseMutations
     {
         private readonly ClubMemberContext _context;
         private readonly IMapper _mapper;
         private readonly IEventService _eventService;
 
-        public ClubMemberMutations(ClubMemberContext context, IEventService template1EventService, IMapper mapper)
+        public ClubMemberMutations(ClubMemberContext context, IEventService template1EventService, IMapper mapper, IAuthorizationService authorizationService) : base(authorizationService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
@@ -26,6 +29,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
             context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubMember> UpdateClubMemberAsync(UpdateClubMemberRequest request)
         {
             var item = await _context.ClubMembers.SingleOrDefaultAsync(ci => ci.UserId == request.UserId && ci.ClubId == request.ClubId);
@@ -48,7 +52,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
             return item;
         }
 
-        
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubMember> CreateClubMemberAsync(CreateClubMemberRequest request)
         {
             var item = _mapper.Map<ClubMember>(request);
@@ -62,6 +66,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
             return item;
         }
 
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubMember> DeleteClubMemberAsync(Guid userId, Guid clubId)
         {
             var item = await _context.ClubMembers.SingleOrDefaultAsync(ci => ci.UserId == userId && ci.ClubId == clubId);

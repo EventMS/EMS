@@ -52,5 +52,26 @@ namespace EMS.Permission_Services.API.Controller
             Log.Information("There should be more context here to decode the expected context.. ");
             return "Invalid token";
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("{clubId}")]
+        public async Task<string> GetPermission(Guid clubId)
+        {
+            Log.Information("clubId: " + clubId.ToString());
+            var userId = new Guid(User.FindFirstValue("id"));
+            Log.Information("userId: " + userId.ToString());
+            if (_permissionContext.UserPermissions.Find(userId) == null)
+            {
+                Log.Information("Request made for user with token, but user is no longer in the system. ");
+                return "";
+            }
+
+            var userPermissions = await _permissionContext.UserAdministratorPermission
+                .Where(user => user.UserId == userId)
+                .Where(user => user.ClubId == clubId)
+                .FirstOrDefaultAsync();
+            return userPermissions == null ? "" : "Admin";
+        }
     }
 }

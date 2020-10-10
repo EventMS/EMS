@@ -27,15 +27,15 @@ namespace EMS.Event_Services.API.Controllers.Request
         public DateTime EndTime { get; set; }
 
         [Required]
-        public List<SubscriptionEventPriceRequest> SubscriptionEventPrices { get; set; }
+        public List<EventPriceRequest> EventPrices { get; set; }
         public List<Guid> Locations { get; set; }
         public List<Guid> InstructorForEvents { get; set; }
     }
 
-    public class SubscriptionEventPriceRequest
+    public class EventPriceRequest
     {
         [Required]
-        public Guid SubscriptionId { get; set; }
+        public Guid ClubSubscriptionId { get; set; }
         [Range(0, 10000000)]
         public float Price { get; set; }
     }

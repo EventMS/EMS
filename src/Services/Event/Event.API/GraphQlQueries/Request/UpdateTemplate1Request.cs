@@ -23,7 +23,7 @@ namespace EMS.Event_Services.API.Controllers.Request
         public DateTime EndTime { get; set; }
 
         [Required]
-        public List<SubscriptionEventPriceRequest> SubscriptionEventPrices { get; set; }
+        public List<EventPriceRequest> EventPrices { get; set; }
         public List<Guid> Locations { get; set; }
         public List<Guid> InstructorForEvents { get; set; }
     }

@@ -29,7 +29,7 @@ namespace EMS.ClubMember_Services.API.UnitTests.GraphQL
         public void SetUp()
         {
             var mapper = CreateMapper();
-            _mutations = new ClubMemberMutations(_context, _eventService, mapper);
+            _mutations = new ClubMemberMutations(_context, _eventService, mapper, _authorizationService);
 
         }
 

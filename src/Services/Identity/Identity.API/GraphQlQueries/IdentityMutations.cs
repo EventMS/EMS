@@ -47,7 +47,6 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             _signInManager = signInManager;
             _contextAccessor = contextAccessor;
             _publishEndpoint = publishEndpoint;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         

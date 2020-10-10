@@ -1,9 +1,11 @@
+﻿using System;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
+using System.Threading.Tasks;
+using Serilog;
 
-namespace EMS.GraphQL.API
+namespace EMS.TemplateWebHost.Customization.StartUp
 {
     public class PermissionService
     {
@@ -14,12 +16,9 @@ namespace EMS.GraphQL.API
             _client = client;
         }
 
-        public async Task<string> GetPermissions(ContextInRequest context)
+        public async Task<string> GetPermissions(Guid clubId)
         {
-            HttpContent content = new StringContent(JsonSerializer.Serialize(context),
-                Encoding.UTF8,
-        "application/json");
-            var response = await _client.PostAsync("/api/permission", content);
+            var response = await _client.GetAsync("/api/permission/" + clubId);
 
             response.EnsureSuccessStatusCode();
 

@@ -2,6 +2,7 @@
 using System;
 using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ using EMS.TemplateWebHost.Customization.Filters;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.TemplateWebHost.Customization.OutboxService;
 using EMS.TemplateWebHost.Customization.Settings;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
@@ -79,6 +82,20 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             services.AddAutoMapper(typeof(T));
             services.AddHostedService<OutboxHostedService>();
             services.AddScoped<IOutboxProcessingService, OutboxProcessingService<T>>();
+
+            //Seperate into function maybe. 
+            services.AddHttpClient<PermissionService>("permission", (sp, client) =>
+            {
+                HttpContext context = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+                if (context.Request.Headers.ContainsKey("Authorization"))
+                {
+                    client.DefaultRequestHeaders.Authorization =
+                        AuthenticationHeaderValue.Parse(context.Request.Headers["Authorization"].ToString());
+                }
+                client.BaseAddress = new Uri("http://permission-api");
+            });
+
         }
 
         private static OnCreateRequestAsync AuthenticationInterceptor()
@@ -223,6 +240,8 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             return service;
         }
 
+
+
         public virtual IServiceCollection AddCustomAuthentication(IServiceCollection services)
         {
             // prevent from mapping "sub" claim to nameidentifier.
@@ -250,6 +269,16 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.Requirements.Add(new RoleRequirement("Admin")));
+                options.AddPolicy("Instructor", policy => policy.Requirements.Add(new RoleRequirement("Instructor")));
+                options.AddPolicy("Member", policy => policy.Requirements.Add(new RoleRequirement("Member")));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, RoleHandler>();
+
             return services;
         }
 
