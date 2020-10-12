@@ -19,6 +19,9 @@ namespace EMS.Event_Services.API.Controllers.Request
         public string Description { get; set; }
 
         [Required]
+        public EventType EventType { get; set; }
+
+        [Required]
         [FutureDate]
         public DateTime StartTime { get; set; }
 

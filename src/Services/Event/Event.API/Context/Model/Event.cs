@@ -16,6 +16,8 @@ namespace EMS.Event_Services.API.Context.Model
 
         public string Description { get; set; }
 
+        public EventType EventType { get; set; } 
+
         public EventStatus Status { get; set; }
 
         public DateTime StartTime { get; set; }
@@ -30,7 +32,7 @@ namespace EMS.Event_Services.API.Context.Model
 
         public Event()
         {
-            Status = EventStatus.PENDING;
+            Status = EventStatus.Pending;
         }
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {
@@ -42,8 +44,12 @@ namespace EMS.Event_Services.API.Context.Model
         }
     }
 
+    public enum EventType
+    {
+        Public, Private
+    }
     public enum EventStatus
     {
-        PENDING, CONFIRMED, FAILED
+        Pending, Confirmed, Failed
     }
 }

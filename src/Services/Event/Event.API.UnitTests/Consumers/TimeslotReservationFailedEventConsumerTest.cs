@@ -72,7 +72,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             using(var context = _factory.CreateContext())
             {
                 var dbEvent = context.Events.Find(e.EventId);
-                Assert.That(dbEvent.Status, Is.EqualTo(EventStatus.FAILED));
+                Assert.That(dbEvent.Status, Is.EqualTo(EventStatus.Failed));
             }
 
             await _publishEndpoint.Received(1).Publish(
@@ -83,7 +83,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
         public async Task Consume_EventDoesExistInWrongStatus_IsIgnored()
         {
             SetupAnEntireClub();
-            var e = CreateEvent(EventStatus.CONFIRMED);
+            var e = CreateEvent(EventStatus.Confirmed);
 
             var @event = new TimeslotReservationFailedEvent()
             {
@@ -96,7 +96,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             using (var context = _factory.CreateContext())
             {
                 var dbEvent = context.Events.Find(e.EventId);
-                Assert.That(dbEvent.Status, Is.EqualTo(EventStatus.CONFIRMED));
+                Assert.That(dbEvent.Status, Is.EqualTo(EventStatus.Confirmed));
             }
 
 

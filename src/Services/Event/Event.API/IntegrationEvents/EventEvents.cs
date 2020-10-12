@@ -15,11 +15,13 @@ namespace EMS.Events
 
         public string Description { get; set; }
 
+        public EventType EventType { get; set; }
+
         public DateTime StartTime { get; set; }
 
         public DateTime EndTime { get; set; }
 
-        public List<Event_Services.API.Context.Model.EventPrice> SubscriptionEventPrices { get; set; }
+        public List<EventPrice> EventPrices { get; set; }
 
         public List<RoomEvent> Locations { get; set; }
 
@@ -41,7 +43,7 @@ namespace EMS.Events
 
         public DateTime EndTime { get; set; }
 
-        public List<Event_Services.API.Context.Model.EventPrice> SubscriptionEventPrices { get; set; }
+        public List<EventPrice> EventPrices { get; set; }
 
         public List<RoomEvent> Locations { get; set; }
 
@@ -52,15 +54,6 @@ namespace EMS.Events
     public class EventDeletedEvent : Event // All events should inherit from Integration event
     {
         public Guid EventId { get; set; }
-        public Guid ClubId { get; set; }
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
-        public string Reason { get; set; }
     }
 
     public class EventCreationFailedEvent : Event // All events should inherit from Integration event

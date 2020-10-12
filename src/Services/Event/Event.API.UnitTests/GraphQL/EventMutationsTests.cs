@@ -80,7 +80,7 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         }
         #endregion
 
-        protected Event CreateEvent(EventStatus status = EventStatus.PENDING)
+        protected Event CreateEvent(EventStatus status = EventStatus.Pending)
         {
             var @event = CreateMapper().Map<Event>(BasicCreateRequest());
             @event.Status = status;
@@ -102,6 +102,7 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
                 ClubId = _club.ClubId,
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now,
+                EventType = EventType.Public,
                 EventPrices = new List<EventPriceRequest>()
                 {
                     new EventPriceRequest()
