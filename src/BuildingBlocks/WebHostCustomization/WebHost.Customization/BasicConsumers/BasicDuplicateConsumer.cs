@@ -55,10 +55,15 @@ namespace TemplateWebHost.Customization.BasicConsumers
 
         }
 
+        public virtual async Task<TType> FindEntity(TType entity, TEvent e)
+        {
+            return _context.Set<TType>().Find(_context.FindPrimaryKeyValues(entity).ToArray());
+        }
+
         public async Task Consume(ConsumeContext<TEvent> context)
         {
             var entity = _mapper.Map<TType>(context.Message);
-            var alreadyFound = _context.Set<TType>().Find(_context.FindPrimaryKeyValues(entity).ToArray());
+            var alreadyFound = await FindEntity(entity, context.Message);
             if (alreadyFound == null)
             {
                 await _context.AddAsync(entity);
