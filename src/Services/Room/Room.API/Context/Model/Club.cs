@@ -14,6 +14,8 @@ namespace EMS.Room_Services.API.Context.Model
         public Club() { }
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {
+
+
             yield break;
         }
     }

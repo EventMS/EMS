@@ -35,22 +35,20 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
         public async Task<ClubSubscription> CreateClubSubscriptionAsync(CreateClubSubscriptionRequest request)
         {
             await IsAdminIn(request.ClubId);
+            var subscription = _mapper.Map<ClubSubscription>(request);
+            _context.ClubSubscriptions.Add(subscription);
 
-            var item = _mapper.Map<ClubSubscription>(request);
-
-            _context.ClubSubscriptions.Add(item);
-
-            var @event = _mapper.Map<ClubSubscriptionCreatedEvent>(item);
+            var @event = _mapper.Map<ClubSubscriptionCreatedEvent>(subscription);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
-            return item;
+            return subscription;
         }
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubSubscription> UpdateClubSubscriptionAsync(Guid id, UpdateClubSubscriptionRequest request)
         {
-            var item = await _context.ClubSubscriptions.SingleOrDefaultAsync(ci => ci.SubscriptionId == id);
+            var subscription = await _context.ClubSubscriptions.FindAsync(id);
 
-            if (item == null)
+            if (subscription == null)
             {
                 throw new QueryException(
                     ErrorBuilder.New()
@@ -59,20 +57,14 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
                         .Build());
             }
 
-            await IsAdminIn(item.ClubId);
+            await IsAdminIn(subscription.ClubId);
+            _mapper.Map(request, subscription);
+            _context.ClubSubscriptions.Update(subscription);
 
-
-            item.Price = request.Price;
-            item.Name = request.Name;
-            _context.ClubSubscriptions.Update(item);
-
-            var @event = _mapper.Map<ClubSubscriptionUpdatedEvent>(item);
+            var @event = _mapper.Map<ClubSubscriptionUpdatedEvent>(subscription);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
-            return item;
+            return subscription;
         }
-
-
-
     }
 }

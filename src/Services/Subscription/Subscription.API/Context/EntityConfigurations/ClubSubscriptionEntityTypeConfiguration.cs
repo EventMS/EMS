@@ -20,7 +20,6 @@ namespace EMS.Subscription_Services.API.Context.EntityConfigurations
             builder.Property(ci => ci.Name)
                 .HasMaxLength(25)
                 .IsRequired();
-                
 
             builder.HasOne(subscription => subscription.Club)
                 .WithMany(club => club.Subscriptions)

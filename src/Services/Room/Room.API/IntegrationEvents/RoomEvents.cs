@@ -12,13 +12,13 @@ namespace EMS.Events
     }
 
 
-        public class VerifyAvailableTimeslotEvent : Event // All events should inherit from Integration event
-        {
-            public DateTime StartTime { get; set; }
-            public DateTime EndTime { get; set; }
-            public Guid EventId { get; set; }
-            public List<Guid> RoomIds { get; set; }
-        }
+    public class VerifyAvailableTimeslotEvent : Event // All events should inherit from Integration event
+    {
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public Guid EventId { get; set; }
+        public List<Guid> RoomIds { get; set; }
+    }
 
         public class RoomUpdatedEvent : Event // All events should inherit from Integration event
     {

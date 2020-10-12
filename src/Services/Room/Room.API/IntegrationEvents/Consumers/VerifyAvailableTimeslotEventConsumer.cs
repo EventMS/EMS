@@ -25,18 +25,19 @@ namespace EMS.Room_Services.API.Events
             _eventService = eventService;
         }
 
-
-        private bool CollisionInBookings(List<Booking> bookings, Booking booking)
+        private async Task FailureResponse(ConsumeContext<VerifyAvailableTimeslotEvent> context, string reason)
         {
-            foreach (var booked in bookings)
+            _roomContext.ChangeTracker.Entries()
+                .Where(e => e.Entity != null).ToList()
+                .ForEach(e => e.State = EntityState.Detached);
+            var @eventFailed = new TimeslotReservationFailedEvent()
             {
-                if (booked.StartTime < booking.EndTime && booking.StartTime < booked.EndTime)
-                {
-                    return true;
-                }
-            }
+                EventId = context.Message.EventId,
+                Reason = reason
+            };
 
-            return false;
+            await _eventService.SaveEventAndDbContextChangesAsync(@eventFailed);
+            await _eventService.PublishEventAsync(@eventFailed);
         }
 
         public async Task Consume(ConsumeContext<VerifyAvailableTimeslotEvent> context)
@@ -46,62 +47,37 @@ namespace EMS.Room_Services.API.Events
                 var room = await _roomContext.Rooms
                     .Include(room => room.Bookings)
                     .FirstOrDefaultAsync(room => room.RoomId == roomId);
+
                 if (room == null)
                 {
-                    var @eventFailed = new TimeslotReservationFailedEvent()
-                    {
-                        EventId = context.Message.EventId,
-                        Reason = "Room does not exist"
-                    };
-                    await _eventService.SaveEventAndDbContextChangesAsync(@eventFailed);
-                    await _eventService.PublishEventAsync(@eventFailed);
+                    await FailureResponse(context,"Room does not exist");
                     return;
                 }
-
-
                 var booking = new Booking()
                 {
-                    EndTime = context.Message.EndTime,
-                    StartTime = context.Message.StartTime
-                };
-
-                if (CollisionInBookings(room.Bookings, booking))
-                {
-                    var @eventFailed = new TimeslotReservationFailedEvent()
-                    {
-                        EventId = context.Message.EventId,
-                        Reason = "Timeslot already reserved"
-                    };
-                    await _eventService.SaveEventAndDbContextChangesAsync(@eventFailed);
-                    await _eventService.PublishEventAsync(@eventFailed);
-                    return;
-                }
-            }
-
-            foreach (var roomId in context.Message.RoomIds)
-            {
-                var room = await _roomContext.Rooms
-                    .Include(room => room.Bookings)
-                    .FirstOrDefaultAsync(room => room.RoomId == roomId);
-
-                var booking = new Booking()
-                {
-                    RoomId = room.RoomId,
                     EventId = context.Message.EventId,
                     EndTime = context.Message.EndTime,
                     StartTime = context.Message.StartTime
                 };
                 room.Bookings.Add(booking);
+                _roomContext.Rooms.Update(room);
             }
 
-
-            var @event = new TimeslotReservedEvent()
+            try
             {
-                EventId = context.Message.EventId,
-            };
+                
+                var @event = new TimeslotReservedEvent()
+                {
+                    EventId = context.Message.EventId,
+                };
+                await _eventService.SaveEventAndDbContextChangesAsync(@event);
+                await _eventService.PublishEventAsync(@event);
+            }
+            catch
+            {
+                await FailureResponse(context, "Timeslot already reserved");
+            }
 
-            await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishEventAsync(@event);
         }
     }
 }

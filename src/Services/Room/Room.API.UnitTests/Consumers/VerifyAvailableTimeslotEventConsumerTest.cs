@@ -53,7 +53,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             await SendEvent(@event);
 
             await _publishEndpoint.Received(1).Publish(
-                Arg.Is<TimeslotReservationFailedEvent>(evt => evt.Reason == "Room does not exist"));
+                Arg.Any<TimeslotReservationFailedEvent>());
         }
 
         [Test]
