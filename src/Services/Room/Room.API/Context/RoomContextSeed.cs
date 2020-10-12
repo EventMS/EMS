@@ -46,9 +46,6 @@ namespace EMS.Room_Services.API.Context
         {
             return new List<Model.Room>()
             {
-                new Model.Room() { Name = "Ma"},
-                new Model.Room() { Name = "Je" },
-                new Model.Room() { Name = "Si" },
             };
         }
 

@@ -30,8 +30,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Room> UpdateRoomAsync(Guid id, UpdateRoomRequest request)
         {
-            var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
-            
+            var item = await _context.Rooms.FindAsync(id);
 
             if (item == null)
             {
@@ -70,7 +69,7 @@ namespace EMS.Room_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Room> DeleteRoomAsync(Guid id)
         {
-            var item = await _context.Rooms.SingleOrDefaultAsync(ci => ci.RoomId == id);
+            var item = await _context.Rooms.FindAsync(id);
             
             if (item == null)
             {
