@@ -80,6 +80,19 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         }
         #endregion
 
+        protected Event CreateEvent(EventStatus status = EventStatus.PENDING)
+        {
+            var @event = CreateMapper().Map<Event>(BasicCreateRequest());
+            @event.Status = status;
+            using (var context = _factory.CreateContext())
+            {
+                context.Events.Add(@event);
+                context.SaveChanges();
+            }
+
+            return @event;
+        }
+
 
         public CreateEventRequest BasicCreateRequest()
         {
@@ -98,6 +111,33 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
                     }
                 },
                 Description = "Some description",
+                InstructorForEvents = new List<Guid>()
+                {
+                    _instructor.InstructorId
+                },
+                Locations = new List<Guid>()
+                {
+                    _room.RoomId
+                }
+            };
+        }
+
+        public UpdateEventRequest BasicUpdateRequest()
+        {
+            return new UpdateEventRequest()
+            {
+                Name = "Test Updated",
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now,
+                EventPrices = new List<EventPriceRequest>()
+                {
+                    new EventPriceRequest()
+                    {
+                        ClubSubscriptionId = _clubSubscription.ClubSubscriptionId,
+                        Price = 50
+                    }
+                },
+                Description = "Some description Updated",
                 InstructorForEvents = new List<Guid>()
                 {
                     _instructor.InstructorId
@@ -210,5 +250,30 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
                 await _mutations.CreateEventAsync(request));
             await _publish.Received(0).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
         }
+
+        [Test] //Should add more test, but confident for now. 
+        public async Task UpdateEvent_ValidRequest_AddedToDatabase()
+        {
+            var request = BasicUpdateRequest();
+            var @event = CreateEvent();
+
+            await _mutations.UpdateEventAsync(@event.EventId, request);
+
+            using (var context = _factory.CreateContext())
+            {
+                var e = context.Events.Include(e => e.InstructorForEvents)
+                    .Include(e => e.Locations)
+                    .Include(e => e.EventPrices)
+                    .FirstOrDefault(e => e.Name == request.Name);
+                Assert.That(e, Is.Not.Null);
+                Assert.That(e.Locations.Count, Is.EqualTo(1));
+                Assert.That(e.InstructorForEvents.Count, Is.EqualTo(1));
+                Assert.That(e.EventPrices.Count, Is.EqualTo(1));
+                Assert.That(context.Events.Count(), Is.EqualTo(1));
+            }
+
+            await _publish.Received(1).Publish(Arg.Any<VerifyChangedTimeslotEvent>());
+        }
+
     }
 }

@@ -21,15 +21,6 @@ namespace EMS.Event_Services.API
         {
         }
 
-        public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
-        {
-            busServices.AddConsumer<ClubCreatedEventConsumer>();
-            busServices.AddConsumer<ClubSubscriptionCreatedEventConsumer>();
-            busServices.AddConsumer<InstructorAddedEventConsumer>();
-            busServices.AddConsumer<RoomCreatedEventConsumer>();
-            busServices.AddConsumer<TimeslotReservationFailedEventConsumer>();
-            busServices.AddConsumer<TimeslotReservedEventConsumer>();
-        }
 
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
