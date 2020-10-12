@@ -7,7 +7,6 @@ using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using EMS.EventParticipant_Services.API.Context;
-using EMS.EventParticipant_Services.API.Controllers.Request;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.EventParticipant_Services.API.Context.Model;
 using EMS.TemplateWebHost.Customization.StartUp;

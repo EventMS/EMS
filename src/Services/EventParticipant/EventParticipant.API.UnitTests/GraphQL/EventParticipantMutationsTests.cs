@@ -1,16 +1,19 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using EMS.Club_Service_Services.API;
 using EMS.Events;
 using EMS.SharedTesting.Helper;
 using NSubstitute;
 using NUnit.Framework;
 
 using EMS.EventParticipant_Services.API.Context;
-using EMS.EventParticipant_Services.API.Controllers.Request;
+using EMS.EventParticipant_Services.API.Context.Model;
 using EMS.EventParticipant_Services.API.GraphQlQueries;
 using EMS.EventParticipant_Services.API.Mapper;
+using EventType = EMS.EventParticipant_Services.API.Context.Model.EventType;
 
 namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
 {
@@ -18,13 +21,15 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
     class EventParticipantMutationsTests : BaseMutationsSetupTests<EventParticipantContext>
     {
 
-        /*
+        
         #region Setup
         private EventParticipantMutations _mutations;
+        private CurrentUser _currentUser;
 
         [SetUp]
         public void SetUp()
         {
+            _currentUser = new CurrentUser(Guid.NewGuid());
             var mapper = CreateMapper();
             _mutations = new EventParticipantMutations(_context, _eventService, mapper, _authorizationService);
 
@@ -41,37 +46,115 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
 
 
         [Test]
-        public async Task CreateEventParticipant_ValidRequest_AddedToDatabase()
+        public async Task SignUpFreeEventAsync_ValidRequest_AddedToDatabase()
         {
-            var request = new SignUpEventRequest()
+            var e = new Event()
             {
-                Name = "Te"
+                EventId = Guid.NewGuid(),
+                ClubId = Guid.NewGuid(),
+                IsFree = true,
+                EventType = EventType.Public
             };
+            using (var context = _factory.CreateContext())
+            {
+                context.Events.Add(e);
+                context.SaveChanges();
+            }
 
-            await _mutations.CreateEventParticipantAsync(request);
+            await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser);
 
             using (var context = _factory.CreateContext())
             {
-                var template1 = context.EventParticipants.FirstOrDefault(template1 => template1.Name == request.Name);
-                Assert.That(template1, Is.Not.Null);
+                var ep = context.EventParticipants.FirstOrDefault(ep => ep.UserId == _currentUser.UserId);
+                Assert.That(ep, Is.Not.Null);
                 Assert.That(context.EventParticipants.Count(), Is.EqualTo(1));
             }
 
-            await _publish.Received(1).Publish(Arg.Any<EventParticipantCreatedEvent>());
+            await _publish.Received(1).Publish(Arg.Any<SignUpEventSuccess>());
         }
 
         [Test]
-        public async Task CreateEventParticipant_InvalidRequest_DatabaseFails()
+        public async Task SignUpFreeEventAsync_ValidRequest_PublishedEvent()
         {
-            var request = new SignUpEventRequest()
+            var e = new Event()
             {
-                Name = "Test"
+                EventId = Guid.NewGuid(),
+                ClubId = Guid.NewGuid(),
+                IsFree = true,
+                EventType = EventType.Private
             };
+            using (var context = _factory.CreateContext())
+            {
+                context.Events.Add(e);
+                context.SaveChanges();
+            }
 
-            Assert.ThrowsAsync<ValidationException>(async () => await _mutations.CreateEventParticipantAsync(request));
-            await _publish.Received(0).Publish(Arg.Any<EventParticipantCreatedEvent>());
+            await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser);
+
+            using (var context = _factory.CreateContext())
+            {
+                var ep = context.EventParticipants.FirstOrDefault(ep => ep.UserId == _currentUser.UserId);
+                Assert.That(ep, Is.Null);
+                Assert.That(context.EventParticipants.Count(), Is.EqualTo(0));
+            }
+
+            await _publish.Received(1).Publish(Arg.Any<CanUserSignUpToEvent>());
         }
-        */
 
+        [Test]
+        public async Task SignUpFreeEventAsync_ValidRequest2_PublishedEvent()
+        {
+            var e = new Event()
+            {
+                EventId = Guid.NewGuid(),
+                ClubId = Guid.NewGuid(),
+                IsFree = false,
+                EventType = EventType.Public
+            };
+            using (var context = _factory.CreateContext())
+            {
+                context.Events.Add(e);
+                context.SaveChanges();
+            }
+
+            await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser);
+
+            using (var context = _factory.CreateContext())
+            {
+                var ep = context.EventParticipants.FirstOrDefault(ep => ep.UserId == _currentUser.UserId);
+                Assert.That(ep, Is.Null);
+                Assert.That(context.EventParticipants.Count(), Is.EqualTo(0));
+            }
+
+            await _publish.Received(1).Publish(Arg.Any<CanUserSignUpToEvent>());
+        }
+
+        [Test]
+        public async Task SignUpFreeEventAsync_ValidRequest3_PublishedEvent()
+        {
+            var e = new Event()
+            {
+                EventId = Guid.NewGuid(),
+                ClubId = Guid.NewGuid(),
+                IsFree = false,
+                EventType = EventType.Private
+            };
+            using (var context = _factory.CreateContext())
+            {
+                context.Events.Add(e);
+                context.SaveChanges();
+            }
+
+            await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser);
+
+            using (var context = _factory.CreateContext())
+            {
+                var ep = context.EventParticipants.FirstOrDefault(ep => ep.UserId == _currentUser.UserId);
+                Assert.That(ep, Is.Null);
+                Assert.That(context.EventParticipants.Count(), Is.EqualTo(0));
+            }
+
+            await _publish.Received(1).Publish(Arg.Any<CanUserSignUpToEvent>());
+        }
     }
 }
