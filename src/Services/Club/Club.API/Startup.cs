@@ -14,10 +14,6 @@ namespace EMS.Club_Service.API
         {
         }
 
-        public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
-        {
-            busServices.AddConsumer<UserIsClubMemberConsumer>();
-        }
         
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {

@@ -18,12 +18,6 @@ namespace EMS.Permission_Services.API
         {
         }
 
-        public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
-        {
-            busServices.AddConsumer<UserCreatedEventConsumer>();
-            busServices.AddConsumer<ClubCreatedEventConsumer>();
-        }
-
         public override IServiceCollection AddServices(IServiceCollection service)
         {
             service.AddSingleton<JwtService>();

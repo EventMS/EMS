@@ -127,7 +127,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
         {
             services.AddMassTransit(x =>
             {
-                ConfigureMassTransit(x);
+                x.AddConsumers(typeof(T).Assembly);
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(GetName(), false));
                 x.UsingRabbitMq((context, config) =>
                 {
@@ -143,13 +143,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             services.AddMassTransitHostedService();
             return services;
         }
-
-        public virtual void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
-        {
-
-        }
-
-
+        
 
         public virtual IServiceCollection AddCustomDbContext(IServiceCollection services)
         {
