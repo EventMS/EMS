@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EMS.EventParticipant_Service.API.Migrations
+namespace EMS.EventParticipant_Services.API.Migrations
 {
     public partial class Init : Migration
     {

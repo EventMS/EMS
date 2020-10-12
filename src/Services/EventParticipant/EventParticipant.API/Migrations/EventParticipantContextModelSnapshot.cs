@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EMS.EventParticipant_Service.API.Migrations
+namespace EMS.EventParticipant_Services.API.Migrations
 {
     [DbContext(typeof(EventParticipantContext))]
     partial class EventParticipantContextModelSnapshot : ModelSnapshot
@@ -31,7 +31,8 @@ namespace EMS.EventParticipant_Service.API.Migrations
                     b.Property<int>("EventType")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsFree")
+                    b.Property<bool?>("IsFree")
+                        .IsRequired()
                         .HasColumnType("bit");
 
                     b.HasKey("EventId");

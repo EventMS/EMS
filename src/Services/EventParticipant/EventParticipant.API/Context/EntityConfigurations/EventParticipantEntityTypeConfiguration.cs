@@ -16,9 +16,6 @@ namespace EMS.EventParticipant_Services.API.Context.EntityConfigurations
             builder.Property(ci => ci.EventParticipantId)
                 .IsRequired();
 
-            builder.Property(ci => ci.EventId)
-                .IsRequired();
-
             builder.Property(ci => ci.UserId)
                 .IsRequired();
 

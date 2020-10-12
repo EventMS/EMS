@@ -22,6 +22,7 @@ namespace EMS.EventParticipant_Services.API.Mapper
                 .Transform(e => e.IsFree, e => !e.EventPrices.Any(price => Math.Abs(price.Price) >= TOLERANCE));
 
             CreateMap<Event, CanUserSignUpToEvent>();
+            CreateMap<SignUpEventSuccess, EventParticipant>();
         }
     }
 }

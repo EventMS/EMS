@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EMS.EventParticipant_Service.API.Migrations
+namespace EMS.EventParticipant_Services.API.Migrations
 {
     [DbContext(typeof(EventParticipantContext))]
-    [Migration("20201012083056_Init")]
+    [Migration("20201012123137_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,8 @@ namespace EMS.EventParticipant_Service.API.Migrations
                     b.Property<int>("EventType")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsFree")
+                    b.Property<bool?>("IsFree")
+                        .IsRequired()
                         .HasColumnType("bit");
 
                     b.HasKey("EventId");
