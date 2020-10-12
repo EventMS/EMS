@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using EMS.Permission_Services.API.Context.Model;
+using EMS.TemplateWebHost.Customization.StartUp;
+using Newtonsoft.Json;
 
 namespace EMS.Permission_Services.API.Services
 {
@@ -18,7 +22,7 @@ namespace EMS.Permission_Services.API.Services
         private IConfiguration Configuration { get; }
 
 
-        public string GenerateJwtToken(Guid userId, Role userPermission)
+        public string GenerateJwtToken(Guid userId, List<Role> userRoles)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -28,11 +32,20 @@ namespace EMS.Permission_Services.API.Services
             var subject = new ClaimsIdentity();
             //Attach information in token here somewhere
             subject.AddClaim(new Claim("id", userId.ToString()));
-            if (userPermission != null)
+
+
+            var clubPermissons = userRoles.Select(role => new ClubPermission()
             {
-                subject.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+                ClubId = role.ClubId,
+                UserRole = role.UserRole,
+                SubscriptionId = role.SubscriptionId
+            }).ToList();
+
+            if (clubPermissons.Count() != 0)
+            {
+                subject.AddClaim(new Claim("ClubPermissionsClaim", JsonConvert.SerializeObject(clubPermissons)));
             }
-            
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = null,

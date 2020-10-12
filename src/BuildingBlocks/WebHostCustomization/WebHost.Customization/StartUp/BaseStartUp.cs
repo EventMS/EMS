@@ -95,7 +95,6 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 }
                 client.BaseAddress = new Uri("http://permission-api");
             });
-
         }
 
         private static OnCreateRequestAsync AuthenticationInterceptor()

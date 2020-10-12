@@ -26,6 +26,17 @@ namespace EMS.Permission_Services.API.Controller
 
         [Authorize]
         [HttpGet]
+        public async Task<string> GetFatToken()
+        {
+            var userId = new Guid(User.FindFirstValue("id"));
+            var userPermissions = await _permissionContext.Roles
+                .Where(user => user.UserId == userId)
+                .ToListAsync();
+            return _jwtService.GenerateJwtToken(userId, userPermissions);
+        }
+
+        [Authorize]
+        [HttpGet]
         [Route("{clubId}/{role}")]
         public async Task<string> GetPermission(Guid clubId, string role)
         {

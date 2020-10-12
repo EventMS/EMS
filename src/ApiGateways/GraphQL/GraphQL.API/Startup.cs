@@ -86,6 +86,18 @@ namespace EMS.GraphQL.API
 
         public virtual IServiceCollection AddServices(IServiceCollection services)
         {
+
+            services.AddHttpClient<PermissionService>("permission", (sp, client) =>
+            {
+                HttpContext context = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+                if (context.Request.Headers.ContainsKey("Authorization"))
+                {
+                    client.DefaultRequestHeaders.Authorization =
+                        AuthenticationHeaderValue.Parse(context.Request.Headers["Authorization"].ToString());
+                }
+                client.BaseAddress = new Uri("http://permission-api");
+            });
             return services;
         }
 
@@ -190,6 +202,7 @@ namespace EMS.GraphQL.API
             app.UsePlayground();
             app.UseCors("CorsPolicy");
             app.UseRouting();
+            app.UseMiddleware<PermissionMiddleware>();
             app.UseGraphQL();
         }
 

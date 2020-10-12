@@ -24,5 +24,14 @@ namespace EMS.TemplateWebHost.Customization.StartUp
 
             return await response.Content.ReadAsStringAsync();
         }
+
+        public async Task<string> GetFatToken()
+        {
+            var response = await _client.GetAsync("/api/permission");
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync();
+        }
     }
 }
