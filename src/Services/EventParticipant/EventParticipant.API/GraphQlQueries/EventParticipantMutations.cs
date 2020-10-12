@@ -44,6 +44,7 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
                         .Build());
             }
 
+            //Maybe just duplicate data instead of ti
             if (item.IsFree && item.EventType == EventType.Public)
             {
                 _context.EventParticipants.Add(new EventParticipant()
