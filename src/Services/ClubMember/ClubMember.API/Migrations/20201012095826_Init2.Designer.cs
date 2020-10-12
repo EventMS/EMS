@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.ClubMember_Services.API.Migrations
 {
     [DbContext(typeof(ClubMemberContext))]
-    [Migration("20201007072817_Init")]
-    partial class Init
+    [Migration("20201012095826_Init2")]
+    partial class Init2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,26 +29,26 @@ namespace EMS.ClubMember_Services.API.Migrations
                     b.Property<Guid>("ClubId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("NameOfSubscription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("ClubSubscriptionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "ClubId");
 
-                    b.HasIndex("ClubId", "NameOfSubscription");
+                    b.HasIndex("ClubSubscriptionId");
 
                     b.ToTable("ClubMember");
                 });
 
             modelBuilder.Entity("EMS.ClubMember_Services.API.Context.Model.ClubSubscription", b =>
                 {
+                    b.Property<Guid>("ClubSubscriptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ClubId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("NameOfSubscription")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ClubId", "NameOfSubscription");
+                    b.HasKey("ClubSubscriptionId");
 
                     b.ToTable("ClubSubscription");
                 });
@@ -57,7 +57,7 @@ namespace EMS.ClubMember_Services.API.Migrations
                 {
                     b.HasOne("EMS.ClubMember_Services.API.Context.Model.ClubSubscription", null)
                         .WithMany("ClubMembers")
-                        .HasForeignKey("ClubId", "NameOfSubscription")
+                        .HasForeignKey("ClubSubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

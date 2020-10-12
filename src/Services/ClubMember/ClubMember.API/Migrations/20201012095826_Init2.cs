@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EMS.ClubMember_Services.API.Migrations
 {
-    public partial class Init : Migration
+    public partial class Init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,12 +11,12 @@ namespace EMS.ClubMember_Services.API.Migrations
                 name: "ClubSubscription",
                 columns: table => new
                 {
-                    ClubId = table.Column<Guid>(nullable: false),
-                    NameOfSubscription = table.Column<string>(nullable: false)
+                    ClubSubscriptionId = table.Column<Guid>(nullable: false),
+                    ClubId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClubSubscription", x => new { x.ClubId, x.NameOfSubscription });
+                    table.PrimaryKey("PK_ClubSubscription", x => x.ClubSubscriptionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -25,23 +25,23 @@ namespace EMS.ClubMember_Services.API.Migrations
                 {
                     UserId = table.Column<Guid>(nullable: false),
                     ClubId = table.Column<Guid>(nullable: false),
-                    NameOfSubscription = table.Column<string>(nullable: false)
+                    ClubSubscriptionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ClubMember", x => new { x.UserId, x.ClubId });
                     table.ForeignKey(
-                        name: "FK_ClubMember_ClubSubscription_ClubId_NameOfSubscription",
-                        columns: x => new { x.ClubId, x.NameOfSubscription },
+                        name: "FK_ClubMember_ClubSubscription_ClubSubscriptionId",
+                        column: x => x.ClubSubscriptionId,
                         principalTable: "ClubSubscription",
-                        principalColumns: new[] { "ClubId", "NameOfSubscription" },
+                        principalColumn: "ClubSubscriptionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClubMember_ClubId_NameOfSubscription",
+                name: "IX_ClubMember_ClubSubscriptionId",
                 table: "ClubMember",
-                columns: new[] { "ClubId", "NameOfSubscription" });
+                column: "ClubSubscriptionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

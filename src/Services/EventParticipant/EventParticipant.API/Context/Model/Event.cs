@@ -10,6 +10,7 @@ namespace EMS.EventParticipant_Services.API.Context.Model
         public EventType EventType { get; set; }
         public bool IsFree { get; set; }
 
+
         public List<EventParticipant> EventParticipants { get; set; }
     }
 

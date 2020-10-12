@@ -32,7 +32,7 @@ namespace EMS.Events
 
     public class ClubSubscriptionCreatedEvent : Event // All events should inherit from Integration event
     {
-        public string Name { get; set; }
+        public Guid SubscriptionId { get; set; }
         public Guid ClubId { get; set; }
     }
 
@@ -48,4 +48,17 @@ namespace EMS.Events
         public Guid UserId { get; set; }
     }
 
+    public class CanUserSignUpToEvent : Event // All events should inherit from Integration event
+    {
+        public Guid ClubId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid EventId { get; set; }
+    }
+
+    public class IsEventFreeForSubscriptionEvent : Event // All events should inherit from Integration event
+    {
+        public Guid ClubSubscriptionId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid EventId { get; set; }
+    }
 }

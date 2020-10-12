@@ -4,9 +4,9 @@ using EMS.BuildingBlocks.EventLogEF;
 
 namespace EMS.Events
 {
-    public class SignUpFreeEventSuccess : Event // All events should inherit from Integration event
+    public class CanUserSignUpToEvent : Event // All events should inherit from Integration event
     {
-        public Guid EventParticipantId { get; set; }
+        public Guid ClubId { get; set; }
         public Guid UserId { get; set; }
         public Guid EventId { get; set; }
     }

@@ -44,7 +44,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
 
             await IsAdminIn(item.ClubId);
 
-            item.NameOfSubscription = request.NameOfSubscription;
+            item.ClubSubscriptionId = request.ClubSubscriptionId;
             _context.ClubMembers.Update(item);
 
             var @event = _mapper.Map<ClubMemberUpdatedEvent>(item);
@@ -56,9 +56,11 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubMember> CreateClubMemberAsync(CreateClubMemberRequest request)
         {
-            await IsAdminIn(request.ClubId);
-            var item = _mapper.Map<ClubMember>(request);
+            var subscription = await _context.ClubSubscriptions.FindAsync(request.ClubSubscriptionId);
 
+            await IsAdminIn(subscription.ClubId);
+            var item = _mapper.Map<ClubMember>(request);
+            item.ClubId = subscription.ClubId;
             _context.ClubMembers.Add(item);
 
             var @event = _mapper.Map<ClubMemberCreatedEvent>(item);

@@ -20,12 +20,12 @@ namespace EMS.ClubMember_Services.API.Events
 
         public async Task Consume(ConsumeContext<ClubSubscriptionCreatedEvent> context)
         {
-            if (_subscriptionContext.ClubSubscriptions.Find(context.Message.ClubId, context.Message.Name) == null)
+            if (_subscriptionContext.ClubSubscriptions.Find(context.Message.SubscriptionId) == null)
             {
                 _subscriptionContext.ClubSubscriptions.Add(new ClubSubscription()
                 {
                     ClubId = context.Message.ClubId,
-                    NameOfSubscription = context.Message.Name
+                    ClubSubscriptionId = context.Message.SubscriptionId
                 });
                 await _subscriptionContext.SaveChangesAsync();
             }

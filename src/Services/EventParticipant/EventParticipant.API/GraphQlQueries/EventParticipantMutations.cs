@@ -30,10 +30,8 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
             _mapper = mapper;
         }
 
-        //Do we need this type of mutation?
-        //Or do all come through stripe service?
         [HotChocolate.AspNetCore.Authorization.Authorize]
-        public async Task<EventParticipant> SignUpFreeEventAsync(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
+        public async Task<Guid> SignUpFreeEventAsync(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
         {
             var item = _context.Events.Find(eventId);
 
@@ -46,36 +44,30 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
                         .Build());
             }
 
-            //Consider making event flow to membership service to get what membership the current user haves?
-            //Currently this only works if it's free for ALL memberships, instead of the actual one that the user have. 
-            if (item.IsFree)
+            if (item.IsFree && item.EventType == EventType.Public)
             {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The event is not free.")
-                        .SetCode("REQUEST_INVALID")
-                        .Build());
+                _context.EventParticipants.Add(new EventParticipant()
+                {
+                    EventId = eventId,
+                    UserId = currentUser.UserId
+                });
+                var @event = new SignUpEventSuccess()
+                {
+                    UserId = currentUser.UserId,
+                    EventId = eventId
+                };
+                await _eventService.SaveEventAndDbContextChangesAsync(@event);
+                await _eventService.PublishEventAsync(@event);
+                return eventId;
             }
-
-
-            if (item.EventType == EventType.Private)
+            else
             {
-                await IsMemberIn(item.ClubId);
+                var @event = _mapper.Map<CanUserSignUpToEvent>(item);
+                @event.UserId = currentUser.UserId;
+                await _eventService.SaveEventAndDbContextChangesAsync(@event);
+                await _eventService.PublishEventAsync(@event);
+                return eventId;
             }
-
-            var eventParticipant = new EventParticipant()
-            {
-                EventId = eventId,
-                UserId = currentUser.UserId
-            };
-
-            _context.EventParticipants.Add(eventParticipant);
-
-            var @event = _mapper.Map<SignUpFreeEventSuccess>(item);
-            await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishEventAsync(@event);
-
-            return eventParticipant;
         }
     }
 }
