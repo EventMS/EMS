@@ -16,7 +16,8 @@ namespace EMS.Room_Services.API.Context.EntityConfigurations
             builder.HasKey(ci => ci.RoomId);
 
             builder.Property(ci => ci.Name)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(50);
 
             builder.HasOne<Club>()
                 .WithMany(ci => ci.Rooms)

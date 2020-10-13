@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using EMS.EventParticipant_Services.API.Context.EntityConfigurations;
@@ -15,8 +16,10 @@ namespace EMS.EventParticipant_Services.API.Context
         public DbSet<Event> Events { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            //builder.ApplyConfigurationsFromAssembly(Assembly.GetCallingAssembly());
             builder.ApplyConfiguration(new EventParticipantEntityTypeConfiguration());
             builder.ApplyConfiguration(new EventEntityTypeConfiguration());
+            builder.ApplyConfiguration(new EventPriceEntityTypeConfiguration());
         }
     }
 

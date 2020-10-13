@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using EMS.BuildingBlocks.EventLogEF;
+using EMS.EventParticipant_Services.API.Context.Model;
+using Event = EMS.BuildingBlocks.EventLogEF.Event;
 
 namespace EMS.Events
 {
@@ -28,10 +29,13 @@ namespace EMS.Events
         public List<EventPrice> EventPrices { get; set; }
     }
 
-    public class EventPrice
+    public class IsEventFreeForSubscriptionEvent : Event // All events should inherit from Integration event
     {
-        public float Price { get; set; }
+        public Guid ClubSubscriptionId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid EventId { get; set; }
     }
+
 
     public enum EventType
     {

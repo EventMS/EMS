@@ -2,12 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using AutoMapper;
 using HotChocolate;
 using HotChocolate.Execution;
@@ -25,6 +27,21 @@ namespace EMS.TemplateWebHost.Customization
             map.ForMember(selector, config =>
                 config.MapFrom(transform));
             return map;
+        }
+
+        public static async Task<T> FindOrThrowAsync<T>(this DbSet<T> set, params object[] keyValues) where T:class
+        {
+            var result = await set.FindAsync(keyValues);
+            if (result == null)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("The provided id is unknown.")
+                        .SetCode("ID_UNKNOWN")
+                        .Build());
+            }
+
+            return result;
         }
     }
 

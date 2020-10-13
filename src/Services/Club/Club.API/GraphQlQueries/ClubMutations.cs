@@ -6,6 +6,7 @@ using EMS.Club_Service.API.Context.Model;
 using EMS.Club_Service.API.Controllers.Request;
 using EMS.Club_Service_Services.API;
 using EMS.Events;
+using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate;
@@ -32,16 +33,8 @@ namespace EMS.Club_Service.API.GraphQlQueries
         public async Task<Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
         {
             await IsAdminIn(clubId);
-            var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
+            var item = await _context.Clubs.FindOrThrowAsync(clubId);
 
-            if (item == null)
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The provided id is unknown.")
-                        .SetCode("ID_UNKNOWN")
-                        .Build());
-            }
             _mapper.Map(request, item);
             _context.Clubs.Update(item);
 
@@ -71,16 +64,8 @@ namespace EMS.Club_Service.API.GraphQlQueries
         public async Task<Club> DeleteClubAsync(Guid clubId)
         {
             await IsAdminIn(clubId);
-            var item = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
+            var item = await _context.Clubs.FindOrThrowAsync(clubId);
 
-            if (item == null)
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The provided id is unknown.")
-                        .SetCode("ID_UNKNOWN")
-                        .Build());
-            }
 
             _context.Clubs.Remove(item);
 
@@ -93,16 +78,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
         public async Task<Club> AddInstructorAsync(Guid clubId, Guid instructorId)
         {
             await IsAdminIn(clubId);
-            var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
-            if (club == null)
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The provided id is unknown.")
-                        .SetCode("ID_UNKNOWN")
-                        .Build());
-            }
-
+            var club = await _context.Clubs.FindOrThrowAsync(clubId);
             var @event = new IsUserClubMemberEvent()
             {
                 ClubId = clubId,
@@ -116,15 +92,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
         public async Task<Club> RemoveInstructorAsync(Guid clubId, Guid instructorId)
         {
             await IsAdminIn(clubId);
-            var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == clubId);
-            if (club == null)
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The provided id is unknown.")
-                        .SetCode("ID_UNKNOWN")
-                        .Build());
-            }
+            var club = await _context.Clubs.FindOrThrowAsync(clubId);
 
             if (club.InstructorIds.Remove(instructorId))
             {

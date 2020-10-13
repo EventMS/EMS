@@ -87,7 +87,7 @@ namespace EMS.Events
 
     public class EventPrice
     {
-        public Guid EventId { get; set; }
+        public Guid ClubSubscriptionId { get; set; }
         public float Price { get; set; }
     }
 
@@ -139,18 +139,5 @@ namespace EMS.Events
 
         public string Name { get; set; }
     }
-
-    public class IsEventFreeForSubscriptionEvent : Event // All events should inherit from Integration event
-    {
-        public Guid ClubSubscriptionId { get; set; }
-        public Guid UserId { get; set; }
-        public Guid EventId { get; set; }
-    }
-    public class SignUpEventSuccess : Event // All events should inherit from Integration event
-    {
-        public Guid EventId { get; set; }
-        public Guid UserId { get; set; }
-    }
-
 }
 

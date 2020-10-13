@@ -24,6 +24,10 @@
     <Content Include="Pics\**\*;">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Compile Remove="GraphQlQueries\Request\**" />
+    <Content Remove="GraphQlQueries\Request\**" />
+    <EmbeddedResource Remove="GraphQlQueries\Request\**" />
+    <None Remove="GraphQlQueries\Request\**" />
     <Content Update="web.config;">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -65,10 +69,6 @@
     <None Update="Pics\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="GraphQlQueries\Request\" />
   </ItemGroup>
 
 </Project>

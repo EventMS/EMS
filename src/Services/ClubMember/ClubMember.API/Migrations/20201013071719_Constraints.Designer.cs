@@ -4,14 +4,16 @@ using EMS.ClubMember_Services.API.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMS.ClubMember_Services.API.Migrations
 {
     [DbContext(typeof(ClubMemberContext))]
-    partial class ClubMemberContextModelSnapshot : ModelSnapshot
+    [Migration("20201013071719_Constraints")]
+    partial class Constraints
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
