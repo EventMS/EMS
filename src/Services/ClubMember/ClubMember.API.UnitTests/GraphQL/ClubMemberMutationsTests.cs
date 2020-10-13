@@ -234,7 +234,7 @@ namespace EMS.ClubMember_Services.API.UnitTests.GraphQL
             await _publish.Received(0).Publish(Arg.Any<ClubMemberUpdatedEvent>());
         }
 
-
+        /*
         [Test]
         public async Task DeleteClubMember_ClubMemberExists_DatabaseUpdates()
         {
@@ -274,6 +274,6 @@ namespace EMS.ClubMember_Services.API.UnitTests.GraphQL
                 await _mutations.DeleteClubMemberAsync(Guid.NewGuid(), Guid.NewGuid()));
 
             await _publish.Received(0).Publish(Arg.Any<ClubMemberDeletedEvent>());
-        }
+        }*/
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Club_Service_Services.API;
@@ -13,6 +14,7 @@ using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore.Internal;
 using EventType = EMS.EventParticipant_Services.API.Context.Model.EventType;
 
 namespace EMS.EventParticipant_Services.API.GraphQlQueries
@@ -33,10 +35,30 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Guid> SignUpFreeEventAsync(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
         {
-            var item = await _context.Events.FindOrThrowAsync(eventId);
+            var e = await _context.Events
+                .Include(e => e.EventPrices)
+                .SingleOrThrowAsync(e => e.EventId == eventId);
 
-            //Maybe just duplicate data instead of ti
-            if (item.IsFree.HasValue && item.IsFree.Value && item.EventType == EventType.Public)
+            var userSub = currentUser.GetSubscriptionIn(e.ClubId);
+            if (!userSub.HasValue && e.EventType == EventType.Private)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("The event is private")
+                        .SetCode("USER_NOT_MEMBER")
+                        .Build());
+            }
+            var userPrice = e.EventPrices.Find(ep => ep.ClubSubscriptionId == userSub.Value);
+            if (userPrice == null)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("Price is not configured so you cannot join")
+                        .SetCode("USER_CANNOT_JOIN")
+                        .Build());
+            }
+
+            if (Math.Abs(userPrice.Price) < 1)
             {
                 _context.EventParticipants.Add(new EventParticipant()
                 {
@@ -54,11 +76,11 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
             }
             else
             {
-                var @event = _mapper.Map<CanUserSignUpToEvent>(item);
-                @event.UserId = currentUser.UserId;
-                await _eventService.SaveEventAndDbContextChangesAsync(@event);
-                await _eventService.PublishEventAsync(@event);
-                return eventId;
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("Event is not free for your membership type.")
+                        .SetCode("EVENT_IS_NOT_FREE")
+                        .Build());
             }
         }
     }

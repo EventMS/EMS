@@ -10,6 +10,7 @@ using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.Controllers.Request;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.Event_Services.API.Context.Model;
+using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.StartUp;
 using Microsoft.AspNetCore.Authorization;
 using Serilog;
@@ -36,17 +37,8 @@ namespace EMS.Event_Services.API.GraphQlQueries
                 .Include(e => e.EventPrices)
                 .Include(e => e.Locations)
                 .Include(e => e.InstructorForEvents)
-                .SingleOrDefaultAsync(ci => ci.EventId == eventId);
+                .SingleOrThrowAsync(ci => ci.EventId == eventId);
             
-
-            if (item == null)
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The provided id is unknown.")
-                        .SetCode("ID_UNKNOWN")
-                        .Build());
-            }
             await IsAdminIn(item.ClubId);
             item = _mapper.Map(request, item);
             _context.Events.Update(item);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ using EMS.EventParticipant_Services.API.Context;
 using EMS.EventParticipant_Services.API.Context.Model;
 using EMS.EventParticipant_Services.API.GraphQlQueries;
 using EMS.EventParticipant_Services.API.Mapper;
+using EMS.TemplateWebHost.Customization.StartUp;
+using HotChocolate.Execution;
 using EventType = EMS.EventParticipant_Services.API.Context.Model.EventType;
 
 namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
@@ -25,11 +28,20 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
         #region Setup
         private EventParticipantMutations _mutations;
         private CurrentUser _currentUser;
+        
 
         [SetUp]
         public void SetUp()
         {
-            _currentUser = new CurrentUser(Guid.NewGuid());
+            _currentUser = new CurrentUser(Guid.NewGuid(),new List<ClubPermission>()
+            {
+                new ClubPermission()
+                {
+                    ClubId = Guid.NewGuid(),
+                    SubscriptionId = Guid.NewGuid(),
+                    UserRole = "Member"
+                }
+            });
             var mapper = CreateMapper();
             _mutations = new EventParticipantMutations(_context, _eventService, mapper, _authorizationService);
 
@@ -51,9 +63,16 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
             var e = new Event()
             {
                 EventId = Guid.NewGuid(),
-                ClubId = Guid.NewGuid(),
-                IsFree = true,
-                EventType = EventType.Public
+                ClubId = _currentUser.ClubPermissions.First().ClubId,
+                EventType = EventType.Public,
+                EventPrices = new List<EventPrice>()
+                {
+                    new EventPrice()
+                    {
+                        Price = 0,
+                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId,
+                    }
+                }
             };
             using (var context = _factory.CreateContext())
             {
@@ -79,9 +98,16 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
             var e = new Event()
             {
                 EventId = Guid.NewGuid(),
-                ClubId = Guid.NewGuid(),
-                IsFree = true,
-                EventType = EventType.Private
+                ClubId = _currentUser.ClubPermissions.First().ClubId,
+                EventType = EventType.Public,
+                EventPrices = new List<EventPrice>()
+                {
+                    new EventPrice()
+                    {
+                        Price = 2,
+                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId,
+                    }
+                }
             };
             using (var context = _factory.CreateContext())
             {
@@ -89,16 +115,8 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
                 context.SaveChanges();
             }
 
-            await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser);
-
-            using (var context = _factory.CreateContext())
-            {
-                var ep = context.EventParticipants.FirstOrDefault(ep => ep.UserId == _currentUser.UserId);
-                Assert.That(ep, Is.Null);
-                Assert.That(context.EventParticipants.Count(), Is.EqualTo(0));
-            }
-
-            await _publish.Received(1).Publish(Arg.Any<CanUserSignUpToEvent>());
+            Assert.ThrowsAsync<QueryException>(async () =>
+                await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser));
         }
 
         [Test]
@@ -107,9 +125,16 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
             var e = new Event()
             {
                 EventId = Guid.NewGuid(),
-                ClubId = Guid.NewGuid(),
-                IsFree = false,
-                EventType = EventType.Public
+                ClubId = _currentUser.ClubPermissions.First().ClubId,
+                EventType = EventType.Public,
+                EventPrices = new List<EventPrice>()
+                {
+                    new EventPrice()
+                    {
+                        Price = 2,
+                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId,
+                    }
+                }
             };
             using (var context = _factory.CreateContext())
             {
@@ -117,16 +142,8 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
                 context.SaveChanges();
             }
 
-            await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser);
-
-            using (var context = _factory.CreateContext())
-            {
-                var ep = context.EventParticipants.FirstOrDefault(ep => ep.UserId == _currentUser.UserId);
-                Assert.That(ep, Is.Null);
-                Assert.That(context.EventParticipants.Count(), Is.EqualTo(0));
-            }
-
-            await _publish.Received(1).Publish(Arg.Any<CanUserSignUpToEvent>());
+            Assert.ThrowsAsync<QueryException>(async () =>
+                await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser));
         }
 
         [Test]
@@ -135,26 +152,24 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
             var e = new Event()
             {
                 EventId = Guid.NewGuid(),
-                ClubId = Guid.NewGuid(),
-                IsFree = false,
-                EventType = EventType.Private
+                ClubId = _currentUser.ClubPermissions.First().ClubId,
+                EventType = EventType.Public,
+                EventPrices = new List<EventPrice>()
+                {
+                    new EventPrice()
+                    {
+                        Price = 2,
+                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId,
+                    }
+                }
             };
             using (var context = _factory.CreateContext())
             {
                 context.Events.Add(e);
                 context.SaveChanges();
             }
-
-            await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser);
-
-            using (var context = _factory.CreateContext())
-            {
-                var ep = context.EventParticipants.FirstOrDefault(ep => ep.UserId == _currentUser.UserId);
-                Assert.That(ep, Is.Null);
-                Assert.That(context.EventParticipants.Count(), Is.EqualTo(0));
-            }
-
-            await _publish.Received(1).Publish(Arg.Any<CanUserSignUpToEvent>());
+            Assert.ThrowsAsync<QueryException>(async () =>
+                await _mutations.SignUpFreeEventAsync(e.EventId, _currentUser));
         }
     }
 }

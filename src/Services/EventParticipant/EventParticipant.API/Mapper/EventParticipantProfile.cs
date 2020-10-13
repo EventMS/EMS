@@ -13,10 +13,7 @@ namespace EMS.EventParticipant_Services.API.Mapper
         public EventParticipantProfile()
         {
             CreateMap<EventParticipant, CanUserSignUpToEvent>();
-            //Anything above price point of 1 will not be regarded as completly free. 
-            double TOLERANCE = 1;
             CreateMap<EventCreatedEvent, Event>()
-                .Transform(e => e.IsFree, e => !e.EventPrices.Any(price => Math.Abs(price.Price) >= TOLERANCE))
                 .Transform(e => e.EventPrices, e => e.EventPrices);
 
             CreateMap<Event, CanUserSignUpToEvent>();

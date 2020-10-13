@@ -9,6 +9,8 @@ using EMS.TemplateWebHost.Customization.EventService;
 
 namespace EMS.Club_Service.API.Events
 {
+
+
     public class UserIsClubMemberConsumer :
             IConsumer<UserIsClubMemberEvent>
         {
@@ -22,8 +24,8 @@ namespace EMS.Club_Service.API.Events
         }
 
         public async Task Consume(ConsumeContext<UserIsClubMemberEvent> context)
-            {
-            var club = await _context.Clubs.SingleOrDefaultAsync(ci => ci.ClubId == context.Message.ClubId);
+        {
+            var club = await _context.Clubs.FindAsync(context.Message.ClubId);
             if(club == null)
             {
                 return;
@@ -32,20 +34,17 @@ namespace EMS.Club_Service.API.Events
             {
                 club.InstructorIds = new HashSet<Guid>();
             }
-
-            if (club.InstructorIds.Contains(context.Message.UserId))
+            if (club.InstructorIds.Add(context.Message.UserId))
             {
-                return; 
+                _context.Clubs.Update(club);
+                var @event = new InstructorAddedEvent()
+                {
+                    ClubId = context.Message.ClubId,
+                    UserId = context.Message.UserId
+                };
+                await _eventService.SaveEventAndDbContextChangesAsync(@event);
+                await _eventService.PublishEventAsync(@event);
             }
-            club.InstructorIds.Add(context.Message.UserId);
-            _context.Clubs.Update(club);
-            var @event = new InstructorAddedEvent()
-            {
-                ClubId = context.Message.ClubId,
-                UserId = context.Message.UserId
-            };
-            await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishEventAsync(@event);
-        }
         }
     }
+}

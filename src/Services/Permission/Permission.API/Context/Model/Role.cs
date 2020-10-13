@@ -9,5 +9,6 @@ namespace EMS.Permission_Services.API.Context.Model
         public Guid ClubId { get; set; }
         public Club Club { get; set; }
         public string UserRole { get; set; }
+        public Guid? SubscriptionId { get; set; }
     }
 }

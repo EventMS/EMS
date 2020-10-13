@@ -25,36 +25,17 @@ namespace EMS.Events
         public string Address { get; set; }
         public Guid AdminId { get; set; }
     }
-
-    public class PermissionCreatedEvent : Event // All events should inherit from Integration event
+    public class ClubMemberCreatedEvent : Event // All events should inherit from Integration event
     {
-        public PermissionCreatedEvent(Guid template1Id, string name)
-        {
-            PermissionId = template1Id;
-            Name = name;
-        }
-        public Guid PermissionId { get; set; }
-        public string Name { get; set; }
+        public Guid UserId { get; set; }
+        public Guid ClubId { get; set; }
+        public Guid ClubSubscriptionId { get; set; }
     }
 
-    public class PermissionUpdatedEvent : Event // All events should inherit from Integration event
+    public class ClubMemberUpdatedEvent : Event // All events should inherit from Integration event
     {
-        public Guid PermissionId { get; set; }
-        public string Name { get; set; }
-
-        public PermissionUpdatedEvent(Guid template1Id, string name)
-        {
-            PermissionId = template1Id;
-            Name = name;
-        }
-    }
-
-    public class PermissionDeletedEvent : Event // All events should inherit from Integration event
-    {
-        public Guid PermissionId { get; set; }
-        public PermissionDeletedEvent(Guid template1Id)
-        {
-            PermissionId = template1Id;
-        }
+        public Guid UserId { get; set; }
+        public Guid ClubId { get; set; }
+        public Guid ClubSubscriptionId { get; set; }
     }
 }

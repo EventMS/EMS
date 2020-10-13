@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
@@ -32,8 +33,10 @@ using EMS.TemplateWebHost.Customization.Filters;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.TemplateWebHost.Customization.OutboxService;
 using EMS.TemplateWebHost.Customization.Settings;
+using HotChocolate.Execution;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
@@ -95,7 +98,6 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 }
                 client.BaseAddress = new Uri("http://permission-api");
             });
-
         }
 
         private static OnCreateRequestAsync AuthenticationInterceptor()
@@ -104,8 +106,10 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             {
                 if (context.GetUser().Identity.IsAuthenticated)
                 {
+                    var claim = context.User.FindFirstValue("ClubPermissionsClaim");
+                    var clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim);
                     builder.SetProperty("currentUser",
-                        new CurrentUser(new Guid(context.User.FindFirstValue("id"))));
+                        new CurrentUser(new Guid(context.User.FindFirstValue("id")), clubPermissions));
                 }
 
                 return Task.CompletedTask;

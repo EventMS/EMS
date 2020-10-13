@@ -29,6 +29,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
         }
+
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> UpdateClubAsync(Guid clubId, UpdateClubRequest request)
         {
@@ -60,6 +61,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
 
             return item;
         }
+        /*
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> DeleteClubAsync(Guid clubId)
         {
@@ -74,6 +76,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
             return item;
         }
+        */
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> AddInstructorAsync(Guid clubId, Guid instructorId)
         {
@@ -88,6 +91,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
             return club;
         }
+
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> RemoveInstructorAsync(Guid clubId, Guid instructorId)
         {

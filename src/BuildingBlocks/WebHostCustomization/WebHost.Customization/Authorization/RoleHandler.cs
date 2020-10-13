@@ -1,14 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Execution;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using Serilog;
+using Newtonsoft.Json;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
+
+    public class ClubPermission
+    {
+        public Guid ClubId { get; set; }
+        public string UserRole { get; set; }
+        public Guid? SubscriptionId { get; set; }
+    }
+
     public class RoleHandler : AuthorizationHandler<RoleRequirement, Guid>
     {
         private readonly PermissionService _permissionService;
@@ -24,8 +34,20 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             RoleRequirement requirement,
             Guid id)
         {
-            _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var authorizationToken);
-            if (authorizationToken.Count != 0 && await _permissionService.GetPermissions(id, requirement.Role, authorizationToken[0]) == requirement.Role)
+            var claim = context.User.FindFirst(c => c.Type == "ClubPermissionsClaim");
+            if (claim == null)
+            {
+                throw new QueryException(
+                    ErrorBuilder.New()
+                        .SetMessage("You do not have permission for this action")
+                        .SetCode("USER_NOT_AUTH")
+                        .Build());
+            }
+
+            var clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim.Value);
+            var club = clubPermissions.FirstOrDefault(club => club.ClubId == id);
+
+            if (club != null && club.UserRole == requirement.Role)
             {
                 context.Succeed(requirement);
             }

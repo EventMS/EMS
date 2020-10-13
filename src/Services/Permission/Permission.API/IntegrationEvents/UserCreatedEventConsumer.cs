@@ -9,6 +9,9 @@ using Serilog;
 
 namespace EMS.Permission_Services.API.Events
 {
+
+
+
     public class UserCreatedEventConsumer :
             IConsumer<UserCreatedEvent>
     {

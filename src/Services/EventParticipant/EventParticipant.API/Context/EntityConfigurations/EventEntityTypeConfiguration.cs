@@ -18,9 +18,6 @@ namespace EMS.EventParticipant_Services.API.Context.EntityConfigurations
 
             builder.Property(ci => ci.ClubId)
                 .IsRequired();
-
-            builder.Property(ci => ci.IsFree)
-                .IsRequired();
         }
     }
 }

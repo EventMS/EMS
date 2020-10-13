@@ -14,6 +14,7 @@ using EMS.Club_Service.API.Mapper;
 using EMS.Club_Service_Services.API;
 using EMS.Events;
 using EMS.SharedTesting.Helper;
+using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -27,7 +28,7 @@ namespace EMS.Subscription_Services.API.UnitTests.GraphQL
         
         #region Setup
         private ClubMutations _mutations;
-        private CurrentUser _currentUser = new CurrentUser(Guid.NewGuid());
+        private CurrentUser _currentUser = new CurrentUser(Guid.NewGuid(), new List<ClubPermission>());
         private IMapper _mapper;
 
         [SetUp]
@@ -178,6 +179,5 @@ namespace EMS.Subscription_Services.API.UnitTests.GraphQL
                 await _mutations.UpdateClubAsync(Guid.NewGuid(), request));
             await _publish.Received(0).Publish(Arg.Any<ClubUpdatedEvent>());
         }
-        
     }
 }
