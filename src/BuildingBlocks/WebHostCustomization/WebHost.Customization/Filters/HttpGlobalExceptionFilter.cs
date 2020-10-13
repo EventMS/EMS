@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using EMS.TemplateWebHost.Customization.ActionResults;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,8 +9,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using EMS.TemplateWebHost.Customization.ActionResults;
-using EMS.TemplateWebHost.Customization.Exceptions;
 
 namespace EMS.TemplateWebHost.Customization.Filters
 {
@@ -31,8 +30,7 @@ namespace EMS.TemplateWebHost.Customization.Filters
                 context.Exception,
                 context.Exception.Message);
 
-            if (context.Exception.GetType() == typeof(DomainException) 
-                || context.Exception.GetType() == typeof(ValidationException)
+            if (context.Exception.GetType() == typeof(ValidationException)
                 || context.Exception.GetType() == typeof(QueryException))
             {
                 var problemDetails = new ValidationProblemDetails()

@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using Serilog;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
@@ -10,10 +12,11 @@ namespace EMS.TemplateWebHost.Customization.StartUp
     public class RoleHandler : AuthorizationHandler<RoleRequirement, Guid>
     {
         private readonly PermissionService _permissionService;
-
-        public RoleHandler(PermissionService permissionService)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public RoleHandler(PermissionService permissionService, IHttpContextAccessor httpContextAccessor)
         {
             _permissionService = permissionService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -21,7 +24,8 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             RoleRequirement requirement,
             Guid id)
         {
-            if (await _permissionService.GetPermissions(id, requirement.Role) == requirement.Role)
+            _httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var authorizationToken);
+            if (authorizationToken.Count != 0 && await _permissionService.GetPermissions(id, requirement.Role, authorizationToken[0]) == requirement.Role)
             {
                 context.Succeed(requirement);
             }

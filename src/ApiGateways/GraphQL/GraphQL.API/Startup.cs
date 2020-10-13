@@ -24,48 +24,6 @@ using DirectiveLocation = HotChocolate.Types.DirectiveLocation;
 
 namespace EMS.GraphQL.API
 {
-
-    public class RenameDirectiveType : DirectiveType
-    {
-        public const string DirectiveName = "rename";
-        public const string ArgumentName = "name";
-
-        protected override void Configure(IDirectiveTypeDescriptor descriptor)
-        {
-            descriptor.Name(DirectiveName);
-            descriptor.Location(DirectiveLocation.Object);
-            descriptor.Argument(ArgumentName)
-                .Type<NonNullType<NameType>>();
-        }
-    }
-    public class RenameTypeRewriter : ITypeRewriter
-    {
-        public ITypeDefinitionNode Rewrite(ISchemaInfo schema, ITypeDefinitionNode typeDefinition)
-        {
-            var renameDirective = typeDefinition.Directives.SingleOrDefault(d => d.Name.Value == RenameDirectiveType.DirectiveName);
-
-            if (renameDirective != null)
-            {
-                var newNameArgumment = renameDirective.Arguments.Single(a => a.Name.Value == RenameDirectiveType.ArgumentName);
-
-                if (newNameArgumment.Value is StringValueNode stringValue)
-                {
-                    return typeDefinition.Rename(stringValue.Value, schema.Name);
-                }
-            }
-
-            return typeDefinition;
-        }
-    }
-
-    public class DirectHandler :IDirectiveMergeHandler
-    {
-        public void Merge(ISchemaMergeContext context, IReadOnlyList<IDirectiveTypeInfo> directives)
-        {
-            Log.Information("Test");
-            Log.Information(context.ToString());
-        }
-    }
     public class Startup
     {
 
