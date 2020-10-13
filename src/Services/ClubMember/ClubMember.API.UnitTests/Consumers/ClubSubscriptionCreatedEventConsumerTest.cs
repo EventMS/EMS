@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using EMS.ClubMember_Services.API.Context;
 using EMS.ClubMember_Services.API.Events;
+using EMS.ClubMember_Services.API.Mapper;
 using EMS.Events;
 using EMS.Subscription_Services.API.UnitTests.Consumers;
 using NUnit.Framework;
@@ -15,7 +17,7 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
         [SetUp]
         public void SetUp()
         {
-            _consumer = new ClubSubscriptionCreatedEventConsumer(_factory.CreateContext());
+            _consumer = new ClubSubscriptionCreatedEventConsumer(_factory.CreateContext(),CreateMapper());
             
             _harness.Start().Wait();
         }
@@ -26,20 +28,28 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
             _harness.Stop().Wait();
         }
 
+        private IMapper CreateMapper()
+        {
+            var config = new MapperConfiguration(cfg => {
+                cfg.AddProfile<ClubMemberProfile>();
+            });
+            return new AutoMapper.Mapper(config);
+        }
+
         [Test]
         public async Task Consume_ClubSubscriptionHaventBeenCreated_ClubSubscriptionHaveBeenAdded()
         {
             var @event = new ClubSubscriptionCreatedEvent()
             {
                 ClubId = Guid.NewGuid(),
-                SubscriptionId = Guid.NewGuid()
+                ClubSubscriptionId = Guid.NewGuid()
             };
 
             await SendEvent(@event);
 
             using (var context = _factory.CreateContext())
             {
-                var club = context.ClubSubscriptions.FirstOrDefault(club => club.ClubId == @event.ClubId && club.ClubSubscriptionId == @event.SubscriptionId);
+                var club = context.ClubSubscriptions.FirstOrDefault(club => club.ClubId == @event.ClubId && club.ClubSubscriptionId == @event.ClubSubscriptionId);
                 Assert.That(club, Is.Not.Null);
                 Assert.That(context.ClubSubscriptions.Count(), Is.EqualTo(1));
             }
@@ -51,7 +61,7 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
             var @event = new ClubSubscriptionCreatedEvent()
             {
                 ClubId = Guid.NewGuid(),
-                SubscriptionId = Guid.NewGuid()
+                ClubSubscriptionId = Guid.NewGuid()
             };
 
             await SendEvent(@event);
@@ -59,7 +69,7 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
 
             using (var context = _factory.CreateContext())
             {
-                var club = context.ClubSubscriptions.FirstOrDefault(club => club.ClubId == @event.ClubId && club.ClubSubscriptionId == @event.SubscriptionId);
+                var club = context.ClubSubscriptions.FirstOrDefault(club => club.ClubId == @event.ClubId && club.ClubSubscriptionId == @event.ClubSubscriptionId);
                 Assert.That(club, Is.Not.Null);
                 Assert.That(context.ClubSubscriptions.Count(), Is.EqualTo(1));
             }

@@ -23,7 +23,7 @@ namespace EMS.Event_Services.API.Events
 
         public async Task Consume(ConsumeContext<ClubSubscriptionCreatedEvent> context)
         {
-            var subscription = _context.Subscriptions.Find(context.Message.SubscriptionId);
+            var subscription = _context.Subscriptions.Find(context.Message.ClubSubscriptionId);
             if (subscription == null)
             {
                 if(context.Message.ReferenceId == null)
@@ -40,7 +40,7 @@ namespace EMS.Event_Services.API.Events
 
                 _context.Subscriptions.Add(new ClubSubscription()
                 {
-                    ClubSubscriptionId = context.Message.SubscriptionId,
+                    ClubSubscriptionId = context.Message.ClubSubscriptionId,
                     ClubId = context.Message.ClubId
                 });
                 
@@ -52,7 +52,7 @@ namespace EMS.Event_Services.API.Events
                     {
                         Price = messageEventPrice.Price,
                         EventId = messageEventPrice.EventId,
-                        ClubSubscriptionId = context.Message.SubscriptionId
+                        ClubSubscriptionId = context.Message.ClubSubscriptionId
                     });
                 }
 

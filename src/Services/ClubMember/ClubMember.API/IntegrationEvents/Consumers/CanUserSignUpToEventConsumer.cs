@@ -20,7 +20,7 @@ namespace EMS.ClubMember_Services.API.Events
 
         public async Task Consume(ConsumeContext<CanUserSignUpToEvent> context)
         {
-            var member = _subscriptionContext.ClubMembers.Find(context.Message.ClubId, context.Message.UserId);
+            var member = _subscriptionContext.ClubMembers.Find(context.Message.UserId,context.Message.ClubId);
             if (member != null)
             {
                 var @event = new IsEventFreeForSubscriptionEvent()

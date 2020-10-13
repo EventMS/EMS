@@ -11,13 +11,13 @@ namespace EMS.EventParticipant_Services.API.Context.EntityConfigurations
         {
             builder.ToTable("EventPrice");
 
-            builder.HasKey(ci => new {ci.EventId, ci.SubscriptionId});
+            builder.HasKey(ci => new {ci.EventId, ci.ClubSubscriptionId});
 
             builder.HasOne<Event>()
                 .WithMany(e => e.EventPrices)
                 .HasForeignKey(e => e.EventId);
 
-            builder.Property(ci => ci.SubscriptionId)
+            builder.Property(ci => ci.ClubSubscriptionId)
                 .IsRequired();
         }
     }

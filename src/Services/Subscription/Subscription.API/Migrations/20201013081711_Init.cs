@@ -22,14 +22,14 @@ namespace EMS.Subscription_Services.API.Migrations
                 name: "ClubSubscription",
                 columns: table => new
                 {
-                    SubscriptionId = table.Column<Guid>(nullable: false),
+                    ClubSubscriptionId = table.Column<Guid>(nullable: false),
                     ClubId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 25, nullable: false),
                     Price = table.Column<int>(nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClubSubscription", x => x.SubscriptionId);
+                    table.PrimaryKey("PK_ClubSubscription", x => x.ClubSubscriptionId);
                     table.ForeignKey(
                         name: "FK_ClubSubscription_Club_ClubId",
                         column: x => x.ClubId,

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Event_Services.API.Context;
@@ -5,6 +6,7 @@ using EMS.Event_Services.API.Context.Model;
 using EMS.Events;
 using EMS.TemplateWebHost.Customization.EventService;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Event_Services.API.Events
 {
@@ -24,7 +26,9 @@ namespace EMS.Event_Services.API.Events
 
         public async Task Consume(ConsumeContext<TimeslotReservedEvent> context)
         {
-            var evt = _context.Events.Find(context.Message.EventId);
+            var evt = _context.Events
+                .Include(e => e.EventPrices)
+                .SingleOrDefault(e => e.EventId == context.Message.EventId);
             if (evt != null && evt.Status == EventStatus.Pending)
             {
                 evt.Status = EventStatus.Confirmed;

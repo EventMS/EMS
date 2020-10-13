@@ -6,6 +6,7 @@ using EMS.Events;
 using EMS.Event_Services.API.Context.Model;
 using EMS.Event_Services.API.Controllers.Request;
 using EMS.TemplateWebHost.Customization;
+using EventPrice = EMS.Event_Services.API.Context.Model.EventPrice;
 
 
 namespace EMS.Event_Services.API.Mapper
@@ -28,6 +29,13 @@ namespace EMS.Event_Services.API.Mapper
             {
                 InstructorId = s
             });
+
+            CreateMap<EventPrice, EMS.Events.EventPrice>().ConvertUsing(s => new EMS.Events.EventPrice()
+            {
+                ClubSubscriptionId = s.ClubSubscriptionId,
+                Price = s.Price
+            });
+
             CreateMap<ClubCreatedEvent, Club>();
             CreateMap<ClubSubscriptionCreatedEvent, ClubSubscription>();
             CreateMap<InstructorAddedEvent, Instructor>()

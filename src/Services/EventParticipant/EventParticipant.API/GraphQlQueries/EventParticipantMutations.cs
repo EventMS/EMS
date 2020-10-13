@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using EMS.EventParticipant_Services.API.Context;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.EventParticipant_Services.API.Context.Model;
+using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization;
@@ -32,16 +33,7 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Guid> SignUpFreeEventAsync(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
         {
-            var item = _context.Events.Find(eventId);
-
-            if (item == null)
-            {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("The provided id is unknown.")
-                        .SetCode("ID_UNKNOWN")
-                        .Build());
-            }
+            var item = await _context.Events.FindOrThrowAsync(eventId);
 
             //Maybe just duplicate data instead of ti
             if (item.IsFree.HasValue && item.IsFree.Value && item.EventType == EventType.Public)

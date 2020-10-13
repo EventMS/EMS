@@ -12,9 +12,9 @@ namespace EMS.Subscription_Services.API.Context.EntityConfigurations
                 .HasIndex(ci => new {ci.Name,ci.ClubId})
                 .IsUnique();
 
-            builder.HasKey(ci => ci.SubscriptionId);
+            builder.HasKey(ci => ci.ClubSubscriptionId);
 
-            builder.Property(ci => ci.SubscriptionId)
+            builder.Property(ci => ci.ClubSubscriptionId)
                 .IsRequired();
 
             builder.Property(ci => ci.Name)

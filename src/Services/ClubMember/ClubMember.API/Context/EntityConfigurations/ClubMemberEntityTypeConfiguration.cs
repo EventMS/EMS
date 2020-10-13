@@ -15,7 +15,7 @@ namespace EMS.ClubMember_Services.API.Context.EntityConfigurations
 
             builder.HasOne<ClubSubscription>()
                 .WithMany(ci => ci.ClubMembers)
-                .HasForeignKey(ci => new {ci.ClubSubscriptionId, ci.ClubId })
+                .HasForeignKey(ci => new {ci.ClubSubscriptionId})
                 .IsRequired();
 
             builder.Property(ci => ci.ClubSubscriptionId).IsRequired();

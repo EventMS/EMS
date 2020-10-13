@@ -30,7 +30,7 @@ namespace EMS.EventParticipant_Services.API.Events
             if (e != null)
             {
                 if (!e.EventPrices.Any(price =>
-                    Math.Abs(price.Price.Value) < 1 && price.ClubSubscriptionId == context.Message.ClubSubscriptionId))
+                    Math.Abs(price.Price) < 1 && price.ClubSubscriptionId == context.Message.ClubSubscriptionId))
                 {
                     return;
                 }

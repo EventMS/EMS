@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.EventParticipant_Services.API.Migrations
 {
     [DbContext(typeof(EventParticipantContext))]
-    [Migration("20201013065822_Init2")]
-    partial class Init2
+    [Migration("20201013091929_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,16 +71,16 @@ namespace EMS.EventParticipant_Services.API.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("SubscriptionId")
+                    b.Property<Guid?>("ClubSubscriptionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("EventId1")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<float?>("Price")
+                    b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.HasKey("EventId", "SubscriptionId");
+                    b.HasKey("EventId", "ClubSubscriptionId");
 
                     b.HasIndex("EventId1");
 

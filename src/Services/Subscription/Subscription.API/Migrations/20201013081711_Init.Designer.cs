@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.Subscription_Services.API.Migrations
 {
     [DbContext(typeof(SubscriptionContext))]
-    [Migration("20201008153137_Init")]
+    [Migration("20201013081711_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace EMS.Subscription_Services.API.Migrations
 
             modelBuilder.Entity("EMS.Subscription_Services.API.Context.ClubSubscription", b =>
                 {
-                    b.Property<Guid>("SubscriptionId")
+                    b.Property<Guid>("ClubSubscriptionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -51,7 +51,7 @@ namespace EMS.Subscription_Services.API.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.HasKey("SubscriptionId");
+                    b.HasKey("ClubSubscriptionId");
 
                     b.HasIndex("ClubId");
 

@@ -80,7 +80,7 @@ namespace EMS.Events
 
     public class ClubSubscriptionCreatedEvent : Event // All events should inherit from Integration event
     {
-        public Guid SubscriptionId { get; set; }
+        public Guid ClubSubscriptionId { get; set; }
         public Guid ClubId { get; set; }
         public Guid? ReferenceId { get; set; }
     }

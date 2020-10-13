@@ -42,7 +42,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             var @event = new ClubSubscriptionCreatedEvent()
             {
                 ClubId = _clubSubscription.ClubId,
-                SubscriptionId = Guid.NewGuid(),
+                ClubSubscriptionId = Guid.NewGuid(),
                 ReferenceId = _clubSubscription.ClubSubscriptionId
             };
 
@@ -65,7 +65,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             var @event = new ClubSubscriptionCreatedEvent()
             {
                 ClubId = _clubSubscription.ClubId,
-                SubscriptionId = Guid.NewGuid(),
+                ClubSubscriptionId = Guid.NewGuid(),
             };
 
             await SendEvent(@event);

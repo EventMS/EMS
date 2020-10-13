@@ -69,16 +69,16 @@ namespace EMS.EventParticipant_Services.API.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("SubscriptionId")
+                    b.Property<Guid?>("ClubSubscriptionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("EventId1")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<float?>("Price")
+                    b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.HasKey("EventId", "SubscriptionId");
+                    b.HasKey("EventId", "ClubSubscriptionId");
 
                     b.HasIndex("EventId1");
 
