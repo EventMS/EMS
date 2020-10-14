@@ -41,4 +41,10 @@ namespace EMS.Events
         public Guid ClubId { get; set; }
         public Guid UserId { get; set; }
     }
+
+    public class SignUpSubscriptionSuccess : Event // All events should inherit from Integration event
+    {
+        public Guid ClubSubscriptionId { get; set; }
+        public Guid UserId { get; set; }
+    }
 }
