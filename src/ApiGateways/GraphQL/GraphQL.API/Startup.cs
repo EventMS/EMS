@@ -138,7 +138,10 @@ namespace EMS.GraphQL.API
 
                     return definitionSchema.WithDefinitions(definitions);
                 });
-                
+
+                builder.AddExtensionsFromFile("./Extensions.graphql");
+
+
                 builder.AddExecutionConfiguration(b =>
                 {
                     b.AddErrorFilter(error => {

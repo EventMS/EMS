@@ -1,0 +1,4 @@
+﻿extend type Club {
+  user: identity_ApplicationUser @delegate(schema: "identityapi", path: "user(id: $fields:adminId)")
+}
+
