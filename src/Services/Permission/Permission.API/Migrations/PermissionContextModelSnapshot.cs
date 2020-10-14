@@ -37,7 +37,7 @@ namespace EMS.Permission_Services.API.Migrations
                     b.Property<Guid>("ClubId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("SubscriptionId")
+                    b.Property<Guid?>("ClubSubscriptionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserRole")

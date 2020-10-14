@@ -31,6 +31,7 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             _mapper = mapper;
             _eventService = eventService;
         }
+
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubSubscription> CreateClubSubscriptionAsync(CreateClubSubscriptionRequest request)
         {
@@ -43,6 +44,7 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
             return subscription;
         }
+
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubSubscription> UpdateClubSubscriptionAsync(Guid id, UpdateClubSubscriptionRequest request)
         {

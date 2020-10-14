@@ -107,7 +107,12 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 if (context.GetUser().Identity.IsAuthenticated)
                 {
                     var claim = context.User.FindFirstValue("ClubPermissionsClaim");
-                    var clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim);
+                    List<ClubPermission> clubPermissions = new List<ClubPermission>();
+                    ;
+                    if (claim != null)
+                    {
+                        clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim);
+                    }
                     builder.SetProperty("currentUser",
                         new CurrentUser(new Guid(context.User.FindFirstValue("id")), clubPermissions));
                 }

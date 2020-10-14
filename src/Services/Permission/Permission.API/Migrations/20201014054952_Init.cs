@@ -35,7 +35,8 @@ namespace EMS.Permission_Services.API.Migrations
                 {
                     UserId = table.Column<Guid>(nullable: false),
                     ClubId = table.Column<Guid>(nullable: false),
-                    UserRole = table.Column<string>(nullable: true)
+                    UserRole = table.Column<string>(nullable: true),
+                    ClubSubscriptionId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {

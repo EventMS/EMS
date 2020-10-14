@@ -28,14 +28,14 @@ namespace EMS.Permission_Services.API.Events
                 {
                     ClubId = context.Message.ClubId,
                     UserId = context.Message.UserId,
-                    SubscriptionId = context.Message.ClubSubscriptionId,
+                    ClubSubscriptionId = context.Message.ClubSubscriptionId,
                     UserRole = "Member"
                 });
                 await _permissionContext.SaveChangesAsync();
             }
             else if (role.UserRole == "Admin")
             {
-                role.SubscriptionId = context.Message.ClubSubscriptionId;
+                role.ClubSubscriptionId = context.Message.ClubSubscriptionId;
                 _permissionContext.Roles.Update(role);
                 await _permissionContext.SaveChangesAsync();
             }

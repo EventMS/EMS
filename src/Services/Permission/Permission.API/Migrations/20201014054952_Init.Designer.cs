@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.Permission_Services.API.Migrations
 {
     [DbContext(typeof(PermissionContext))]
-    [Migration("20201012143524_Init2")]
-    partial class Init2
+    [Migration("20201014054952_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace EMS.Permission_Services.API.Migrations
                     b.Property<Guid>("ClubId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("SubscriptionId")
+                    b.Property<Guid?>("ClubSubscriptionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserRole")

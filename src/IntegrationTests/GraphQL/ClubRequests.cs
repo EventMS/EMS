@@ -42,6 +42,54 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
             return await Mutate(query);
         }
 
+        protected async Task<Mutation> CreateInstructor(object userId = null)
+        {
+            if (userId == null)
+            {
+                var resultUser = await CreateNewUser();
+                userId = resultUser.CreateUser.User.Id;
+            }
+            
+            var name = Guid.NewGuid().ToString().Substring(15);
+            var query = new MutationQueryBuilder().WithAddInstructor(
+                    new ClubQueryBuilder().WithAllFields().ExceptValidate()
+                    , 
+                    currentClub,
+                    userId)
+                .Build();
+            return await Mutate(query);
+        }
+
+        protected async Task<Mutation> CreateEvent(object subId)
+        {
+            var name = Guid.NewGuid().ToString().Substring(15);
+            var query = new MutationQueryBuilder().WithCreateEvent(
+                    new EventQueryBuilder().WithEventId()
+                    ,new CreateEventRequestInput
+                    {
+                        ClubId = currentClub,
+                        Name = name,
+                        StartTime = "2021-01-01",
+                        EndTime = "2021-01-02",
+                        Description = "Test klub description",
+                        EventType = EventType.Public,
+                        Locations = new List<object>()
+                        {
+
+                        },
+                        EventPrices = new List<EventPriceRequestInput>()
+                        {
+                            new EventPriceRequestInput()
+                            {
+                                ClubSubscriptionId = subId,
+                                Price = 50
+                            }
+                        }
+                    })
+                .Build();
+            return await Mutate(query);
+        }
+
         [Test]
         public async Task CreateCoupleSubscriptionsTest()
         {
@@ -58,15 +106,33 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
         }
 
         [Test]
-        public async Task CreateCoupleMembersTest()
+        public async Task CreateMembersTest()
         {
             await CreateAuthorizedClient();
             var resultClub = await CreateAClub();
             currentClub = new Guid(resultClub.CreateClub.ClubId.ToString());
             var resultSub = await CreateSubscription();
             var resultUser = await CreateNewUser();
-            Thread.Sleep(2000);
             await CreateMember(resultSub.CreateClubSubscription.ClubSubscriptionId, resultUser.CreateUser.User.Id);
+        }
+
+        [Test]
+        public async Task CreateInstructorTest()
+        {
+            await CreateAuthorizedClient();
+            var resultClub = await CreateAClub();
+            currentClub = new Guid(resultClub.CreateClub.ClubId.ToString());
+            await CreateInstructor();
+        }
+
+        [Test]
+        public async Task CreateEventTest()
+        {
+            await CreateAuthorizedClient();
+            var resultClub = await CreateAClub();
+            currentClub = new Guid(resultClub.CreateClub.ClubId.ToString());
+            var resultSub = await CreateSubscription();
+            await CreateEvent(resultSub.CreateClubSubscription.ClubSubscriptionId);
         }
     }
 }

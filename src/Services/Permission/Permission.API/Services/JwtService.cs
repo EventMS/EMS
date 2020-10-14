@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using EMS.Permission_Services.API.Context.Model;
 using EMS.TemplateWebHost.Customization.StartUp;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace EMS.Permission_Services.API.Services
 {
@@ -34,19 +35,20 @@ namespace EMS.Permission_Services.API.Services
             subject.AddClaim(new Claim("id", userId.ToString()));
 
 
+            if (userRoles == null)
+            {
+                userRoles = new List<Role>();
+            }
+
             var clubPermissons = userRoles.Select(role => new ClubPermission()
             {
                 ClubId = role.ClubId,
                 UserRole = role.UserRole,
-                SubscriptionId = role.SubscriptionId
+                SubscriptionId = role.ClubSubscriptionId
             }).ToList();
+            subject.AddClaim(new Claim("ClubPermissionsClaim", JsonConvert.SerializeObject(clubPermissons)));
 
-            if (clubPermissons.Count() != 0)
-            {
-                subject.AddClaim(new Claim("ClubPermissionsClaim", JsonConvert.SerializeObject(clubPermissons)));
-            }
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+                var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = null,
                 Audience = null,

@@ -33,7 +33,7 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
         }
 
         [HotChocolate.AspNetCore.Authorization.Authorize]
-        public async Task<Guid> SignUpFreeEventAsync(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
+        public async Task<EventParticipant> SignUpFreeEventAsync(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
         {
             var e = await _context.Events
                 .Include(e => e.EventPrices)
@@ -48,6 +48,11 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
                         .SetCode("USER_NOT_MEMBER")
                         .Build());
             }
+
+            if (userSub == null)
+            {
+                userSub = Guid.Empty;
+            }
             var userPrice = e.EventPrices.Find(ep => ep.ClubSubscriptionId == userSub.Value);
             if (userPrice == null)
             {
@@ -60,11 +65,12 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
 
             if (Math.Abs(userPrice.Price) < 1)
             {
-                _context.EventParticipants.Add(new EventParticipant()
+                var ep = new EventParticipant()
                 {
                     EventId = eventId,
                     UserId = currentUser.UserId
-                });
+                };
+                _context.EventParticipants.Add(ep);
                 var @event = new SignUpEventSuccess()
                 {
                     UserId = currentUser.UserId,
@@ -72,7 +78,7 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
                 };
                 await _eventService.SaveEventAndDbContextChangesAsync(@event);
                 await _eventService.PublishEventAsync(@event);
-                return eventId;
+                return ep;
             }
             else
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Execution;
@@ -8,6 +9,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
@@ -34,14 +36,16 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             RoleRequirement requirement,
             Guid id)
         {
-            var claim = context.User.FindFirst(c => c.Type == "ClubPermissionsClaim");
-            if (claim == null)
+            if (context.User == null)
             {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("You do not have permission for this action")
-                        .SetCode("USER_NOT_AUTH")
-                        .Build());
+                Log.Information("User does not exist");
+                return;
+            }
+            var claim = context.User.FindFirst("ClubPermissionsClaim");
+            if (claim.Value == null)
+            {
+                Log.Information("User have no permissions");
+                return;
             }
 
             var clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim.Value);
@@ -49,15 +53,12 @@ namespace EMS.TemplateWebHost.Customization.StartUp
 
             if (club != null && club.UserRole == requirement.Role)
             {
+                Log.Information("User succesfully validated claim: " + requirement.Role + " in " + id);
                 context.Succeed(requirement);
             }
             else
             {
-                throw new QueryException(
-                    ErrorBuilder.New()
-                        .SetMessage("You do not have permission for this action")
-                        .SetCode("USER_NOT_AUTH")
-                        .Build());
+                Log.Information("Validation failed, user did not have permissions");
             }
         }
     }

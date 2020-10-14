@@ -23,7 +23,7 @@ namespace EMS.Permission_Services.API.Events
                 r.ClubId == context.Message.ClubId && r.UserId == context.Message.UserId);
             if (role != null)
             {
-                role.SubscriptionId = context.Message.ClubSubscriptionId;
+                role.ClubSubscriptionId = context.Message.ClubSubscriptionId;
                 _permissionContext.Roles.Update(role);
                 await _permissionContext.SaveChangesAsync();
             }
