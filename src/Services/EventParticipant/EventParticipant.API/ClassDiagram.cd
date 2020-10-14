@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="EMS.EventParticipant_Services.API.Context.Model.Event">
+    <Position X="1.5" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgAAAAAAAAAAAAAAAEAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Event.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.EventParticipant_Services.API.Context.Model.EventParticipant">
+    <Position X="5" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAQgAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\EventParticipant.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.EventParticipant_Services.API.Context.Model.EventPrice">
+    <Position X="2.75" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAQAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\EventPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.CanUserSignUpToEvent">
+    <Position X="2.25" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventParticipantEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.EventCreatedEvent">
+    <Position X="4.5" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgAAAAAAAAAAAAAAAEAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventParticipantEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.SignUpEventSuccess">
+    <Position X="4.5" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventParticipantEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

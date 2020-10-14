@@ -12,11 +12,9 @@ namespace EMS.EventParticipant_Services.API.Mapper
     {
         public EventParticipantProfile()
         {
-            CreateMap<EventParticipant, CanUserSignUpToEvent>();
             CreateMap<EventCreatedEvent, Event>()
                 .Transform(e => e.EventPrices, e => e.EventPrices);
 
-            CreateMap<Event, CanUserSignUpToEvent>();
             CreateMap<SignUpEventSuccess, EventParticipant>();
         }
     }

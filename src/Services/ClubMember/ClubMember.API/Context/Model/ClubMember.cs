@@ -5,16 +5,12 @@ using HotChocolate;
 
 namespace EMS.ClubMember_Services.API.Context.Model
 {
-    public class ClubMember : IValidatableObject
+    public class ClubMember
     {
         public Guid UserId { get; set; }
         public Guid ClubId { get; set; }
         public Guid ClubSubscriptionId { get; set; }
 
         public ClubMember() { }
-        public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
 }
