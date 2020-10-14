@@ -80,15 +80,11 @@ namespace EMS.GraphQL.API
             return services;
         }
 
-        public IServiceCollection AddGraphQlServices(IServiceCollection services)
+        public void AddHttpClients(string[] https, IServiceCollection services)
         {
-            
-            var https = Configuration.GetValue<string>("services").Split(",");
-            services.AddDataLoaderRegistry();
-
             foreach (var http in https)
             {
-                services.AddHttpClient(http.Replace("-",""), (sp, client) =>
+                services.AddHttpClient(http.Replace("-", ""), (sp, client) =>
                 {
                     HttpContext context = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
 
@@ -99,13 +95,16 @@ namespace EMS.GraphQL.API
                                 context.Request.Headers["Authorization"]
                                     .ToString());
                     }
-                    client.BaseAddress = new Uri("http://"+ http);
+                    client.BaseAddress = new Uri("http://" + http);
                 });
             }
+        }
 
-
-
-
+        public IServiceCollection AddGraphQlServices(IServiceCollection services)
+        {
+            services.AddDataLoaderRegistry();
+            var https = Configuration.GetValue<string>("services").Split(",");
+            AddHttpClients(https, services);
 
 
             services.AddStitchedSchema(builder =>
@@ -114,33 +113,8 @@ namespace EMS.GraphQL.API
                 {
                     builder.AddSchemaFromHttp(http.Replace("-",""));
                 }
-
-                builder.AddDocumentRewriter((schema, definitionSchema) =>
-                {
-                    var definitions = new List<IDefinitionNode>();
-                    var schemaName = schema.Name.Value;
-                    if (schemaName.Contains("api"))
-                    {
-                        schemaName = schemaName.Substring(0, schemaName.Length - 3);
-                    }
-                    foreach (var definition in definitionSchema.Definitions)
-                    {
-                        if (definition is ObjectTypeDefinitionNode typeDefinition)
-                        {
-                            if (!(typeDefinition.Name.Value.ToLower().Contains(schemaName)))
-                            {
-                                definitions.Add(typeDefinition.WithName(new NameNode(schemaName + "_" + typeDefinition.Name.Value)));
-                                continue;
-                            }
-                        }
-                        definitions.Add(definition);
-                    }
-
-                    return definitionSchema.WithDefinitions(definitions);
-                });
-
+                builder.AddDocumentRewriter(RewriteDocument);
                 builder.AddExtensionsFromFile("./Extensions.graphql");
-
 
                 builder.AddExecutionConfiguration(b =>
                 {
@@ -159,6 +133,32 @@ namespace EMS.GraphQL.API
 
             services.AddGraphQLSubscriptions();
             return services;
+        }
+
+        private DocumentNode RewriteDocument(ISchemaInfo schema, DocumentNode definitionSchema)
+        {
+            var definitions = new List<IDefinitionNode>();
+            var schemaName = schema.Name.Value;
+            if (schemaName.Contains("api"))
+            {
+                schemaName = schemaName.Substring(0, schemaName.Length - 3);
+            }
+
+            foreach (var definition in definitionSchema.Definitions)
+            {
+                if (definition is ObjectTypeDefinitionNode typeDefinition)
+                {
+                    if (!(typeDefinition.Name.Value.ToLower().Contains(schemaName)))
+                    {
+                        definitions.Add(typeDefinition.WithName(new NameNode(schemaName + "_" + typeDefinition.Name.Value)));
+                        continue;
+                    }
+                }
+
+                definitions.Add(definition);
+            }
+
+            return definitionSchema.WithDefinitions(definitions);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
