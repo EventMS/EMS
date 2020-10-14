@@ -109,6 +109,8 @@ namespace EMS.GraphQL.API
                 {
                     builder.AddSchemaFromHttp(http.Replace("-",""));
                 }
+
+
                 builder.AddDocumentRewriter((schema, definitionSchema) =>
                 {
                     var definitions = new List<IDefinitionNode>();
@@ -143,8 +145,6 @@ namespace EMS.GraphQL.API
                                 "remote_code",
                                 originalError.Code);
                         }
-
-
                         return error;
                     });
                 });

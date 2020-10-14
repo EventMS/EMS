@@ -99,6 +99,16 @@ services:
       - identity-api
       - rabbitmq
 
+  paymentwebhook-api:
+    image: ${REGISTRY:-eventms}/paymentwebhook.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/PaymentWebhook/PaymentWebhook.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
   graphql-api:
     image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
     build:

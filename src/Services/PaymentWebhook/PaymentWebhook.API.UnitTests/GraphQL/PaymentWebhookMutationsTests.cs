@@ -2,19 +2,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using EMS.Events;
 using EMS.SharedTesting.Helper;
 using NSubstitute;
 using NUnit.Framework;
 
 using EMS.PaymentWebhook_Services.API.Context;
-using EMS.PaymentWebhook_Services.API.Controllers.Request;
 using EMS.PaymentWebhook_Services.API.GraphQlQueries;
 using EMS.PaymentWebhook_Services.API.Mapper;
 using Test;
 
 namespace EMS.PaymentWebhook_Services.API.UnitTests.GraphQL
 {
+    /*
     [TestFixture]
     class PaymentWebhookMutationsTests : BaseMutationsSetupTests<PaymentWebhookContext>
     {
@@ -81,5 +80,5 @@ namespace EMS.PaymentWebhook_Services.API.UnitTests.GraphQL
                 .WithClubs(new ClubQueryBuilder().WithAllFields());
         }
 
-    }
+    }*/
 }

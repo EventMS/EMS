@@ -46,9 +46,6 @@ namespace EMS.PaymentWebhook_Services.API.Context
         {
             return new List<Model.PaymentWebhook>()
             {
-                new Model.PaymentWebhook() { Name = "Ma"},
-                new Model.PaymentWebhook() { Name = "Je" },
-                new Model.PaymentWebhook() { Name = "Si" },
             };
         }
 

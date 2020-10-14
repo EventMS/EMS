@@ -1,34 +1,64 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using EMS.Events;
+using EMS.TemplateWebHost.Customization.EventService;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using Stripe;
 
 namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
 {
-    [Microsoft.AspNetCore.Components.Route("webhook")]
+    [Route("webhook")]
     [ApiController]
     public class WebhookController : Controller
     {
+        private readonly IEventService _eventService;
+
+        public WebhookController(IEventService eventService)
+        {
+            _eventService = eventService;
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Index()
         {
             var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+            Log.Information(json);
             try
             {
                 var stripeEvent = EventUtility.ParseEvent(json);
-                if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+                if (stripeEvent.Type == Stripe.Events.PaymentIntentSucceeded)
                 {
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-                    Console.WriteLine("A successful payment for {0} was made.", paymentIntent.Amount);
-                    // Then define and call a method to handle the successful payment intent.
-                    // handlePaymentIntentSucceeded(paymentIntent);
+                    Log.Information("A successful payment for {0} was made.", paymentIntent.Amount);
+                    if (paymentIntent.Metadata.Count == 2)
+                    {
+                        var e = new SignUpEventSuccess()
+                        {
+                            UserId = new Guid(paymentIntent.Metadata["UserId"]),
+                            EventId = new Guid(paymentIntent.Metadata["EventId"])
+                        };
+                        Log.Information("User: " + e.UserId + " signed up to eventId: " + e.EventId);
+                        await _eventService.SaveEventAndDbContextChangesAsync(e);
+                        await _eventService.PublishEventAsync(e);
+                    }
                 }
-                else if (stripeEvent.Type == Events.PaymentMethodAttached)
+                else if (stripeEvent.Type == Stripe.Events.CustomerSubscriptionCreated)
                 {
-                    var paymentMethod = stripeEvent.Data.Object as PaymentMethod;
-                    // Then define and call a method to handle the successful attachment of a PaymentMethod.
-                    // handlePaymentMethodAttached(paymentMethod);
+                    var sub = stripeEvent.Data.Object as Subscription;
+                    if (sub.Metadata.Count == 2)
+                    {
+                        var e = new SignUpEventSuccess()
+                        {
+                            UserId = new Guid(sub.Metadata["UserId"]),
+                            EventId = new Guid(sub.Metadata["EventId"])
+                        };
+                        Log.Information("User: " + e.UserId + " signed up to eventId: " + e.EventId);
+                        await _eventService.SaveEventAndDbContextChangesAsync(e);
+                        await _eventService.PublishEventAsync(e);
+                    }
                 }
                 else
                 {
@@ -36,6 +66,11 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
                 }
                 return Ok();
             }
+            catch
+            {
+            }
+
+            return BadRequest();
         }
     }
 }

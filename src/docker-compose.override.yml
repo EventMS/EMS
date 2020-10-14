@@ -148,6 +148,18 @@ services:
     ports:
       - "5111:80"
 
+  paymentwebhook-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.PaymentWebhookDb;User Id=sa;Password=Pass@word
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
+      - EventBusConnection=rabbitmq
+      - PORT=80
+      - PATH_BASE=/paymentwebhook-api
+    ports:
+      - "5112:80"
+
 volumes:
   ems-sqldata:
     external: false

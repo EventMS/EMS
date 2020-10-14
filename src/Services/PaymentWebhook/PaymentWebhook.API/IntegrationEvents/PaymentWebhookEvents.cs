@@ -3,20 +3,15 @@ using EMS.BuildingBlocks.EventLogEF;
 
 namespace EMS.Events
 {
-    public class PaymentWebhookCreatedEvent : Event // All events should inherit from Integration event
+    public class SignUpEventSuccess : Event // All events should inherit from Integration event
     {
-        public Guid PaymentWebhookId { get; set; }
-        public string Name { get; set; }
+        public Guid EventId { get; set; }
+        public Guid UserId { get; set; }
     }
 
-    public class PaymentWebhookUpdatedEvent : Event // All events should inherit from Integration event
+    public class SignUpSubscriptionSuccess : Event // All events should inherit from Integration event
     {
-        public Guid PaymentWebhookId { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class PaymentWebhookDeletedEvent : Event // All events should inherit from Integration event
-    {
-        public Guid PaymentWebhookId { get; set; }
+        public Guid SubscriptionId { get; set; }
+        public Guid UserId { get; set; }
     }
 }
