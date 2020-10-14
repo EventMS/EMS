@@ -122,3 +122,5 @@ services:
       - subscription-api
       - clubmember-api
       - room-api
+      - eventparticipant-api
+      - event-api
