@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Events;
+using EMS.SharedTesting.Helper;
 using NUnit.Framework;
 using EMS.Subscription_Services.API.Context;
 using EMS.Subscription_Services.API.IntegrationEvents;

@@ -8,6 +8,7 @@ using EMS.Club_Service.API.Context.Model;
 using EMS.Club_Service.API.Events;
 using EMS.Events;
 using EMS.SharedTesting.Factories;
+using EMS.SharedTesting.Helper;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

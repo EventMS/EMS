@@ -5,7 +5,7 @@ using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.Context.Model;
 using EMS.Event_Services.API.Controllers.Request;
 using EMS.Event_Services.API.Mapper;
-using EMS.Subscription_Services.API.UnitTests.Consumers;
+using EMS.SharedTesting.Helper;
 using MassTransit;
 
 namespace EMS.Room_Services.API.UnitTests.Consumers

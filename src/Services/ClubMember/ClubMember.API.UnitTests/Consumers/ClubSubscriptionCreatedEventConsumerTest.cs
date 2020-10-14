@@ -6,7 +6,7 @@ using EMS.ClubMember_Services.API.Context;
 using EMS.ClubMember_Services.API.Events;
 using EMS.ClubMember_Services.API.Mapper;
 using EMS.Events;
-using EMS.Subscription_Services.API.UnitTests.Consumers;
+using EMS.SharedTesting.Helper;
 using NUnit.Framework;
 
 namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers

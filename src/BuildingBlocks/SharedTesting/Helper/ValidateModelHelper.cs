@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace EMS.Shared.Testing.Helpers
+namespace EMS.SharedTesting.Helpers
 {
     public static class ValidateModelHelper
     {

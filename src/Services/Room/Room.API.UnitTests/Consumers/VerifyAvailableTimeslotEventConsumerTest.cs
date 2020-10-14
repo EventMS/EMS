@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using EMS.Events;
 using EMS.Room_Services.API.Context;
 using EMS.Room_Services.API.Context.Model;
 using EMS.Room_Services.API.Events;
 using EMS.SharedTesting.Factories;
-using EMS.Subscription_Services.API.UnitTests.Consumers;
+using EMS.SharedTesting.Helper;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
