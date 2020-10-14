@@ -16,7 +16,7 @@ namespace EMS.PaymentWebhook_Services.API
     {
         public ProgramHelper(string appName) : base(appName)
         {
-            StripeConfiguration.ApiKey = "sk_test_51Hc6ZtETjZBFbSa36Lbh64H6wI7JiFQcYfyNLbxITBCYmwsjIZ1i7q1iKSrAaSN1N1GgMQGZQ8IXUglAs8pbZnFG00nldwTqeD";
+            //Remember key when necessary for "Real" Testing
         }
 
         public override void MigrateDbContext(IWebHost host)

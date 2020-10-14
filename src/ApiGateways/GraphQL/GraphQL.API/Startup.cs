@@ -20,6 +20,7 @@ using HotChocolate.Stitching.Merge.Rewriters;
 using Serilog;
 using EMS.TemplateWebHost.Customization.Filters;
 using EMS.TemplateWebHost.Customization.StartUp;
+using HotChocolate.Stitching.Delegation;
 using DirectiveLocation = HotChocolate.Types.DirectiveLocation;
 
 namespace EMS.GraphQL.API
@@ -103,13 +104,16 @@ namespace EMS.GraphQL.API
             }
 
 
+
+
+
+
             services.AddStitchedSchema(builder =>
             {
                 foreach (var http in https)
                 {
                     builder.AddSchemaFromHttp(http.Replace("-",""));
                 }
-
 
                 builder.AddDocumentRewriter((schema, definitionSchema) =>
                 {

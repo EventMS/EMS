@@ -20,6 +20,39 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
             _eventService = eventService;
         }
 
+        [Route("event")]
+        [HttpPost]
+        public async Task<IActionResult> eventCheat(EventCheatRequest request)
+        {
+            var e = new SignUpEventSuccess()
+            {
+                UserId = request.UserId,
+                EventId = request.EventId
+            };
+            Log.Information("User: " + e.UserId + " signed up to eventId: " + e.EventId);
+            await _eventService.SaveEventAndDbContextChangesAsync(e);
+            await _eventService.PublishEventAsync(e);
+            return Ok();
+        }
+
+
+
+        [Route("sub")]
+        [HttpPost]
+        public async Task<IActionResult> subCheat(SubCheatRequest request)
+        {
+            var e = new SignUpSubscriptionSuccess()
+            {
+                UserId = request.UserId,
+                ClubSubscriptionId = request.ClubSubscriptionId
+            };
+            Log.Information("User: " + e.UserId + " signed up to subscription: " + e.ClubSubscriptionId);
+            await _eventService.SaveEventAndDbContextChangesAsync(e);
+            await _eventService.PublishEventAsync(e);
+            return Ok();
+        }
+
+
 
         [HttpPost]
         public async Task<IActionResult> Index()
@@ -32,7 +65,6 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
                 if (stripeEvent.Type == Stripe.Events.PaymentIntentSucceeded)
                 {
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-                    Log.Information("A successful payment for {0} was made.", paymentIntent.Amount);
                     if (paymentIntent.Metadata.Count == 2)
                     {
                         var e = new SignUpEventSuccess()
@@ -50,12 +82,12 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
                     var sub = stripeEvent.Data.Object as Subscription;
                     if (sub.Metadata.Count == 2)
                     {
-                        var e = new SignUpEventSuccess()
+                        var e = new SignUpSubscriptionSuccess()
                         {
                             UserId = new Guid(sub.Metadata["UserId"]),
-                            EventId = new Guid(sub.Metadata["EventId"])
+                            ClubSubscriptionId = new Guid(sub.Metadata["ClubSubscriptionId"])
                         };
-                        Log.Information("User: " + e.UserId + " signed up to eventId: " + e.EventId);
+                        Log.Information("User: " + e.UserId + " signed up to subscription: " + e.ClubSubscriptionId);
                         await _eventService.SaveEventAndDbContextChangesAsync(e);
                         await _eventService.PublishEventAsync(e);
                     }
