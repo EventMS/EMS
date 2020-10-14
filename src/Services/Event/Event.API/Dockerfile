@@ -39,7 +39,7 @@ COPY "NuGet.config" "NuGet.config"
 RUN dotnet restore "EMS.sln"
 
 COPY . .
-WORKDIR /src/Services/Template1/Template1.API
+WORKDIR /src/Services/Event/Event.API
 RUN dotnet publish --no-restore -c Release -o /app
 
 FROM build AS publish
@@ -47,4 +47,4 @@ FROM build AS publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Template1.API.dll"]
+ENTRYPOINT ["dotnet", "Event.API.dll"]

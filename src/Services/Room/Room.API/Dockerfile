@@ -40,7 +40,7 @@ COPY "NuGet.config" "NuGet.config"
 RUN dotnet restore "EMS.sln"
 
 COPY . .
-WORKDIR /src/Services/Template1/Template1.API
+WORKDIR /src/Services/Room/Room.API
 RUN dotnet publish --no-restore -c Release -o /app
 
 FROM build AS publish
