@@ -30,7 +30,7 @@ COPY "Services/ClubMember/ClubMember.API.UnitTests/ClubMember.API.UnitTests.cspr
 COPY "Services/Subscription/Subscription.API.UnitTests/Subscription.API.UnitTests.csproj" "Services/Subscription/Subscription.API.UnitTests/Subscription.API.UnitTests.csproj"
 COPY "Services/Club/Club.API.UnitTests/Club.API.UnitTests.csproj" "Services/Club/Club.API.UnitTests/Club.API.UnitTests.csproj"
 COPY "Services/Permission/Permission.API/Permission.API.csproj" "Services/Permission/Permission.API/Permission.API.csproj"
-
+COPY "IntegrationTests/IntegrationTests.csproj" "IntegrationTests/IntegrationTests.csproj"
 
 COPY "docker-compose.dcproj" "docker-compose.dcproj"
 
