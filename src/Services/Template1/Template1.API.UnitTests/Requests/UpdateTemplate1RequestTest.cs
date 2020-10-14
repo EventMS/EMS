@@ -5,6 +5,7 @@ using EMS.Template1_Services.API.Controllers.Request;
 
 namespace EMS.Template1_Services.API.UnitTests.Requests
 {
+    /*
     [TestFixture]
     public class UpdateTemplate1RequestTest
     {
@@ -36,5 +37,5 @@ namespace EMS.Template1_Services.API.UnitTests.Requests
             Assert.That(ValidateModelHelper.ValidateModel(request).Count, Is.EqualTo(expectedNumberOfErrors));
         }
 
-    }
+    }*/
 }
