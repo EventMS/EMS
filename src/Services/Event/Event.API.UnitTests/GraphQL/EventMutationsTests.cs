@@ -155,7 +155,7 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         {
             var request = BasicCreateRequest();
 
-            await _mutations.CreateEventAsync(request);
+            var @event = await _mutations.CreateEventAsync(request);
             
             using (var context = _factory.CreateContext())
             {
@@ -252,7 +252,7 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
             await _publish.Received(0).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
         }
 
-        [Test] //Should add more test, but confident for now. 
+        [Test]
         public async Task UpdateEvent_ValidRequest_AddedToDatabase()
         {
             var request = BasicUpdateRequest();
@@ -271,10 +271,14 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
                 Assert.That(e.InstructorForEvents.Count, Is.EqualTo(1));
                 Assert.That(e.EventPrices.Count, Is.EqualTo(1));
                 Assert.That(context.Events.Count(), Is.EqualTo(1));
+                Assert.That(@event.Name, Is.Not.EqualTo(e.Name));
+                Assert.That(@event.Description, Is.Not.EqualTo(e.Description));
+                Assert.That(@event.InstructorForEvents.First().InstructorId, Is.EqualTo(e.InstructorForEvents.First().InstructorId));
+                Assert.That(@event.Locations.First().RoomId, Is.EqualTo(e.Locations.First().RoomId));
+                Assert.That(@event.EventPrices.First().ClubSubscriptionId, Is.EqualTo(e.EventPrices.First().ClubSubscriptionId));
             }
 
             await _publish.Received(1).Publish(Arg.Any<VerifyChangedTimeslotEvent>());
         }
-
     }
 }
