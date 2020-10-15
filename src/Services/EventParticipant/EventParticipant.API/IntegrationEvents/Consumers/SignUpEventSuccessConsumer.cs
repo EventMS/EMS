@@ -27,6 +27,7 @@ namespace EMS.EventParticipant_Services.API.Events
         {
             if (await _context.Events.FindAsync(context.Message.EventId) == null)
             {
+                Log.Information("Tried to sign up to a event that did not exist");
                 return;
             }
             var ep = await _context.EventParticipants.FirstOrDefaultAsync(ep =>

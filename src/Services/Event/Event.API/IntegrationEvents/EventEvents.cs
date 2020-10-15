@@ -117,7 +117,6 @@ namespace EMS.Events
     {
         public Guid ClubId { get; set; }
         public Guid RoomId { get; set; }
-        public string Name { get; set; }
     }
 }
 

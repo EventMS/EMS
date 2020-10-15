@@ -21,10 +21,4 @@ namespace EMS.Events
 
         public List<EventPrice> EventPrices { get; set; }
     }
-    
-
-    public enum EventType
-    {
-        Public, Private
-    }
 }
