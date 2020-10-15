@@ -34,6 +34,7 @@ using EMS.TemplateWebHost.Customization.EventService;
 using EMS.TemplateWebHost.Customization.OutboxService;
 using EMS.TemplateWebHost.Customization.Settings;
 using HotChocolate.Execution;
+using HotChocolate.Execution.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -79,7 +80,8 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                  .Use<ValidateInputMiddleware>()
                  .AddAuthorizeDirectiveType();
             return AddGraphQlServices(schema).Create();
-            });
+            },
+                new QueryExecutionOptions { ForceSerialExecution = true });
 
 
             services.AddAutoMapper(typeof(T));
