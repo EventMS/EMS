@@ -24,7 +24,7 @@ namespace EMS.Permission_Services.API.Events
 
         public async Task Consume(ConsumeContext<UserCreatedEvent> context)
         {
-            var userId = new Guid(context.Message.UserId);
+            var userId = context.Message.UserId;
             var userAlreadyCreated = _permissionContext.Users.Find(userId);
             if (userAlreadyCreated == null)
             {
