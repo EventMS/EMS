@@ -37,6 +37,7 @@ using HotChocolate.Execution;
 using HotChocolate.Execution.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
@@ -307,6 +308,8 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
+                AddUseEndpoints(endpoints);
+
                 endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
                 {
                     Predicate = _ => true,
@@ -317,6 +320,11 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                     Predicate = r => r.Name.Contains("self")
                 });
             });
+        }
+
+        protected virtual void AddUseEndpoints(IEndpointRouteBuilder endpoints)
+        {
+
         }
 
         protected virtual void ConfigureAuth(IApplicationBuilder app)

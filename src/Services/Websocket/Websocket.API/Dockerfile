@@ -43,7 +43,7 @@ COPY "NuGet.config" "NuGet.config"
 RUN dotnet restore "EMS.sln"
 
 COPY . .
-WORKDIR /src/Services/Club/Club.API
+WORKDIR /src/Services/Websocket/Websocket.API
 RUN dotnet publish --no-restore -c Release -o /app
 
 FROM build AS publish
@@ -51,4 +51,4 @@ FROM build AS publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Club.API.dll"]
+ENTRYPOINT ["dotnet", "Websocket.API.dll"]

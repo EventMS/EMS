@@ -160,6 +160,18 @@ services:
     ports:
       - "5112:80"
 
+  websocket-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.WebsocketDb;User Id=sa;Password=Pass@word
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101   
+      - EventBusConnection=rabbitmq
+      - PORT=80
+      - PATH_BASE=/websocket-api
+    ports:
+      - "5113:80"
+
 volumes:
   ems-sqldata:
     external: false
