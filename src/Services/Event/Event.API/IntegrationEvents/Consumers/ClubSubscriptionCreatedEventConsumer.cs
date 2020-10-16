@@ -28,34 +28,30 @@ namespace EMS.Event_Services.API.Events
             {
                 if(context.Message.ReferenceId == null)
                 {
-                    var temp = _context.Subscriptions.FirstOrDefault(sub => sub.ClubId == context.Message.ClubId); //There are just one if no other is specified
-                    if(temp == null)
+                    var count = _context.Subscriptions.Count(sub => sub.ClubId == context.Message.ClubId); //There are just one if no other is specified
+                    if(count != 0)
                     {
                         Log.Information("Could not find a reference ID unexpectedly");                    
                         return;
                     }
-                    context.Message.ReferenceId = temp.ClubSubscriptionId;
-                };
-
+                } else {
+                    foreach (var messageEventPrice in _context.EventPrices
+                        .Where(evtPrice => evtPrice.ClubSubscriptionId == context.Message.ReferenceId).ToList())
+                    {
+                        _context.EventPrices.Add(new Context.Model.EventPrice()
+                        {
+                            Price = messageEventPrice.Price,
+                            EventId = messageEventPrice.EventId,
+                            ClubSubscriptionId = context.Message.ClubSubscriptionId
+                        });
+                    }
+                }
 
                 _context.Subscriptions.Add(new ClubSubscription()
                 {
                     ClubSubscriptionId = context.Message.ClubSubscriptionId,
                     ClubId = context.Message.ClubId
                 });
-                
-                //To be tested
-                foreach (var messageEventPrice in _context.EventPrices
-                    .Where(evtPrice => evtPrice.ClubSubscriptionId == context.Message.ReferenceId).ToList())
-                {
-                    _context.EventPrices.Add(new Context.Model.EventPrice()
-                    {
-                        Price = messageEventPrice.Price,
-                        EventId = messageEventPrice.EventId,
-                        ClubSubscriptionId = context.Message.ClubSubscriptionId
-                    });
-                }
-
 
                 await _context.SaveChangesAsync();
             }
