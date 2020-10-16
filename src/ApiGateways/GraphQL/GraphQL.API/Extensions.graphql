@@ -4,3 +4,12 @@
   instructors: [identity_ApplicationUser] @delegate(schema: "identityapi", path: "usersById(ids: $fields:instructorIds)")
   rooms: [Room] @delegate(schema: "roomapi", path: "roomsForClub(clubId: $fields:clubId)")
 }
+
+extend type identity_ApplicationUser{
+  permissions: [permission_Role] @delegate(schema: "permissionapi", path: "userRoles")
+}
+
+extend type permission_Role{
+  club: Club @delegate(schema: "clubapi", path: "clubByID(clubId: $fields:clubId)")
+  clubSubscription: ClubSubscription! @delegate(schema: "subscriptionapi", path: "clubSubscriptionByID(clubSubscriptionId: $fields:clubSubscriptionId)")
+}
