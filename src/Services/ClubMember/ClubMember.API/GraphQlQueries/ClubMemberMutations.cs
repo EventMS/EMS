@@ -50,7 +50,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
         {
             var subscription = await _context.ClubSubscriptions.FindAsync(request.ClubSubscriptionId);
 
-            await IsAdminIn(subscription.ClubId);
+            //await IsAdminIn(subscription.ClubId);
             var item = _mapper.Map<ClubMember>(request);
             item.ClubId = subscription.ClubId;
             _context.ClubMembers.Add(item);
