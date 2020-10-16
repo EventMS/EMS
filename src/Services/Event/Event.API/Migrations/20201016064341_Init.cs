@@ -44,6 +44,7 @@ namespace EMS.Event_Services.API.Migrations
                     ClubId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false),
+                    PublicPrice = table.Column<float>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     EndTime = table.Column<DateTime>(nullable: false)

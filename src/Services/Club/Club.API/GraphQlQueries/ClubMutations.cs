@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Club_Service.API.Context;
@@ -51,6 +52,10 @@ namespace EMS.Club_Service.API.GraphQlQueries
         {
             var item = _mapper.Map<Club>(request);
             item.AdminId = currentUser.UserId;
+            if (item.InstructorIds == null)
+            {
+                item.InstructorIds = new HashSet<Guid>();
+            }
             _context.Clubs.Add(item);
 
             var @event = _mapper.Map<ClubCreatedEvent>(item);

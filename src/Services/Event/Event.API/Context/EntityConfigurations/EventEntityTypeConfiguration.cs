@@ -30,8 +30,7 @@ namespace EMS.Event_Services.API.Context.EntityConfigurations
             builder.Property(ci => ci.StartTime)
                 .IsRequired();
 
-            builder.Property(ci => ci.EventType)
-                .IsRequired();
+            builder.Property(ci => ci.PublicPrice);
         }
     }
 }

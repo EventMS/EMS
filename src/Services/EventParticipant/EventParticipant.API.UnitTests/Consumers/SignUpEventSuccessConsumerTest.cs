@@ -63,7 +63,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
                 {
                     EventId = @event.EventId,
                     ClubId = Guid.NewGuid(),
-                    EventType = EventType.Public
+                    PublicPrice = 10
                 });
                 context.SaveChanges();
             }
@@ -91,7 +91,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
                 {
                     EventId = @event.EventId,
                     ClubId = Guid.NewGuid(),
-                    EventType = EventType.Public
+                    PublicPrice = 10
                 });
                 context.EventParticipants.Add(new EventParticipant()
                 {

@@ -38,7 +38,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
             {
                 ClubId = Guid.NewGuid(),
                 EventId = Guid.NewGuid(),
-                EventType = EventType.Public,
+                PublicPrice = 10,
                 EventPrices = new List<EventPrice>()
                 {
                     new EventPrice()
@@ -57,7 +57,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
                 var e = context.Events.Include(e => e.EventPrices)
                     .First();
                 Assert.That(e.EventPrices.Count(), Is.EqualTo(1));
-                Assert.That(e.EventType, Is.EqualTo(EventType.Public));
+                Assert.That(e.PublicPrice, Is.EqualTo(10));
             }
         }
 
@@ -68,7 +68,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
             {
                 ClubId = Guid.NewGuid(),
                 EventId = Guid.NewGuid(),
-                EventType = EventType.Public,
+                PublicPrice = 10,
                 EventPrices = new List<EventPrice>()
                 {
                     new EventPrice()
@@ -85,7 +85,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
                 {
                     EventId = @event.EventId,
                     ClubId = @event.ClubId,
-                    EventType = EventType.Public
+                    PublicPrice = 10
                 });
                 context.SaveChanges();
             }
@@ -98,7 +98,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
                 var e = context.Events.Include(e => e.EventPrices)
                     .First();
                 Assert.That(e.EventPrices.Count(), Is.EqualTo(0));
-                Assert.That(e.EventType, Is.EqualTo(EventType.Public));
+                Assert.That(e.PublicPrice, Is.EqualTo(10));
             }
         }
     }

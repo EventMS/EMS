@@ -18,6 +18,8 @@ namespace EMS.Event_Services.API.Controllers.Request
         [FutureDate]
         public DateTime StartTime { get; set; }
 
+        public float? PublicPrice { get; set; }
+
         [Required]
         [FutureDate]
         public DateTime EndTime { get; set; }

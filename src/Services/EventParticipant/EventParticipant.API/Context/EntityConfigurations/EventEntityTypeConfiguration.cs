@@ -13,8 +13,7 @@ namespace EMS.EventParticipant_Services.API.Context.EntityConfigurations
 
             builder.HasKey(ci => ci.EventId);
 
-            builder.Property(ci => ci.EventType)
-                .IsRequired();
+            builder.Property(ci => ci.PublicPrice);
 
             builder.Property(ci => ci.ClubId)
                 .IsRequired();

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMS.Event_Services.API.Migrations
 {
     [DbContext(typeof(EventContext))]
-    [Migration("20201012073846_EventTypeAdded")]
-    partial class EventTypeAdded
+    [Migration("20201016064341_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,12 +64,12 @@ namespace EMS.Event_Services.API.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EventType")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<float?>("PublicPrice")
+                        .HasColumnType("real");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");

@@ -14,7 +14,7 @@ using EMS.Room_Services.API.Mapper;
 
 namespace EMS.Room_Services.API.UnitTests.GraphQL
 {
-    /*
+    
     [TestFixture]
     class RoomMutationsTests : BaseMutationsSetupTests<RoomContext>
     {
@@ -26,7 +26,7 @@ namespace EMS.Room_Services.API.UnitTests.GraphQL
         public void SetUp()
         {
             var mapper = CreateMapper();
-            _mutations = new RoomMutations(_context, _eventService, mapper);
+            _mutations = new RoomMutations(_context, _eventService, mapper, _authorizationService);
 
         }
 
@@ -73,5 +73,5 @@ namespace EMS.Room_Services.API.UnitTests.GraphQL
         }
 
 
-    }*/
+    }
 }

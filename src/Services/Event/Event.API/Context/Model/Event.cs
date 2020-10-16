@@ -16,7 +16,7 @@ namespace EMS.Event_Services.API.Context.Model
 
         public string Description { get; set; }
 
-        public EventType EventType { get; set; } 
+        public float? PublicPrice { get; set; } 
 
         public EventStatus Status { get; set; }
 
@@ -44,10 +44,6 @@ namespace EMS.Event_Services.API.Context.Model
         }
     }
 
-    public enum EventType
-    {
-        Public, Private
-    }
     public enum EventStatus
     {
         Pending, Confirmed, Failed

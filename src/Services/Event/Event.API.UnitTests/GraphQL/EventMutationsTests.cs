@@ -102,7 +102,7 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
                 ClubId = _club.ClubId,
                 StartTime = DateTime.Now,
                 EndTime = DateTime.Now,
-                EventType = EventType.Public,
+                PublicPrice = 10,
                 EventPrices = new List<EventPriceRequest>()
                 {
                     new EventPriceRequest()
@@ -151,7 +151,7 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         }
 
         [Test]
-        public async Task CreateEvent_ValidRequest_AddedToDatabase()
+        public async Task CreateEvent_ValidRequestPublic_AddedToDatabase()
         {
             var request = BasicCreateRequest();
 
@@ -167,6 +167,31 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
                 Assert.That(e.Locations.Count, Is.EqualTo(1));
                 Assert.That(e.InstructorForEvents.Count, Is.EqualTo(1));
                 Assert.That(e.EventPrices.Count, Is.EqualTo(1));
+                Assert.That(e.PublicPrice, Is.EqualTo(10));
+                Assert.That(context.Events.Count(), Is.EqualTo(1));
+            }
+
+            await _publish.Received(1).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
+        }
+
+        [Test]
+        public async Task CreateEvent_ValidRequestPrivate_AddedToDatabase()
+        {
+            var request = BasicCreateRequest();
+            request.PublicPrice = null;
+            var @event = await _mutations.CreateEventAsync(request);
+
+            using (var context = _factory.CreateContext())
+            {
+                var e = context.Events.Include(e => e.InstructorForEvents)
+                    .Include(e => e.Locations)
+                    .Include(e => e.EventPrices)
+                    .FirstOrDefault(e => e.Name == request.Name);
+                Assert.That(e, Is.Not.Null);
+                Assert.That(e.Locations.Count, Is.EqualTo(1));
+                Assert.That(e.InstructorForEvents.Count, Is.EqualTo(1));
+                Assert.That(e.EventPrices.Count, Is.EqualTo(1));
+                Assert.That(e.PublicPrice, Is.Null);
                 Assert.That(context.Events.Count(), Is.EqualTo(1));
             }
 
