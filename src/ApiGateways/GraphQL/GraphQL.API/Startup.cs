@@ -119,7 +119,8 @@ namespace EMS.GraphQL.API
                 builder.AddExecutionConfiguration(b =>
                 {
                     b.AddErrorFilter(error => {
-                        if (error.Extensions.TryGetValue("remote", out object o)
+                        
+                        if (error != null && error.Extensions != null && error.Extensions.TryGetValue("remote", out object o)
                             && o is IError originalError)
                         {
                             return error.AddExtension(

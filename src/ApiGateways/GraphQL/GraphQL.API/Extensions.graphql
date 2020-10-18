@@ -11,5 +11,5 @@ extend type identity_ApplicationUser{
 
 extend type permission_Role{
   club: Club @delegate(schema: "clubapi", path: "clubByID(clubId: $fields:clubId)")
-  clubSubscription: ClubSubscription! @delegate(schema: "subscriptionapi", path: "clubSubscriptionByID(clubSubscriptionId: $fields:clubSubscriptionId)")
+  clubSubscription: ClubSubscription @delegate(schema: "subscriptionapi", path: "clubSubscriptionByID(clubSubscriptionId: $fields:clubSubscriptionId)")
 }
