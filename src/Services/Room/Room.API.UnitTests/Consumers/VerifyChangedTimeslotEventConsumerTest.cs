@@ -17,7 +17,7 @@ using NUnit.Framework;
 namespace EMS.Room_Services.API.UnitTests.Consumers
 {
     [TestFixture]
-    class VerifyAvailableTimeslotEventConsumerTest : BaseConsumerTest<VerifyAvailableTimeslotEventConsumer, RoomContext>
+    class VerifyChangedTimeslotEventConsumerTest : BaseConsumerTest<VerifyChangedTimeslotEventConsumer, RoomContext>
     {
         private IPublishEndpoint _publishEndpoint;
 
@@ -27,7 +27,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             var content = _factory.CreateContext(true);
             _publishEndpoint = Substitute.For<IPublishEndpoint>();
             var eventService = EventServiceFactory.CreateEventService(content, _publishEndpoint);
-            _consumer = new VerifyAvailableTimeslotEventConsumer(content, eventService);
+            _consumer = new VerifyChangedTimeslotEventConsumer(content, eventService);
             _harness.Start().Wait();
         }
 
@@ -40,7 +40,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
         [Test]
         public async Task Consume_RoomDoesNotExist_PublishFailedEventWithReason()
         {
-            var @event = new VerifyAvailableTimeslotEvent()
+            var @event = new VerifyChangedTimeslotEvent()
             {
                 EventId = Guid.NewGuid(),
                 RoomIds = new List<Guid>()
@@ -59,7 +59,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
         public async Task Consume_BookingCollision_PublishFailedEventWithReason()
         {
             var id = Guid.NewGuid();
-            var @event = new VerifyAvailableTimeslotEvent()
+            var @event = new VerifyChangedTimeslotEvent()
             {
                 EventId = Guid.NewGuid(),
                 RoomIds = new List<Guid>()
@@ -96,14 +96,14 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
 
             await SendEvent(@event);
 
-            await _publishEndpoint.Received(1).Publish(Arg.Any<TimeslotReservationFailedEvent>());
+            await _publishEndpoint.Received(1).Publish(Arg.Any<TimeslotReservedEvent>());
         }
 
         [Test]
         public async Task Consume_NoCollision_BookingAccepted()
         {
             var id = Guid.NewGuid();
-            var @event = new VerifyAvailableTimeslotEvent()
+            var @event = new VerifyChangedTimeslotEvent()
             {
                 EventId = Guid.NewGuid(),
                 RoomIds = new List<Guid>()
@@ -148,7 +148,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
         {
             var id = Guid.NewGuid();
             var id2 = Guid.NewGuid();
-            var @event = new VerifyAvailableTimeslotEvent()
+            var @event = new VerifyChangedTimeslotEvent()
             {
                 EventId = Guid.NewGuid(),
                 RoomIds = new List<Guid>()
@@ -178,7 +178,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             };
             var booking = new Booking()
             {
-                EventId = @event.EventId,
+                EventId = Guid.NewGuid(),
                 RoomId = id,
                 StartTime = new DateTime(2020, 1, 1, 1, 30, 0),
                 EndTime = new DateTime(2020, 1, 1, 2, 30, 0)
@@ -202,7 +202,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
         {
             var id = Guid.NewGuid();
             var id2 = Guid.NewGuid();
-            var @event = new VerifyAvailableTimeslotEvent()
+            var @event = new VerifyChangedTimeslotEvent()
             {
                 EventId = Guid.NewGuid(),
                 RoomIds = new List<Guid>()

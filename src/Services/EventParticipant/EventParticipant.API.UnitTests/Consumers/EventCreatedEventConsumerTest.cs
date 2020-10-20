@@ -32,7 +32,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
 
 
         [Test]
-        public async Task Consume_EventDoesNotExist_CreatesExpected()
+        public async Task Consume_EventDoesNotExistPublic_CreatesExpected()
         {
             var @event = new EventCreatedEvent()
             {
@@ -58,6 +58,35 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
                     .First();
                 Assert.That(e.EventPrices.Count(), Is.EqualTo(1));
                 Assert.That(e.PublicPrice, Is.EqualTo(10));
+            }
+        }
+
+        [Test]
+        public async Task Consume_EventDoesNotExistPrivate_CreatesExpected()
+        {
+            var @event = new EventCreatedEvent()
+            {
+                ClubId = Guid.NewGuid(),
+                EventId = Guid.NewGuid(),
+                EventPrices = new List<EventPrice>()
+                {
+                    new EventPrice()
+                    {
+                        ClubSubscriptionId = Guid.NewGuid(),
+                        Price = 50,
+                    }
+                }
+            };
+
+            await SendEvent(@event);
+
+            using (var context = _factory.CreateContext())
+            {
+                Assert.That(context.Events.Count(), Is.EqualTo(1));
+                var e = context.Events.Include(e => e.EventPrices)
+                    .First();
+                Assert.That(e.EventPrices.Count(), Is.EqualTo(1));
+                Assert.That(e.PublicPrice, Is.Null);
             }
         }
 
