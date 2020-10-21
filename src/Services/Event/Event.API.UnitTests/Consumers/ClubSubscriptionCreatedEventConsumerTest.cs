@@ -10,7 +10,7 @@ using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace EMS.Room_Services.API.UnitTests.Consumers
+namespace EMS.Event_Services.API.UnitTests.Consumers
 {
     [TestFixture]
     class ClubSubscriptionCreatedEventConsumerTest : EventConsumerTest<ClubSubscriptionCreatedEventConsumer>
@@ -74,7 +74,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             using (var context = _factory.CreateContext())
             {
                 Assert.That(context.Events.Count(), Is.EqualTo(1));
-                Assert.That(context.EventPrices.Count(), Is.EqualTo(2));
+                Assert.That(context.EventPrices.Count(), Is.EqualTo(1));
             }
         }
         //Test event that does not exists. 

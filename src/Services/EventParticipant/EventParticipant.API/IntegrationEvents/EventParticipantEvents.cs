@@ -15,16 +15,10 @@ namespace EMS.Events
     {
         public Guid EventId { get; set; }
 
+        public float? PublicPrice { get; set; }
+
         public Guid ClubId { get; set; }
 
-        public EventType EventType { get; set; }
-
         public List<EventPrice> EventPrices { get; set; }
-    }
-    
-
-    public enum EventType
-    {
-        Public, Private
     }
 }

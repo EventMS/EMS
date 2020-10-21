@@ -28,8 +28,8 @@ namespace EMS.EventParticipant_Services.API.Migrations
                     b.Property<Guid>("ClubId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("EventType")
-                        .HasColumnType("int");
+                    b.Property<float?>("PublicPrice")
+                        .HasColumnType("real");
 
                     b.HasKey("EventId");
 

@@ -42,7 +42,7 @@ namespace EMS.Room_Services.API.Events
         {
             var bookingsToRemove = _roomContext.Bookings.Where(b => b.EventId == context.Message.EventId);
             _roomContext.Bookings.RemoveRange(bookingsToRemove);
-                        foreach (var roomId in context.Message.RoomIds)
+            foreach (var roomId in context.Message.RoomIds)
             {
                 var room = await _roomContext.Rooms
                     .Include(room => room.Bookings)
@@ -59,6 +59,7 @@ namespace EMS.Room_Services.API.Events
                     EndTime = context.Message.EndTime,
                     StartTime = context.Message.StartTime
                 };
+                room.Bookings = room.Bookings.Where(b => b.EventId != context.Message.EventId).ToList();
                 room.Bookings.Add(booking);
                 _roomContext.Rooms.Update(room);
             }

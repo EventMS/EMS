@@ -24,6 +24,7 @@
     <Content Include="Pics\**\*;">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Compile Remove="EMS\Event_Services\API\Migrations\EventContextModelSnapshot.cs" />
     <Content Update="web.config;">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -65,6 +66,10 @@
     <None Update="Pics\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EMS\Event_Services\API\Migrations\" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace EMS.Room_Services.API.UnitTests.Consumers
+namespace EMS.Event_Services.API.UnitTests.Consumers
 {
     [TestFixture]
     class TimeslotReservedEventConsumerTest : EventConsumerTest<TimeslotReservedEventConsumer>

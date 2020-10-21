@@ -8,7 +8,7 @@ using EMS.Event_Services.API.Mapper;
 using EMS.SharedTesting.Helper;
 using MassTransit;
 
-namespace EMS.Room_Services.API.UnitTests.Consumers
+namespace EMS.Event_Services.API.UnitTests.Consumers
 {
     class EventConsumerTest<TConsumer> : BaseConsumerTest<TConsumer, EventContext> where TConsumer: class, IConsumer
     {
@@ -22,7 +22,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             var config = new MapperConfiguration(cfg => {
                 cfg.AddProfile<EventProfile>();
             });
-            return new Mapper(config);
+            return new AutoMapper.Mapper(config);
         }
 
         private CreateEventRequest BasicCreateRequest()

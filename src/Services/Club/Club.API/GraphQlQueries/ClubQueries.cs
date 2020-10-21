@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EMS.Club_Service.API.Context;
+using EMS.Club_Service.API.Context.Model;
 using EMS.Club_Service_Services.API;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +24,8 @@ namespace EMS.Club_Service.API.GraphQlQueries
             return await _context.Clubs.Where(club => club.AdminId == currentUser.UserId).ToArrayAsync();
         }
         public Context.Model.Club Club(string name) => _context.Clubs.First(club => club.Name == name);
+
+        public Club ClubByID(Guid clubId) => _context.Clubs.Find(clubId);
 
     }
 }
