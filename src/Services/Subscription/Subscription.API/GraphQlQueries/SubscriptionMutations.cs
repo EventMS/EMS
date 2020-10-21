@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EMS.Subscription_Services.API.GraphQlQueries
 {
-
     public class SubscriptionMutations : BaseMutations
     {
         protected readonly SubscriptionContext _context;

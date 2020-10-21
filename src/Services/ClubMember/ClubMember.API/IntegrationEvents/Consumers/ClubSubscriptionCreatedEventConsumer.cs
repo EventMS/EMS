@@ -1,9 +1,7 @@
-using System.Threading.Tasks;
 using AutoMapper;
 using EMS.ClubMember_Services.API.Context;
 using EMS.ClubMember_Services.API.Context.Model;
 using EMS.Events;
-using MassTransit;
 using Serilog;
 using TemplateWebHost.Customization.BasicConsumers;
 

@@ -14,6 +14,8 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
 
         public IQueryable<ClubSubscription> ClubSubscriptions => _context.ClubSubscriptions.AsQueryable();
 
+        public ClubSubscription ClubSubscriptionByID(Guid clubSubscriptionId) => _context.ClubSubscriptions.SingleOrDefault(sub => sub.ClubSubscriptionId == clubSubscriptionId);
+
         public IQueryable<ClubSubscription> SubscriptionsForClub(Guid clubId) => _context.ClubSubscriptions
             .Where(clubSub => clubSub.ClubId == clubId).AsQueryable();
 

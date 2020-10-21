@@ -12,16 +12,37 @@ using TemplateWebHost.Customization.BasicConsumers;
 namespace EMS.EventParticipant_Services.API.Events
 {
     public class SignUpEventSuccessConsumer :
-        BasicDuplicateConsumer<EventParticipantContext, EventParticipant, SignUpEventSuccess>
+        IConsumer<SignUpEventSuccess>
     {
-        public SignUpEventSuccessConsumer(EventParticipantContext context, IMapper mapper) : base(context, mapper)
+        private readonly EventParticipantContext _context;
+
+        public SignUpEventSuccessConsumer(EventParticipantContext context)
         {
+            _context = context;
         }
 
-        public override async Task<EventParticipant> FindEntity(EventParticipant entity, SignUpEventSuccess e)
+
+
+        public async Task Consume(ConsumeContext<SignUpEventSuccess> context)
         {
-            return await _context.EventParticipants.FirstOrDefaultAsync(ep =>
-                ep.EventId == e.EventId && ep.UserId == e.UserId);
+            if (await _context.Events.FindAsync(context.Message.EventId) == null)
+            {
+                Log.Information("Tried to sign up to a event that did not exist");
+                return;
+            }
+            var ep = await _context.EventParticipants.FirstOrDefaultAsync(ep =>
+                ep.EventId == context.Message.EventId && ep.UserId == context.Message.UserId);
+
+            if (ep == null)
+            {
+                await _context.EventParticipants.AddAsync(new EventParticipant()
+                {
+                    EventId = context.Message.EventId,
+                    UserId = context.Message.UserId
+                });
+                await _context.SaveChangesAsync();
+            }
+
         }
     }
 }

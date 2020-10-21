@@ -15,7 +15,6 @@ using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Internal;
-using EventType = EMS.EventParticipant_Services.API.Context.Model.EventType;
 
 namespace EMS.EventParticipant_Services.API.GraphQlQueries
 {
@@ -40,7 +39,7 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
                 .SingleOrThrowAsync(e => e.EventId == eventId);
 
             var userSub = currentUser.GetSubscriptionIn(e.ClubId);
-            if (!userSub.HasValue && e.EventType == EventType.Private)
+            if (!userSub.HasValue && e.PublicPrice != null)
             {
                 throw new QueryException(
                     ErrorBuilder.New()

@@ -5,13 +5,7 @@ namespace EMS.Events
 {
     public class UserCreatedEvent : Event // All events should inherit from Integration event
     {
-        public UserCreatedEvent(string userId, string name)
-        {
-            UserId = userId;
-            Name = name;
-        }
-        public string UserId { get; set; }
-        public string Name { get; set; }
+        public Guid UserId { get; set; }
     }
 
     public class ClubCreatedEvent : Event // All events should inherit from Integration event

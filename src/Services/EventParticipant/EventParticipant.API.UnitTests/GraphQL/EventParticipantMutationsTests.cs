@@ -16,7 +16,6 @@ using EMS.EventParticipant_Services.API.GraphQlQueries;
 using EMS.EventParticipant_Services.API.Mapper;
 using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.Execution;
-using EventType = EMS.EventParticipant_Services.API.Context.Model.EventType;
 
 namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
 {
@@ -64,7 +63,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
             {
                 EventId = Guid.NewGuid(),
                 ClubId = _currentUser.ClubPermissions.First().ClubId,
-                EventType = EventType.Public,
+                PublicPrice = 50,
                 EventPrices = new List<EventPrice>()
                 {
                     new EventPrice()
@@ -99,7 +98,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
             {
                 EventId = Guid.NewGuid(),
                 ClubId = _currentUser.ClubPermissions.First().ClubId,
-                EventType = EventType.Public,
+                PublicPrice = 50,
                 EventPrices = new List<EventPrice>()
                 {
                     new EventPrice()
@@ -126,7 +125,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
             {
                 EventId = Guid.NewGuid(),
                 ClubId = _currentUser.ClubPermissions.First().ClubId,
-                EventType = EventType.Public,
+                PublicPrice = 50,
                 EventPrices = new List<EventPrice>()
                 {
                     new EventPrice()
@@ -153,7 +152,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
             {
                 EventId = Guid.NewGuid(),
                 ClubId = _currentUser.ClubPermissions.First().ClubId,
-                EventType = EventType.Public,
+                PublicPrice = 50,
                 EventPrices = new List<EventPrice>()
                 {
                     new EventPrice()

@@ -15,7 +15,7 @@ namespace EMS.Events
 
         public string Description { get; set; }
 
-        public EventType EventType { get; set; }
+        public float? PublicPrice { get; set; }
 
         public DateTime StartTime { get; set; }
 
@@ -38,6 +38,8 @@ namespace EMS.Events
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public float? PublicPrice { get; set; }
 
         public DateTime StartTime { get; set; }
 
@@ -117,7 +119,6 @@ namespace EMS.Events
     {
         public Guid ClubId { get; set; }
         public Guid RoomId { get; set; }
-        public string Name { get; set; }
     }
 }
 

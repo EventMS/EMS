@@ -36,12 +36,12 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             RoleRequirement requirement,
             Guid id)
         {
-            if (context.User == null)
+            if (_httpContextAccessor.HttpContext.User == null)
             {
                 Log.Information("User does not exist");
                 return;
             }
-            var claim = context.User.FindFirst("ClubPermissionsClaim");
+            var claim = _httpContextAccessor.HttpContext.User.FindFirst("ClubPermissionsClaim");
             if (claim.Value == null)
             {
                 Log.Information("User have no permissions");
