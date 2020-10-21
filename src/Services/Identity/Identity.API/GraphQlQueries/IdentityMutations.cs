@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using EMS.TemplateWebHost.Customization.EventService;
 using Stripe;
 using Event = EMS.BuildingBlocks.EventLogEF.Event;
+using EMS.Identity_Services.API.GraphQlQueries;
 
 namespace EMS.Events
 {
@@ -26,6 +27,21 @@ namespace EMS.Events
         public string Value { get; set; }
         public string Value2 { get; set; }
     }
+}
+
+public class StripeService
+{
+    public Customer CreateCustomer(CreateUserRequest request)
+    {
+        var options = new CustomerCreateOptions
+        {
+            Email = request.Email,
+        };
+        var service = new CustomerService();
+        var customer = service.Create(options);
+        return customer;
+    }
+
 }
 
 namespace EMS.Identity_Services.API.GraphQlQueries
@@ -39,8 +55,9 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         private readonly JwtService _jwtService;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly StripeService _stripeService;
 
-        public IdentityMutations(ApplicationDbContext context, IEventService template1EventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint)
+        public IdentityMutations(ApplicationDbContext context, IEventService template1EventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint, StripeService stripeService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
@@ -49,9 +66,10 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             _signInManager = signInManager;
             _contextAccessor = contextAccessor;
             _publishEndpoint = publishEndpoint;
+            _stripeService = stripeService;
         }
 
-        
+
         public async Task<Response> LoginUserAsync(LoginUserRequest request)
         {
             //Some explicit transaction because user manager is out of ordinary and autosaves otherwise in another scope. 
@@ -78,17 +96,12 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         public async Task<Response> CreateUserAsync(CreateUserRequest request)
         {
             //Create the customer
-            if (await _userManager.FindByEmailAsync(request.Email) == null)
+            if (await _userManager.FindByEmailAsync(request.Email) != null)
             {
                 throw new QueryException("Duplicate email");
             };
 
-            var options = new CustomerCreateOptions
-            {
-                Email = request.Email,
-            };
-            var service = new CustomerService();
-            var customer = service.Create(options);
+            Customer customer = _stripeService.CreateCustomer(request);
 
             var user = new ApplicationUser()
             {
@@ -101,7 +114,7 @@ namespace EMS.Identity_Services.API.GraphQlQueries
 
             var evt = new UserCreatedEvent()
             {
-                Name = user.Name, 
+                Name = user.Name,
                 UserId = user.Id,
                 StripeCustomerId = customer.Id
             };

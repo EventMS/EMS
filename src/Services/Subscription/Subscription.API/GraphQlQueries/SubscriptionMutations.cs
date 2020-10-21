@@ -58,6 +58,7 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             return subscription;
         }
 
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<string> SignUpForSubscription(CreateSubscriptionRequest req, [CurrentUserGlobalState] CurrentUser currentUser)
         {
             var clubSub = await _context.ClubSubscriptions.FindOrThrowAsync(req.ClubSubscriptonId);
