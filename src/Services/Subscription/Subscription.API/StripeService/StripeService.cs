@@ -39,9 +39,6 @@ namespace EMS.Club_Service_Services.API
 
         public string SignUserUpToSubscription(string paymentMethodId, CurrentUser currentUser, string priceId)
         {
-            Log.Information(paymentMethodId);
-            Log.Information(currentUser.StripeCustomerId);
-            Log.Information(priceId);
             var options = new PaymentMethodAttachOptions
             {
                 Customer = currentUser.StripeCustomerId,
@@ -64,13 +61,13 @@ namespace EMS.Club_Service_Services.API
             var subscriptionOptions = new SubscriptionCreateOptions
             {
                 Customer = currentUser.StripeCustomerId,
-                Items = new List<SubscriptionItemOptions>
-        {
-            new SubscriptionItemOptions
-            {
-                Price = Environment.GetEnvironmentVariable(priceId),
-            },
-        },
+                Items = new List<SubscriptionItemOptions>()
+                    {
+                        new SubscriptionItemOptions
+                        {
+                            Price = priceId,
+                        },
+                    },
             };
             subscriptionOptions.AddExpand("latest_invoice.payment_intent");
             var subscriptionService = new SubscriptionService();
