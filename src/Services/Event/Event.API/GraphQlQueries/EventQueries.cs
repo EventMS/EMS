@@ -1,6 +1,7 @@
 using System.Linq;
 using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.Context.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Event_Services.API.GraphQlQueries
 {
@@ -16,6 +17,9 @@ namespace EMS.Event_Services.API.GraphQlQueries
             .Where(e => e.Status == status)
             .AsQueryable();
         */
-        public IQueryable<Event> Events => _context.Events.AsQueryable();
+        public IQueryable<Event> Events => _context.Events
+            .Include(e => e.Locations)
+            .Include(e => e.EventPrices)
+            .Include(e => e.InstructorForEvents).AsQueryable();
     }
 }
