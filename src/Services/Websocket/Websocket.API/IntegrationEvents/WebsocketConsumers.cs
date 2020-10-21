@@ -26,7 +26,7 @@ namespace EMS.Websocket_Services.API.Events
 
                 await _hub.Clients.All.SendAsync(clubId+"-EventCreated", new
                 {
-                    EvemtId = context.Message.EventId,
+                    EventId = context.Message.EventId,
                     ClubId = context.Message.ClubId,
                     Name = context.Message.Name
                 });
