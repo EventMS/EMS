@@ -44,27 +44,9 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
         {
             await IsAdminIn(request.ClubId);
             var subscription = _mapper.Map<ClubSubscription>(request);
-            
 
-            var productOptions = new ProductCreateOptions
-            {
-                Name = request.ClubId + request.Name,
-            };
-            var productService = new ProductService();
-            var product = productService.Create(productOptions);
-
-            var options = new PriceCreateOptions
-            {
-                UnitAmount = request.Price*100,
-                Currency = "dkk",
-                Recurring = new PriceRecurringOptions
-                {
-                    Interval = "month",
-                },
-                Product = product.Id,
-            };
-            var service = new PriceService();
-            var price = service.Create(options);
+            Product product = _stripeService.CreateProduct(request);
+            Price price = _stripeService.CreatePrice(request, product);
 
             subscription.StribePriceId = price.Id;
             subscription.StribeProductId = product.Id;
@@ -76,57 +58,10 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             return subscription;
         }
 
-        public async Task<string> PaySubscription(CreateSubscriptionRequest req, [CurrentUserGlobalState] CurrentUser currentUser)
+        public async Task<string> SignUpForSubscription(CreateSubscriptionRequest req, [CurrentUserGlobalState] CurrentUser currentUser)
         {
             var clubSub = await _context.ClubSubscriptions.FindOrThrowAsync(req.ClubSubscriptonId);
             return _stripeService.SignUserUpToSubscription(req.PaymentMethodId, currentUser, clubSub.StribePriceId);
-        }
-
-        private static string SignUserUpToSubscription(CreateSubscriptionRequest req, CurrentUser currentUser, ClubSubscription clubSub)
-        {
-            var options = new PaymentMethodAttachOptions
-            {
-                Customer = currentUser.StripeCustomerId,
-            };
-            var service = new PaymentMethodService();
-            var paymentMethod = service.Attach(req.PaymentMethodId, options);
-
-            // Update customer's default invoice payment method
-            var customerOptions = new CustomerUpdateOptions
-            {
-                InvoiceSettings = new CustomerInvoiceSettingsOptions
-                {
-                    DefaultPaymentMethod = paymentMethod.Id,
-                },
-            };
-            var customerService = new CustomerService();
-            customerService.Update(currentUser.StripeCustomerId, customerOptions);
-
-            // Create subscription
-            var subscriptionOptions = new SubscriptionCreateOptions
-            {
-                Customer = currentUser.StripeCustomerId,
-                Items = new List<SubscriptionItemOptions>
-        {
-            new SubscriptionItemOptions
-            {
-                Price = Environment.GetEnvironmentVariable(clubSub.StribePriceId),
-            },
-        },
-            };
-            subscriptionOptions.AddExpand("latest_invoice.payment_intent");
-            var subscriptionService = new SubscriptionService();
-            try
-            {
-                Subscription subscription = subscriptionService.Create(subscriptionOptions);
-                return "Went good";
-            }
-            catch (StripeException e)
-            {
-                Console.WriteLine($"Failed to create subscription.{e}");
-                return "Went bad";
-                // return BadRequest();
-            }
         }
 
         [HotChocolate.AspNetCore.Authorization.Authorize]

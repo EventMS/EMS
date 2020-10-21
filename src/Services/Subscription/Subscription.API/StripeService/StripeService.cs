@@ -1,11 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using EMS.Subscription_Services.API.GraphQlQueries.Request;
 using Stripe;
 
 namespace EMS.Club_Service_Services.API
 {
     public class StripeService
     {
+        public Product CreateProduct(CreateClubSubscriptionRequest request)
+        {
+            var productOptions = new ProductCreateOptions
+            {
+                Name = request.ClubId + request.Name,
+            };
+            var productService = new ProductService();
+            var product = productService.Create(productOptions);
+            return product;
+        }
+
+        public Price CreatePrice(CreateClubSubscriptionRequest request, Product product)
+        {
+            var options = new PriceCreateOptions
+            {
+                UnitAmount = request.Price * 100,
+                Currency = "dkk",
+                Recurring = new PriceRecurringOptions
+                {
+                    Interval = "month",
+                },
+                Product = product.Id,
+            };
+            var service = new PriceService();
+            var price = service.Create(options);
+            return price;
+        }
+
+
         public string SignUserUpToSubscription(string paymentMethodId, CurrentUser currentUser, string priceId)
         {
             var options = new PaymentMethodAttachOptions

@@ -6,6 +6,7 @@ using EMS.Subscription_Services.API.GraphQlQueries;
 using EMS.Subscription_Services.API.IntegrationEvents;
 using EMS.TemplateWebHost.Customization.StartUp;
 using Microsoft.Extensions.DependencyInjection;
+using EMS.Club_Service_Services.API;
 
 namespace EMS.Subscription_Services.API
 {
@@ -24,7 +25,7 @@ namespace EMS.Subscription_Services.API
 
         public override IServiceCollection AddServices(IServiceCollection service)
         {
-            services.AddTransient<StripeService>();
+            service.AddTransient<StripeService>();
             return base.AddServices(service);
         }
 

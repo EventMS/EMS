@@ -84,7 +84,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             },
                 new QueryExecutionOptions { ForceSerialExecution = true });
 
-            services.AddTransient<StripeService>();
+            
 
             services.AddAutoMapper(typeof(T));
             services.AddHostedService<OutboxHostedService>();
