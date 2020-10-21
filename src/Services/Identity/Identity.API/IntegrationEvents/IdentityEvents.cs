@@ -5,11 +5,7 @@ namespace EMS.Events
 {
     public class UserCreatedEvent : Event // All events should inherit from Integration event
     {
-        public UserCreatedEvent(string userId, string name)
-        {
-            UserId = userId;
-            Name = name;
-        }
+        public string StripeCustomerId { get; set; }
         public string UserId { get; set; }
         public string Name { get; set; }
     }

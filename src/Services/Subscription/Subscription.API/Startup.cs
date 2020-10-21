@@ -5,8 +5,7 @@ using EMS.Subscription_Services.API.Context;
 using EMS.Subscription_Services.API.GraphQlQueries;
 using EMS.Subscription_Services.API.IntegrationEvents;
 using EMS.TemplateWebHost.Customization.StartUp;
-
-
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EMS.Subscription_Services.API
 {
@@ -21,6 +20,12 @@ namespace EMS.Subscription_Services.API
             return builder
                 .AddQueryType<SubscriptionQueries>()
                 .AddMutationType<SubscriptionMutations>();
+        }
+
+        public override IServiceCollection AddServices(IServiceCollection service)
+        {
+            services.AddTransient<StripeService>();
+            return base.AddServices(service);
         }
 
         protected override string GetName()

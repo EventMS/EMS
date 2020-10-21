@@ -9,6 +9,9 @@ namespace EMS.Subscription_Services.API.Context
         public Guid ClubId { get; set; }
         public string Name { get; set; } 
 
+        public string StribePriceId { get; set; }
+        public string StribeProductId { get; set; }
+
         public int Price { get; set; }
 
         public ClubSubscription() { }

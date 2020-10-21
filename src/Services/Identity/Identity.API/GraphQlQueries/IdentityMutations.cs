@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using EMS.TemplateWebHost.Customization.EventService;
+using Stripe;
+using Event = EMS.BuildingBlocks.EventLogEF.Event;
 
 namespace EMS.Events
 {
@@ -76,15 +78,34 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         public async Task<Response> CreateUserAsync(CreateUserRequest request)
         {
             //Create the customer
+            if (await _userManager.FindByEmailAsync(request.Email) == null)
+            {
+                throw new QueryException("Duplicate email");
+            };
+
+            var options = new CustomerCreateOptions
+            {
+                Email = request.Email,
+            };
+            var service = new CustomerService();
+            var customer = service.Create(options);
+
             var user = new ApplicationUser()
             {
                 Name = request.Name,
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
-                UserName = request.Email
+                UserName = request.Email,
+                StripeCustomerId = customer.Id
             };
 
-            var evt = new UserCreatedEvent(user.Id, user.Name);
+            var evt = new UserCreatedEvent()
+            {
+                Name = user.Name, 
+                UserId = user.Id,
+                StripeCustomerId = customer.Id
+            };
+
             //Only do it this way if you have no direct control on context. Otherwise just do it like normally before. 
             await _eventService.SaveEventAndDbContextChangesAsync(evt, async () =>
             {

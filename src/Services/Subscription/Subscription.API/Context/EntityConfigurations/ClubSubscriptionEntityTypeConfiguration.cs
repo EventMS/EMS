@@ -17,6 +17,12 @@ namespace EMS.Subscription_Services.API.Context.EntityConfigurations
             builder.Property(ci => ci.ClubSubscriptionId)
                 .IsRequired();
 
+            builder.Property(ci => ci.StribePriceId)
+            .IsRequired();
+
+            builder.Property(ci => ci.StribeProductId)
+            .IsRequired();
+
             builder.Property(ci => ci.Name)
                 .HasMaxLength(25)
                 .IsRequired();

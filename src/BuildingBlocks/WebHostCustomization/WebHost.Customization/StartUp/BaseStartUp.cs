@@ -84,6 +84,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             },
                 new QueryExecutionOptions { ForceSerialExecution = true });
 
+            services.AddTransient<StripeService>();
 
             services.AddAutoMapper(typeof(T));
             services.AddHostedService<OutboxHostedService>();
@@ -116,8 +117,10 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                     {
                         clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim);
                     }
+
+                    var customerId = context.User.FindFirstValue("StripeCustomerId");
                     builder.SetProperty("currentUser",
-                        new CurrentUser(new Guid(context.User.FindFirstValue("id")), clubPermissions));
+                        new CurrentUser(new Guid(context.User.FindFirstValue("id")), clubPermissions, customerId));
                 }
 
                 return Task.CompletedTask;

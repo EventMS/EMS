@@ -23,7 +23,7 @@ namespace EMS.Permission_Services.API.Services
         private IConfiguration Configuration { get; }
 
 
-        public string GenerateJwtToken(Guid userId, List<Role> userRoles)
+        public string GenerateJwtToken(User user, List<Role> userRoles)
         {
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -32,8 +32,8 @@ namespace EMS.Permission_Services.API.Services
 
             var subject = new ClaimsIdentity();
             //Attach information in token here somewhere
-            subject.AddClaim(new Claim("id", userId.ToString()));
-
+            subject.AddClaim(new Claim("id", user.UserId.ToString()));
+            subject.AddClaim(new Claim("stripeCustomerId", user.StripeCustomerId));
 
             if (userRoles == null)
             {

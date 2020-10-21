@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using Stripe;
 using ILogger = Serilog.ILogger;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
@@ -16,6 +17,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
         private readonly String _appName;
         public BaseProgramHelper(string appName)
         {
+            StripeConfiguration.ApiKey = "sk_test_51Hc6ZtETjZBFbSa36Lbh64H6wI7JiFQcYfyNLbxITBCYmwsjIZ1i7q1iKSrAaSN1N1GgMQGZQ8IXUglAs8pbZnFG00nldwTqeD";
             _appName = appName;
         }
 
