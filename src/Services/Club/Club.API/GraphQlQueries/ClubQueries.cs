@@ -21,5 +21,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
         {
             return await _context.Clubs.Where(club => club.AdminId == currentUser.UserId).ToArrayAsync();
         }
+        public Context.Model.Club Club(string name) => _context.Clubs.First(club => club.Name == name);
+
     }
 }

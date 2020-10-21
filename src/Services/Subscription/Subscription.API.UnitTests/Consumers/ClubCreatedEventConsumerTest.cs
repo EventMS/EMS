@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using EMS.Events;
+using EMS.SharedTesting.Helper;
 using NUnit.Framework;
 using EMS.Subscription_Services.API.Context;
 using EMS.Subscription_Services.API.IntegrationEvents;
+using EMS.Subscription_Services.API.Mapper;
 
 namespace EMS.Subscription_Services.API.UnitTests.Consumers
 {
@@ -14,7 +17,7 @@ namespace EMS.Subscription_Services.API.UnitTests.Consumers
         [SetUp]
         public void SetUp()
         {
-            _consumer = new ClubCreatedEventConsumer(_factory.CreateContext());
+            _consumer = new ClubCreatedEventConsumer(_factory.CreateContext(), CreateMapper());
             
             _harness.Start().Wait();
         }
@@ -23,6 +26,14 @@ namespace EMS.Subscription_Services.API.UnitTests.Consumers
         public void TearDown()
         {
             _harness.Stop().Wait();
+        }
+
+        private IMapper CreateMapper()
+        {
+            var config = new MapperConfiguration(cfg => {
+                cfg.AddProfile<SubscriptionProfile>();
+            });
+            return new AutoMapper.Mapper(config);
         }
 
         [Test]

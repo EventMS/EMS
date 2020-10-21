@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using EMS.TemplateWebHost.Customization.StartUp;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 
@@ -17,38 +18,16 @@ namespace EMS.GraphQL.API
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, PermissionService _permissionClient)
+        public async Task InvokeAsync(HttpContext context, PermissionService permissionClient)
         {
             if (context.Request.Headers.ContainsKey("Authorization"))
             {
+                //If no cache do request
                 try
                 {
-                    var body = await ReadFromBodyOfRequest(context.Request);
-                    body = body.Replace(" ", "");
-                    if (!body.Contains("IntrospectionQuery"))
-                    {
-                        ContextInRequest contextInRequest = new ContextInRequest();
-                        if (body.Contains("clubId:"))
-                        {
-                            int startIndex = body.IndexOf("clubId:", StringComparison.Ordinal);
-                            string clubId = body.Substring(startIndex+9, 36);
-                            contextInRequest.ClubId = clubId;
-                        }
-
-                        if (body.Contains("eventId:"))
-                        {
-                            int startIndex = body.IndexOf("eventId:", StringComparison.Ordinal);
-                            string eventId = body.Substring(startIndex + 10, 36);
-                            contextInRequest.EventId = eventId;
-                        }
-
-                        if (contextInRequest.ClubId != null || contextInRequest.EventId != null)
-                        {
-                            var token = await _permissionClient.GetPermissions(contextInRequest);
-                            context.Request.Headers.Remove("Authorization");
-                            context.Request.Headers.Add("Authorization", "Bearer " + token);
-                        }
-                    }
+                    var token = await permissionClient.GetFatToken();
+                    context.Request.Headers.Remove("Authorization");
+                    context.Request.Headers.Add("Authorization", "Bearer " + token);
                 }
                 catch (Exception e)
                 {
@@ -57,19 +36,6 @@ namespace EMS.GraphQL.API
                 }
             }
             await _next(context);
-        }
-
-        private async Task<string> ReadFromBodyOfRequest(HttpRequest request)
-        {
-            var bodyStr = "";
-            request.EnableBuffering();
-            using (StreamReader reader
-                = new StreamReader(request.Body, Encoding.UTF8, true, 1024, true))
-            {
-                bodyStr = await reader.ReadToEndAsync();
-            }
-            request.Body.Position = 0;
-            return bodyStr;
         }
     }
 }

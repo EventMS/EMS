@@ -1,6 +1,7 @@
 using System.Linq;
 using EMS.Permission_Services.API.Context;
 using EMS.Permission_Services.API.Context.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Permission_Services.API.GraphQlQueries
 {
@@ -12,6 +13,6 @@ namespace EMS.Permission_Services.API.GraphQlQueries
             _context = context;
         }
 
-        public IQueryable<UserPermission> Permissions => _context.UserPermissions.AsQueryable();
+        public IQueryable<User> Permissions => _context.Users.Include(u => u.Roles).AsQueryable();
     }
 }

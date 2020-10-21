@@ -11,6 +11,7 @@ using EMS.Template1_Services.API.Context;
 using EMS.Template1_Services.API.Controllers.Request;
 using EMS.Template1_Services.API.GraphQlQueries;
 using EMS.Template1_Services.API.Mapper;
+using Test;
 
 namespace EMS.Template1_Services.API.UnitTests.GraphQL
 {
@@ -25,7 +26,7 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
         public void SetUp()
         {
             var mapper = CreateMapper();
-            _mutations = new Template1Mutations(_context, _eventService, mapper);
+            _mutations = new Template1Mutations(_context, _eventService, mapper, _authorizationService);
 
         }
 
@@ -71,6 +72,14 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
             await _publish.Received(0).Publish(Arg.Any<Template1CreatedEvent>());
         }
 
+
+
+        [Test]
+        public async Task CreateTemplate2_InvalidRequest_DatabaseFails()
+        {
+            var test = new QueryQueryBuilder()
+                .WithClubs(new ClubQueryBuilder().WithAllFields());
+        }
 
     }
 }

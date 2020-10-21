@@ -19,8 +19,7 @@ namespace EMS.Subscription_Services.API.GraphQlQueries.Request
         [NotEmpty]
         public Guid ClubId { get; set; }
 
-
-        public List<EventPrice> EventPrices { get; set; }
+        public Guid? ReferenceId { get; set; }
     }
 
     public class EventPrice{

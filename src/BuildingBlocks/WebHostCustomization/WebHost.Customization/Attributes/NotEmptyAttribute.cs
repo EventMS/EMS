@@ -3,6 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.TemplateWebHost.Customization.Attributes
 {
+    //https://stackoverflow.com/questions/14945536/mvc-validate-date-time-is-at-least-1-minute-in-the-future
+    public class FutureDateAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            return value != null && (DateTime)value > DateTime.Now;
+        }
+    }
+
     //https://andrewlock.net/creating-an-empty-guid-validation-attribute/
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter,

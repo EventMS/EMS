@@ -26,7 +26,7 @@ namespace EMS.Subscription_Services.API.UnitTests.GraphQL
         public void SetUp()
         {
             var mapper = CreateMapper();
-            _mutations = new SubscriptionMutations(_context, _eventService, mapper);
+            _mutations = new SubscriptionMutations(_context, _eventService, mapper, _authorizationService);
 
         }
 
@@ -158,7 +158,7 @@ namespace EMS.Subscription_Services.API.UnitTests.GraphQL
                 Name = "Supership++",
                 Price = 50,
             };
-            await _mutations.UpdateClubSubscriptionAsync(subscription.SubscriptionId, request);
+            await _mutations.UpdateClubSubscriptionAsync(subscription.ClubSubscriptionId, request);
 
             //Assert
             using (var context = _factory.CreateContext())

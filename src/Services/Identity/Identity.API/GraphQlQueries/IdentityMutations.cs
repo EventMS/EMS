@@ -47,7 +47,6 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             _signInManager = signInManager;
             _contextAccessor = contextAccessor;
             _publishEndpoint = publishEndpoint;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         
@@ -113,7 +112,7 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         }
 
 
-        [Authorize]
+        [HotChocolate.AspNetCore.Authorization.Authorize]
 
         public async Task<ApplicationUser> EditUserAsync(EditUserRequest request, [CurrentUserGlobalState] CurrentUser currentUser)
         {

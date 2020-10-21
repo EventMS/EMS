@@ -30,6 +30,9 @@ namespace EMS.Room_Services.API.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
@@ -68,7 +71,7 @@ namespace EMS.Room_Services.API.Migrations
 
                     b.HasIndex("ClubId");
 
-                    b.HasIndex("Name")
+                    b.HasIndex("Name", "ClubId")
                         .IsUnique();
 
                     b.ToTable("Room");

@@ -9,20 +9,22 @@ using EMS.Template1_Services.API.Context;
 using EMS.Template1_Services.API.Controllers.Request;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.Template1_Services.API.Context.Model;
+using EMS.TemplateWebHost.Customization.StartUp;
+using Microsoft.AspNetCore.Authorization;
+
 namespace EMS.Template1_Services.API.GraphQlQueries
 {
-    public class Template1Mutations
+    public class Template1Mutations : BaseMutations
     {
         private readonly Template1Context _context;
         private readonly IMapper _mapper;
         private readonly IEventService _eventService;
 
-        public Template1Mutations(Template1Context context, IEventService template1EventService, IMapper mapper)
+        public Template1Mutations(Template1Context context, IEventService template1EventService, IMapper mapper, IAuthorizationService authorizationService) : base(authorizationService)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
             _mapper = mapper;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public async Task<Template1> UpdateTemplate1Async(Guid id, UpdateTemplate1Request request)

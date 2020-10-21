@@ -4,12 +4,6 @@ using EMS.BuildingBlocks.EventLogEF;
 
 namespace EMS.Events
 {
-    public class UserCreatedEvent : Event // All events should inherit from Integration event
-    {
-        public string UserId { get; set; }
-        public string Name { get; set; }
-    }
-
     public class IsUserClubMemberEvent : Event
     {
         public Guid ClubId { get; set; }

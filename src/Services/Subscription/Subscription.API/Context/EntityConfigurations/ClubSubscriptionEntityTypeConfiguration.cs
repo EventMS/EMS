@@ -9,18 +9,17 @@ namespace EMS.Subscription_Services.API.Context.EntityConfigurations
         public void Configure(EntityTypeBuilder<ClubSubscription> builder)
         {
             builder.ToTable("ClubSubscription")
-                .HasIndex(ci => ci.Name)
+                .HasIndex(ci => new {ci.Name,ci.ClubId})
                 .IsUnique();
 
-            builder.HasKey(ci => ci.SubscriptionId);
+            builder.HasKey(ci => ci.ClubSubscriptionId);
 
-            builder.Property(ci => ci.SubscriptionId)
+            builder.Property(ci => ci.ClubSubscriptionId)
                 .IsRequired();
 
             builder.Property(ci => ci.Name)
                 .HasMaxLength(25)
                 .IsRequired();
-                
 
             builder.HasOne(subscription => subscription.Club)
                 .WithMany(club => club.Subscriptions)

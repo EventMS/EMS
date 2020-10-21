@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="EMS.Event_Services.API.Context.Model.Club">
+    <Position X="0.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAIAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Club.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Event_Services.API.Context.Model.ClubSubscription">
+    <Position X="3.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAEAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Context\Model\ClubSubscription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Event_Services.API.Context.Model.Event" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAkAACgAAAAAAIAAAQEKAAgAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Event.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EMS.Event_Services.API.Context.Model.EventPrice" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="4.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAQCAAAAAAAAEAAAAAgAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\EventPrice.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EMS.Event_Services.API.Context.Model.Instructor">
+    <Position X="0.75" Y="2.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAACCAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Instructor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Event_Services.API.Context.Model.InstructorForEvent">
+    <Position X="4.25" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAiAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Context\Model\InstructorForEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Event_Services.API.Context.Model.Room">
+    <Position X="4" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAACAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Room.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Event_Services.API.Context.Model.RoomEvent">
+    <Position X="8.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAiAAAAAAAAABAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\RoomEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.ClubCreatedEvent">
+    <Position X="5.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.ClubSubscriptionCreatedEvent">
+    <Position X="2.75" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.EventCreatedEvent">
+    <Position X="0.5" Y="11.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgAAAgAAAAAAIAAAQEKAAgAAAAAABAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.EventCreationFailedEvent">
+    <Position X="4.25" Y="11.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.EventDeletedEvent">
+    <Position X="6.5" Y="11.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.EventUpdatedEvent">
+    <Position X="0.5" Y="14.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgAAAgAAAAAAIAAAQAKAAgAAAAAABAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.InstructorAddedEvent">
+    <Position X="0.75" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.RoomCreatedEvent">
+    <Position X="5.25" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.TimeslotReservationFailedEvent">
+    <Position X="3" Y="8.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.TimeslotReservedEvent">
+    <Position X="0.75" Y="8.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.VerifyAvailableTimeslotEvent">
+    <Position X="4.25" Y="12.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAIAAgAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.VerifyChangedTimeslotEvent">
+    <Position X="4.25" Y="14.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAIAAgAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>IntegrationEvents\EventEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="EMS.Event_Services.API.Context.Model.EventStatus">
+    <Position X="6.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgIAAAAAA=</HashCode>
+      <FileName>Context\Model\Event.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EMS.Event_Services.API.Context.Model.EventType">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Context\Model\Event.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

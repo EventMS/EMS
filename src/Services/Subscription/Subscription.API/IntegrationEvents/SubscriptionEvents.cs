@@ -11,14 +11,16 @@ namespace EMS.Events
     }
     public class ClubSubscriptionCreatedEvent : Event // All events should inherit from Integration event
     {
+        public Guid ClubSubscriptionId { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
         public Guid ClubId { get; set; }
-        public List<EventPrice> EventPrices { get; set; }
+        public Guid ReferenceId { get; set; }
     }
 
     public class ClubSubscriptionUpdatedEvent : Event // All events should inherit from Integration event
     {
+        public Guid ClubSubscriptionId { get; set; }
         public string Name { get; set; }
         public int Price { get; set; }
         public Guid ClubId { get; set; }

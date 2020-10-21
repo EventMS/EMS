@@ -7,11 +7,11 @@ version: '3.4'
 # An external IP or DNS name has to be used (instead localhost and the 10.0.75.1 IP) when testing the Web apps and the Xamarin apps from remote machines/devices using the same WiFi, for instance.
 
 services:
-  seq:
-    environment:
-      - ACCEPT_EULA=Y
-    ports:
-      - "5340:80"
+  #seq:
+   # environment:
+    #  - ACCEPT_EULA=Y
+    #ports:
+     # - "5340:80"
 
   sqldata:
     environment:
@@ -47,7 +47,7 @@ services:
       - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/graphql-api
-      - services=template1-api,identity-api,club-api,subscription-api,clubmember-api,room-api
+      - services=template1-api,identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api
     ports:
       - "5102:80"
 
@@ -123,6 +123,30 @@ services:
       - PATH_BASE=/room-api
     ports:
       - "5109:80"
+
+  event-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.EventDb;User Id=sa;Password=Pass@word
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
+      - EventBusConnection=rabbitmq
+      - PORT=80
+      - PATH_BASE=/event-api
+    ports:
+      - "5110:80"
+
+  eventparticipant-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.EventParticipantDb;User Id=sa;Password=Pass@word
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
+      - EventBusConnection=rabbitmq
+      - PORT=80
+      - PATH_BASE=/eventparticipant-api
+    ports:
+      - "5111:80"
 
 volumes:
   ems-sqldata:

@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using EMS.Events;
 using EMS.Room_Services.API.Context;
 using EMS.Room_Services.API.Context.Model;
 using EMS.Room_Services.API.Events;
 using EMS.SharedTesting.Factories;
-using EMS.Subscription_Services.API.UnitTests.Consumers;
+using EMS.SharedTesting.Helper;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -44,22 +43,29 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             var @event = new VerifyAvailableTimeslotEvent()
             {
                 EventId = Guid.NewGuid(),
-                RoomId = Guid.NewGuid(),
+                RoomIds = new List<Guid>()
+                {
+                    Guid.NewGuid()
+                }
             };
 
             await SendEvent(@event);
 
             await _publishEndpoint.Received(1).Publish(
-                Arg.Is<TimeslotReservationFailed>(evt => evt.Reason == "Room does not exist"));
+                Arg.Any<TimeslotReservationFailedEvent>());
         }
 
         [Test]
         public async Task Consume_BookingCollision_PublishFailedEventWithReason()
         {
+            var id = Guid.NewGuid();
             var @event = new VerifyAvailableTimeslotEvent()
             {
                 EventId = Guid.NewGuid(),
-                RoomId = Guid.NewGuid(),
+                RoomIds = new List<Guid>()
+                {
+                    id
+                },
                 StartTime = new DateTime(2020, 1, 1, 1, 0, 0),
                 EndTime = new DateTime(2020, 1,1, 2,0,0)
             };
@@ -71,12 +77,12 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             {
                 ClubId = club.ClubId,
                 Name = "NotDefault",
-                RoomId = @event.RoomId
+                RoomId = id
             };
             var booking = new Booking()
             {
                 EventId = Guid.NewGuid(),
-                RoomId = @event.RoomId,
+                RoomId = id,
                 StartTime = new DateTime(2020, 1, 1, 1, 30, 0),
                 EndTime = new DateTime(2020, 1, 1, 2, 30, 0)
             };
@@ -90,16 +96,20 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
 
             await SendEvent(@event);
 
-            await _publishEndpoint.Received(1).Publish(Arg.Any<TimeslotReservationFailed>());
+            await _publishEndpoint.Received(1).Publish(Arg.Any<TimeslotReservationFailedEvent>());
         }
 
         [Test]
         public async Task Consume_NoCollision_BookingAccepted()
         {
+            var id = Guid.NewGuid();
             var @event = new VerifyAvailableTimeslotEvent()
             {
                 EventId = Guid.NewGuid(),
-                RoomId = Guid.NewGuid(),
+                RoomIds = new List<Guid>()
+                {
+                    id
+                },
                 StartTime = new DateTime(2020, 1, 1, 1, 0, 0),
                 EndTime = new DateTime(2020, 1, 1, 2, 0, 0)
             };
@@ -111,7 +121,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
             {
                 ClubId = club.ClubId,
                 Name = "NotDefault",
-                RoomId = @event.RoomId
+                RoomId = id
             };
 
             using (var context = _factory.CreateContext())
@@ -123,8 +133,8 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
 
             await SendEvent(@event);
 
-            await _publishEndpoint.Received(1).Publish(Arg.Is<TimeslotReserved>(evt =>
-                 evt.EventId == @event.EventId && evt.RoomId == @event.RoomId
+            await _publishEndpoint.Received(1).Publish(Arg.Is<TimeslotReservedEvent>(evt =>
+                 evt.EventId == @event.EventId
                 ));
 
             using (var context = _factory.CreateContext())
@@ -132,5 +142,7 @@ namespace EMS.Room_Services.API.UnitTests.Consumers
                 Assert.That(context.Bookings.Count, Is.EqualTo(1));
             }
         }
+        //Test booking of multiple rooms!
+
     }
 }

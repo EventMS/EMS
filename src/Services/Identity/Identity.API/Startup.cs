@@ -17,10 +17,6 @@ namespace EMS.Identity_Services.API
         {
         }
 
-        public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
-        {
-            //busServices.AddConsumer<ValueEnteredEvent2Consumer>();
-        }
 
         public override IServiceCollection AddServices(IServiceCollection service)
         {

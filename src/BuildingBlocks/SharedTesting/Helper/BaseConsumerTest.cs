@@ -7,7 +7,7 @@ using MassTransit.Testing;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
-namespace EMS.Subscription_Services.API.UnitTests.Consumers
+namespace EMS.SharedTesting.Helper
 {
     public class BaseConsumerTest<TConsumer, TContext> where TContext:DbContext where TConsumer: class, IConsumer
     {

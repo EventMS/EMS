@@ -8,7 +8,8 @@ namespace EMS.ClubMember_Services.API.Controllers.Request
     public class UpdateClubMemberRequest
     {
         [Required]
-        public string NameOfSubscription { get; set; }
+        [NotEmpty]
+        public Guid ClubSubscriptionId { get; set; }
 
         [Required]
         [NotEmpty]

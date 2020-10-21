@@ -14,6 +14,7 @@ namespace EMS.ClubMember_Services.API.Mapper
             CreateMap<ClubMember, ClubMemberCreatedEvent>();
             CreateMap<ClubMember, ClubMemberUpdatedEvent>();
             CreateMap<ClubMember, ClubMemberDeletedEvent>();
+            CreateMap<ClubSubscriptionCreatedEvent, ClubSubscription>();
         }
     }
 }

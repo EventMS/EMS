@@ -1,5 +1,5 @@
 ﻿using System;
-using EMS.Shared.Testing.Helpers;
+using EMS.SharedTesting.Helpers;
 using NUnit.Framework;
 using EMS.Subscription_Services.API.GraphQlQueries.Request;
 

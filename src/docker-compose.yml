@@ -2,8 +2,8 @@ version: '3.4'
 
 services:
 
-  seq:
-    image: datalust/seq:latest
+  #seq:
+  #  image: datalust/seq:latest
 
   sqldata:
     image: mcr.microsoft.com/mssql/server:2017-latest 
@@ -79,6 +79,26 @@ services:
       - identity-api
       - rabbitmq
 
+  event-api:
+    image: ${REGISTRY:-eventms}/event.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Event/Event.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
+  eventparticipant-api:
+    image: ${REGISTRY:-eventms}/eventparticipant.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/EventParticipant/EventParticipant.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
   graphql-api:
     image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
@@ -92,3 +112,5 @@ services:
       - subscription-api
       - clubmember-api
       - room-api
+      - eventparticipant-api
+      - event-api

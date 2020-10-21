@@ -46,9 +46,6 @@ namespace EMS.Club_Service.API.Context
         {
             return new List<Model.Club>()
             {
-                new Model.Club() { Name = "Ma"},
-                new Model.Club() { Name = "Je" },
-                new Model.Club() { Name = "Si" },
             };
         }
 

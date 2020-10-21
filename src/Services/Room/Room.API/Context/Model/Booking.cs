@@ -12,6 +12,7 @@ namespace EMS.Room_Services.API.Context.Model
         public DateTime EndTime { get; set; }
 
         public Guid RoomId { get; set; }
+        public string Name { get; set; }
 
         public Guid EventId { get; set; }
         

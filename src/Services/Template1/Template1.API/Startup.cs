@@ -16,11 +16,6 @@ namespace EMS.Template1_Services.API
         {
         }
 
-        public override void ConfigureMassTransit(IServiceCollectionBusConfigurator busServices)
-        {
-            busServices.AddConsumer<Template1CreatedEventConsumer>();
-        }
-
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
             return builder

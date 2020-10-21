@@ -11,15 +11,15 @@ namespace EMS.Permission_Services.API.Context
         public PermissionContext(DbContextOptions<PermissionContext> options) : base(options)
         {
         }
-        public DbSet<UserPermission> UserPermissions { get; set; }
-        public DbSet<ClubAdministratorPermission> ClubAdministratorPermissions { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Club> Clubs { get; set; }
 
-        public DbSet<UserAdministratorPermission> UserAdministratorPermission { get; set; }
+        public DbSet<Role> Roles { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserPermissionEntityTypeConfiguration());
-            builder.ApplyConfiguration(new ClubAdministratorPermissionEntityTypeConfiguration());
-            builder.ApplyConfiguration(new UserAdministratorPermissionEntityTypeConfiguration());
+            builder.ApplyConfiguration(new ClubEntityTypeConfiguration());
+            builder.ApplyConfiguration(new RoleEntityTypeConfiguration());
         }
     }
 

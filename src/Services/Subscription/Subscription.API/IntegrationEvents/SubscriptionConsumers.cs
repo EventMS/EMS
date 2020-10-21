@@ -1,30 +1,17 @@
 using System.Threading.Tasks;
+using AutoMapper;
 using EMS.Events;
 using MassTransit;
 using EMS.Subscription_Services.API.Context;
+using TemplateWebHost.Customization.BasicConsumers;
+
 namespace EMS.Subscription_Services.API.IntegrationEvents
 {
     public class ClubCreatedEventConsumer :
-            IConsumer<ClubCreatedEvent>
+            BasicDuplicateConsumer<SubscriptionContext, Club, ClubCreatedEvent>
     {
-        private readonly SubscriptionContext _subscriptionContext;
-
-        public ClubCreatedEventConsumer(SubscriptionContext subscriptionContext)
+        public ClubCreatedEventConsumer(SubscriptionContext context, IMapper mapper) : base(context, mapper)
         {
-            _subscriptionContext = subscriptionContext;
-        }
-
-        public async Task Consume(ConsumeContext<ClubCreatedEvent> context)
-        {
-           var club =  _subscriptionContext.Clubs.Find(context.Message.ClubId);
-           if (club == null)
-           {
-               _subscriptionContext.Clubs.Add(new Club()
-               {
-                   ClubId = context.Message.ClubId
-               });
-               await _subscriptionContext.SaveChangesAsync();
-           }
         }
     }
 }

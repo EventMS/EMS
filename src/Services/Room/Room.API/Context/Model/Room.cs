@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HotChocolate;
 using Microsoft.EntityFrameworkCore.Internal;
+using Serilog;
 
 namespace EMS.Room_Services.API.Context.Model
 {
@@ -19,27 +20,17 @@ namespace EMS.Room_Services.API.Context.Model
         public Room() { }
         public IEnumerable<ValidationResult> Validate([Service] ValidationContext validationContext)
         {
-            //Some logic to no overlap in intervals in bookings. 
-            //SortedList<DateTime, Booking> -> Iteraate and compare EndTime of current to startTime of next. 
-            //Prettyfy this
-            /*
-            SortedList<DateTime, Booking> sortedBookings = new SortedList<DateTime, Booking>();
-            foreach (var booking in Bookings)
+            if (Bookings != null && Bookings.Count != 0)
             {
-                sortedBookings.Add(booking.EndTime, booking);
-            }
-
-            for (int i = 0; i < sortedBookings.Count -1; i++)
-            {
-                var sortedBookingEnd = sortedBookings[sortedBookings.Keys[i]];
-                var sortedBookingStart = sortedBookings[sortedBookings.Keys[i]];
-                if (sortedBookingEnd.EndTime > sortedBookingStart.StartTime)
+                Bookings.Sort((b1, b2) => b2.StartTime.CompareTo(b1.StartTime));
+                for (int i = 0; i < Bookings.Count - 1; i++)
                 {
-                    yield return new ValidationResult("Intervals overlap",
-                        new[] { nameof(Bookings)});
+                    if (Bookings[i].StartTime < Bookings[i+1].EndTime && Bookings[i+1].StartTime < Bookings[i].EndTime)
+                    {
+                        yield return new ValidationResult("Overlapping bookings", new []{nameof(Bookings)});
+                    }
                 }
             }
-            */
 
             yield break;
         }

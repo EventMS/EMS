@@ -11,7 +11,7 @@ namespace EMS.ClubMember_Services.API.Context.EntityConfigurations
         {
             builder.ToTable("ClubSubscription");
 
-            builder.HasKey(ci => new {ci.ClubId, ci.NameOfSubscription});
+            builder.HasKey(ci => new {ci.ClubSubscriptionId});
         }
     }
 }

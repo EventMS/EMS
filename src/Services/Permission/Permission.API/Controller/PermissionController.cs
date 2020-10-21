@@ -11,12 +11,6 @@ using Serilog;
 
 namespace EMS.Permission_Services.API.Controller
 {
-    public class ContextInRequest
-    {
-        public string ClubId { get; set; }
-        public string EventId { get; set; }
-    }
-
     [Route("api/[controller]")]
     [ApiController]
     public class PermissionController : ControllerBase
@@ -31,26 +25,30 @@ namespace EMS.Permission_Services.API.Controller
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<string> GetPermission([FromBody] ContextInRequest context)
+        [HttpGet]
+        public async Task<string> GetFatToken()
         {
             var userId = new Guid(User.FindFirstValue("id"));
-            if (_permissionContext.UserPermissions.Find(userId) == null)
-            {
-                Log.Information("Request made for user with token, but user is no longer in the system. ");
-                return "No user configured";
-            }
+            var userPermissions = await _permissionContext.Roles
+                .Where(user => user.UserId == userId)
+                .ToListAsync();
+            return _jwtService.GenerateJwtToken(userId, userPermissions);
+        }
 
-            if (context.ClubId != null)
-            {
-                var userPermissions = await _permissionContext.UserAdministratorPermission
-                    .Where(user => user.UserId == userId)
-                    .Where(user => user.ClubId == new Guid(context.ClubId))
-                    .FirstOrDefaultAsync();
-                return _jwtService.GenerateJwtToken(userId, userPermissions);
-            }
-            Log.Information("There should be more context here to decode the expected context.. ");
-            return "Invalid token";
+        [Authorize]
+        [HttpGet]
+        [Route("{clubId}/{role}")]
+        public async Task<string> GetPermission(Guid clubId, string role)
+        {
+            var userId = new Guid(User.FindFirstValue("id"));
+            var userPermissions = await _permissionContext.Roles
+                .Where(user => user.UserId == userId &&
+                               user.ClubId == clubId &&
+                               user.UserRole == role)
+                .FirstOrDefaultAsync();
+
+            Log.Information("User with Id {userId} has permission {role}", userId, userPermissions?.UserRole);
+            return userPermissions == null ? "" : role;
         }
     }
 }

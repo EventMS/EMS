@@ -23,7 +23,7 @@ namespace EMS.Permission_Services.API
     public class Program
     {
 
-        public static string AppName = "UserPermission.API";
+        public static string AppName = "User.API";
         public static int Main(string[] args)
         {
             return new ProgramHelper(AppName).Run(args);

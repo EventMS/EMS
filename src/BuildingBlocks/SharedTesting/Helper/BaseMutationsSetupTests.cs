@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using NUnit.Framework;
 using EMS.TemplateWebHost.Customization.EventService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EMS.SharedTesting.Helper
 {
@@ -15,6 +16,7 @@ namespace EMS.SharedTesting.Helper
         protected TContext _context;
         protected IEventService _eventService;
         protected IPublishEndpoint _publish;
+        protected IAuthorizationService _authorizationService;
 
         [SetUp]
         public void SetUp()
@@ -22,6 +24,7 @@ namespace EMS.SharedTesting.Helper
             _factory = new InMemorySqlLiteContextFactory<TContext>(options => Activator.CreateInstance(typeof(TContext), options) as TContext);
             _context = _factory.CreateContext(true);
             _publish = Substitute.For<IPublishEndpoint>();
+            _authorizationService = Substitute.For<IAuthorizationService>();
             _eventService = EventServiceFactory.CreateEventService(_context, _publish);
         }
 
