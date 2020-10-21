@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EMS.Subscription_Services.API.GraphQlQueries.Request;
+using Serilog;
 using Stripe;
 
 namespace EMS.Club_Service_Services.API
@@ -38,6 +39,9 @@ namespace EMS.Club_Service_Services.API
 
         public string SignUserUpToSubscription(string paymentMethodId, CurrentUser currentUser, string priceId)
         {
+            Log.Information(paymentMethodId);
+            Log.Information(currentUser.StripeCustomerId);
+            Log.Information(priceId);
             var options = new PaymentMethodAttachOptions
             {
                 Customer = currentUser.StripeCustomerId,
