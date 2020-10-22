@@ -53,7 +53,6 @@ namespace EMS.ClubMember_Services.API.Events
                 await _eventService.SaveEventAndDbContextChangesAsync(e);
                 await _eventService.PublishEventAsync(e);
             }
-
         }
     }
 }

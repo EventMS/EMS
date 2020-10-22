@@ -172,6 +172,18 @@ services:
     ports:
       - "5114:80"
 
+  eventverification-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.EventVerificationDb;User Id=sa;Password=Pass@word
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
+      - EventBusConnection=rabbitmq
+      - PORT=80
+      - PATH_BASE=/eventverification-api
+    ports:
+      - "5115:80"
+
   websocket-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

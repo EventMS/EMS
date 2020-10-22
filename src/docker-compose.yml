@@ -129,6 +129,16 @@ services:
       - identity-api
       - rabbitmq
 
+  eventverification-api:
+    image: ${REGISTRY:-eventms}/eventverification.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/EventVerification/EventVerification.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
   graphql-api:
     image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
     build:

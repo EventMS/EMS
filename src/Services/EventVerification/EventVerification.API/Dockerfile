@@ -47,7 +47,7 @@ COPY "NuGet.config" "NuGet.config"
 RUN dotnet restore "EMS.sln"
 
 COPY . .
-WORKDIR /src/Services/ClubMember/ClubMember.API
+WORKDIR /src/Services/EventVerification/EventVerification.API
 RUN dotnet publish --no-restore -c Release -o /app
 
 FROM build AS publish
@@ -55,4 +55,5 @@ FROM build AS publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "ClubMember.API.dll"]
+
+ENTRYPOINT ["dotnet", "EventVerification.API.dll"]
