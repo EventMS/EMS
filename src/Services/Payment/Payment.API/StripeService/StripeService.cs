@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EMS.Payment_Services.API.Context.Model;
 using Serilog;
 using Stripe;
 
@@ -49,11 +50,11 @@ namespace EMS.Payment_Services.API
         }
 
 
-        public string SignUserUpToSubscription(string paymentMethodId, string stripeCustomerId, string priceId)
+        public string SignUserUpToSubscription(string paymentMethodId, User user, ClubSubscription clubSubscription)
         {
             var options = new PaymentMethodAttachOptions
             {
-                Customer = stripeCustomerId,
+                Customer = user.StripeUserId,
             };
             var service = new PaymentMethodService();
             var paymentMethod = service.Attach(paymentMethodId, options);
@@ -67,19 +68,24 @@ namespace EMS.Payment_Services.API
                 },
             };
             var customerService = new CustomerService();
-            customerService.Update(stripeCustomerId, customerOptions);
+            customerService.Update(user.StripeUserId, customerOptions);
 
             // Create subscription
             var subscriptionOptions = new SubscriptionCreateOptions
             {
-                Customer = stripeCustomerId,
+                Customer = user.StripeUserId,
                 Items = new List<SubscriptionItemOptions>()
                     {
                         new SubscriptionItemOptions
                         {
-                            Price = priceId,
+                            Price = clubSubscription.StripePriceId,
                         },
                     },
+                Metadata = new Dictionary<string, string>()
+                {
+                    {"UserId", user.UserId.ToString()},
+                    {"ClubSubscriptionId", clubSubscription.ClubSubscriptionId.ToString()},
+                }
             };
             subscriptionOptions.AddExpand("latest_invoice.payment_intent");
             var subscriptionService = new SubscriptionService();

@@ -36,7 +36,7 @@ namespace EMS.Payment_Services.API.GraphQlQueries
         {
             var user = await _context.Users.FindOrThrowAsync(currentUser.UserId);
             var clubSub = await _context.ClubSubscriptions.FindOrThrowAsync(request.ClubSubscriptionId);
-            _stripeService.SignUserUpToSubscription(request.PaymentMethodId, user.StripeUserId, clubSub.StripePriceId);
+            _stripeService.SignUserUpToSubscription(request.PaymentMethodId, user, clubSub);
             return clubSub;
         }
     }
