@@ -25,7 +25,6 @@ namespace EMS.Websocket_Services.API
         public override IServiceCollection AddServices(IServiceCollection service)
         {
             service.AddSignalR();
-            service.AddSingleton<IUserIdProvider, EmailBasedUserIdProvider>();
             return base.AddServices(service);
         }
 

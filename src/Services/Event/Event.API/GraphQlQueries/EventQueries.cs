@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.Context.Model;
@@ -21,5 +22,10 @@ namespace EMS.Event_Services.API.GraphQlQueries
             .Include(e => e.Locations)
             .Include(e => e.EventPrices)
             .Include(e => e.InstructorForEvents).AsQueryable();
+
+        public IQueryable<Event> EventsForClub(Guid clubId) => _context.Events
+            .Where(e => e.ClubId == clubId && e.Status == EventStatus.Confirmed)
+            .Include(e => e.Locations)
+            .AsQueryable();
     }
 }
