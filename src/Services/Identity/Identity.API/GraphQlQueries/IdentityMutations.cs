@@ -96,6 +96,7 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             {
                 Name = user.Name,
                 UserId = user.Id,
+                Email = user.Email
             };
 
             //Only do it this way if you have no direct control on context. Otherwise just do it like normally before. 
