@@ -27,5 +27,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
 
         public Club ClubByID(Guid clubId) => _context.Clubs.Find(clubId);
 
+        public async Task<Club> ClubByName(string name) => await _context.Clubs.FirstOrDefaultAsync(club => club.Name == name);
+
     }
 }

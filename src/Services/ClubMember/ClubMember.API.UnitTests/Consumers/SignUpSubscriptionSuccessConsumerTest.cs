@@ -128,5 +128,52 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
             await _publishEndpoint.Received(0).Publish(Arg.Any<ClubMemberCreatedEvent>());
             await _publishEndpoint.Received(1).Publish(Arg.Any<ClubMemberUpdatedEvent>());
         }
+
+        [Test]
+        public async Task Consume_HaveMembershipInOtherClub_CreatesNew()
+        {
+            var sub = new ClubSubscription()
+            {
+                ClubId = Guid.NewGuid(),
+                ClubSubscriptionId = Guid.NewGuid()
+            };
+            var member = new ClubMember()
+            {
+                ClubId = sub.ClubId,
+                ClubSubscriptionId = sub.ClubSubscriptionId,
+                UserId = Guid.NewGuid()
+
+            };
+            var sub2 = new ClubSubscription()
+            {
+                ClubId = Guid.NewGuid(),
+                ClubSubscriptionId = Guid.NewGuid()
+            };
+
+            using (var context = _factory.CreateContext())
+            {
+                context.ClubSubscriptions.Add(sub);
+                context.ClubSubscriptions.Add(sub2);
+                context.ClubMembers.Add(member);
+                context.SaveChanges();
+            }
+
+            var @event = new SignUpSubscriptionSuccess()
+            {
+                ClubSubscriptionId = sub2.ClubSubscriptionId,
+                UserId = member.UserId
+            };
+
+            await SendEvent(@event);
+            using (var context = _factory.CreateContext())
+            {
+                Assert.That(context.ClubMembers.Count(), Is.EqualTo(2));
+                var memberDb = context.ClubMembers.Find(@event.UserId, sub2.ClubId);
+                Assert.That(memberDb, Is.Not.Null);
+                Assert.That(memberDb.ClubSubscriptionId, Is.EqualTo(sub2.ClubSubscriptionId));
+            }
+            await _publishEndpoint.Received(1).Publish(Arg.Any<ClubMemberCreatedEvent>());
+            await _publishEndpoint.Received(0).Publish(Arg.Any<ClubMemberUpdatedEvent>());
+        }
     }
 }
