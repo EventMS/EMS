@@ -14,7 +14,7 @@ using NUnit.Framework;
 namespace EMS.EventVerification_Services.API.UnitTests.Consumers
 {
     [TestFixture]
-    class SignUpSubscriptionSuccessConsumerTest : BaseConsumerTest<SignUpEventSuccessConsumer,
+    class SignUpEventSuccessConsumerTest : BaseConsumerTest<SignUpEventSuccessConsumer,
         EventVerificationContext>
     {
 
