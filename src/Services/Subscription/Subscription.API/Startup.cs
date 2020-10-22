@@ -23,12 +23,6 @@ namespace EMS.Subscription_Services.API
                 .AddMutationType<SubscriptionMutations>();
         }
 
-        public override IServiceCollection AddServices(IServiceCollection service)
-        {
-            service.AddTransient<StripeService>();
-            return base.AddServices(service);
-        }
-
         protected override string GetName()
         {
             return "Subscription";

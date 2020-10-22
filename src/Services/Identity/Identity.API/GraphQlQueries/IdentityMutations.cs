@@ -101,22 +101,18 @@ namespace EMS.Identity_Services.API.GraphQlQueries
                 throw new QueryException("Duplicate email");
             };
 
-            Customer customer = _stripeService.CreateCustomer(request);
-
             var user = new ApplicationUser()
             {
                 Name = request.Name,
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
                 UserName = request.Email,
-                StripeCustomerId = customer.Id
             };
 
             var evt = new UserCreatedEvent()
             {
                 Name = user.Name,
                 UserId = user.Id,
-                StripeCustomerId = customer.Id
             };
 
             //Only do it this way if you have no direct control on context. Otherwise just do it like normally before. 

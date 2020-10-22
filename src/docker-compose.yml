@@ -119,6 +119,16 @@ services:
       - identity-api
       - rabbitmq
 
+  payment-api:
+    image: ${REGISTRY:-eventms}/payment.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Payment/Payment.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+
   graphql-api:
     image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
@@ -134,3 +144,4 @@ services:
       - room-api
       - eventparticipant-api
       - event-api
+      - payment-api

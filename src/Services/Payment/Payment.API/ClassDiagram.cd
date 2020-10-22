@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="EMS.Template1_Services.API.GraphQlQueries.Template1Mutations">
+    <Position X="1.25" Y="3.25" Width="5.5" />
+    <Members>
+      <Method Name="CreateTemplate1Async" Hidden="true" />
+      <Method Name="DeleteTemplate1Async" Hidden="true" />
+      <Method Name="Template1Mutations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACBAAAAACBIAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>GraphQlQueries\Template1Mutations.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_context" />
+      <Field Name="_eventService" />
+      <Field Name="_mapper" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EMS.Template1_Services.API.Context.Template1Context" Collapsed="true">
+    <Position X="1" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Template1Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Template1_Services.API.Controllers.Request.UpdateTemplate1Request">
+    <Position X="1.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\Request\UpdateTemplate1Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Template1_Services.API.Events.Template1CreatedEventConsumer">
+    <Position X="1.25" Y="7" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\Template1Consumers.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="EMS.TemplateWebHost.Customization.EventService.IEventService" Collapsed="true">
+    <Position X="3" Y="2" Width="2.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="AutoMapper.IMapper" Collapsed="true">
+    <Position X="5.75" Y="2" Width="2.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

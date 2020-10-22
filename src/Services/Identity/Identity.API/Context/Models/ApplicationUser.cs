@@ -7,7 +7,5 @@ namespace EMS.Identity_Services.API.Context.Models
     {
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
-
-        public string StripeCustomerId {get;set;}
     }
 }

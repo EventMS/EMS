@@ -1,29 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using EMS.Subscription_Services.API.GraphQlQueries.Request;
 using Serilog;
 using Stripe;
 
-namespace EMS.Club_Service_Services.API
+namespace EMS.Payment_Services.API
 {
+    //These examples are taken straight from stripe documentation with MINOR adjustments. 
     public class StripeService
     {
-        public Product CreateProduct(CreateClubSubscriptionRequest request)
+        public Customer CreateCustomer(string email)
+        {
+            var options = new CustomerCreateOptions
+            {
+                Email = email,
+            };
+            var service = new CustomerService();
+            var customer = service.Create(options);
+            return customer;
+        }
+
+
+        public Product CreateProduct(Guid clubId, string name)
         {
             var productOptions = new ProductCreateOptions
             {
-                Name = request.ClubId + request.Name,
+                Name = clubId + name,
             };
             var productService = new ProductService();
             var product = productService.Create(productOptions);
             return product;
         }
 
-        public Price CreatePrice(CreateClubSubscriptionRequest request, Product product)
+        public Price CreatePrice(long productPrice, Product product)
         {
             var options = new PriceCreateOptions
             {
-                UnitAmount = request.Price * 100,
+                UnitAmount = productPrice * 100,
                 Currency = "dkk",
                 Recurring = new PriceRecurringOptions
                 {
@@ -37,11 +49,11 @@ namespace EMS.Club_Service_Services.API
         }
 
 
-        public string SignUserUpToSubscription(string paymentMethodId, CurrentUser currentUser, string priceId)
+        public string SignUserUpToSubscription(string paymentMethodId, string stripeCustomerId, string priceId)
         {
             var options = new PaymentMethodAttachOptions
             {
-                Customer = currentUser.StripeCustomerId,
+                Customer = stripeCustomerId,
             };
             var service = new PaymentMethodService();
             var paymentMethod = service.Attach(paymentMethodId, options);
@@ -55,12 +67,12 @@ namespace EMS.Club_Service_Services.API
                 },
             };
             var customerService = new CustomerService();
-            customerService.Update(currentUser.StripeCustomerId, customerOptions);
+            customerService.Update(stripeCustomerId, customerOptions);
 
             // Create subscription
             var subscriptionOptions = new SubscriptionCreateOptions
             {
-                Customer = currentUser.StripeCustomerId,
+                Customer = stripeCustomerId,
                 Items = new List<SubscriptionItemOptions>()
                     {
                         new SubscriptionItemOptions

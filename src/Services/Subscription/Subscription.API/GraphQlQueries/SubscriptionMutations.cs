@@ -29,14 +29,12 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
         protected readonly SubscriptionContext _context;
         protected readonly IMapper _mapper;
         protected readonly IEventService _eventService;
-        protected readonly StripeService _stripeService;
 
-        public SubscriptionMutations(SubscriptionContext context, IEventService eventService, IMapper mapper, IAuthorizationService authorizationService, StripeService stripeService) : base(authorizationService)
+        public SubscriptionMutations(SubscriptionContext context, IEventService eventService, IMapper mapper, IAuthorizationService authorizationService) : base(authorizationService)
         {
             _context = context;
             _mapper = mapper;
             _eventService = eventService;
-            _stripeService = stripeService;
         }
 
         [HotChocolate.AspNetCore.Authorization.Authorize]
@@ -45,27 +43,13 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             await IsAdminIn(request.ClubId);
             var subscription = _mapper.Map<ClubSubscription>(request);
 
-            Product product = _stripeService.CreateProduct(request);
-            Price price = _stripeService.CreatePrice(request, product);
-
-            subscription.StribePriceId = price.Id;
-            subscription.StribeProductId = product.Id;
-
             _context.ClubSubscriptions.Add(subscription);
             var @event = _mapper.Map<ClubSubscriptionCreatedEvent>(subscription);
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
             return subscription;
         }
-
-        [HotChocolate.AspNetCore.Authorization.Authorize]
-        public async Task<ClubSubscription> SignUpForSubscription(CreateSubscriptionRequest req, [CurrentUserGlobalState] CurrentUser currentUser)
-        {
-            var clubSub = await _context.ClubSubscriptions.FindOrThrowAsync(req.ClubSubscriptonId);
-            _stripeService.SignUserUpToSubscription(req.PaymentMethodId, currentUser, clubSub.StribePriceId);
-            return clubSub; 
-        }
-
+        
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<ClubSubscription> UpdateClubSubscriptionAsync(Guid id, UpdateClubSubscriptionRequest request)
         {

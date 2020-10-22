@@ -118,9 +118,8 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                         clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim);
                     }
 
-                    var customerId = context.User.FindFirstValue("StripeCustomerId");
                     builder.SetProperty("currentUser",
-                        new CurrentUser(new Guid(context.User.FindFirstValue("id")), clubPermissions, customerId));
+                        new CurrentUser(new Guid(context.User.FindFirstValue("id")), clubPermissions));
                 }
 
                 return Task.CompletedTask;

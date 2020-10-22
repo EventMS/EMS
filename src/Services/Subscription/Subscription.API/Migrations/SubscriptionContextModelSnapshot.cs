@@ -49,14 +49,6 @@ namespace EMS.Subscription_Services.API.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.Property<string>("StribePriceId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StribeProductId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ClubSubscriptionId");
 
                     b.HasIndex("ClubId");

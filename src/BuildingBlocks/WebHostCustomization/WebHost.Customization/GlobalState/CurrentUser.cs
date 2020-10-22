@@ -8,14 +8,12 @@ namespace EMS.Club_Service_Services.API
     public class CurrentUser
     {
         public Guid UserId { get; }
-        public string StripeCustomerId { get; }
         public List<ClubPermission> ClubPermissions { get; }
 
-        public CurrentUser(Guid userId, List<ClubPermission> clubPermissions, string stripeCustomerId)
+        public CurrentUser(Guid userId, List<ClubPermission> clubPermissions)
         {
             UserId = userId;
             ClubPermissions = clubPermissions;
-            StripeCustomerId = stripeCustomerId;
         }
 
 

@@ -47,7 +47,7 @@ services:
       - EventBusConnection=rabbitmq
       - PORT=80
       - PATH_BASE=/graphql-api
-      - services=template1-api,identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api,permission-api
+      - services=template1-api,identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api,permission-api,payment-api
     ports:
       - "5102:80"
 
@@ -159,6 +159,18 @@ services:
       - PATH_BASE=/paymentwebhook-api
     ports:
       - "5112:80"
+
+  payment-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.PaymentDb;User Id=sa;Password=Pass@word
+      - identityUrl=http://identity-api
+      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
+      - EventBusConnection=rabbitmq
+      - PORT=80
+      - PATH_BASE=/payment-api
+    ports:
+      - "5114:80"
 
   websocket-api:
     environment:
