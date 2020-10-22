@@ -155,3 +155,4 @@ services:
       - eventparticipant-api
       - event-api
       - payment-api
+      - eventverification-api
