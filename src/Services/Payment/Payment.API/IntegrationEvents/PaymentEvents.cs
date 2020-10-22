@@ -5,7 +5,7 @@ namespace EMS.Events
 {
     public class UserCreatedEvent : Event // All events should inherit from Integration event
     {
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public string Email { get; set; }
     }
 

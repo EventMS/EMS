@@ -30,7 +30,7 @@ namespace EMS.Payment_Services.API.Events
                 var customer = _stripeService.CreateCustomer(context.Message.Email);
                 user = new User()
                 {
-                    UserId = new Guid(context.Message.UserId),
+                    UserId = context.Message.UserId,
                     StripeUserId = customer.Id
                 };
                 await _paymentContext.Users.AddAsync(user);

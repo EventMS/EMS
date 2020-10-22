@@ -30,6 +30,7 @@ namespace EMS.Payment_Services.API.Events
                 subscription = new ClubSubscription()
                 {
                     ClubSubscriptionId = context.Message.ClubSubscriptionId,
+                    ClubId = context.Message.ClubId,
                     StripePriceId = price.Id,
                     StripeProductId = product.Id,
                 };
