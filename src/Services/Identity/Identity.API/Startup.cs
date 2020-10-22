@@ -20,7 +20,6 @@ namespace EMS.Identity_Services.API
 
         public override IServiceCollection AddServices(IServiceCollection service)
         {
-            service.AddSingleton<StripeService>();
             service.AddSingleton<JwtService>();
             return service;
         }

@@ -29,21 +29,6 @@ namespace EMS.Events
     }
 }
 
-public class StripeService
-{
-    public Customer CreateCustomer(CreateUserRequest request)
-    {
-        var options = new CustomerCreateOptions
-        {
-            Email = request.Email,
-        };
-        var service = new CustomerService();
-        var customer = service.Create(options);
-        return customer;
-    }
-
-}
-
 namespace EMS.Identity_Services.API.GraphQlQueries
 {
     public class IdentityMutations
@@ -55,9 +40,8 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         private readonly JwtService _jwtService;
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IPublishEndpoint _publishEndpoint;
-        private readonly StripeService _stripeService;
 
-        public IdentityMutations(ApplicationDbContext context, IEventService template1EventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint, StripeService stripeService)
+        public IdentityMutations(ApplicationDbContext context, IEventService template1EventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context)); ;
             _eventService = template1EventService ?? throw new ArgumentNullException(nameof(template1EventService));
@@ -66,7 +50,6 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             _signInManager = signInManager;
             _contextAccessor = contextAccessor;
             _publishEndpoint = publishEndpoint;
-            _stripeService = stripeService;
         }
 
 

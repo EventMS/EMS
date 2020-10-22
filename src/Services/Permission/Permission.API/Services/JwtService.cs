@@ -33,7 +33,6 @@ namespace EMS.Permission_Services.API.Services
             var subject = new ClaimsIdentity();
             //Attach information in token here somewhere
             subject.AddClaim(new Claim("id", user.UserId.ToString()));
-            subject.AddClaim(new Claim("stripeCustomerId", user.StripeCustomerId));
 
             if (userRoles == null)
             {

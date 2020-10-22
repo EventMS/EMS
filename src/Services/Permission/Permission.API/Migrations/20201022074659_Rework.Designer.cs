@@ -4,14 +4,16 @@ using EMS.Permission_Services.API.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMS.Permission_Services.API.Migrations
 {
     [DbContext(typeof(PermissionContext))]
-    partial class PermissionContextModelSnapshot : ModelSnapshot
+    [Migration("20201022074659_Rework")]
+    partial class Rework
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

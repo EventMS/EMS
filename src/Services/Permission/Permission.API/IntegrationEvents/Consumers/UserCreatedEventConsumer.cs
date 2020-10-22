@@ -31,7 +31,6 @@ namespace EMS.Permission_Services.API.Events
                 await _permissionContext.Users.AddAsync(new User()
                 {
                     UserId = userId,
-                    StripeCustomerId = context.Message.StripeCustomerId
                 });
                 await _permissionContext.SaveChangesAsync();
             }

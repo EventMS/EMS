@@ -8,7 +8,6 @@ namespace EMS.Permission_Services.API.Context.Model
     public class User
     {
         public Guid UserId { get; set; }
-        public string StripeCustomerId { get; set; }
 
         public ICollection<Role> Roles { get; set; }
 
