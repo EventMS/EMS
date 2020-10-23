@@ -49,7 +49,7 @@ namespace EMS.Payment_Services.API
             return price;
         }
 
-        public string SignUpToEvent(float price)
+        public string SignUpToEvent(float price, Guid UserId, Guid EventId)
         {
             long? longPrice = (long?) (price * 100);
             var paymentIntents = new PaymentIntentService();
@@ -57,6 +57,11 @@ namespace EMS.Payment_Services.API
             {
                 Amount = longPrice,
                 Currency = "dkk",
+                Metadata = new Dictionary<string, string>()
+                {
+                    {"EventId", EventId.ToString() },
+                    {"UserId", UserId.ToString() }
+                }
             });
             return paymentIntent.ClientSecret;
         }

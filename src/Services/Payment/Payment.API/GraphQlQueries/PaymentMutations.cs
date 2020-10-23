@@ -48,7 +48,7 @@ namespace EMS.Payment_Services.API.GraphQlQueries
             var subscriptionId = currentUser.ClubPermissions?.Find(club => club.ClubId == e.ClubId)?.SubscriptionId;    
             if(subscriptionId == null && e.PublicPrice != null)
             {
-                var clientSecret = _stripeService.SignUpToEvent(e.PublicPrice.Value);
+                var clientSecret = _stripeService.SignUpToEvent(e.PublicPrice.Value, currentUser.UserId, eventId);
                 return new PaymentIntentResponse()
                 {
                     ClientSecret = clientSecret,
@@ -63,7 +63,7 @@ namespace EMS.Payment_Services.API.GraphQlQueries
             else
             {
                 var ep = await _context.EventPrices.FindAsync(e.EventId, subscriptionId.Value);
-                var clientSecret = _stripeService.SignUpToEvent(ep.Price);
+                var clientSecret = _stripeService.SignUpToEvent(ep.Price, currentUser.UserId, eventId);
                 return new PaymentIntentResponse()
                 {
                     ClientSecret = clientSecret,
