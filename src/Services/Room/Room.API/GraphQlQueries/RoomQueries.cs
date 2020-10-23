@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using EMS.Room_Services.API.Context;
 using EMS.Room_Services.API.Context.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Room_Services.API.GraphQlQueries
 {
@@ -16,6 +18,10 @@ namespace EMS.Room_Services.API.GraphQlQueries
         public IQueryable<Room> Rooms => _context.Rooms.AsQueryable();
 
         public IQueryable<Room> RoomsForClub(Guid clubId) => _context.Rooms.Where(room => room.ClubId == clubId).AsQueryable();
+
+        public IQueryable<Booking> BookingsForClub(Guid clubId) => _context.Rooms
+            .Include(r => r.Bookings)
+            .Where(room => room.ClubId == clubId).SelectMany(r => r.Bookings).AsQueryable();
 
         public IQueryable<Booking> Bookings => _context.Bookings.AsQueryable();
 
