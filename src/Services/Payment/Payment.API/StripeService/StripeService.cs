@@ -49,6 +49,17 @@ namespace EMS.Payment_Services.API
             return price;
         }
 
+        public string SignUpToEvent(float price)
+        {
+            long? longPrice = (long?) (price * 100);
+            var paymentIntents = new PaymentIntentService();
+            var paymentIntent = paymentIntents.Create(new PaymentIntentCreateOptions
+            {
+                Amount = longPrice,
+                Currency = "dkk",
+            });
+            return paymentIntent.ClientSecret;
+        }
 
         public string SignUserUpToSubscription(string paymentMethodId, User user, ClubSubscription clubSubscription)
         {

@@ -13,6 +13,7 @@ using EMS.Payment_Services.API.Context.Model;
 using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.StartUp;
 using Microsoft.AspNetCore.Authorization;
+using Stripe;
 
 namespace EMS.Payment_Services.API.GraphQlQueries
 {
@@ -38,6 +39,35 @@ namespace EMS.Payment_Services.API.GraphQlQueries
             var clubSub = await _context.ClubSubscriptions.FindOrThrowAsync(request.ClubSubscriptionId);
             _stripeService.SignUserUpToSubscription(request.PaymentMethodId, user, clubSub);
             return clubSub;
+        }
+
+        [HotChocolate.AspNetCore.Authorization.Authorize]
+        public async Task<PaymentIntentResponse> SignUpForEvent(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
+        {
+            var e = await _context.Events.FindOrThrowAsync(eventId);
+            var subscriptionId = currentUser.ClubPermissions?.Find(club => club.ClubId == e.ClubId)?.SubscriptionId;    
+            if(subscriptionId == null && e.PublicPrice != null)
+            {
+                var clientSecret = _stripeService.SignUpToEvent(e.PublicPrice.Value);
+                return new PaymentIntentResponse()
+                {
+                    ClientSecret = clientSecret
+                };
+            }
+
+            if (subscriptionId == null)
+            {
+                throw new QueryException("You do not have membership in the club, and the event is private");
+            }
+            else
+            {
+                var ep = await _context.EventPrices.FindAsync(e.EventId, subscriptionId.Value);
+                var clientSecret = _stripeService.SignUpToEvent(ep.Price);
+                return new PaymentIntentResponse()
+                {
+                    ClientSecret = clientSecret
+                };
+            }
         }
     }
 }
