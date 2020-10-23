@@ -15,6 +15,8 @@ using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.AspNetCore.Authorization;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
+using Automatonymous.Contracts;
+using System.Linq;
 
 namespace EMS.Subscription_Services.API.GraphQlQueries
 {
@@ -39,7 +41,18 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             var subscription = _mapper.Map<ClubSubscription>(request);
             _context.ClubSubscriptions.Add(subscription);
 
+            if(request.ReferenceId == null || request.ReferenceId == Guid.Empty)
+            {
+                var numberOfSubs = _context.ClubSubscriptions.Count(clubSub => clubSub.ClubId == request.ClubId);
+                if(numberOfSubs > 0)
+                {
+                    throw new QueryException("You must enter reference ID, when you have other subscriptions");
+                }
+            }
+
             var @event = _mapper.Map<ClubSubscriptionCreatedEvent>(subscription);
+            @event.ReferenceId = request.ReferenceId;
+
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
             return subscription;
