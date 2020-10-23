@@ -11,6 +11,8 @@ namespace EMS.Events
 
         public Guid ClubId { get; set; }
 
+        public Guid AdminId { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -62,6 +64,7 @@ namespace EMS.Events
     {
         public Guid EventId { get; set; }
         public string Reason { get; set; }
+        public Guid ClubId { get; set; }
     }
 
     public class InstructorAddedEvent : Event

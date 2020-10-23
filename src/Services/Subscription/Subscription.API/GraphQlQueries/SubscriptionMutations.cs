@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,17 +11,12 @@ using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using EMS.Subscription_Services.API.Context;
 using EMS.Subscription_Services.API.GraphQlQueries.Request;
+using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.AspNetCore.Authorization;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
-using Stripe;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using EMS.Club_Service_Services.API;
-using EMS.TemplateWebHost.Customization;
 
 namespace EMS.Subscription_Services.API.GraphQlQueries
 {
@@ -43,8 +39,19 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             await IsAdminIn(request.ClubId);
             var subscription = _mapper.Map<ClubSubscription>(request);
 
+            if(request.ReferenceId == null || request.ReferenceId == Guid.Empty)
+            {
+                var numberOfSubs = _context.ClubSubscriptions.Count(clubSub => clubSub.ClubId == request.ClubId);
+                if(numberOfSubs > 0)
+                {
+                    throw new QueryException("You must enter reference ID, when you have other subscriptions");
+                }
+            }
+
             _context.ClubSubscriptions.Add(subscription);
             var @event = _mapper.Map<ClubSubscriptionCreatedEvent>(subscription);
+            @event.ReferenceId = request.ReferenceId;
+
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
             return subscription;

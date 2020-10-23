@@ -19,4 +19,11 @@ namespace EMS.Events
 
         public DateTime EndTime { get; set; }
     }
+
+    public class EventCreationFailedEvent : Event // All events should inherit from Integration event
+    {
+        public Guid EventId { get; set; }
+        public string Reason { get; set; }
+        public Guid ClubId { get; set; }
+    }
 }

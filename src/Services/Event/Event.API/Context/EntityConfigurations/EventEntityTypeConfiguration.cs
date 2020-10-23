@@ -9,9 +9,7 @@ namespace EMS.Event_Services.API.Context.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Event> builder)
         {
-            builder.ToTable("Event")
-                .HasIndex(ci => new {ci.ClubId, ci.Name})
-                .IsUnique();
+            builder.ToTable("Event");
 
             builder.HasKey(ci => ci.EventId);
 
