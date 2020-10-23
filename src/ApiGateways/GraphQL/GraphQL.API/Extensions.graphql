@@ -7,10 +7,14 @@
 }
 
 extend type identity_ApplicationUser{
-  permissions: [permission_Role] @delegate(schema: "permissionapi", path: "userRoles")
+  permissions: [permission_Role] @delegate(schema: "permissionapi", path: "rolesForUserId(userId: $fields:id)")
 }
 
 extend type permission_Role{
   club: Club @delegate(schema: "clubapi", path: "clubByID(clubId: $fields:clubId)")
   clubSubscription: ClubSubscription @delegate(schema: "subscriptionapi", path: "clubSubscriptionByID(clubSubscriptionId: $fields:clubSubscriptionId)")
+}
+
+extend type ClubMember{
+  user: identity_ApplicationUser @delegate(schema: "identityapi", path: "user(id: $fields:userId)")
 }

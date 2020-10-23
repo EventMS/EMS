@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using EMS.ClubMember_Services.API.Context;
@@ -14,6 +15,7 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
         }
 
         public IQueryable<ClubMember> ClubMembers => _context.ClubMembers.AsQueryable();
+        public IQueryable<ClubMember> MembersForClub(Guid clubId) => _context.ClubMembers.Where(member => member.ClubId == clubId);
         public IQueryable<ClubSubscription> ClubSubscriptions => _context.ClubSubscriptions.AsQueryable();
     }
 }
