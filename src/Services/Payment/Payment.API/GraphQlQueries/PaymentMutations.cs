@@ -51,7 +51,8 @@ namespace EMS.Payment_Services.API.GraphQlQueries
                 var clientSecret = _stripeService.SignUpToEvent(e.PublicPrice.Value);
                 return new PaymentIntentResponse()
                 {
-                    ClientSecret = clientSecret
+                    ClientSecret = clientSecret,
+                    Price = e.PublicPrice.Value
                 };
             }
 
@@ -65,7 +66,8 @@ namespace EMS.Payment_Services.API.GraphQlQueries
                 var clientSecret = _stripeService.SignUpToEvent(ep.Price);
                 return new PaymentIntentResponse()
                 {
-                    ClientSecret = clientSecret
+                    ClientSecret = clientSecret,
+                    Price = ep.Price
                 };
             }
         }
