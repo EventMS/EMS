@@ -95,7 +95,8 @@ namespace EMS.Subscription_Services.API.UnitTests.GraphQL
                 Price = 50,
                 ClubId = clubId
             };
-            await _mutations.CreateClubSubscriptionAsync(request);
+            var sub = await _mutations.CreateClubSubscriptionAsync(request);
+            request.ReferenceId = sub.ClubSubscriptionId;
             Assert.ThrowsAsync<DbUpdateException>(async () =>
                 await _mutations.CreateClubSubscriptionAsync(request));
         }

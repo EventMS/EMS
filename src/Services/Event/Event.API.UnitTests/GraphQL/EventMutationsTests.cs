@@ -199,17 +199,6 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
         }
 
         [Test]
-        public async Task CreateEvent_CreateTwoEventWithSameNameInSameClub_SecondFails()
-        {
-            var request = BasicCreateRequest();
-
-            await _mutations.CreateEventAsync(request);
-            Assert.ThrowsAsync<DbUpdateException>(async () =>
-                await _mutations.CreateEventAsync(request));
-            await _publish.Received(1).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
-        }
-
-        [Test]
         public async Task CreateEvent_CreateTwoEventWithSameNameInDifferentClubs_DatabaseSavesBoth()
         {
             var request = BasicCreateRequest();
