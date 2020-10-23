@@ -81,7 +81,8 @@ namespace EMS.Club_Service.API.GraphQlQueries
             await _eventService.PublishEventAsync(@event);
             return item;
         }
-        */
+        
+
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Club> AddInstructorAsync(Guid clubId, Guid instructorId)
         {
@@ -114,7 +115,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
                 await _eventService.PublishEventAsync(@event);
             }
             return club;
-        }
+        }*/
 
     }
 }
