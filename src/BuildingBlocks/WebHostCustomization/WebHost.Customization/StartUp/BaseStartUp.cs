@@ -31,6 +31,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using EMS.TemplateWebHost.Customization.Filters;
 using EMS.TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.Masstransit;
 using EMS.TemplateWebHost.Customization.OutboxService;
 using EMS.TemplateWebHost.Customization.Settings;
 using HotChocolate.Execution;
@@ -72,6 +73,8 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             AddGlobalStateInterceptor(services);
             AddCustomHealthCheck(services);
             AddCustomAuthentication(services);
+            services.AddLogging();
+            services.AddDiagnosticObserver<DiagnosticObserver>();
             AddServices(services);
             services.AddHttpContextAccessor();
             services.AddErrorFilter<GraphQlErrorFilter>();
@@ -145,6 +148,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(GetName(), false));
                 x.UsingRabbitMq((context, config) =>
                 {
+                    config.UseMessageFilter();
                     config.Host(Configuration["EventBusConnection"], "/", h =>
                     {
                         h.Username("guest");

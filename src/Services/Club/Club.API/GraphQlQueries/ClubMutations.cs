@@ -56,7 +56,6 @@ namespace EMS.Club_Service.API.GraphQlQueries
 
             var @event = _mapper.Map<ClubCreatedEvent>(item);
             @event.Locations = request.Locations;
-            Log.Information(item.AdminId.ToString());
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
 

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Stripe;
 using ILogger = Serilog.ILogger;
@@ -58,9 +59,9 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             var seqServerUrl = configuration["Serilog:SeqServerUrl"];
             return new LoggerConfiguration()
                 .MinimumLevel.Verbose()
-                .Enrich.WithProperty("ApplicationContext", appName)
+                .Enrich.WithProperty("ApplicationContext", appName.Substring(0, appName.Length-4))
                 .Enrich.FromLogContext()
-                .WriteTo.Console()
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3} {ApplicationContext}]: {Message}{NewLine}{Exception}")
                 //.WriteTo.Seq(String.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
