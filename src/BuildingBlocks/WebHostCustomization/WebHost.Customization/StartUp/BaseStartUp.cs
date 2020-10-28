@@ -34,6 +34,7 @@ using EMS.TemplateWebHost.Customization.EventService;
 using EMS.TemplateWebHost.Customization.Masstransit;
 using EMS.TemplateWebHost.Customization.OutboxService;
 using EMS.TemplateWebHost.Customization.Settings;
+using GreenPipes;
 using HotChocolate.Execution;
 using HotChocolate.Execution.Configuration;
 using Microsoft.AspNetCore.Authorization;
@@ -148,6 +149,20 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(GetName(), false));
                 x.UsingRabbitMq((context, config) =>
                 {
+                    config.ConfigurePublish(sendCallback =>
+                    {
+                        sendCallback.UseExecute(sendExecute =>
+                        {
+                            var accessor = services.BuildServiceProvider().GetService<IHttpContextAccessor>();
+                            var id = accessor?.HttpContext?.User?.FindFirstValue("id");
+                            if (id != null)
+                            {
+                                sendExecute.Headers.Set("id", id);
+                            }
+                        });
+                    });
+
+
                     config.UseMessageFilter();
                     config.Host(Configuration["EventBusConnection"], "/", h =>
                     {

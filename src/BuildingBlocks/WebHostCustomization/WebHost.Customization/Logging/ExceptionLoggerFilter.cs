@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GreenPipes;
 using MassTransit;
 using MassTransit.ConsumeConfigurators;
+using MassTransit.Context;
 using MassTransit.PipeConfigurators;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -70,7 +72,6 @@ namespace EMS.TemplateWebHost.Customization.Masstransit
             try
             {
                 Log.Information("----- Receiving event: ({@Event})", context.Message);
-
                 await next.Send(context);
             }
             catch (Exception ex)
