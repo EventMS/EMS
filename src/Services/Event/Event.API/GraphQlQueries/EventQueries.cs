@@ -26,6 +26,8 @@ namespace EMS.Event_Services.API.GraphQlQueries
         public IQueryable<Event> EventsForClub(Guid clubId) => _context.Events
             .Where(e => e.ClubId == clubId && e.Status == EventStatus.Confirmed)
             .Include(e => e.Locations)
+            .Include(e => e.EventPrices)
+            .Include(e => e.InstructorForEvents)
             .AsQueryable();
     }
 }
