@@ -21,13 +21,6 @@ namespace EMS.Event_Services.API.Events
             var room = _context.Rooms.Find(context.Message.RoomId);
             if (room == null)
             {
-                /*if (_context.Clubs.Find(context.Message.ClubId) == null)
-                {
-                    _context.Clubs.Add(new Club()
-                    {
-                        ClubId = context.Message.ClubId
-                    });
-                }*/
                 _context.Rooms.Add(new Room()
                 {
                     ClubId = context.Message.ClubId,

@@ -69,7 +69,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
                     new EventPrice()
                     {
                         Price = 0,
-                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId,
+                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId.Value,
                     }
                 }
             };
@@ -104,7 +104,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
                     new EventPrice()
                     {
                         Price = 2,
-                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId,
+                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId.Value,
                     }
                 }
             };
@@ -131,7 +131,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
                     new EventPrice()
                     {
                         Price = 2,
-                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId,
+                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId.Value,
                     }
                 }
             };
@@ -158,7 +158,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.GraphQL
                     new EventPrice()
                     {
                         Price = 2,
-                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId,
+                        ClubSubscriptionId = _currentUser.ClubPermissions.First().SubscriptionId.Value,
                     }
                 }
             };
