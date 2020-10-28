@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="EMS.ClubMember_Services.API.Context.Model.ClubMember">
-    <Position X="1.25" Y="2.25" Width="2" />
+    <Position X="3.25" Y="5.75" Width="2" />
     <Members>
       <Method Name="ClubMember" Hidden="true" />
     </Members>
@@ -28,7 +28,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="EMS.ClubMember_Services.API.Controllers.Request.CreateClubMemberRequest">
-    <Position X="0.5" Y="1.25" Width="2.25" />
+    <Position X="0.5" Y="0.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GraphQlQueries\Request\CreateTemplate1Request.cs</FileName>
@@ -52,6 +52,13 @@
     <Position X="6" Y="4" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAAAAAAEAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\ClubMemberEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.SignUpSubscriptionSuccessEvent">
+    <Position X="0.5" Y="5.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IntegrationEvents\ClubMemberEvents.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -43,13 +43,23 @@
     </TypeIdentifier>
   </Class>
   <Class Name="EMS.Club_Service.API.GraphQlQueries.ClubMutations">
-    <Position X="0.75" Y="0.5" Width="5.5" />
+    <Position X="0.5" Y="0.5" Width="5.5" />
     <Members>
       <Method Name="ClubMutations" Hidden="true" />
     </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAACBAAAAAAAAAAAAACAAAAAAAIA=</HashCode>
       <FileName>GraphQlQueries\ClubMutations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Club_Service.API.GraphQlQueries.ClubQueries">
+    <Position X="6.5" Y="0.75" Width="4.25" />
+    <Members>
+      <Method Name="ClubQueries" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEABAAQAAAABAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>GraphQlQueries\ClubQueries.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

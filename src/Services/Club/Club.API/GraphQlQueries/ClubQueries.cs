@@ -17,15 +17,14 @@ namespace EMS.Club_Service.API.GraphQlQueries
             _context = context;
         }
 
-        public IQueryable<Context.Model.Club> Clubs => _context.Clubs.AsQueryable();
+        public IQueryable<Club> Clubs => _context.Clubs.AsQueryable();
 
-        public async Task<IEnumerable<Context.Model.Club>> MyClubs([CurrentUserGlobalState] CurrentUser currentUser)
+        public IQueryable<Club> MyClubs([CurrentUserGlobalState] CurrentUser currentUser)
         {
-            return await _context.Clubs.Where(club => club.AdminId == currentUser.UserId).ToArrayAsync();
+            return _context.Clubs.Where(club => club.AdminId == currentUser.UserId).AsQueryable();
         }
-        public Context.Model.Club Club(string name) => _context.Clubs.First(club => club.Name == name);
 
-        public Club ClubByID(Guid clubId) => _context.Clubs.Find(clubId);
+        public async Task<Club> ClubByID(Guid clubId) => await _context.Clubs.FindAsync(clubId);
 
         public async Task<Club> ClubByName(string name) => await _context.Clubs.FirstOrDefaultAsync(club => club.Name == name);
 
