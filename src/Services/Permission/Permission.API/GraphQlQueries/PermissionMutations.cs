@@ -15,12 +15,12 @@ using Stripe;
 
 namespace EMS.Permission_Services.API.GraphQlQueries
 {
-    public class PermissionMutationss : BaseMutations
+    public class PermissionMutations : BaseMutations
     {
         private readonly PermissionContext _context;
         private readonly IEventService _eventService;
 
-        public PermissionMutationss(IAuthorizationService authorizationService, PermissionContext context, IEventService eventService) : base(authorizationService)
+        public PermissionMutations(IAuthorizationService authorizationService, PermissionContext context, IEventService eventService) : base(authorizationService)
         {
             _context = context;
             _eventService = eventService;

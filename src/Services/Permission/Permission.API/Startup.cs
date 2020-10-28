@@ -27,7 +27,8 @@ namespace EMS.Permission_Services.API
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
             return builder
-                .AddQueryType<PermissionQueries>();
+                .AddQueryType<PermissionQueries>()
+                .AddMutationType<PermissionMutations>();
           
         }
 
