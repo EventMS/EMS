@@ -29,6 +29,7 @@ namespace EMS.Event_Services.API.Controllers.Request
 
         [Required]
         public List<EventPriceRequest> EventPrices { get; set; }
+        [Required]
         public List<Guid> Locations { get; set; }
         public List<Guid> InstructorForEvents { get; set; }
     }
