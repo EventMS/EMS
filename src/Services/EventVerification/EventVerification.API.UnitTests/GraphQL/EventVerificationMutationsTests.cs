@@ -46,7 +46,7 @@ namespace EMS.EventVerification_Services.API.UnitTests.GraphQL
         [Test]
         public async Task VerifyCodeAsync_CodeDoesNotExist()
         {
-            var request = new VerifyCodeAsyncRequest()
+            var request = new VerifyCodeRequest()
             {
                 EventId = Guid.NewGuid(),
                 Code = "0001"
@@ -58,7 +58,7 @@ namespace EMS.EventVerification_Services.API.UnitTests.GraphQL
         [Test]
         public async Task VerifyCodeAsync_EventDoesNotExist()
         {
-            var request = new VerifyCodeAsyncRequest()
+            var request = new VerifyCodeRequest()
             {
                 EventId = Guid.NewGuid(),
                 Code = "0001"
@@ -80,7 +80,7 @@ namespace EMS.EventVerification_Services.API.UnitTests.GraphQL
         [Test]
         public async Task VerifyCodeAsync_EventDoesNotExist_AlreadyVerified()
         {
-            var request = new VerifyCodeAsyncRequest()
+            var request = new VerifyCodeRequest()
             {
                 EventId = Guid.NewGuid(),
                 Code = "0001"
@@ -103,7 +103,7 @@ namespace EMS.EventVerification_Services.API.UnitTests.GraphQL
         [Test]
         public async Task VerifyCodeAsync_DoesExist_ChangesToAttended()
         {
-            var request = new VerifyCodeAsyncRequest()
+            var request = new VerifyCodeRequest()
             {
                 EventId = Guid.NewGuid(),
                 Code = "0001"

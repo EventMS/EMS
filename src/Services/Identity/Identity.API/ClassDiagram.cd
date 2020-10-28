@@ -1,10 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="EMS.Identity_Services.API.Context.Models.ApplicationUser">
-    <Position X="1.5" Y="2.75" Width="1.75" />
+    <Position X="2.75" Y="7" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Context\Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Identity_Services.API.GraphQlQueries.IdentityQueries">
+    <Position X="0.5" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAABACAAgIAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\IdentityQueries.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Identity_Services.API.GraphQlQueries.IdentityMutations">
+    <Position X="0.5" Y="3.5" Width="6.25" />
+    <Members>
+      <Method Name="IdentityMutations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAABAAQAADAAAAAAAAAABIAAABAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\IdentityMutations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Identity_Services.API.GraphQlQueries.CreateUserRequest">
+    <Position X="0.5" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAQAQAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\Request\CreateUserRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.UserCreatedEvent">
+    <Position X="4.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\IdentityEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Identity_Services.API.GraphQlQueries.EditUserRequest">
+    <Position X="0.75" Y="9.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\Request\EditUserRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.UserUpdatedEvent">
+    <Position X="4" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAwAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\IdentityEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Identity_Services.API.GraphQlQueries.LoginUserRequest">
+    <Position X="0.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\Request\LoginUserRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Identity_Services.API.Controllers.Response">
+    <Position X="6.5" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>GraphQlQueries\Request\Response.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

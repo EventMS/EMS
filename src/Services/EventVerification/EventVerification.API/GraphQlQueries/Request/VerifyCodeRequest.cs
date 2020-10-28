@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.EventVerification_Services.API.Controllers.Request
 {
-    public class VerifyCodeAsyncRequest
+    public class VerifyCodeRequest
     {
         public Guid EventId { get; set; }
 

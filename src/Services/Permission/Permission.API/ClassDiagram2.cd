@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="EMS.Permission_Services.API.Context.Model.Role">
+    <Position X="3.25" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAABEAAAAAAAAAAAAAAEAAgAAAAAAAgAAAAAAACAAAA=</HashCode>
+      <FileName>Context\Model\Role.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.InstructorAddedEvent">
+    <Position X="0.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\PermissionEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.InstructorDeletedEvent">
+    <Position X="2.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\PermissionEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Permission_Services.API.Context.Model.Club">
+    <Position X="2.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Club.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.ClubCreatedEvent">
+    <Position X="0.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\PermissionEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.ClubMemberCreatedEvent">
+    <Position X="4.75" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAEAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\PermissionEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.ClubMemberUpdatedEvent">
+    <Position X="0.75" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAEAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\PermissionEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.UserCreatedEvent">
+    <Position X="1.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\PermissionEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Permission_Services.API.Context.Model.User">
+    <Position X="3" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -14,11 +14,13 @@ namespace EMS.Events
     {
         public string UserId { get; set; }
         public string Name { get; set; }
+        public string PhoneNumber { get; set; }
 
-        public UserUpdatedEvent(string userId, string name)
+        public UserUpdatedEvent(string userId, string name, string phoneNumber)
         {
             UserId = userId;
             Name = name;
+            PhoneNumber = phoneNumber;
         }
     }
 }

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="EMS.Payment_Services.API.Context.Model.ClubSubscription">
+    <Position X="1.75" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAQAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\ClubSubscription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Payment_Services.API.Context.Model.Event">
+    <Position X="4" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAgAAAAAAAAAAABAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Event.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Payment_Services.API.Context.Model.EventPrice">
+    <Position X="1.75" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAQAAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\EventPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Payment_Services.API.Context.Model.User">
+    <Position X="4" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Payment_Services.API.GraphQlQueries.PaymentQueries">
+    <Position X="0.5" Y="2.75" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAABAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\PaymentQueries.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Payment_Services.API.GraphQlQueries.PaymentMutations">
+    <Position X="0.75" Y="6.25" Width="7" />
+    <Members>
+      <Method Name="PaymentMutations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAABAAAAACBAAAAAAAAAAAAAAAAAAAAgAI=</HashCode>
+      <FileName>GraphQlQueries\PaymentMutations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -9,7 +9,7 @@ namespace EMS.EventVerification_Services.API.Mapper
     {
         public EventVerificationProfile()
         {
-            CreateMap<VerifyCodeAsyncRequest, EventVerification>();
+            CreateMap<VerifyCodeRequest, EventVerification>();
         }
     }
 }
