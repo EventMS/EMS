@@ -9,20 +9,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EMS.ClubMember_Services.API.Events
 {
-    public class SignUpSubscriptionSuccessConsumer :
-        IConsumer<SignUpSubscriptionSuccess>
+    public class SignUpSubscriptionSuccessEventConsumer :
+        IConsumer<SignUpSubscriptionSuccessEvent>
     {
         private readonly ClubMemberContext _context;
         private readonly IMapper _mapper;
         private readonly IEventService _eventService;
-        public SignUpSubscriptionSuccessConsumer(ClubMemberContext context, IMapper mapper, IEventService eventService)
+        public SignUpSubscriptionSuccessEventConsumer(ClubMemberContext context, IMapper mapper, IEventService eventService)
         {
             _context = context;
             _mapper = mapper;
             _eventService = eventService;
         }
 
-        public async Task Consume(ConsumeContext<SignUpSubscriptionSuccess> context)
+        public async Task Consume(ConsumeContext<SignUpSubscriptionSuccessEvent> context)
         {
             var sub = await _context.ClubSubscriptions.FindAsync(context.Message.ClubSubscriptionId);
             if (sub == null)

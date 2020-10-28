@@ -9,11 +9,11 @@ namespace EMS.ClubMember_Services.API.Events
 {
     public class ClubSubscriptionCreatedEventConsumer :
             BasicDuplicateConsumer<ClubMemberContext, ClubSubscription, ClubSubscriptionCreatedEvent>
+    {
+        public ClubSubscriptionCreatedEventConsumer(ClubMemberContext context, IMapper mapper) : base(context, mapper)
         {
-            public ClubSubscriptionCreatedEventConsumer(ClubMemberContext context, IMapper mapper) : base(context, mapper)
-            {
-            }
         }
+    }
 }
 
 
