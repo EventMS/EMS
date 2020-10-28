@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="EMS.Room_Services.API.Context.Model.Booking" BaseTypeListCollapsed="true">
+    <Position X="3" Y="5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAiAACAAAAAAAAAAAQAIAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Booking.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="EMS.Room_Services.API.Context.Model.Club">
+    <Position X="4.75" Y="2" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Club.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.RoomUpdatedEvent">
+    <Position X="0.5" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\RoomEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Room_Services.API.Controllers.Request.UpdateRoomRequest">
+    <Position X="2.5" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\Request\UpdateTemplate1Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.ClubCreatedEvent">
+    <Position X="2.5" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\RoomEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.TimeslotReservedEvent">
+    <Position X="6.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\RoomEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.TimeslotReservationFailedEvent">
+    <Position X="6.25" Y="6.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\RoomEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Events.VerifyChangedTimeslotEvent">
+    <Position X="0.5" Y="5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAIAAgAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>IntegrationEvents\RoomEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.Room_Services.API.Context.Model.Room">
+    <Position X="1.75" Y="8.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAACAACgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Context\Model\Room.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EMS.Events.RoomDeletedEvent">
+    <Position X="5" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAACAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IntegrationEvents\RoomEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

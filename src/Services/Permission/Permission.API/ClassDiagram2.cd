@@ -50,14 +50,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="EMS.Events.UserCreatedEvent">
-    <Position X="1.25" Y="7.5" Width="1.5" />
+    <Position X="1.25" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IntegrationEvents\PermissionEvents.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EMS.Permission_Services.API.Context.Model.User">
-    <Position X="3" Y="7.5" Width="2" />
+    <Position X="5.75" Y="4.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAgAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Context\Model\User.cs</FileName>
