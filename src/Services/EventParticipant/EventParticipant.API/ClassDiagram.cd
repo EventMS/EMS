@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="EMS.EventParticipant_Services.API.Context.Model.Event">
     <Position X="2.75" Y="3" Width="3.25" />
     <TypeIdentifier>
@@ -28,11 +28,28 @@
       <FileName>IntegrationEvents\EventParticipantEvents.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EMS.Events.SignUpEventSuccess">
+  <Class Name="EMS.Events.SignUpEventSuccessEvent">
     <Position X="4.75" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IntegrationEvents\EventParticipantEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.EventParticipant_Services.API.GraphQlQueries.EventParticipantQueries">
+    <Position X="0.75" Y="7.25" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\EventParticipantQueries.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EMS.EventParticipant_Services.API.GraphQlQueries.EventParticipantMutations">
+    <Position X="1" Y="9.75" Width="5.5" />
+    <Members>
+      <Method Name="EventParticipantMutations" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAABAAAAACBAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\EventParticipantMutations.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

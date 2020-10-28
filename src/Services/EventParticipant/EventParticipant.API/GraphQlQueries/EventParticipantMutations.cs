@@ -70,7 +70,7 @@ namespace EMS.EventParticipant_Services.API.GraphQlQueries
                     UserId = currentUser.UserId
                 };
                 _context.EventParticipants.Add(ep);
-                var @event = new SignUpEventSuccess()
+                var @event = new SignUpEventSuccessEvent()
                 {
                     UserId = currentUser.UserId,
                     EventId = eventId

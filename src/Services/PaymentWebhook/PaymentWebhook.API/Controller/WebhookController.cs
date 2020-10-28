@@ -24,7 +24,7 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
         [HttpPost]
         public async Task<IActionResult> eventCheat(EventCheatRequest request)
         {
-            var e = new SignUpEventSuccess()
+            var e = new SignUpEventSuccessEvent()
             {
                 UserId = request.UserId,
                 EventId = request.EventId
@@ -67,7 +67,7 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                     if (paymentIntent.Metadata.Count == 2)
                     {
-                        var e = new SignUpEventSuccess()
+                        var e = new SignUpEventSuccessEvent()
                         {
                             UserId = new Guid(paymentIntent.Metadata["UserId"]),
                             EventId = new Guid(paymentIntent.Metadata["EventId"])

@@ -11,19 +11,19 @@ using TemplateWebHost.Customization.BasicConsumers;
 
 namespace EMS.EventParticipant_Services.API.Events
 {
-    public class SignUpEventSuccessConsumer :
-        IConsumer<SignUpEventSuccess>
+    public class SignUpEventSuccessEventConsumer :
+        IConsumer<SignUpEventSuccessEvent>
     {
         private readonly EventParticipantContext _context;
 
-        public SignUpEventSuccessConsumer(EventParticipantContext context)
+        public SignUpEventSuccessEventConsumer(EventParticipantContext context)
         {
             _context = context;
         }
 
 
 
-        public async Task Consume(ConsumeContext<SignUpEventSuccess> context)
+        public async Task Consume(ConsumeContext<SignUpEventSuccessEvent> context)
         {
             if (await _context.Events.FindAsync(context.Message.EventId) == null)
             {
