@@ -27,6 +27,11 @@ extend type identity_ApplicationUser {
       schema: "permissionapi"
       path: "rolesForUserId(userId: $fields:id)"
     )
+  events: [EventVerification]
+    @delegate(
+      schema: "eventverificationapi"
+      path: "eventsForUser(userId: $fields:id)"
+    )
 }
 
 extend type permission_Role {
