@@ -14,7 +14,7 @@ using NUnit.Framework;
 namespace EMS.EventVerification_Services.API.UnitTests.Consumers
 {
     [TestFixture]
-    class SignUpEventSuccessConsumerTest : BaseConsumerTest<SignUpEventSuccessConsumer,
+    class SignUpEventSuccessEventConsumerTest : BaseConsumerTest<SignUpEventSuccessEventConsumer,
         EventVerificationContext>
     {
 
@@ -22,7 +22,7 @@ namespace EMS.EventVerification_Services.API.UnitTests.Consumers
         public void SetUp()
         {
             var content = _factory.CreateContext();
-            _consumer = new SignUpEventSuccessConsumer(content);
+            _consumer = new SignUpEventSuccessEventConsumer(content);
             _harness.Start().Wait();
         }
 
@@ -33,9 +33,9 @@ namespace EMS.EventVerification_Services.API.UnitTests.Consumers
         }
 
         [Test]
-        public async Task Consume_SignUpEventSuccess_CreatesOneCodeForUser()
+        public async Task Consume_SignUpEventSuccessEvent_CreatesOneCodeForUser()
         {
-            var @event = new SignUpEventSuccess()
+            var @event = new SignUpEventSuccessEvent()
             {
                 EventId = Guid.NewGuid(),
                 UserId = Guid.NewGuid()
@@ -53,9 +53,9 @@ namespace EMS.EventVerification_Services.API.UnitTests.Consumers
         }
 
         [Test]
-        public async Task Consume_SignUpEventSuccessTwice_CreatesOneCodeForUser()
+        public async Task Consume_SignUpEventSuccessEventTwice_CreatesOneCodeForUser()
         {
-            var @event = new SignUpEventSuccess()
+            var @event = new SignUpEventSuccessEvent()
             {
                 EventId = Guid.NewGuid(),
                 UserId = Guid.NewGuid()
@@ -75,15 +75,15 @@ namespace EMS.EventVerification_Services.API.UnitTests.Consumers
         }
 
         [Test]
-        public async Task Consume_MultipleSignUpEventSuccess_CreatesOneCodeForUsers()
+        public async Task Consume_MultipleSignUpEventSuccessEvent_CreatesOneCodeForUsers()
         {
-            var @event = new SignUpEventSuccess()
+            var @event = new SignUpEventSuccessEvent()
             {
                 EventId = Guid.NewGuid(),
                 UserId = Guid.NewGuid()
             };
 
-            var @event2 = new SignUpEventSuccess()
+            var @event2 = new SignUpEventSuccessEvent()
             {
                 EventId = Guid.NewGuid(),
                 UserId = Guid.NewGuid()
@@ -107,13 +107,13 @@ namespace EMS.EventVerification_Services.API.UnitTests.Consumers
         [Test]
         public async Task Consume_MultipleSignUpSameEventSuccess_CreatesOneCodeForUsers()
         {
-            var @event = new SignUpEventSuccess()
+            var @event = new SignUpEventSuccessEvent()
             {
                 EventId = Guid.NewGuid(),
                 UserId = Guid.NewGuid()
             };
 
-            var @event2 = new SignUpEventSuccess()
+            var @event2 = new SignUpEventSuccessEvent()
             {
                 EventId = @event.EventId,
                 UserId = Guid.NewGuid()

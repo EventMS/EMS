@@ -16,7 +16,7 @@ using NUnit.Framework;
 namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
 {
     [TestFixture]
-    class SignUpSubscriptionSuccessConsumerTest : BaseConsumerTest<SignUpSubscriptionSuccessConsumer,
+    class SignUpSubscriptionSuccessEventConsumerTest : BaseConsumerTest<SignUpSubscriptionSuccessEventConsumer,
         ClubMemberContext>
     {
         private IPublishEndpoint _publishEndpoint;
@@ -27,7 +27,7 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
             var content = _factory.CreateContext(true);
             _publishEndpoint = Substitute.For<IPublishEndpoint>();
             var eventService = EventServiceFactory.CreateEventService(content, _publishEndpoint);
-            _consumer = new SignUpSubscriptionSuccessConsumer(content, CreateMapper(), eventService);
+            _consumer = new SignUpSubscriptionSuccessEventConsumer(content, CreateMapper(), eventService);
             _harness.Start().Wait();
         }
 
@@ -46,7 +46,7 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
         [Test]
         public async Task Consume_SubscriptionMustExist_DoesNothing()
         {
-            var @event = new SignUpSubscriptionSuccess()
+            var @event = new SignUpSubscriptionSuccessEvent()
             {
                 ClubSubscriptionId = Guid.NewGuid(),
                 UserId = Guid.NewGuid()
@@ -71,7 +71,7 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
                 context.SaveChanges();
             }
 
-            var @event = new SignUpSubscriptionSuccess()
+            var @event = new SignUpSubscriptionSuccessEvent()
             {
                 ClubSubscriptionId = sub.ClubSubscriptionId,
                 UserId = Guid.NewGuid()
@@ -111,7 +111,7 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
                 context.SaveChanges();
             }
 
-            var @event = new SignUpSubscriptionSuccess()
+            var @event = new SignUpSubscriptionSuccessEvent()
             {
                 ClubSubscriptionId = sub.ClubSubscriptionId,
                 UserId = member.UserId
@@ -158,7 +158,7 @@ namespace EMS.ClubMember_Services_Services.API.UnitTests.Consumers
                 context.SaveChanges();
             }
 
-            var @event = new SignUpSubscriptionSuccess()
+            var @event = new SignUpSubscriptionSuccessEvent()
             {
                 ClubSubscriptionId = sub2.ClubSubscriptionId,
                 UserId = member.UserId

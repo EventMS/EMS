@@ -10,17 +10,17 @@ using Serilog;
 
 namespace EMS.EventVerification_Services.API.Events
 {
-    public class SignUpEventSuccessConsumer :
-            IConsumer<SignUpEventSuccess>
+    public class SignUpEventSuccessEventConsumer :
+            IConsumer<SignUpEventSuccessEvent>
     {
         private readonly EventVerificationContext _context;
 
-        public SignUpEventSuccessConsumer(EventVerificationContext context)
+        public SignUpEventSuccessEventConsumer(EventVerificationContext context)
         {
             _context = context;
         }
 
-        public async Task Consume(ConsumeContext<SignUpEventSuccess> context)
+        public async Task Consume(ConsumeContext<SignUpEventSuccessEvent> context)
         {
             var ev = await _context.EventVerifications
                 .SingleOrDefaultAsync(ev => ev.UserId == context.Message.UserId && ev.EventId == context.Message.EventId);

@@ -13,9 +13,8 @@ namespace EMS.EventParticipant_Services.API.Context.EntityConfigurations
 
             builder.HasKey(ci => new {ci.EventId, ci.ClubSubscriptionId});
 
-            builder.HasOne<Event>()
-                .WithMany(e => e.EventPrices)
-                .HasForeignKey(e => e.EventId);
+            builder.Property(ci => ci.EventId)
+                .IsRequired();
 
             builder.Property(ci => ci.ClubSubscriptionId)
                 .IsRequired();

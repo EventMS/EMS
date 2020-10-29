@@ -13,7 +13,7 @@ namespace EMS.EventParticipant_Services.API.Mapper
         public EventParticipantProfile()
         {
             CreateMap<EventCreatedEvent, Event>();
-            CreateMap<SignUpEventSuccess, EventParticipant>();
+            CreateMap<SignUpEventSuccessEvent, EventParticipant>();
         }
     }
 }

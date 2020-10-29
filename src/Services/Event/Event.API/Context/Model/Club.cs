@@ -7,8 +7,6 @@ namespace EMS.Event_Services.API.Context.Model
     {
         public Guid ClubId { get; set; }
 
-        public List<Instructor> Instructors { get; set; }
-
         public List<Event> Events { get; set; }
     }
 }

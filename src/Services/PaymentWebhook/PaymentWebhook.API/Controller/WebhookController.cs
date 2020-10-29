@@ -24,7 +24,7 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
         [HttpPost]
         public async Task<IActionResult> eventCheat(EventCheatRequest request)
         {
-            var e = new SignUpEventSuccess()
+            var e = new SignUpEventSuccessEvent()
             {
                 UserId = request.UserId,
                 EventId = request.EventId
@@ -41,7 +41,7 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
         [HttpPost]
         public async Task<IActionResult> subCheat(SubCheatRequest request)
         {
-            var e = new SignUpSubscriptionSuccess()
+            var e = new SignUpSubscriptionSuccessEvent()
             {
                 UserId = request.UserId,
                 ClubSubscriptionId = request.ClubSubscriptionId
@@ -67,7 +67,7 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
                     var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
                     if (paymentIntent.Metadata.Count == 2)
                     {
-                        var e = new SignUpEventSuccess()
+                        var e = new SignUpEventSuccessEvent()
                         {
                             UserId = new Guid(paymentIntent.Metadata["UserId"]),
                             EventId = new Guid(paymentIntent.Metadata["EventId"])
@@ -82,7 +82,7 @@ namespace EMS.PaymentWebhook_Services.API.GraphQlQueries
                     var sub = stripeEvent.Data.Object as Subscription;
                     if (sub.Metadata.Count == 2)
                     {
-                        var e = new SignUpSubscriptionSuccess()
+                        var e = new SignUpSubscriptionSuccessEvent()
                         {
                             UserId = new Guid(sub.Metadata["UserId"]),
                             ClubSubscriptionId = new Guid(sub.Metadata["ClubSubscriptionId"])

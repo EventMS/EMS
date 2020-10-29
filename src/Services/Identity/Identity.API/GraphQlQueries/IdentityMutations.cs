@@ -38,8 +38,6 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtService _jwtService;
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IPublishEndpoint _publishEndpoint;
 
         public IdentityMutations(ApplicationDbContext context, IEventService template1EventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint)
         {
@@ -48,8 +46,6 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             _userManager = userManager;
             _jwtService = jwtService;
             _signInManager = signInManager;
-            _contextAccessor = contextAccessor;
-            _publishEndpoint = publishEndpoint;
         }
 
 
@@ -136,7 +132,7 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             user.PhoneNumber = request.PhoneNumber;
             _context.Update(user);
 
-            var evt = new UserUpdatedEvent(user.Id, user.Name);
+            var evt = new UserUpdatedEvent(user.Id, user.Name, user.PhoneNumber);
             await _eventService.SaveEventAndDbContextChangesAsync(evt);
             await _eventService.PublishEventAsync(evt);
             return user;

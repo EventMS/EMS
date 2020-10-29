@@ -27,7 +27,7 @@ namespace EMS.EventVerification_Services.API.GraphQlQueries
             _mapper = mapper;
         }
 
-        public async Task<EventVerification> VerifyCodeAsync(VerifyCodeAsyncRequest request)
+        public async Task<EventVerification> VerifyCodeAsync(VerifyCodeRequest request)
         {
             var codeInt = int.Parse(request.Code, System.Globalization.NumberStyles.HexNumber);
             var item = await _context.EventVerifications
