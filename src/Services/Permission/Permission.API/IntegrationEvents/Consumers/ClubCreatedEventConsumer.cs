@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EMS.Events;
@@ -31,7 +32,8 @@ namespace EMS.Permission_Services.API.Events
                         {
                             UserId = context.Message.AdminId,
                             ClubId = clubId,
-                            UserRole = "Admin"
+                            UserRole = "Admin",
+                            ClubSubscriptionId = Guid.Empty
                         }
                     }
                 });

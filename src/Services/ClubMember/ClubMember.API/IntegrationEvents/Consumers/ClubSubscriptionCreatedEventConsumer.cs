@@ -41,7 +41,7 @@ namespace EMS.ClubMember_Services.API.Events
                     {
                         ClubId = context.Message.ClubId,
                         ClubSubscriptionId = context.Message.ClubSubscriptionId,
-                        UserId = context.Headers.Get<Guid>("id").Value
+                        UserId = context.Headers.Get<Guid>("id",Guid.Empty).Value
                     };
                     _context.ClubMembers.Add(member);
                     var e = _mapper.Map<ClubMemberCreatedEvent>(member);
