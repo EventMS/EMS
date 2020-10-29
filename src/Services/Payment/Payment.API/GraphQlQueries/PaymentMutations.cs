@@ -67,11 +67,19 @@ namespace EMS.Payment_Services.API.GraphQlQueries
             else
             {
                 var ep = await _context.EventPrices.FindAsync(e.EventId, subscriptionId.Value);
-                var clientSecret = _stripeService.SignUpToEvent(ep.Price, currentUser.UserId, eventId);
+                var price = ep?.Price ?? e.PublicPrice;
+                if (price == null)
+                {
+                    throw new QueryException(ErrorBuilder.New()
+                        .SetMessage("Price is bad unexpectedly")
+                        .SetCode("ID_UNKNOWN")
+                        .Build());
+                }
+                var clientSecret = _stripeService.SignUpToEvent(price.Value, currentUser.UserId, eventId);
                 return new PaymentIntentResponse()
                 {
                     ClientSecret = clientSecret,
-                    Price = ep.Price
+                    Price = price.Value
                 };
             }
         }
