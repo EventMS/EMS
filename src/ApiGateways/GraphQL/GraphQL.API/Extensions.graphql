@@ -52,3 +52,8 @@ extend type InstructorForEvent {
   user: identity_ApplicationUser!
     @delegate(schema: "identityapi", path: "user(id: $fields:instructorId)")
 }
+
+extend type RoomEvent {
+  room: Room!
+    @delegate(schema: "roomapi", path: "roomById(roomId: $fields:roomId)")
+}
