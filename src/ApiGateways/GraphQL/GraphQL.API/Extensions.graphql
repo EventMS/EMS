@@ -44,11 +44,11 @@ extend type permission_Role {
 }
 
 extend type ClubMember {
-  user: identity_ApplicationUser!
+  user: identity_ApplicationUser
     @delegate(schema: "identityapi", path: "user(id: $fields:userId)")
 }
 
 extend type InstructorForEvent {
-  user: identity_ApplicationUser!
+  user: identity_ApplicationUser
     @delegate(schema: "identityapi", path: "user(id: $fields:instructorId)")
 }

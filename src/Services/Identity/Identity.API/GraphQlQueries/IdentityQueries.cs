@@ -17,7 +17,7 @@ namespace EMS.Identity_Services.API.GraphQlQueries
 
         public IQueryable<ApplicationUser> Users => _context.Users.AsQueryable();
 
-        public ApplicationUser User(string id) => _context.Users.Find(id);
+        public ApplicationUser User(Guid id) => _context.Users.Find(id.ToString());
 
         public ApplicationUser CurrentUser([CurrentUserGlobalState] CurrentUser user) => _context.Users.Find(user.UserId.ToString());
 
