@@ -41,6 +41,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
+using HotChocolate.Types;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
@@ -81,6 +82,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             services.AddErrorFilter<GraphQlErrorFilter>();
             services.AddGraphQL((s) => { 
                 var schema = SchemaBuilder.New()
+                 .BindClrType<Guid, StringType>()
                  .AddServices(s)
                  .Use<ValidateInputMiddleware>()
                  .AddAuthorizeDirectiveType();
