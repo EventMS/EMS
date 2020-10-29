@@ -27,7 +27,7 @@ namespace EMS.ClubMember_Services.API.Events
             var sub = await _context.ClubSubscriptions.FindAsync(context.Message.ClubSubscriptionId);
             if (sub == null)
             {
-                return;
+                return; 
             }
             var member = await _context.ClubMembers.FirstOrDefaultAsync(ep =>
                 ep.ClubId == sub.ClubId && ep.UserId == context.Message.UserId);
