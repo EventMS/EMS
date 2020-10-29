@@ -24,7 +24,7 @@ namespace EMS.Websocket_Services.API.Events
 
                 var clubId = context.Message.ClubId;    
 
-                await _hub.Clients.All.SendAsync(clubId+"-EventCreated", new
+                await _hub.Clients.All.SendAsync(clubId.ToString("N")+"-EventCreated", new
                 {
                     EventId = context.Message.EventId,
                     ClubId = context.Message.ClubId,
@@ -47,7 +47,7 @@ namespace EMS.Websocket_Services.API.Events
         {
             var clubId = context.Message.ClubId;
             Log.Information("Received eventCreationFailed event");
-            await _hub.Clients.All.SendAsync(clubId+"-EventCreationFailed", new
+            await _hub.Clients.All.SendAsync(clubId.ToString("N")+ "-EventCreationFailed", new
             {
                 eventId = context.Message.EventId,
                 reason = context.Message.Reason,
