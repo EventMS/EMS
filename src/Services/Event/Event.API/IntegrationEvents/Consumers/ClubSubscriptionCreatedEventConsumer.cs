@@ -29,7 +29,7 @@ namespace EMS.Event_Services.API.Events
                 if(context.Message.ReferenceId == null)
                 {
                     var count = _context.Subscriptions.Count(sub => sub.ClubId == context.Message.ClubId); //There are just one if no other is specified
-                    if(count != 0)
+                    if(count > 1)
                     {
                         Log.Information("Could not find a reference ID unexpectedly");                    
                         return;
