@@ -89,16 +89,6 @@ services:
       - identity-api
       - rabbitmq
 
-  paymentwebhook-api:
-    image: ${REGISTRY:-eventms}/paymentwebhook.api:${PLATFORM:-linux}-${TAG:-latest}
-    build:
-      context: .
-      dockerfile: Services/PaymentWebhook/PaymentWebhook.API/Dockerfile
-    depends_on:
-      - sqldata
-      - identity-api
-      - rabbitmq
-
   websocket-api:
     image: ${REGISTRY:-eventms}/websocket.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
@@ -109,21 +99,21 @@ services:
       - identity-api
       - rabbitmq
 
-  payment-api:
-    image: ${REGISTRY:-eventms}/payment.api:${PLATFORM:-linux}-${TAG:-latest}
-    build:
-      context: .
-      dockerfile: Services/Payment/Payment.API/Dockerfile
-    depends_on:
-      - sqldata
-      - identity-api
-      - rabbitmq
-
   eventverification-api:
     image: ${REGISTRY:-eventms}/eventverification.api:${PLATFORM:-linux}-${TAG:-latest}
     build:
       context: .
       dockerfile: Services/EventVerification/EventVerification.API/Dockerfile
+    depends_on:
+      - sqldata
+      - identity-api
+      - rabbitmq
+      
+  paymentwebhook-api:
+    image: ${REGISTRY:-eventms}/paymentwebhook.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/PaymentWebhook/PaymentWebhook.API/Dockerfile
     depends_on:
       - sqldata
       - identity-api
@@ -143,5 +133,4 @@ services:
       - room-api
       - eventparticipant-api
       - event-api
-      - payment-api
       - eventverification-api

@@ -55,10 +55,22 @@ namespace EMS.Event_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Event> CreateEventAsync(CreateEventRequest request)
         {
-            Log.Information(request.ClubId.ToString());
             await IsAdminIn(request.ClubId);
 
             var item = _mapper.Map<Event>(request);
+            var expectedSubscriptionsPrices = await _context.Subscriptions.Where(sub => sub.ClubId == request.ClubId).ToListAsync();
+            if (request.PublicPrice != null && expectedSubscriptionsPrices.Count != item.EventPrices.Count)
+            {
+                var definedPricesIds = item.EventPrices.Select(e => e.ClubSubscriptionId).ToList();
+                expectedSubscriptionsPrices.Where(sub => !definedPricesIds.Contains(sub.ClubSubscriptionId))
+                    .ToList().ForEach(sub => item.EventPrices
+                    .Add(new Context.Model.EventPrice()
+                    {
+                        ClubSubscriptionId = sub.ClubSubscriptionId,
+                        Price = request.PublicPrice.Value
+                    }));
+            }
+
             _context.Events.Add(item);
 
             var @event = _mapper.Map<VerifyAvailableTimeslotEvent>(item);
