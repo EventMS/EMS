@@ -20,6 +20,7 @@ namespace EMS.Payment_Services.API
         public override IServiceCollection AddServices(IServiceCollection service)
         {
             service.AddSingleton<StripeService>();
+            service.AddTransient<IPaymentService, PaymentService>();
             return base.AddServices(service);
         }
 

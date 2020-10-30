@@ -62,3 +62,9 @@ extend type RoomEvent {
   room: Room!
     @delegate(schema: "roomapi", path: "roomById(roomId: $fields:roomId)")
 }
+
+extend type Event{
+  userPrice: Float @delegate(schema: "paymentapi", path: "eventUserPrice(eventId : $fields:eventId)")
+  club: Club
+    @delegate(schema: "clubapi", path: "clubByID(clubId: $fields:clubId)")
+}

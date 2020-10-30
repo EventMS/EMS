@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using EMS.TemplateWebHost.Customization.StartUp;
+using HotChocolate;
+using HotChocolate.Execution;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 
@@ -38,6 +40,10 @@ namespace EMS.GraphQL.API
                 {
                     Log.Information("User did not exist");
                     Log.Information(e.Message);
+                    throw new QueryException(ErrorBuilder.New()
+                        .SetMessage("User did not exist")
+                        .SetCode("ID_UNKNOWN")
+                        .Build());
                     //Short circuit request because of invalid token. 
                 }
             }
