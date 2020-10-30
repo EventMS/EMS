@@ -40,10 +40,7 @@ namespace EMS.GraphQL.API
                 {
                     Log.Information("User did not exist");
                     Log.Information(e.Message);
-                    throw new QueryException(ErrorBuilder.New()
-                        .SetMessage("User did not exist")
-                        .SetCode("ID_UNKNOWN")
-                        .Build());
+                    await context.Response.WriteAsync("{\"errors\": [{\"message\" : \"User did not exist\"}], \"data\" : null}");
                     //Short circuit request because of invalid token. 
                 }
             }   
