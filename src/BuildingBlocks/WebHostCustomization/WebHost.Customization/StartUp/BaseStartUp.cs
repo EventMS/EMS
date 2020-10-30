@@ -42,6 +42,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 using HotChocolate.Types;
+using Serilog;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
@@ -118,7 +119,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 {
                     var claim = context.User.FindFirstValue("ClubPermissionsClaim");
                     List<ClubPermission> clubPermissions = new List<ClubPermission>();
-                    ;
+                    
                     if (claim != null)
                     {
                         clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim);

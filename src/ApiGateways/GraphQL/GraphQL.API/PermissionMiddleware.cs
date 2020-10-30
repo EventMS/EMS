@@ -46,7 +46,7 @@ namespace EMS.GraphQL.API
                         .Build());
                     //Short circuit request because of invalid token. 
                 }
-            }
+            }   
             else
             {
                 await _next(context); //Forwardning just in case. 
