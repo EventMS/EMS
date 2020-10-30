@@ -61,6 +61,28 @@ namespace EMS.Payment_Services.API.GraphQlQueries
         }
 
         [HotChocolate.AspNetCore.Authorization.Authorize]
+        public async Task<PaymentIntentResponse> SignUpForFreeEvent(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
+        {
+            var price = await CalculateEventPriceForUserAsync(eventId, currentUser);
+            if (price == null)
+            {
+                throw new QueryException(ErrorBuilder.New()
+                    .SetMessage("Price is missing unexpectedly")
+                    .SetCode("ID_UNKNOWN")
+                    .Build());
+            }else if (price != 0)
+            {
+
+            }
+            var clientSecret = _stripeService.SignUpToEvent(price.Value, currentUser.UserId, eventId);
+            return new PaymentIntentResponse()
+            {
+                ClientSecret = clientSecret,
+                Price = price.Value
+            };
+        }
+
+        [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<float?> CalculateEventPriceForUserAsync(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
         {
             var e = await _context.Events.FindOrThrowAsync(eventId);

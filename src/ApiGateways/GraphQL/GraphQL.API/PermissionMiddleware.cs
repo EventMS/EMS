@@ -20,22 +20,31 @@ namespace EMS.GraphQL.API
 
         public async Task InvokeAsync(HttpContext context, PermissionService permissionClient)
         {
-            if (context.Request.Headers.ContainsKey("Authorization"))
+            if (context.Request.Headers.ContainsKey("X-Apollo-Tracing"))
             {
-                //If no cache do request
+                //Playground introspection query support
+                await _next(context);
+            }
+            else if (context.Request.Headers.ContainsKey("Authorization"))
+            {
                 try
                 {
                     var token = await permissionClient.GetFatToken();
                     context.Request.Headers.Remove("Authorization");
                     context.Request.Headers.Add("Authorization", "Bearer " + token);
+                    await _next(context);
                 }
                 catch (Exception e)
                 {
-                    Log.Information("Permission request failed");
+                    Log.Information("User did not exist");
                     Log.Information(e.Message);
+                    //Short circuit request because of invalid token. 
                 }
             }
-            await _next(context);
+            else
+            {
+                await _next(context); //Forwardning just in case. 
+            }
         }
     }
 }

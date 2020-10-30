@@ -24,5 +24,8 @@ namespace EMS.Permission_Services.API.GraphQlQueries
         public IQueryable<Role> InstructorInClub(Guid clubId) =>
             _context.Roles.Where(role => role.ClubId == clubId && role.UserRole == "Instructor").AsQueryable();
 
+        public IQueryable<Role> PermissionsInClub(Guid clubId) =>
+            _context.Roles.Where(role => role.ClubId == clubId).AsQueryable();
+
     }
 }
