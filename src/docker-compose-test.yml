@@ -1,0 +1,137 @@
+version: '3.4'
+
+services:
+
+  #seq:
+  #  image: datalust/seq:latest
+
+  sqldatatest:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+
+  identity-api:
+    image: ${REGISTRY:-eventms}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Identity/Identity.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - rabbitmq
+
+  club-api:
+    image: ${REGISTRY:-eventms}/club.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Club/Club.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - rabbitmq
+
+  permission-api:
+    image: ${REGISTRY:-eventms}/permission.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Permission/Permission.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+  subscription-api:
+    image: ${REGISTRY:-eventms}/subscription.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Subscription/Subscription.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+  clubmember-api:
+    image: ${REGISTRY:-eventms}/clubmember.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/ClubMember/ClubMember.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+  room-api:
+    image: ${REGISTRY:-eventms}/room.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Room/Room.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+  event-api:
+    image: ${REGISTRY:-eventms}/event.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Event/Event.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+  eventparticipant-api:
+    image: ${REGISTRY:-eventms}/eventparticipant.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/EventParticipant/EventParticipant.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+  paymentwebhook-api:
+    image: ${REGISTRY:-eventms}/paymentwebhook.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/PaymentWebhook/PaymentWebhook.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+  websocket-api:
+    image: ${REGISTRY:-eventms}/websocket.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/Websocket/Websocket.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+
+  eventverification-api:
+    image: ${REGISTRY:-eventms}/eventverification.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Services/EventVerification/EventVerification.API/Dockerfile
+    depends_on:
+      - sqldatatest
+      - identity-api
+      - rabbitmq
+
+  graphql-api:
+    image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: ApiGateways/GraphQL/GraphQL.API/Dockerfile
+    depends_on:
+      - identity-api
+      - club-api
+      - permission-api
+      - subscription-api
+      - clubmember-api
+      - room-api
+      - eventparticipant-api
+      - event-api
+      - eventverification-api
