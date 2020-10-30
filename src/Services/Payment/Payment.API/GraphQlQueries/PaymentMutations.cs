@@ -44,43 +44,43 @@ namespace EMS.Payment_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<PaymentIntentResponse> SignUpForEvent(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
         {
-            var e = await _context.Events.FindOrThrowAsync(eventId);
-            var subscriptionId = currentUser.ClubPermissions?.Find(club => club.ClubId == e.ClubId)?.SubscriptionId;   
-            
-            if(subscriptionId == null && e.PublicPrice != null)
+            var price = await CalculateEventPriceForUserAsync(eventId, currentUser);
+            if (price == null)
             {
-                var clientSecret = _stripeService.SignUpToEvent(e.PublicPrice.Value, currentUser.UserId, eventId);
-                return new PaymentIntentResponse()
-                {
-                    ClientSecret = clientSecret,
-                    Price = e.PublicPrice.Value
-                };
+                throw new QueryException(ErrorBuilder.New()
+                        .SetMessage("Price is missing unexpectedly")
+                        .SetCode("ID_UNKNOWN")
+                        .Build());
             }
+            var clientSecret = _stripeService.SignUpToEvent(price.Value, currentUser.UserId, eventId);
+            return new PaymentIntentResponse()
+            {
+                ClientSecret = clientSecret,
+                Price = price.Value
+            };
+        }
+
+        [HotChocolate.AspNetCore.Authorization.Authorize]
+        public async Task<float?> CalculateEventPriceForUserAsync(Guid eventId, [CurrentUserGlobalState] CurrentUser currentUser)
+        {
+            var e = await _context.Events.FindOrThrowAsync(eventId);
+            var clubPermission = currentUser.ClubPermissions?.Find(club => club.ClubId == e.ClubId);
+            if (clubPermission != null && clubPermission.UserRole == "Admin")
+            {
+                return 0;
+            }
+            var subscriptionId = clubPermission?.SubscriptionId;
+
 
             if (subscriptionId == null)
             {
-                throw new QueryException(ErrorBuilder.New()
-                    .SetMessage("You do not have membership in the club, and the event is private")
-                    .SetCode("ID_UNKNOWN")
-                    .Build());
+                return e.PublicPrice;
             }
             else
             {
                 var ep = await _context.EventPrices.FindAsync(e.EventId, subscriptionId.Value);
                 var price = ep?.Price ?? e.PublicPrice;
-                if (price == null)
-                {
-                    throw new QueryException(ErrorBuilder.New()
-                        .SetMessage("Price is bad unexpectedly")
-                        .SetCode("ID_UNKNOWN")
-                        .Build());
-                }
-                var clientSecret = _stripeService.SignUpToEvent(price.Value, currentUser.UserId, eventId);
-                return new PaymentIntentResponse()
-                {
-                    ClientSecret = clientSecret,
-                    Price = price.Value
-                };
+                return price;
             }
         }
     }

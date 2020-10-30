@@ -26,15 +26,8 @@ namespace EMS.Event_Services.API.Events
             var subscription = _context.Subscriptions.Find(context.Message.ClubSubscriptionId);
             if (subscription == null)
             {
-                if(context.Message.ReferenceId == null)
+                if(context.Message.ReferenceId != null)
                 {
-                    var count = _context.Subscriptions.Count(sub => sub.ClubId == context.Message.ClubId); //There are just one if no other is specified
-                    if(count > 1)
-                    {
-                        Log.Information("Could not find a reference ID unexpectedly");                    
-                        return;
-                    }
-                } else {
                     foreach (var messageEventPrice in _context.EventPrices
                         .Where(evtPrice => evtPrice.ClubSubscriptionId == context.Message.ReferenceId).ToList())
                     {

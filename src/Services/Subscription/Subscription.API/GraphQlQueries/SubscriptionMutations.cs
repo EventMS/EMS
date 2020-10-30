@@ -42,7 +42,7 @@ namespace EMS.Subscription_Services.API.GraphQlQueries
             if(request.ReferenceId == null || request.ReferenceId == Guid.Empty)
             {
                 var numberOfSubs = _context.ClubSubscriptions.Count(clubSub => clubSub.ClubId == request.ClubId);
-                if(numberOfSubs > 1)
+                if(numberOfSubs > 0)
                 {
                     throw new QueryException("You must enter reference ID, when you have other subscriptions");
                 }

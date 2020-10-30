@@ -38,7 +38,7 @@ namespace EMS.TemplateWebHost.Customization
             {
                 throw new QueryException(
                     ErrorBuilder.New()
-                        .SetMessage("The provided id is unknown.")
+                        .SetMessage("The provided id is unknown for type: " + typeof(T))
                         .SetCode("ID_UNKNOWN")
                         .Build());
             }
