@@ -192,13 +192,12 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
             {
                 ClubId = latestClub.ClubId,
                 Name = name,
-                StartTime = "2021-01-01",
-                EndTime = "2021-01-02",
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddMilliseconds(1),
                 Description = "Test klub description",
                 PublicPrice = 10,
                 Locations = new List<string>()
                 {
-
                 },
                 EventPrices = new List<EventPriceRequestInput>()
                 {
