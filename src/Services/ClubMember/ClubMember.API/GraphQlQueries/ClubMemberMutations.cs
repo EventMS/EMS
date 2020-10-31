@@ -61,19 +61,5 @@ namespace EMS.ClubMember_Services.API.GraphQlQueries
 
             return item;
         }
-        /*
-        [HotChocolate.AspNetCore.Authorization.Authorize]
-        public async Task<ClubMember> DeleteClubMemberAsync(Guid userId, Guid clubId)
-        {
-            var item = await _context.ClubMembers.SingleOrThrowAsync(ci => ci.UserId == userId && ci.ClubId == clubId);
-            await IsAdminIn(item.ClubId);
-
-            _context.ClubMembers.Remove(item);
-
-            var @event = _mapper.Map<ClubMemberDeletedEvent>(item);
-            await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishEventAsync(@event);
-            return item;
-        }*/
     }
 }
