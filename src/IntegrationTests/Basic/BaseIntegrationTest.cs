@@ -192,8 +192,8 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
             {
                 ClubId = latestClub.ClubId,
                 Name = name,
-                StartTime = DateTime.Now,
-                EndTime = DateTime.Now.AddMilliseconds(1),
+                StartTime = DateTime.Now.ToString(),
+                EndTime = DateTime.Now.AddMilliseconds(1).ToString(),
                 Description = "Test klub description",
                 PublicPrice = 10,
                 Locations = new List<string>()
