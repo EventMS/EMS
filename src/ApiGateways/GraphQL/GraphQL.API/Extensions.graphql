@@ -67,4 +67,13 @@ extend type Event{
   userPrice: Float @delegate(schema: "paymentapi", path: "eventUserPrice(eventId : $fields:eventId)")
   club: Club
     @delegate(schema: "clubapi", path: "clubByID(clubId: $fields:clubId)")
+  participants: [EventVerification] @delegate(schema: "eventverificationapi", path: "participants(eventId: $fields:eventId)")
+}
+
+extend type EventPrice{
+  clubSubscription: ClubSubscription
+    @delegate(
+      schema: "subscriptionapi"
+      path: "clubSubscriptionByID(clubSubscriptionId: $fields:clubSubscriptionId)"
+    )
 }

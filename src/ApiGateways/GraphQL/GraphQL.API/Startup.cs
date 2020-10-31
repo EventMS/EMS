@@ -114,6 +114,7 @@ namespace EMS.GraphQL.API
                     builder.AddSchemaFromHttp(http.Replace("-",""));
                 }
                 builder.AddDocumentRewriter(RewriteDocument);
+                builder.AddTypeRewriter(DelegateTypes);
                 builder.AddExtensionsFromFile("./Extensions.graphql");
 
                 builder.AddExecutionConfiguration(b =>
@@ -134,6 +135,11 @@ namespace EMS.GraphQL.API
 
             services.AddGraphQLSubscriptions();
             return services;
+        }
+
+        private ITypeDefinitionNode DelegateTypes(ISchemaInfo s, ITypeDefinitionNode d)
+        {
+            return d;
         }
 
         private DocumentNode RewriteDocument(ISchemaInfo schema, DocumentNode definitionSchema)

@@ -18,5 +18,8 @@ namespace EMS.EventVerification_Services.API.GraphQlQueries
 
         public IQueryable<EventVerification> EventsForUser(Guid userId) => _context.EventVerifications.Where(eventVerification => eventVerification.UserId == userId).AsQueryable();
 
+
+        public IQueryable<EventVerification> Participants(Guid eventId) => _context.EventVerifications.Where(eventVerification => eventVerification.EventId == eventId).AsQueryable();
+
     }
 }
