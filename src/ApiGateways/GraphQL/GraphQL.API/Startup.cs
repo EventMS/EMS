@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using HotChocolate.Types;
@@ -21,6 +23,8 @@ using Serilog;
 using EMS.TemplateWebHost.Customization.Filters;
 using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.Stitching.Delegation;
+using HotChocolate.Stitching.Introspection;
+using HotChocolate.Types.Descriptors;
 using DirectiveLocation = HotChocolate.Types.DirectiveLocation;
 
 namespace EMS.GraphQL.API
@@ -100,6 +104,7 @@ namespace EMS.GraphQL.API
             }
         }
 
+
         public IServiceCollection AddGraphQlServices(IServiceCollection services)
         {
             services.AddDataLoaderRegistry();
@@ -114,9 +119,10 @@ namespace EMS.GraphQL.API
                     builder.AddSchemaFromHttp(http.Replace("-",""));
                 }
                 builder.AddDocumentRewriter(RewriteDocument);
-                builder.AddTypeRewriter(DelegateTypes);
+                builder.AddMergedDocumentRewriter(new MergedDocumenRewriter()
+                    .AddExtension("club", "clubByID", "clubId")
+                    .MergedDocumentRewrite);
                 builder.AddExtensionsFromFile("./Extensions.graphql");
-
                 builder.AddExecutionConfiguration(b =>
                 {
                     b.AddErrorFilter(error => {
@@ -137,10 +143,6 @@ namespace EMS.GraphQL.API
             return services;
         }
 
-        private ITypeDefinitionNode DelegateTypes(ISchemaInfo s, ITypeDefinitionNode d)
-        {
-            return d;
-        }
 
         private DocumentNode RewriteDocument(ISchemaInfo schema, DocumentNode definitionSchema)
         {
@@ -182,6 +184,5 @@ namespace EMS.GraphQL.API
         {
             return "GraphQL";
         }
-
     }
 }

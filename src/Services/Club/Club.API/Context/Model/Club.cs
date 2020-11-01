@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HotChocolate;
+using Serilog;
 using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 
 namespace EMS.Club_Service.API.Context.Model
 {
+    
     public class Club
     {
         public Guid ClubId { get; set; }
@@ -15,6 +17,7 @@ namespace EMS.Club_Service.API.Context.Model
         public string RegistrationNumber { get; set; }
         public string AccountNumber { get; set; }
         public string Address { get; set; }
+        [Delegate(Name = "test")]
         public Guid AdminId { get; set; }
     }
 }
