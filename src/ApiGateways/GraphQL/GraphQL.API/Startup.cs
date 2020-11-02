@@ -120,7 +120,7 @@ namespace EMS.GraphQL.API
                 }
                 builder.AddDocumentRewriter(RewriteDocument);
                 builder.AddMergedDocumentRewriter(new MergedDocumenRewriter()
-                    .AddExtension("club", "clubByID", "clubId")
+                    .AddExtension(new DelegateExtensionById("club", "clubByID", "clubId"))
                     .MergedDocumentRewrite);
                 builder.AddExtensionsFromFile("./Extensions.graphql");
                 builder.AddExecutionConfiguration(b =>
