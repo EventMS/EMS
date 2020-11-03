@@ -121,6 +121,19 @@ namespace EMS.GraphQL.API
                 builder.AddDocumentRewriter(RewriteDocument);
                 builder.AddMergedDocumentRewriter(new MergedDocumenRewriter()
                     .AddExtension(new DelegateExtensionById("club", "clubByID", "clubId"))
+                    .AddExtension(new DelegateExtensionById("clubSubscription", "clubSubscriptionByID", "clubSubscriptionId"))
+                    .AddExtension(new DelegateExtensionById("user", "user", "userId"))
+                    .AddExtension(new DelegateExtensionType("Club", "roomes", "roomsForClub", "clubId"))
+                    .AddExtension(new DelegateExtensionType("Club", "user", "user", "adminId"))
+                    .AddExtension(new DelegateExtensionType("Club", "instructors", "instructorInClub", "clubId"))
+                    .AddExtension(new DelegateExtensionType("Club", "events", "eventsForClub", "clubId"))
+                    .AddExtension(new DelegateExtensionType("identity_ApplicationUser", "permissions", "rolesForUserId", "id"))
+                    .AddExtension(new DelegateExtensionType("identity_ApplicationUser", "events", "eventsForUser", "id"))
+                    .AddExtension(new DelegateExtensionType("InstructorForEvent", "user", "user", "instructorId"))
+                    .AddExtension(new DelegateExtensionType("RoomEvent", "room", "roomById", "roomId"))
+                    .AddExtension(new DelegateExtensionType("Event", "userPrice", "eventUserPrice", "eventId"))
+                    .AddExtension(new DelegateExtensionType("Event", "participants", "participants", "eventId"))
+                    .AddExtension(new DelegateExtensionType("identity_ApplicationUser", "events", "eventsForUser", "id"))
                     .MergedDocumentRewrite);
                 builder.AddExtensionsFromFile("./Extensions.graphql");
                 builder.AddExecutionConfiguration(b =>
