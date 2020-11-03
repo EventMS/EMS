@@ -12,7 +12,7 @@ services:
     image: rabbitmq:3-management-alpine
 
   identity-api:
-    image: ${REGISTRY:-eventms}/identity.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/identity.api:linux
     build:
       context: .
       dockerfile: Services/Identity/Identity.API/Dockerfile
@@ -21,7 +21,7 @@ services:
       - rabbitmq
 
   club-api:
-    image: ${REGISTRY:-eventms}/club.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/club.api:linux
     build:
       context: .
       dockerfile: Services/Club/Club.API/Dockerfile
@@ -30,7 +30,7 @@ services:
       - rabbitmq
 
   permission-api:
-    image: ${REGISTRY:-eventms}/permission.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/permission.api:linux
     build:
       context: .
       dockerfile: Services/Permission/Permission.API/Dockerfile
@@ -40,7 +40,7 @@ services:
       - rabbitmq
 
   subscription-api:
-    image: ${REGISTRY:-eventms}/subscription.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/subscription.api:linux
     build:
       context: .
       dockerfile: Services/Subscription/Subscription.API/Dockerfile
@@ -50,7 +50,7 @@ services:
       - rabbitmq
 
   clubmember-api:
-    image: ${REGISTRY:-eventms}/clubmember.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/clubmember.api:linux
     build:
       context: .
       dockerfile: Services/ClubMember/ClubMember.API/Dockerfile
@@ -60,7 +60,7 @@ services:
       - rabbitmq
 
   room-api:
-    image: ${REGISTRY:-eventms}/room.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/room.api:linux
     build:
       context: .
       dockerfile: Services/Room/Room.API/Dockerfile
@@ -70,7 +70,7 @@ services:
       - rabbitmq
 
   event-api:
-    image: ${REGISTRY:-eventms}/event.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/event.api:linux
     build:
       context: .
       dockerfile: Services/Event/Event.API/Dockerfile
@@ -80,7 +80,7 @@ services:
       - rabbitmq
 
   eventparticipant-api:
-    image: ${REGISTRY:-eventms}/eventparticipant.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/eventparticipant.api:linux
     build:
       context: .
       dockerfile: Services/EventParticipant/EventParticipant.API/Dockerfile
@@ -90,7 +90,7 @@ services:
       - rabbitmq
 
   paymentwebhook-api:
-    image: ${REGISTRY:-eventms}/paymentwebhook.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/paymentwebhook.api:linux
     build:
       context: .
       dockerfile: Services/PaymentWebhook/PaymentWebhook.API/Dockerfile
@@ -100,7 +100,7 @@ services:
       - rabbitmq
 
   websocket-api:
-    image: ${REGISTRY:-eventms}/websocket.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/websocket.api:linux
     build:
       context: .
       dockerfile: Services/Websocket/Websocket.API/Dockerfile
@@ -110,7 +110,7 @@ services:
       - rabbitmq
 
   payment-api:
-    image: ${REGISTRY:-eventms}/payment.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/payment.api:linux
     build:
       context: .
       dockerfile: Services/Payment/Payment.API/Dockerfile
@@ -120,7 +120,7 @@ services:
       - rabbitmq
 
   eventverification-api:
-    image: ${REGISTRY:-eventms}/eventverification.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/eventverification.api:linux
     build:
       context: .
       dockerfile: Services/EventVerification/EventVerification.API/Dockerfile
@@ -130,7 +130,7 @@ services:
       - rabbitmq
 
   graphql-api:
-    image: ${REGISTRY:-eventms}/graphql.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: eventms/graphql.api:linux
     build:
       context: .
       dockerfile: ApiGateways/GraphQL/GraphQL.API/Dockerfile
