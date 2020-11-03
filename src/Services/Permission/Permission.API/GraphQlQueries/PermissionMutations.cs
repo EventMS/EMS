@@ -11,7 +11,6 @@ using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Stripe;
 
 namespace EMS.Permission_Services.API.GraphQlQueries
 {

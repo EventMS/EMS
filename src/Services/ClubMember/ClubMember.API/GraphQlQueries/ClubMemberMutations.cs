@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Events;
 using HotChocolate;
-using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 using EMS.ClubMember_Services.API.Context;
 using EMS.ClubMember_Services.API.Context.Model;

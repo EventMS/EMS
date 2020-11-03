@@ -20,13 +20,14 @@ namespace EMS.TemplateWebHost.Customization.OutboxService
 
         public IServiceProvider Services { get; }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation(
                 "Consume Scoped Service Hosted Service running.");
 
             _timer = new Timer(DoWork, stoppingToken, TimeSpan.FromSeconds(60),
                 TimeSpan.FromSeconds(60));
+            return Task.CompletedTask;
         }
 
         

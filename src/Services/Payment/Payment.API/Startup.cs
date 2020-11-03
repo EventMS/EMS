@@ -1,6 +1,5 @@
 using EMS.Club_Service_Services.API;
 using HotChocolate;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using EMS.Payment_Services.API.Context;
 using EMS.Payment_Services.API.GraphQlQueries;

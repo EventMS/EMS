@@ -62,11 +62,9 @@
     <PackageReference Include="Serilog.Sinks.Http" Version="5.2.0" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="4.1.0-dev-00166" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
-    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.4.0-beta-24913-02" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventLogEF\EventLogEF.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\WebHostCustomization\WebHost.Customization\TemplateWebHost.Customization.csproj" />
   </ItemGroup>
 

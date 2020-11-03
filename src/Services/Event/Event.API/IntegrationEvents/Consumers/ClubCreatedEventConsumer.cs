@@ -11,8 +11,6 @@ using EMS.Events;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Newtonsoft.Json;
-using Serilog;
 using TemplateWebHost.Customization.BasicConsumers;
 
 namespace EMS.Event_Services.API.Events

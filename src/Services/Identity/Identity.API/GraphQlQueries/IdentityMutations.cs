@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using EMS.TemplateWebHost.Customization.EventService;
-using Stripe;
 using Event = EMS.BuildingBlocks.EventLogEF.Event;
 using EMS.Identity_Services.API.GraphQlQueries;
 

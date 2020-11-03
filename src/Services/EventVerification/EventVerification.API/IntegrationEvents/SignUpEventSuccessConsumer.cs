@@ -6,7 +6,6 @@ using EMS.EventVerification_Services.API.Context;
 using EMS.EventVerification_Services.API.Context.Model;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace EMS.EventVerification_Services.API.Events
 {

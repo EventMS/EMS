@@ -1,8 +1,6 @@
 using EMS.BuildingBlocks.EventLogEF;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using EMS.Payment_Services.API.Context;
 using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.Settings;

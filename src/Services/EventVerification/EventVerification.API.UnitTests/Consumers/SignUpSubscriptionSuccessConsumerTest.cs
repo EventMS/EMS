@@ -8,7 +8,6 @@ using EMS.EventVerification_Services.API.Events;
 using EMS.SharedTesting.Factories;
 using EMS.SharedTesting.Helper;
 using MassTransit;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace EMS.EventVerification_Services.API.UnitTests.Consumers

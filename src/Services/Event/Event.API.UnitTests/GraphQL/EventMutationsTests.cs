@@ -14,7 +14,6 @@ using EMS.Event_Services.API.Context.Model;
 using EMS.Event_Services.API.Controllers.Request;
 using EMS.Event_Services.API.GraphQlQueries;
 using EMS.Event_Services.API.Mapper;
-using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Event_Services.API.UnitTests.GraphQL

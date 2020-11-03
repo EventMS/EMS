@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Grpc.Core;
 using HotChocolate;
 
 namespace EMS.Event_Services.API.Context.Model

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
 using EMS.Events;
 using EMS.Permission_Services.API.Context;
 using EMS.Permission_Services.API.Context.Model;
@@ -15,7 +13,6 @@ using EMS.SharedTesting.Helper;
 using EMS.TemplateWebHost.Customization.StartUp;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using NSubstitute;
 using NUnit.Framework;
 
 

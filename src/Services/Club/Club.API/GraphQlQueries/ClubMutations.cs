@@ -14,7 +14,6 @@ using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace EMS.Club_Service.API.GraphQlQueries
 {

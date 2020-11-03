@@ -1,5 +1,4 @@
 using HotChocolate;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using EMS.EventVerification_Services.API.Context;
 using EMS.EventVerification_Services.API.GraphQlQueries;

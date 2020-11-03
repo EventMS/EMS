@@ -1,5 +1,4 @@
 using HotChocolate;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using EMS.Template1_Services.API.Context;
 using EMS.Template1_Services.API.GraphQlQueries;

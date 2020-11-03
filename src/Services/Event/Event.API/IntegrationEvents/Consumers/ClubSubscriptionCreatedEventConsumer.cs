@@ -7,7 +7,6 @@ using EMS.Event_Services.API.Context.Model;
 using EMS.Events;
 using MassTransit;
 using MassTransit.Courier.Contracts;
-using Serilog;
 
 namespace EMS.Event_Services.API.Events
 {

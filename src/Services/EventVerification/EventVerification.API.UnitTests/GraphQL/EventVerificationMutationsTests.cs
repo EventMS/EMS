@@ -1,11 +1,9 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Events;
 using EMS.SharedTesting.Helper;
-using NSubstitute;
 using NUnit.Framework;
 
 using EMS.EventVerification_Services.API.Context;

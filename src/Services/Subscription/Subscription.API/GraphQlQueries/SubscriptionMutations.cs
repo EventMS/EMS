@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using AutoMapper;
 using EMS.Events;
@@ -15,7 +14,6 @@ using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.EventService;
 using EMS.TemplateWebHost.Customization.StartUp;
 using HotChocolate.AspNetCore.Authorization;
-using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
 
 namespace EMS.Subscription_Services.API.GraphQlQueries

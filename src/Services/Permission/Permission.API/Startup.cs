@@ -1,5 +1,4 @@
 using HotChocolate;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using EMS.Permission_Services.API.Context;

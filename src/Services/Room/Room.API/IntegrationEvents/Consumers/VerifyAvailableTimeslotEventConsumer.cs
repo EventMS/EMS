@@ -8,7 +8,6 @@ using EMS.Room_Services.API.Context.Model;
 using EMS.TemplateWebHost.Customization.EventService;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace EMS.Room_Services.API.Events
 {

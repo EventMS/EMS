@@ -1,6 +1,5 @@
 
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace EMS.EventVerification_Services.API.Controllers.Request
 {

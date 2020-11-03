@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using EMS.Payment_Services.API.Context.Model;
-using Serilog;
 using Stripe;
 
 namespace EMS.Payment_Services.API

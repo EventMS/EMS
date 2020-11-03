@@ -5,7 +5,6 @@ using EMS.Events;
 using EMS.Payment_Services.API.Context;
 using EMS.Payment_Services.API.Context.Model;
 using MassTransit;
-using Serilog;
 
 namespace EMS.Payment_Services.API.Events
 {

@@ -1,7 +1,5 @@
-using System.Security.Claims;
 using System.Threading.Tasks;
 using EMS.Events;
-using HotChocolate.Server;
 using MassTransit;
 using Microsoft.AspNetCore.SignalR;
 using Serilog;

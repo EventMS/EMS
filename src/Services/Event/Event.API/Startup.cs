@@ -2,14 +2,12 @@ using System;
 using System.Linq;
 using AutoMapper.Internal;
 using HotChocolate;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.GraphQlQueries;
 using EMS.Event_Services.API.Events;
 using EMS.TemplateWebHost.Customization.StartUp;
 using MassTransit;
-using Serilog;
 using HotChocolate.Types;
 using EMS.Event_Services.API.Context.Model;
 
