@@ -1,0 +1,15 @@
+//Build images ('duck2412' needs to be replaced if we decide to use another account)
+docker build -t duck2412/itonk-ap2-gr2-templateservice:0.0.1 .
+
+//Push to docker hub (creates the repo if is does not exist)
+docker push duck2412/itonk-ap2-gr2-templateservice:0.0.1
+
+//Remove all dangling images (those tagged with <none>)
+docker rmi $(docker images -f "dangling=true" -q)
+
+//Run Rabbit locally when running projects from visual studio (run container and remove it when container is stopped using ctrl+c)
+docker run -t -i --rm -p 15672:15672 -p 5672:5672 --name rabbit-onk rabbitmq:3-management
+//Run Rabbit locally when running projects from visual studio (run container and detach)
+docker run -d -p 15672:15672 -p 5672:5672 --name rabbit-onk rabbitmq:3-management
+//Rabbit UI
+http://localhost:15672/#/

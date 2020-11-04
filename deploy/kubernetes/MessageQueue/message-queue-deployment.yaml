@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: message-queue
+    env: testing
+  name: message-queue
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: message-queue
+  template:
+    metadata:
+      labels:
+        app: message-queue
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: rabbitmq:3-management-alpine
+        name: rabbitmq
+        volumeMounts:
+        - name: rabbitmq-pv
+          mountPath: /var/lib/rabbitmq
+        resources: {}
+        ports: 
+          - name: admin  # Admin-panel: http://localhost:15672/#/ (guest:guest)
+            containerPort: 15672
+          - name: messages
+            containerPort: 5672
+      volumes:
+        - name: rabbitmq-pv
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc

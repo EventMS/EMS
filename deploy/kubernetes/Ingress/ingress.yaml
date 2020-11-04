@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: eventms
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: #itonk-ap2-gr2.dk -  Maybe localhost or eventms.dk -> Would require change of host file. 
+    http:
+      paths:
+    #  - path: /stocktraderservice(/|$)(.*)
+     #   backend:
+     #     serviceName: stocktraderservice
+       #   servicePort: 80
+      - path: /api(/|$)(.*)
+        backend:
+          serviceName: graphqlapi
+          servicePort: 80   
+      - path: /rabbitmq(/|$)(.*) #admin rabbit
+        backend:
+          serviceName: message-queue
+          servicePort: 15672       

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: message-queue
+    env: testing
+  name: message-queue
+  namespace: eventms
+spec:
+  ports:
+  - name: admin
+    port: 15672
+    protocol: TCP
+    targetPort: admin
+  - name: messages
+    port: 5672
+    protocol: TCP
+    targetPort: messages
+  selector:
+    app: message-queue
+  type: ClusterIP

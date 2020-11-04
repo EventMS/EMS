@@ -129,6 +129,13 @@ services:
       - identity-api
       - rabbitmq
 
+  frontend:
+    image: eventms/frontend:dev
+    depends_on:
+      - sqldata
+      - graphql-api
+      - rabbitmq
+
   graphql-api:
     image: eventms/graphql.api:linux
     build:

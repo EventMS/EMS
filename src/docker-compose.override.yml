@@ -124,6 +124,8 @@ services:
     ports:
       - "5114:80"
 
+  
+
   eventverification-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -131,6 +133,10 @@ services:
       - EventBusConnection=rabbitmq
     ports:
       - "5115:80"
+
+  frontend:
+    ports:
+      - "5116:80"
 
 volumes:
   ems-sqldata:
