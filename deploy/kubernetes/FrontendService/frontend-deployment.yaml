@@ -21,3 +21,6 @@ spec:
       containers:
       - image: eventms/frontend:dev
         name: frontendservice
+        env:
+          - name: apiUrl
+            value: "http://eventms.dk/api/"
