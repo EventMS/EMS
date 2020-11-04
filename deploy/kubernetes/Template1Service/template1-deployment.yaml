@@ -25,6 +25,6 @@ spec:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
           - name: ConnectionString
-            value: "Server=sqldata;Database=Services.template1Db;User Id=sa;Password=Pass@word"
+            value: "Server=eventms-database;Database=Services.template1Db;User Id=sa;Password=Pass@word"
           - name: EventBusConnection
             value: "rabbitmq"

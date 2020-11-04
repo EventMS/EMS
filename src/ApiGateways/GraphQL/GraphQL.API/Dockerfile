@@ -20,4 +20,5 @@ RUN dotnet publish "GraphQL.API.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=build /src/ApiGateways/GraphQL/GraphQL.API/Extensions.graphql /app
 ENTRYPOINT ["dotnet", "GraphQL.API.dll"]
