@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontendservice
+    env: testing
+  name: frontendservice
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontendservice
+  template:
+    metadata:
+      labels:
+        app: frontendservice
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/frontend:dev
+        name: frontendservice

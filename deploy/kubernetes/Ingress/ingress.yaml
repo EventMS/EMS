@@ -10,15 +10,11 @@ spec:
   - host: #itonk-ap2-gr2.dk -  Maybe localhost or eventms.dk -> Would require change of host file. 
     http:
       paths:
-    #  - path: /stocktraderservice(/|$)(.*)
-     #   backend:
-     #     serviceName: stocktraderservice
-       #   servicePort: 80
       - path: /api(/|$)(.*)
         pathType: Prefix
         backend:
           service:
-              name: graphqlapi
+              name: graphqlservice
               port:
                 number: 80   
       - path: /rabbitmq(/|$)(.*) #admin rabbit
@@ -28,3 +24,10 @@ spec:
                name: message-queue
                port:
                  number: 15672     
+     # - path: /(/|$)(.*)
+     #   pathType: Prefix
+     #   backend:
+      #    service:
+      #        name: frontendservice
+     #         port:
+      #          number: 80   
