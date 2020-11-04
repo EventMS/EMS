@@ -2,29 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: template1service
+    app: websocketservice
     env: testing
-  name: template1service
+  name: websocketservice
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: template1service
+      app: websocketservice
   template:
     metadata:
       labels:
-        app: template1service
+        app: websocketservice
         env: testing
       namespace: eventms
     spec:
       containers:
-      - image: eventms/template1.api:linux
-        name: template1service
+      - image: eventms/websocket.api:linux
+        name: websocketservice
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
           - name: ConnectionString
-            value: "Server=sqldata;Database=Services.template1Db;User Id=sa;Password=Pass@word"
+            value: "Server=sqldata;Database=Services.websocketDb;User Id=sa;Password=Pass@word"
           - name: EventBusConnection
             value: "rabbitmq"

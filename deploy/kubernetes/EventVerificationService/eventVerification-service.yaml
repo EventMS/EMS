@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: template1service
+    app: eventVerificationservice
     env: testing
-  name: template1service
+  name: eventVerificationservice
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: template1service
+    app: eventVerificationservice
   type: ClusterIP

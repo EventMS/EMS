@@ -2,29 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: template1service
+    app: eventParticipantservice
     env: testing
-  name: template1service
+  name: eventParticipantservice
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: template1service
+      app: eventParticipantservice
   template:
     metadata:
       labels:
-        app: template1service
+        app: eventParticipantservice
         env: testing
       namespace: eventms
     spec:
       containers:
-      - image: eventms/template1.api:linux
-        name: template1service
+      - image: eventms/eventParticipant.api:linux
+        name: eventParticipantservice
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
           - name: ConnectionString
-            value: "Server=sqldata;Database=Services.template1Db;User Id=sa;Password=Pass@word"
+            value: "Server=sqldata;Database=Services.eventParticipantDb;User Id=sa;Password=Pass@word"
           - name: EventBusConnection
             value: "rabbitmq"
