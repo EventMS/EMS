@@ -2,29 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: eventVerificationservice
+    app: eventverificationservice
     env: testing
-  name: eventVerificationservice
+  name: eventverificationservice
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eventVerificationservice
+      app: eventverificationservice
   template:
     metadata:
       labels:
-        app: eventVerificationservice
+        app: eventverificationservice
         env: testing
       namespace: eventms
     spec:
       containers:
-      - image: eventms/eventVerification.api:linux
-        name: eventVerificationservice
+      - image: eventms/eventverification.api:linux
+        name: eventverificationservice
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
           - name: ConnectionString
-            value: "Server=sqldata;Database=Services.eventVerificationDb;User Id=sa;Password=Pass@word"
+            value: "Server=sqldata;Database=Services.eventverificationDb;User Id=sa;Password=Pass@word"
           - name: EventBusConnection
             value: "rabbitmq"

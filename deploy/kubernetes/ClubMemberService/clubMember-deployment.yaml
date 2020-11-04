@@ -2,29 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: clubMemberservice
+    app: clubmemberservice
     env: testing
-  name: clubMemberservice
+  name: clubmemberservice
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: clubMemberservice
+      app: clubmemberservice
   template:
     metadata:
       labels:
-        app: clubMemberservice
+        app: clubmemberservice
         env: testing
       namespace: eventms
     spec:
       containers:
-      - image: eventms/clubMember.api:linux
-        name: clubMemberservice
+      - image: eventms/clubmember.api:linux
+        name: clubmemberservice
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
           - name: ConnectionString
-            value: "Server=sqldata;Database=Services.clubMemberDb;User Id=sa;Password=Pass@word"
+            value: "Server=sqldata;Database=Services.clubmemberDb;User Id=sa;Password=Pass@word"
           - name: EventBusConnection
             value: "rabbitmq"

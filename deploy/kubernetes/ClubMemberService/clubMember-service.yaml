@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: clubMemberservice
+    app: clubmemberservice
     env: testing
-  name: clubMemberservice
+  name: clubmemberservice
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: clubMemberservice
+    app: clubmemberservice
   type: ClusterIP

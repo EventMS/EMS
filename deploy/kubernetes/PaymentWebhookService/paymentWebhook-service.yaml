@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: paymentWebhookservice
+    app: paymentwebhookservice
     env: testing
-  name: paymentWebhookservice
+  name: paymentwebhookservice
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: paymentWebhookservice
+    app: paymentwebhookservice
   type: ClusterIP

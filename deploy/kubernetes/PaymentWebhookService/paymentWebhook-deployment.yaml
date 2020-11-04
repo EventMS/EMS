@@ -2,29 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: paymentWebhookservice
+    app: paymentwebhookservice
     env: testing
-  name: paymentWebhookservice
+  name: paymentwebhookservice
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: paymentWebhookservice
+      app: paymentwebhookservice
   template:
     metadata:
       labels:
-        app: paymentWebhookservice
+        app: paymentwebhookservice
         env: testing
       namespace: eventms
     spec:
       containers:
-      - image: eventms/paymentWebhook.api:linux
-        name: paymentWebhookservice
+      - image: eventms/paymentwebhook.api:linux
+        name: paymentwebhookservice
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
           - name: ConnectionString
-            value: "Server=sqldata;Database=Services.paymentWebhookDb;User Id=sa;Password=Pass@word"
+            value: "Server=sqldata;Database=Services.paymentwebhookDb;User Id=sa;Password=Pass@word"
           - name: EventBusConnection
             value: "rabbitmq"

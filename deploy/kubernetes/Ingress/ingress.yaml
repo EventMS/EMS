@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
@@ -15,10 +15,16 @@ spec:
      #     serviceName: stocktraderservice
        #   servicePort: 80
       - path: /api(/|$)(.*)
+        pathType: Prefix
         backend:
-          serviceName: graphqlapi
-          servicePort: 80   
+          service:
+              name: graphqlapi
+              port:
+                number: 80   
       - path: /rabbitmq(/|$)(.*) #admin rabbit
+        pathType: Prefix
         backend:
-          serviceName: message-queue
-          servicePort: 15672       
+            service: 
+               name: message-queue
+               port:
+                 number: 15672     
