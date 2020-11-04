@@ -29,4 +29,4 @@ spec:
           - name: EventBusConnection
             value: "rabbitmq"
           - name: Services
-            value: "identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api,permission-api,payment-api,eventverification-api"
+            value: "identityservice,clubservice,subscriptionservice,clubmemberservice,roomservice,eventservice,eventparticipantservice,permissionservice,paymentservice,eventverificationservice"
