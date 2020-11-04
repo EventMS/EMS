@@ -20,14 +20,14 @@ spec:
       - path: /rabbitmq(/|$)(.*) #admin rabbit
         pathType: Prefix
         backend:
-            service: 
-               name: message-queue
-               port:
-                 number: 15672     
-     # - path: /(/|$)(.*)
-     #   pathType: Prefix
-     #   backend:
-      #    service:
-      #        name: frontendservice
-     #         port:
-      #          number: 80   
+          service: 
+              name: message-queue
+              port:
+                number: 15672     
+      - path: /frontend(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service: 
+              name: frontendservice
+              port:
+                number: 80   

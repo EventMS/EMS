@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: rabbitmq
-    env: testing
-  name: rabbitmq
+    app: message-queue
+    env: production
+  name: message-queue
   namespace: eventms
 spec:
   ports:
@@ -17,5 +17,5 @@ spec:
     protocol: TCP
     targetPort: messages
   selector:
-    app: rabbitmq
+    app: message-queue
   type: ClusterIP

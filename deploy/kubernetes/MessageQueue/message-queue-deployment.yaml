@@ -2,24 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: rabbitmq
-    env: testing
-  name: rabbitmq
+    app: message-queue
+    env: production
+  name: message-queue
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rabbitmq
+      app: message-queue
   template:
     metadata:
       labels:
-        app: rabbitmq
-        env: testing
+        app: message-queue
+        env: production
       namespace: eventms
     spec:
       containers:
-      - image: rabbitmq:3-management-alpine
+      - image: rabbitmq:3-management
         name: rabbitmq
         volumeMounts:
         - name: rabbitmq-pv

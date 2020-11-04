@@ -27,4 +27,4 @@ spec:
           - name: ConnectionString
             value: "Server=eventms-database;Database=Services.eventparticipantDb;User Id=sa;Password=Pass@word"
           - name: EventBusConnection
-            value: "rabbitmq"
+            value: "message-queue"
