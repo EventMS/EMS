@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: subscriptionservice
+    app: subscription-api
     env: testing
-  name: subscriptionservice
+  name: subscription-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: subscriptionservice
+      app: subscription-api
   template:
     metadata:
       labels:
-        app: subscriptionservice
+        app: subscription-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/subscription.api:linux
-        name: subscriptionservice
+        name: subscription-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

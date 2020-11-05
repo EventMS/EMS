@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: clubservice
+    app: club-api
     env: testing
-  name: clubservice
+  name: club-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: clubservice
+      app: club-api
   template:
     metadata:
       labels:
-        app: clubservice
+        app: club-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/club.api:linux
-        name: clubservice
+        name: club-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

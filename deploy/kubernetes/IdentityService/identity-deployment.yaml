@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: identityservice
+    app: identity-api
     env: testing
-  name: identityservice
+  name: identity-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: identityservice
+      app: identity-api
   template:
     metadata:
       labels:
-        app: identityservice
+        app: identity-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/identity.api:linux
-        name: identityservice
+        name: identity-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

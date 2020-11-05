@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: paymentservice
+    app: payment-api
     env: testing
-  name: paymentservice
+  name: payment-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: paymentservice
+      app: payment-api
   template:
     metadata:
       labels:
-        app: paymentservice
+        app: payment-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/payment.api:linux
-        name: paymentservice
+        name: payment-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

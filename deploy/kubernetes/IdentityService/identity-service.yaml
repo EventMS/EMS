@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: identityservice
+    app: identity-api
     env: testing
-  name: identityservice
+  name: identity-api
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: identityservice
+    app: identity-api
   type: ClusterIP

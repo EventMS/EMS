@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: roomservice
+    app: room-api
     env: testing
-  name: roomservice
+  name: room-api
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: roomservice
+    app: room-api
   type: ClusterIP

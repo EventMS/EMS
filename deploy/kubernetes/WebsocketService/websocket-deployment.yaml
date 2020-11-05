@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: websocketservice
+    app: websocket-api
     env: testing
-  name: websocketservice
+  name: websocket-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: websocketservice
+      app: websocket-api
   template:
     metadata:
       labels:
-        app: websocketservice
+        app: websocket-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/websocket.api:linux
-        name: websocketservice
+        name: websocket-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
