@@ -28,5 +28,7 @@ spec:
             value: "Server=sqldata;Database=Services.graphqlDb;User Id=sa;Password=Pass@word"
           - name: EventBusConnection
             value: "rabbitmq"
+          - name: PermissionUrl
+            value: "http://permissionservice"
           - name: Services
             value: "identityservice,clubservice,subscriptionservice,clubmemberservice,roomservice,eventservice,eventparticipantservice,permissionservice,paymentservice,eventverificationservice"

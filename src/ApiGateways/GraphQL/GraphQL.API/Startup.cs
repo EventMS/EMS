@@ -54,7 +54,7 @@ namespace EMS.GraphQL.API
                     client.DefaultRequestHeaders.Authorization =
                         AuthenticationHeaderValue.Parse(context.Request.Headers["Authorization"].ToString());
                 }
-                client.BaseAddress = new Uri("http://permission-api");
+                client.BaseAddress = new Uri(Configuration.GetValue<string>("PermissionUrl"));
             });
             return services;
         }
@@ -148,7 +148,9 @@ namespace EMS.GraphQL.API
             if (schemaName.Contains("api"))
             {
                 schemaName = schemaName.Substring(0, schemaName.Length - 3);
-            }
+            }else if(schemaName.Contains("service")){
+				schemaName = schemaName.Substring(0, schemaName.Length - 7);
+			}
 
             foreach (var definition in definitionSchema.Definitions)
             {

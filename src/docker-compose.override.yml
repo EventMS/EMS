@@ -40,6 +40,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.GraphQLDb;User Id=sa;Password=Pass@word
       - EventBusConnection=rabbitmq
+      - PermissionUrl=http://permission-api
       - services=identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api,permission-api,payment-api,eventverification-api
     ports:
       - "5102:80"
