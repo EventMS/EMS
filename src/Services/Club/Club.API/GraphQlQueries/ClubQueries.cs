@@ -19,7 +19,7 @@ namespace EMS.Club_Service.API.GraphQlQueries
 
         public IQueryable<Club> Clubs => _context.Clubs.AsQueryable();
 
-        public IQueryable<Club> MyClubs([CurrentUserGlobalState] CurrentUser currentUser)
+        public IQueryable<Club> MyAdminClubs([CurrentUserGlobalState] CurrentUser currentUser)
         {
             return _context.Clubs.Where(club => club.AdminId == currentUser.UserId).AsQueryable();
         }

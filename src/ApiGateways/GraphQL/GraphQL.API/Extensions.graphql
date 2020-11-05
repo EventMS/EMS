@@ -77,3 +77,7 @@ extend type EventPrice{
       path: "clubSubscriptionByID(clubSubscriptionId: $fields:clubSubscriptionId)"
     )
 }
+
+extend type EventParticipant{
+  event: Event @delegate(schema: "eventapi", path: "getEvent(eventId: $fields:eventId)")
+}
