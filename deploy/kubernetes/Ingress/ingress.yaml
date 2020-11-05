@@ -10,18 +10,18 @@ spec:
   - host: eventms.dk
     http:
       paths:
+      - path: /api/websocket(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+              name: websocket-api
+              port:
+                number: 80   
       - path: /api(/|$)(.*)
         pathType: Prefix
         backend:
           service:
               name: graphqlservice
-              port:
-                number: 80   
-      - path: /api/websocket(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-              name: websocketservice
               port:
                 number: 80   
       - path: /rabbitmq(/|$)(.*) #admin rabbit
