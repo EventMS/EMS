@@ -3,8 +3,11 @@ steps:
 # deploy container image to GKE
 
 - name: "gcr.io/cloud-builders/gke-deploy"
+  env:
+  - 'TEST="Test"' 
+   
   args:
   - run
-  - --filename=kubernetes/TemplateService/
+  - --filename=kubernetes/FrontendService/
   - --location=us-central1-c
   - --cluster=my-first-cluster-1

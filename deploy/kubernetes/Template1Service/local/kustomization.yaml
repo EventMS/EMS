@@ -1,0 +1,5 @@
+---
+resources:
+- template1-deployment.yaml
+- template1-service.yaml
+- config.yaml

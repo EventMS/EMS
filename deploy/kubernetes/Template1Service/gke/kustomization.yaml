@@ -1,0 +1,6 @@
+---
+bases:
+- ../local
+patchesStrategicMerge:
+- configmap.yml
+- deployment.yml

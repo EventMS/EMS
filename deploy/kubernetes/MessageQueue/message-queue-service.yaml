@@ -18,4 +18,4 @@ spec:
     targetPort: messages
   selector:
     app: message-queue
-  type: ClusterIP
+  type: NodePort
