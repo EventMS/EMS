@@ -1,0 +1,4 @@
+---
+resources:
+- room-deployment.yaml
+- room-service.yaml

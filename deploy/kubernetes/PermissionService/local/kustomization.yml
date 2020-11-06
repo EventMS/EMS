@@ -1,0 +1,4 @@
+---
+resources:
+- permission-deployment.yaml
+- permission-service.yaml

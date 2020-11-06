@@ -2,5 +2,4 @@
 bases:
 - ../local
 patchesStrategicMerge:
-- configmap.yml
-- deployment.yml
+- payment-deployment.yaml

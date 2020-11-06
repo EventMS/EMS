@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: graphqlservice
+    env: testing
+  name: graphqlservice
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graphqlservice
+  template:
+    metadata:
+      labels:
+        app: graphqlservice
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/graphql.api:linux
+        name: graphqlservice
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=sqldata;Database=Services.graphqlDb;User Id=sa;Password=Pass@word"
+          - name: EventBusConnection
+            value: "rabbitmq"
+          - name: PermissionUrl
+            value: "http://permissionservice"
+          - name: Services
+            value: "club-api"

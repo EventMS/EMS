@@ -1,0 +1,5 @@
+---
+bases:
+- ../local
+patchesStrategicMerge:
+- template1-deployment.yaml

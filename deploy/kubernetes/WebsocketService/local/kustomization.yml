@@ -1,0 +1,4 @@
+---
+resources:
+- websocket-deployment.yaml
+- websocket-service.yaml

@@ -1,0 +1,4 @@
+---
+resources:
+- eventparticipant-deployment.yaml
+- eventparticipant-service.yaml

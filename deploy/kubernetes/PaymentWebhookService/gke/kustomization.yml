@@ -1,0 +1,5 @@
+---
+bases:
+- ../local
+patchesStrategicMerge:
+- paymentwebhook-deployment.yaml

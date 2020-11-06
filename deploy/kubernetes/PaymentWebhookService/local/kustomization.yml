@@ -1,0 +1,4 @@
+---
+resources:
+- paymentwebhook-deployment.yaml
+- paymentwebhook-service.yaml

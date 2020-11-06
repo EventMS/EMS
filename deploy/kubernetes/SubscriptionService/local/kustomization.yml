@@ -1,0 +1,4 @@
+---
+resources:
+- subscription-deployment.yaml
+- subscription-service.yaml

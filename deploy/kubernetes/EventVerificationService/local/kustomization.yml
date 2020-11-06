@@ -1,0 +1,4 @@
+---
+resources:
+- eventverification-deployment.yaml
+- eventverification-service.yaml
