@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: roomservice
+    app: room-api
     env: testing
-  name: roomservice
+  name: room-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: roomservice
+      app: room-api
   template:
     metadata:
       labels:
-        app: roomservice
+        app: room-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/room.api:linux
-        name: roomservice
+        name: room-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

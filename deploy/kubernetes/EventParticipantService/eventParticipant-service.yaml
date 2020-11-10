@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: eventparticipantservice
+    app: eventparticipant-api
     env: testing
-  name: eventparticipantservice
+  name: eventparticipant-api
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: eventparticipantservice
+    app: eventparticipant-api
   type: ClusterIP

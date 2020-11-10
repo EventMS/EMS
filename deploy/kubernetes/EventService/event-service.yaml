@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: eventservice
+    app: event-api
     env: testing
-  name: eventservice
+  name: event-api
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: eventservice
+    app: event-api
   type: ClusterIP

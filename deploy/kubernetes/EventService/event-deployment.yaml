@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: eventservice
+    app: event-api
     env: testing
-  name: eventservice
+  name: event-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eventservice
+      app: event-api
   template:
     metadata:
       labels:
-        app: eventservice
+        app: event-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/event.api:linux
-        name: eventservice
+        name: event-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

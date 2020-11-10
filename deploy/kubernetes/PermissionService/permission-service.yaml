@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: permissionservice
+    app: permission-api
     env: testing
-  name: permissionservice
+  name: permission-api
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: permissionservice
+    app: permission-api
   type: ClusterIP

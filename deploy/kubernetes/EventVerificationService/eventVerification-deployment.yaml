@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: eventverificationservice
+    app: eventverification-api
     env: testing
-  name: eventverificationservice
+  name: eventverification-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eventverificationservice
+      app: eventverification-api
   template:
     metadata:
       labels:
-        app: eventverificationservice
+        app: eventverification-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/eventverification.api:linux
-        name: eventverificationservice
+        name: eventverification-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: websocketservice
+    app: websocket-api
     env: testing
-  name: websocketservice
+  name: websocket-api
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: websocketservice
+    app: websocket-api
   type: ClusterIP

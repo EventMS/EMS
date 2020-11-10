@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: permissionservice
+    app: permission-api
     env: testing
-  name: permissionservice
+  name: permission-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: permissionservice
+      app: permission-api
   template:
     metadata:
       labels:
-        app: permissionservice
+        app: permission-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/permission.api:linux
-        name: permissionservice
+        name: permission-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

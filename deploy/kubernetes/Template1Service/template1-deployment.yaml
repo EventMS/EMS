@@ -2,25 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: template1service
+    app: template1-api
     env: testing
-  name: template1service
+  name: template1-api
   namespace: eventms
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: template1service
+      app: template1-api
   template:
     metadata:
       labels:
-        app: template1service
+        app: template1-api
         env: testing
       namespace: eventms
     spec:
       containers:
       - image: eventms/template1.api:linux
-        name: template1service
+        name: template1-api
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
