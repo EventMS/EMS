@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: frontendservice
+    app: template1-api
     env: testing
-  name: frontendservice
+  name: template1-api
   namespace: eventms
 spec:
   ports:
@@ -12,5 +12,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: frontendservice
-  type: LoadBalancer
+    app: template1-api
+  type: NodePort

@@ -1,5 +1,0 @@
----
-bases:
-- ../local
-patchesStrategicMerge:
-- identity-deployment.yaml

@@ -1,4 +1,0 @@
----
-resources:
-- event-deployment.yaml
-- event-service.yaml

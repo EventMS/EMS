@@ -1,5 +1,0 @@
----
-bases:
-- ../local
-patchesStrategicMerge:
-- subscription-deployment.yaml

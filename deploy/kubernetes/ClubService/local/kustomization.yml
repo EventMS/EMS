@@ -1,4 +1,0 @@
----
-resources:
-- club-deployment.yaml
-- club-service.yaml

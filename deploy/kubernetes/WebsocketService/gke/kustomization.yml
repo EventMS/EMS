@@ -1,5 +1,0 @@
----
-bases:
-- ../local
-patchesStrategicMerge:
-- websocket-deployment.yaml

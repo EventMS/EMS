@@ -1,4 +1,0 @@
----
-resources:
-- graphql-deployment.yaml
-- graphql-service.yaml

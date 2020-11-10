@@ -1,5 +1,0 @@
----
-bases:
-- ../local
-patchesStrategicMerge:
-- permission-deployment.yaml
