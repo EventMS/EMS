@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EMS.Club_Service_Services.API;
 using EMS.Event_Services.API.Context;
 using EMS.Event_Services.API.Context.Model;
 using Microsoft.EntityFrameworkCore;
@@ -39,5 +40,10 @@ namespace EMS.Event_Services.API.GraphQlQueries
         public async Task<Event> getEvent(Guid eventId) => await _context.Events.Include(e => e.Locations)
             .Include(e => e.EventPrices)
             .Include(e => e.InstructorForEvents).FirstOrDefaultAsync(e => e.EventId == eventId);
+
+        public IQueryable<Event> MyInstructorEvents([CurrentUserGlobalState] CurrentUser user)
+        {
+            return _context.Events.Where(ev => ev.InstructorForEvents.Any(instructor => instructor.InstructorId == user.UserId)).AsQueryable();
+        }
     }
 }
