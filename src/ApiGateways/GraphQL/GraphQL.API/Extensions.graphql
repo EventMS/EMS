@@ -63,14 +63,27 @@ extend type RoomEvent {
     @delegate(schema: "roomapi", path: "roomById(roomId: $fields:roomId)")
 }
 
-extend type Event{
-  userPrice: Float @delegate(schema: "paymentapi", path: "eventUserPrice(eventId : $fields:eventId)")
-  club: Club
-    @delegate(schema: "clubapi", path: "clubByID(clubId: $fields:clubId)")
-  participants: [EventVerification] @delegate(schema: "eventverificationapi", path: "participants(eventId: $fields:eventId)")
+extend type EventVerification {
+  user: identity_ApplicationUser
+    @delegate(schema: "identityapi", path: "user(id: $fields:userId)")
 }
 
-extend type EventPrice{
+extend type Event {
+  userPrice: Float
+    @delegate(
+      schema: "paymentapi"
+      path: "eventUserPrice(eventId : $fields:eventId)"
+    )
+  club: Club
+    @delegate(schema: "clubapi", path: "clubByID(clubId: $fields:clubId)")
+  participants: [EventVerification]
+    @delegate(
+      schema: "eventverificationapi"
+      path: "participants(eventId: $fields:eventId)"
+    )
+}
+
+extend type EventPrice {
   clubSubscription: ClubSubscription
     @delegate(
       schema: "subscriptionapi"
