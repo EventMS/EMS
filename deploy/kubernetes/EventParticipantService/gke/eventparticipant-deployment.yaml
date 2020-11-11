@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/eventparticipant.api:linux
         name: eventparticipant-api
+        imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

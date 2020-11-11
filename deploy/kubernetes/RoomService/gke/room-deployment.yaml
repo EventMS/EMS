@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/room.api:linux
         name: room-api
+        imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

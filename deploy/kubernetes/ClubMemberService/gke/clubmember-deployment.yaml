@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/clubmember.api:linux
         name: clubmember-api
+        imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

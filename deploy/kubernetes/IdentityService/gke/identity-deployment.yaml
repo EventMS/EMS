@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/identity.api:linux
         name: identity-api
+        imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

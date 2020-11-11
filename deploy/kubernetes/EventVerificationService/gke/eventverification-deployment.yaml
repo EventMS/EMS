@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/eventverification.api:linux
         name: eventverification-api
+        imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/paymentwebhook.api:linux
         name: paymentwebhook-api
+        imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

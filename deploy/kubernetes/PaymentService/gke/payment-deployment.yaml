@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/payment.api:linux
         name: payment-api
+        imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"

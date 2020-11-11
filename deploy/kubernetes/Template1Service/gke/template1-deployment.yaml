@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/template1.api:linux
         name: template1-api
+        imagePullPolicy: Always
         env:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Development"
