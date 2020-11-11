@@ -29,3 +29,5 @@ spec:
             value: "Server=172.20.192.3;Database=Services.websocketDb;User Id=sqlserver;Password=Pass@word"
           - name: EventBusConnection
             value: "message-queue"
+          - name: PATH_BASE
+            value: /api
