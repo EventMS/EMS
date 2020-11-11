@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: websocket-api
+    env: testing
+  name: websocket-api
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: websocket-api
+  template:
+    metadata:
+      labels:
+        app: websocket-api
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/websocket.api:linux
+        name: websocket-api
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=172.20.192.3;Database=Services.websocketDb;User Id=sqlserver;Password=Pass@word"
+          - name: EventBusConnection
+            value: "message-queue"

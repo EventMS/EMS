@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: eventparticipant-api
+    env: testing
+  name: eventparticipant-api
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventparticipant-api
+  template:
+    metadata:
+      labels:
+        app: eventparticipant-api
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/eventparticipant.api:linux
+        name: eventparticipant-api
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=172.20.192.3;Database=Services.eventparticipantDb;User Id=sqlserver;Password=Pass@word"
+          - name: EventBusConnection
+            value: "message-queue"

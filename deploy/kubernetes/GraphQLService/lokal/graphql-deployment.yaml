@@ -32,3 +32,5 @@ spec:
             value: "http://permissionservice"
           - name: Services
             value: "identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api,permission-api,payment-api,eventverification-api"
+          - name: PATH_BASE
+            value: /api

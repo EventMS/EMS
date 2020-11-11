@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: clubmember-api
+    env: testing
+  name: clubmember-api
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clubmember-api
+  template:
+    metadata:
+      labels:
+        app: clubmember-api
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/clubmember.api:linux
+        name: clubmember-api
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=172.20.192.3;Database=Services.clubmemberDb;User Id=sqlserver;Password=Pass@word"
+          - name: EventBusConnection
+            value: "message-queue"
