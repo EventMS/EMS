@@ -29,7 +29,7 @@ spec:
           - name: EventBusConnection
             value: "rabbitmq"
           - name: PermissionUrl
-            value: "http://permissionservice"
+            value: "http://permission-api"
           - name: Services
             value: "identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api,permission-api,payment-api,eventverification-api"
           - name: PATH_BASE

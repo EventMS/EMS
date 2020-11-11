@@ -18,10 +18,6 @@ spec:
       - path: /api(/|$)(.*)
         pathType: Prefix
         backend:
-<<<<<<< HEAD
-          serviceName: graphqlservice
-          servicePort: 80
-=======
           service:
               name: graphqlservice
               port:
@@ -33,7 +29,6 @@ spec:
               name: websocketservice
               port:
                 number: 80                   
->>>>>>> master
       - path: /rabbitmq(/|$)(.*) #admin rabbit
         pathType: Prefix
         backend:
