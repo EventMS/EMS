@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using HotChocolate;
 using HotChocolate.AspNetCore;
@@ -55,7 +54,7 @@ namespace EMS.GraphQL.API
                     client.DefaultRequestHeaders.Authorization =
                         AuthenticationHeaderValue.Parse(context.Request.Headers["Authorization"].ToString());
                 }
-                client.BaseAddress = new Uri("http://permission-api");
+                client.BaseAddress = new Uri(Configuration.GetValue<string>("PermissionUrl"));
             });
             return services;
         }
@@ -114,6 +113,7 @@ namespace EMS.GraphQL.API
                     builder.AddSchemaFromHttp(http.Replace("-",""));
                 }
                 builder.AddDocumentRewriter(RewriteDocument);
+                builder.AddTypeRewriter(DelegateTypes);
                 builder.AddExtensionsFromFile("./Extensions.graphql");
 
                 builder.AddExecutionConfiguration(b =>
@@ -136,6 +136,11 @@ namespace EMS.GraphQL.API
             return services;
         }
 
+        private ITypeDefinitionNode DelegateTypes(ISchemaInfo s, ITypeDefinitionNode d)
+        {
+            return d;
+        }
+
         private DocumentNode RewriteDocument(ISchemaInfo schema, DocumentNode definitionSchema)
         {
             var definitions = new List<IDefinitionNode>();
@@ -143,7 +148,9 @@ namespace EMS.GraphQL.API
             if (schemaName.Contains("api"))
             {
                 schemaName = schemaName.Substring(0, schemaName.Length - 3);
-            }
+            }else if(schemaName.Contains("service")){
+				schemaName = schemaName.Substring(0, schemaName.Length - 7);
+			}
 
             foreach (var definition in definitionSchema.Definitions)
             {

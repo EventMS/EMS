@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: eventms
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+  - host: eventms.dk
+    http:
+      paths:
+      - path: /api/websocket(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+              name: websocket-api
+              port:
+                number: 80   
+      - path: /api(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+              name: graphqlservice
+              port:
+                number: 80
+      - path: /api(/|$)(webhook.*)
+        pathType: Prefix
+        backend:
+          service:
+              name: websocketservice
+              port:
+                number: 80                   
+      - path: /rabbitmq(/|$)(.*) #admin rabbit
+        pathType: Prefix
+        backend:
+          service: 
+              name: message-queue
+              port:
+                number: 15672     
+      - path: /()(.*)
+        pathType: Prefix
+        backend:
+          service: 
+              name: frontendservice
+              port:
+                number: 80   

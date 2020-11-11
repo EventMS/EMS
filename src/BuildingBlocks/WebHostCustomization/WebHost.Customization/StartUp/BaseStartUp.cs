@@ -31,14 +31,18 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using EMS.TemplateWebHost.Customization.Filters;
 using EMS.TemplateWebHost.Customization.EventService;
+using EMS.TemplateWebHost.Customization.Masstransit;
 using EMS.TemplateWebHost.Customization.OutboxService;
 using EMS.TemplateWebHost.Customization.Settings;
+using GreenPipes;
 using HotChocolate.Execution;
 using HotChocolate.Execution.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
+using HotChocolate.Types;
+using Serilog;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
@@ -72,11 +76,14 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             AddGlobalStateInterceptor(services);
             AddCustomHealthCheck(services);
             AddCustomAuthentication(services);
+            services.AddLogging();
+            services.AddDiagnosticObserver<DiagnosticObserver>();
             AddServices(services);
             services.AddHttpContextAccessor();
             services.AddErrorFilter<GraphQlErrorFilter>();
             services.AddGraphQL((s) => { 
                 var schema = SchemaBuilder.New()
+                 .BindClrType<Guid, StringType>()
                  .AddServices(s)
                  .Use<ValidateInputMiddleware>()
                  .AddAuthorizeDirectiveType();
@@ -84,6 +91,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             },
                 new QueryExecutionOptions { ForceSerialExecution = true });
 
+            
 
             services.AddAutoMapper(typeof(T));
             services.AddHostedService<OutboxHostedService>();
@@ -111,11 +119,12 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 {
                     var claim = context.User.FindFirstValue("ClubPermissionsClaim");
                     List<ClubPermission> clubPermissions = new List<ClubPermission>();
-                    ;
+                    
                     if (claim != null)
                     {
                         clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim);
                     }
+
                     builder.SetProperty("currentUser",
                         new CurrentUser(new Guid(context.User.FindFirstValue("id")), clubPermissions));
                 }
@@ -143,6 +152,21 @@ namespace EMS.TemplateWebHost.Customization.StartUp
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(GetName(), false));
                 x.UsingRabbitMq((context, config) =>
                 {
+                    config.ConfigurePublish(sendCallback =>
+                    {
+                        sendCallback.UseExecute(sendExecute =>
+                        {
+                            var accessor = services.BuildServiceProvider().GetService<IHttpContextAccessor>();
+                            var id = accessor?.HttpContext?.User?.FindFirstValue("id");
+                            if (id != null)
+                            {
+                                sendExecute.Headers.Set("id", id);
+                            }
+                        });
+                    });
+
+
+                    config.UseMessageFilter();
                     config.Host(Configuration["EventBusConnection"], "/", h =>
                     {
                         h.Username("guest");
@@ -290,13 +314,6 @@ namespace EMS.TemplateWebHost.Customization.StartUp
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            var pathBase = Configuration["PATH_BASE"];
-            if (!string.IsNullOrEmpty(pathBase))
-            {
-                loggerFactory.CreateLogger<BaseStartUp<T>>().LogDebug("Using PATH BASE '{pathBase}'", pathBase);
-                app.UsePathBase(pathBase);
-            }
-
             app.UsePlayground();
             app.UseCors("CorsPolicy");
             app.UseRouting();

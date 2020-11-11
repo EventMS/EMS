@@ -26,13 +26,18 @@ namespace EMS.Permission_Services.API.Controller
 
         [Authorize]
         [HttpGet]
-        public async Task<string> GetFatToken()
+        public async Task<ActionResult<String>> GetFatToken()
         {
             var userId = new Guid(User.FindFirstValue("id"));
+            var user = _permissionContext.Users.Find(userId);
+            if (user == null)
+            {
+                return BadRequest("User does not exist");
+            }
             var userPermissions = await _permissionContext.Roles
                 .Where(user => user.UserId == userId)
                 .ToListAsync();
-            return _jwtService.GenerateJwtToken(userId, userPermissions);
+            return _jwtService.GenerateJwtToken(user, userPermissions);
         }
 
         [Authorize]

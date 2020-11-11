@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using AutoMapper;
 using EMS.Permission_Services.API.Context;
 using EMS.SharedTesting.Helper;
 using MassTransit;

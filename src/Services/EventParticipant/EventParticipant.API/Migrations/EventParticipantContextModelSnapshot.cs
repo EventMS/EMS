@@ -45,17 +45,12 @@ namespace EMS.EventParticipant_Services.API.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EventId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("EventParticipantId");
 
                     b.HasIndex("EventId");
-
-                    b.HasIndex("EventId1");
 
                     b.ToTable("EventParticipant");
                 });
@@ -65,10 +60,7 @@ namespace EMS.EventParticipant_Services.API.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ClubSubscriptionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("EventId1")
+                    b.Property<Guid>("ClubSubscriptionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Price")
@@ -76,35 +68,25 @@ namespace EMS.EventParticipant_Services.API.Migrations
 
                     b.HasKey("EventId", "ClubSubscriptionId");
 
-                    b.HasIndex("EventId1");
-
                     b.ToTable("EventPrice");
                 });
 
             modelBuilder.Entity("EMS.EventParticipant_Services.API.Context.Model.EventParticipant", b =>
                 {
-                    b.HasOne("EMS.EventParticipant_Services.API.Context.Model.Event", null)
+                    b.HasOne("EMS.EventParticipant_Services.API.Context.Model.Event", "Event")
                         .WithMany("EventParticipants")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("EMS.EventParticipant_Services.API.Context.Model.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId1");
                 });
 
             modelBuilder.Entity("EMS.EventParticipant_Services.API.Context.Model.EventPrice", b =>
                 {
-                    b.HasOne("EMS.EventParticipant_Services.API.Context.Model.Event", null)
+                    b.HasOne("EMS.EventParticipant_Services.API.Context.Model.Event", "Event")
                         .WithMany("EventPrices")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("EMS.EventParticipant_Services.API.Context.Model.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId1");
                 });
 #pragma warning restore 612, 618
         }

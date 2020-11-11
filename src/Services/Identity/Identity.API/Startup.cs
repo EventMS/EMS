@@ -3,7 +3,6 @@ using EMS.Identity_Services.API.Context.Models;
 using EMS.Identity_Services.API.Data;
 using EMS.Identity_Services.API.GraphQlQueries;
 using EMS.Identity_Services.API.Services;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

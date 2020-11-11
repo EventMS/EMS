@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: graphqlservice
+    env: testing
+  name: graphqlservice
+  namespace: eventms
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: graphqlservice
+  type: ClusterIP

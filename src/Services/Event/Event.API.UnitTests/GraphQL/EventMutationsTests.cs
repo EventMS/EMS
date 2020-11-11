@@ -14,7 +14,6 @@ using EMS.Event_Services.API.Context.Model;
 using EMS.Event_Services.API.Controllers.Request;
 using EMS.Event_Services.API.GraphQlQueries;
 using EMS.Event_Services.API.Mapper;
-using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Event_Services.API.UnitTests.GraphQL
@@ -195,17 +194,6 @@ namespace EMS.Event_Services.API.UnitTests.GraphQL
                 Assert.That(context.Events.Count(), Is.EqualTo(1));
             }
 
-            await _publish.Received(1).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
-        }
-
-        [Test]
-        public async Task CreateEvent_CreateTwoEventWithSameNameInSameClub_SecondFails()
-        {
-            var request = BasicCreateRequest();
-
-            await _mutations.CreateEventAsync(request);
-            Assert.ThrowsAsync<DbUpdateException>(async () =>
-                await _mutations.CreateEventAsync(request));
             await _publish.Received(1).Publish(Arg.Any<VerifyAvailableTimeslotEvent>());
         }
 

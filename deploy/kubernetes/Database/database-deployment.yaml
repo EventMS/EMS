@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: eventms-database
+    env: testing
+  name: eventms-database
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventms-database
+  template:
+    metadata:
+      labels:
+        app: eventms-database
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: mcr.microsoft.com/mssql/server:2017-latest
+        name: eventms-database
+        volumeMounts:
+        - name: mssql-base-volume
+          mountPath: /var/opt/mssql
+        - name: mssql-mdf-volume
+          mountPath: /var/opt/mssql/ldf
+        - name: mssql-ldf-volume
+          mountPath: /var/opt/mssql/mdf
+        resources: {}
+        env:
+          - name: SA_PASSWORD
+            value: "Pass@word"
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: MSSQL_DATA_DIR
+            value: /var/opt/mssql/mdf
+          - name: MSSQL_LOG_DIR
+            value: /var/opt/mssql/ldf
+        ports: 
+          - containerPort: 1433
+      volumes:
+        - name: mssql-base-volume
+          persistentVolumeClaim:
+            claimName: mssql-base-volume
+        - name: mssql-mdf-volume
+          persistentVolumeClaim:
+            claimName: mssql-mdf-volume
+        - name: mssql-ldf-volume
+          persistentVolumeClaim:
+            claimName: mssql-ldf-volume

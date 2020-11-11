@@ -14,7 +14,6 @@ using HotChocolate;
 using HotChocolate.Execution;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace EMS.Club_Service.API.GraphQlQueries
 {
@@ -52,69 +51,14 @@ namespace EMS.Club_Service.API.GraphQlQueries
         {
             var item = _mapper.Map<Club>(request);
             item.AdminId = currentUser.UserId;
-            if (item.InstructorIds == null)
-            {
-                item.InstructorIds = new HashSet<Guid>();
-            }
             _context.Clubs.Add(item);
 
             var @event = _mapper.Map<ClubCreatedEvent>(item);
             @event.Locations = request.Locations;
-            Log.Information(item.AdminId.ToString());
             await _eventService.SaveEventAndDbContextChangesAsync(@event);
             await _eventService.PublishEventAsync(@event);
 
             return item;
         }
-        /*
-        [HotChocolate.AspNetCore.Authorization.Authorize]
-        public async Task<Club> DeleteClubAsync(Guid clubId)
-        {
-            await IsAdminIn(clubId);
-            var item = await _context.Clubs.FindOrThrowAsync(clubId);
-
-
-            _context.Clubs.Remove(item);
-
-            var @event = _mapper.Map<ClubDeletedEvent>(item);
-            await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishEventAsync(@event);
-            return item;
-        }
-        */
-        [HotChocolate.AspNetCore.Authorization.Authorize]
-        public async Task<Club> AddInstructorAsync(Guid clubId, Guid instructorId)
-        {
-            await IsAdminIn(clubId);
-            var club = await _context.Clubs.FindOrThrowAsync(clubId);
-            var @event = new IsUserClubMemberEvent()
-            {
-                ClubId = clubId,
-                UserId = instructorId
-            };
-            await _eventService.SaveEventAndDbContextChangesAsync(@event);
-            await _eventService.PublishEventAsync(@event);
-            return club;
-        }
-
-        [HotChocolate.AspNetCore.Authorization.Authorize]
-        public async Task<Club> RemoveInstructorAsync(Guid clubId, Guid instructorId)
-        {
-            await IsAdminIn(clubId);
-            var club = await _context.Clubs.FindOrThrowAsync(clubId);
-
-            if (club.InstructorIds.Remove(instructorId))
-            {
-                var @event = new InstructorDeletedEvent()
-                {
-                    ClubId = clubId,
-                    UserId = instructorId
-                };
-                await _eventService.SaveEventAndDbContextChangesAsync(@event);
-                await _eventService.PublishEventAsync(@event);
-            }
-            return club;
-        }
-
     }
 }

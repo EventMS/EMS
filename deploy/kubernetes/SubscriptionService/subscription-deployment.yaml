@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: subscription-api
+    env: testing
+  name: subscription-api
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscription-api
+  template:
+    metadata:
+      labels:
+        app: subscription-api
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/subscription.api:linux
+        name: subscription-api
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=eventms-database;Database=Services.subscriptionDb;User Id=sa;Password=Pass@word"
+          - name: EventBusConnection
+            value: "message-queue"

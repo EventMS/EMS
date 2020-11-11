@@ -13,7 +13,6 @@ using EMS.Event_Services.API.Context.Model;
 using EMS.TemplateWebHost.Customization;
 using EMS.TemplateWebHost.Customization.StartUp;
 using Microsoft.AspNetCore.Authorization;
-using Serilog;
 
 namespace EMS.Event_Services.API.GraphQlQueries
 {
@@ -55,7 +54,6 @@ namespace EMS.Event_Services.API.GraphQlQueries
         [HotChocolate.AspNetCore.Authorization.Authorize]
         public async Task<Event> CreateEventAsync(CreateEventRequest request)
         {
-            Log.Information(request.ClubId.ToString());
             await IsAdminIn(request.ClubId);
 
             var item = _mapper.Map<Event>(request);

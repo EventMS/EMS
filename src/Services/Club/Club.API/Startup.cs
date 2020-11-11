@@ -1,9 +1,7 @@
 using HotChocolate;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using EMS.Club_Service.API.Context;
 using EMS.Club_Service.API.GraphQlQueries;
-using EMS.Club_Service.API.Events;
 using EMS.TemplateWebHost.Customization.StartUp;
 
 namespace EMS.Club_Service.API

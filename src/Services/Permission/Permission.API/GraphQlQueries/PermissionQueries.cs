@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using EMS.Club_Service_Services.API;
 using EMS.Permission_Services.API.Context;
@@ -16,7 +17,15 @@ namespace EMS.Permission_Services.API.GraphQlQueries
 
         public IQueryable<User> Permissions => _context.Users.Include(u => u.Roles).AsQueryable();
 
+        public IQueryable<Role> RolesForUserId(Guid userId) => _context.Roles.Where(role => role.UserId == userId).AsQueryable();
 
         public IQueryable<Role> UserRoles([CurrentUserGlobalState] CurrentUser user) => _context.Roles.Where(role => role.UserId == user.UserId).AsQueryable();
+
+        public IQueryable<Role> InstructorInClub(Guid clubId) =>
+            _context.Roles.Where(role => role.ClubId == clubId && role.UserRole == "Instructor").AsQueryable();
+
+        public IQueryable<Role> PermissionsInClub(Guid clubId) =>
+            _context.Roles.Where(role => role.ClubId == clubId).AsQueryable();
+
     }
 }

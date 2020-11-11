@@ -8,7 +8,6 @@ using EMS.Permission_Services.API.Events;
 using EMS.SharedTesting.Factories;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace EMS.EventParticipant_Services.API.UnitTests.Consumers

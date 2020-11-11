@@ -32,20 +32,20 @@ namespace EMS.TemplateWebHost.Customization.StartUp
         }
 
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
             RoleRequirement requirement,
             Guid id)
         {
             if (_httpContextAccessor.HttpContext.User == null)
             {
                 Log.Information("User does not exist");
-                return;
+                return Task.CompletedTask;
             }
             var claim = _httpContextAccessor.HttpContext.User.FindFirst("ClubPermissionsClaim");
             if (claim.Value == null)
             {
                 Log.Information("User have no permissions");
-                return;
+                return Task.CompletedTask;
             }
 
             var clubPermissions = JsonConvert.DeserializeObject<List<ClubPermission>>(claim.Value);
@@ -60,6 +60,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
             {
                 Log.Information("Validation failed, user did not have permissions");
             }
+            return Task.CompletedTask;
         }
     }
 }

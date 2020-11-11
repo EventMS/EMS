@@ -1,0 +1,4 @@
+If not is working you probably forgot to run the command below. Run it just once. 
+
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.0/deploy/static/provider/cloud/deploy.yaml

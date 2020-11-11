@@ -15,7 +15,8 @@ namespace EMS.Event_Services.API.Context.EntityConfigurations
 
             builder.HasOne<Club>()
                 .WithMany()
-                .HasForeignKey(ci => ci.ClubId);
+                .HasForeignKey(ci => ci.ClubId)
+                .IsRequired();
         }
     }
 }

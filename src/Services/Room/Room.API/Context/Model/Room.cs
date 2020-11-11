@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HotChocolate;
 using Microsoft.EntityFrameworkCore.Internal;
-using Serilog;
 
 namespace EMS.Room_Services.API.Context.Model
 {

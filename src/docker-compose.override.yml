@@ -30,10 +30,7 @@ services:
   identity-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/identity-api
       - ConnectionString=Server=sqldata;Database=Services.IdentityDb;User Id=sa;Password=Pass@word
     ports:
       - "5101:80"
@@ -42,37 +39,17 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.GraphQLDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/graphql-api
-      - services=template1-api,identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api,permission-api
+      - PermissionUrl=http://permission-api
+      - services=identity-api,club-api,subscription-api,clubmember-api,room-api,event-api,eventparticipant-api,permission-api,payment-api,eventverification-api
     ports:
       - "5102:80"
-
-
-  template1-api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionString=Server=sqldata;Database=Services.Template1Db;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
-      - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/template1-api
-    ports:
-      - "5103:80"
 
   club-api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.ClubDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/club-api
     ports:
       - "5106:80"
 
@@ -80,11 +57,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.PermissionDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/permission-api
     ports:
       - "5105:80"
 
@@ -92,11 +65,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.SubscriptionDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/subscription-api
     ports:
       - "5107:80"
 
@@ -104,11 +73,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.ClubMemberDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/clubmember-api
     ports:
       - "5108:80"
 
@@ -116,11 +81,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.RoomDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/room-api
     ports:
       - "5109:80"
 
@@ -128,11 +89,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.EventDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/event-api
     ports:
       - "5110:80"
 
@@ -140,11 +97,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.EventParticipantDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/eventparticipant-api
     ports:
       - "5111:80"
 
@@ -152,11 +105,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.PaymentWebhookDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/paymentwebhook-api
     ports:
       - "5112:80"
 
@@ -164,13 +113,31 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionString=Server=sqldata;Database=Services.WebsocketDb;User Id=sa;Password=Pass@word
-      - identityUrl=http://identity-api
-      - IdentityUrlExternal=http://${EMS_DNS_NAME_OR_IP}:5101   
       - EventBusConnection=rabbitmq
-      - PORT=80
-      - PATH_BASE=/websocket-api
     ports:
       - "5113:80"
+
+  payment-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.PaymentDb;User Id=sa;Password=Pass@word
+      - EventBusConnection=rabbitmq
+    ports:
+      - "5114:80"
+
+  
+
+  eventverification-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=sqldata;Database=Services.EventVerificationDb;User Id=sa;Password=Pass@word
+      - EventBusConnection=rabbitmq
+    ports:
+      - "5115:80"
+
+  frontend:
+    ports:
+      - "5116:80"
 
 volumes:
   ems-sqldata:

@@ -1,5 +1,4 @@
 using HotChocolate;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using EMS.Permission_Services.API.Context;
@@ -27,7 +26,8 @@ namespace EMS.Permission_Services.API
         public override ISchemaBuilder AddGraphQlServices(ISchemaBuilder builder)
         {
             return builder
-                .AddQueryType<PermissionQueries>();
+                .AddQueryType<PermissionQueries>()
+                .AddMutationType<PermissionMutations>();
           
         }
 

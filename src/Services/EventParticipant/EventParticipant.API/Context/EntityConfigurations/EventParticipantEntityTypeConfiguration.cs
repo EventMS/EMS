@@ -19,10 +19,7 @@ namespace EMS.EventParticipant_Services.API.Context.EntityConfigurations
             builder.Property(ci => ci.UserId)
                 .IsRequired();
 
-            builder.HasOne<Event>()
-                .WithMany(e => e.EventParticipants)
-                .HasForeignKey(e => e.EventId)
-                .IsRequired();
+
         }
     }
 }

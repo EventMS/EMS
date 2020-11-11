@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="EMS.Club_Service.API.Context.Model.Club">
-    <Position X="0.75" Y="5.5" Width="2.25" />
+    <Position X="3.25" Y="5.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAEAAgAAQAAAAAQAQAAAgAAEACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAEAAAEAAgAAAAAAAAQAQAAAgAAEACAAAAAAAAAAA=</HashCode>
       <FileName>Context\Model\Club.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EMS.Events.ClubCreatedEvent">
-    <Position X="0.5" Y="0.5" Width="2.25" />
+  <Class Name="EMS.Events.ClubCreatedEvent" Collapsed="true">
+    <Position X="6.25" Y="4" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAEAAgAAAAAAIAQAQAAAgAAEACAAAAAAAAAAA=</HashCode>
       <FileName>IntegrationEvents\ClubEvents.cs</FileName>
@@ -22,38 +22,44 @@
     </TypeIdentifier>
   </Class>
   <Class Name="EMS.Events.ClubUpdatedEvent">
-    <Position X="3" Y="0.5" Width="2.25" />
+    <Position X="5.75" Y="5.25" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAgAAAAAAAAQAQAAAgAAEACAAAAAAAAAAA=</HashCode>
       <FileName>IntegrationEvents\ClubEvents.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EMS.Events.InstructorAddedEvent">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+  <Class Name="EMS.Club_Service.API.Controllers.Request.CreateClubRequest" Collapsed="true">
+    <Position X="0.75" Y="3" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IntegrationEvents\ClubEvents.cs</FileName>
+      <HashCode>AAAAAAAAAAAgAAAAAAIAQAQAAAgAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\Request\CreateTemplate1Request.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EMS.Events.InstructorDeletedEvent">
-    <Position X="2.25" Y="3.5" Width="1.5" />
+  <Class Name="EMS.Club_Service.API.Controllers.Request.UpdateClubRequest">
+    <Position X="0.5" Y="5.25" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IntegrationEvents\ClubEvents.cs</FileName>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAQAQAAAgAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>GraphQlQueries\Request\UpdateTemplate1Request.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EMS.Events.IsUserClubMemberEvent">
-    <Position X="5.5" Y="0.5" Width="2" />
+  <Class Name="EMS.Club_Service.API.GraphQlQueries.ClubMutations">
+    <Position X="0.5" Y="0.5" Width="5.5" />
+    <Members>
+      <Method Name="ClubMutations" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IntegrationEvents\ClubEvents.cs</FileName>
+      <HashCode>AAAAAAAAAAAABAAAAACBAAAAAAAAAAAAACAAAAAAAIA=</HashCode>
+      <FileName>GraphQlQueries\ClubMutations.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EMS.Events.UserIsClubMemberEvent">
-    <Position X="4.25" Y="5.5" Width="2" />
+  <Class Name="EMS.Club_Service.API.GraphQlQueries.ClubQueries">
+    <Position X="6.5" Y="0.75" Width="4.25" />
+    <Members>
+      <Method Name="ClubQueries" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IntegrationEvents\ClubEvents.cs</FileName>
+      <HashCode>AAAAAAAAAAEABAAQAAAABAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>GraphQlQueries\ClubQueries.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

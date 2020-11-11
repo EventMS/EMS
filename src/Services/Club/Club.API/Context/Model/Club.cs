@@ -15,7 +15,6 @@ namespace EMS.Club_Service.API.Context.Model
         public string RegistrationNumber { get; set; }
         public string AccountNumber { get; set; }
         public string Address { get; set; }
-        public Guid AdminId { get; set; } 
-        public HashSet<Guid> InstructorIds { get; set; }
+        public Guid AdminId { get; set; }
     }
 }

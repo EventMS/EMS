@@ -33,6 +33,7 @@ namespace EMS.TemplateWebHost.Customization.StartUp
 
             response.EnsureSuccessStatusCode();
 
+
             return await response.Content.ReadAsStringAsync();
         }
     }

@@ -14,8 +14,7 @@ namespace EMS.Event_Services.API.Controllers.Request
 
         [Required]
         public string Name { get; set; }
-
-        [Required]
+        
         public string Description { get; set; }
 
         public float? PublicPrice { get; set; }
@@ -30,6 +29,7 @@ namespace EMS.Event_Services.API.Controllers.Request
 
         [Required]
         public List<EventPriceRequest> EventPrices { get; set; }
+        [Required]
         public List<Guid> Locations { get; set; }
         public List<Guid> InstructorForEvents { get; set; }
     }

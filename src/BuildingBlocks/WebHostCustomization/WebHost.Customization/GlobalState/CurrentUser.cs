@@ -4,6 +4,7 @@ using EMS.TemplateWebHost.Customization.StartUp;
 
 namespace EMS.Club_Service_Services.API
 {
+
     public class CurrentUser
     {
         public Guid UserId { get; }

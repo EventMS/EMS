@@ -14,13 +14,13 @@ using NUnit.Framework;
 namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
 {
     [TestFixture]
-    class SignUpEventSuccessConsumerTest : EventConsumerTest<SignUpEventSuccessConsumer>
+    class SignUpEventSuccessEventConsumerTest : EventConsumerTest<SignUpEventSuccessEventConsumer>
     {
         [SetUp]
         public void SetUp()
         {
             var content = _factory.CreateContext();
-            _consumer = new SignUpEventSuccessConsumer(content);
+            _consumer = new SignUpEventSuccessEventConsumer(content);
             _harness.Start().Wait();
         }
 
@@ -34,7 +34,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
         [Test]
         public async Task Consume_EventDoesNotExist_DoesNotCreateUserSignUp()
         {
-            var @event = new SignUpEventSuccess()
+            var @event = new SignUpEventSuccessEvent()
             {
                 UserId = Guid.NewGuid(),
                 EventId = Guid.NewGuid(),
@@ -51,7 +51,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
         [Test]
         public async Task Consume_EventDoesExist_SignsUserUp()
         {
-            var @event = new SignUpEventSuccess()
+            var @event = new SignUpEventSuccessEvent()
             {
                 UserId = Guid.NewGuid(),
                 EventId = Guid.NewGuid(),
@@ -79,7 +79,7 @@ namespace EMS.EventParticipant_Services.API.UnitTests.Consumers
         [Test]
         public async Task Consume_UserAlreadySignedUp_Ignores()
         {
-            var @event = new SignUpEventSuccess()
+            var @event = new SignUpEventSuccessEvent()
             {
                 UserId = Guid.NewGuid(),
                 EventId = Guid.NewGuid(),

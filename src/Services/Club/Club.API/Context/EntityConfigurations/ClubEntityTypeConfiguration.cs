@@ -44,11 +44,6 @@ namespace EMS.Club_Service.API.Context.EntityConfigurations
             builder.Property(ci => ci.PhoneNumber)
                 .HasMaxLength(8)
                 .IsRequired();
-
-            builder.Property(ci => ci.InstructorIds)
-                .HasConversion(v => string.Join(',', v),
-                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(v => new Guid(v)).ToHashSet());
-
         }
     }
 }

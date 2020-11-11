@@ -16,9 +16,4 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\SharedTesting\SharedTesting.csproj" />
-    <ProjectReference Include="..\Websocket.API\Websocket.API.csproj" />
-  </ItemGroup>
-
 </Project>

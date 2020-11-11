@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using EMS.TemplateWebHost.Customization.EventService;
+using Event = EMS.BuildingBlocks.EventLogEF.Event;
+using EMS.Identity_Services.API.GraphQlQueries;
 
 namespace EMS.Events
 {
@@ -35,8 +37,6 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtService _jwtService;
-        private readonly IHttpContextAccessor _contextAccessor;
-        private readonly IPublishEndpoint _publishEndpoint;
 
         public IdentityMutations(ApplicationDbContext context, IEventService template1EventService, UserManager<ApplicationUser> userManager, JwtService jwtService, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IPublishEndpoint publishEndpoint)
         {
@@ -45,11 +45,9 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             _userManager = userManager;
             _jwtService = jwtService;
             _signInManager = signInManager;
-            _contextAccessor = contextAccessor;
-            _publishEndpoint = publishEndpoint;
         }
 
-        
+
         public async Task<Response> LoginUserAsync(LoginUserRequest request)
         {
             //Some explicit transaction because user manager is out of ordinary and autosaves otherwise in another scope. 
@@ -76,15 +74,26 @@ namespace EMS.Identity_Services.API.GraphQlQueries
         public async Task<Response> CreateUserAsync(CreateUserRequest request)
         {
             //Create the customer
+            if (await _userManager.FindByEmailAsync(request.Email) != null)
+            {
+                throw new QueryException("Duplicate email");
+            };
+
             var user = new ApplicationUser()
             {
                 Name = request.Name,
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
-                UserName = request.Email
+                UserName = request.Email,
             };
 
-            var evt = new UserCreatedEvent(user.Id, user.Name);
+            var evt = new UserCreatedEvent()
+            {
+                Name = user.Name,
+                UserId = user.Id,
+                Email = user.Email
+            };
+
             //Only do it this way if you have no direct control on context. Otherwise just do it like normally before. 
             await _eventService.SaveEventAndDbContextChangesAsync(evt, async () =>
             {
@@ -122,7 +131,7 @@ namespace EMS.Identity_Services.API.GraphQlQueries
             user.PhoneNumber = request.PhoneNumber;
             _context.Update(user);
 
-            var evt = new UserUpdatedEvent(user.Id, user.Name);
+            var evt = new UserUpdatedEvent(user.Id, user.Name, user.PhoneNumber);
             await _eventService.SaveEventAndDbContextChangesAsync(evt);
             await _eventService.PublishEventAsync(evt);
             return user;

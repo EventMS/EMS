@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Subscription_Services.API.GraphQlQueries.Request
 {
+
     public class UpdateClubSubscriptionRequest
     {
         [Required]

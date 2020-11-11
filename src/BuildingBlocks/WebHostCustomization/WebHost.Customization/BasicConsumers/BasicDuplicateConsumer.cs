@@ -50,14 +50,14 @@ namespace TemplateWebHost.Customization.BasicConsumers
             _mapper = mapper;
         }
 
-        public virtual async Task AddAction(TType entity)
+        public virtual Task AddAction(TType entity)
         {
-
+            return Task.CompletedTask;
         }
 
         public virtual async Task<TType> FindEntity(TType entity, TEvent e)
         {
-            return _context.Set<TType>().Find(_context.FindPrimaryKeyValues(entity).ToArray());
+            return await _context.Set<TType>().FindAsync(_context.FindPrimaryKeyValues(entity).ToArray());
         }
 
         public async Task Consume(ConsumeContext<TEvent> context)

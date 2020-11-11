@@ -30,7 +30,7 @@ namespace EMS.Permission_Services.API.Events
             {
                 await _permissionContext.Users.AddAsync(new User()
                 {
-                    UserId = userId
+                    UserId = userId,
                 });
                 await _permissionContext.SaveChangesAsync();
             }

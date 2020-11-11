@@ -64,7 +64,7 @@ namespace EMS.Event_Services.API.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float?>("PublicPrice")
                         .HasColumnType("real");
@@ -77,8 +77,7 @@ namespace EMS.Event_Services.API.Migrations
 
                     b.HasKey("EventId");
 
-                    b.HasIndex("ClubId", "Name")
-                        .IsUnique();
+                    b.HasIndex("ClubId");
 
                     b.ToTable("Event");
                 });
@@ -110,14 +109,9 @@ namespace EMS.Event_Services.API.Migrations
                     b.Property<Guid>("ClubId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ClubId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("InstructorId");
 
                     b.HasIndex("ClubId");
-
-                    b.HasIndex("ClubId1");
 
                     b.ToTable("Instructor");
                 });
@@ -208,10 +202,6 @@ namespace EMS.Event_Services.API.Migrations
                         .HasForeignKey("ClubId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("EMS.Event_Services.API.Context.Model.Club", null)
-                        .WithMany("Instructors")
-                        .HasForeignKey("ClubId1");
                 });
 
             modelBuilder.Entity("EMS.Event_Services.API.Context.Model.InstructorForEvent", b =>

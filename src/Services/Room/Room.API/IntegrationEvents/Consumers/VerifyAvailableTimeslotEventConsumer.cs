@@ -8,7 +8,6 @@ using EMS.Room_Services.API.Context.Model;
 using EMS.TemplateWebHost.Customization.EventService;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace EMS.Room_Services.API.Events
 {
@@ -42,25 +41,28 @@ namespace EMS.Room_Services.API.Events
 
         public async Task Consume(ConsumeContext<VerifyAvailableTimeslotEvent> context)
         {
-            foreach (var roomId in context.Message.RoomIds)
+            if (context.Message.RoomIds != null)
             {
-                var room = await _roomContext.Rooms
-                    .Include(room => room.Bookings)
-                    .FirstOrDefaultAsync(room => room.RoomId == roomId);
+                foreach (var roomId in context.Message.RoomIds)
+                {
+                    var room = await _roomContext.Rooms
+                        .Include(room => room.Bookings)
+                        .FirstOrDefaultAsync(room => room.RoomId == roomId);
 
-                if (room == null)
-                {
-                    await FailureResponse(context,"Room does not exist");
-                    return;
+                    if (room == null)
+                    {
+                        await FailureResponse(context,"Room does not exist");
+                        return;
+                    }
+                    var booking = new Booking()
+                    {
+                        EventId = context.Message.EventId,
+                        EndTime = context.Message.EndTime,
+                        StartTime = context.Message.StartTime
+                    };
+                    room.Bookings.Add(booking);
+                    _roomContext.Rooms.Update(room);
                 }
-                var booking = new Booking()
-                {
-                    EventId = context.Message.EventId,
-                    EndTime = context.Message.EndTime,
-                    StartTime = context.Message.StartTime
-                };
-                room.Bookings.Add(booking);
-                _roomContext.Rooms.Update(room);
             }
 
             try

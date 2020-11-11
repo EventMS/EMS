@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: paymentwebhook-api
+    env: testing
+  name: paymentwebhook-api
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paymentwebhook-api
+  template:
+    metadata:
+      labels:
+        app: paymentwebhook-api
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/paymentwebhook.api:linux
+        name: paymentwebhook-api
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=eventms-database;Database=Services.paymentwebhookDb;User Id=sa;Password=Pass@word"
+          - name: EventBusConnection
+            value: "message-queue"

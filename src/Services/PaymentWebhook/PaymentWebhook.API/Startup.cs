@@ -1,5 +1,4 @@
 using HotChocolate;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.Extensions.Configuration;
 using EMS.PaymentWebhook_Services.API.Context;
 using EMS.PaymentWebhook_Services.API.GraphQlQueries;

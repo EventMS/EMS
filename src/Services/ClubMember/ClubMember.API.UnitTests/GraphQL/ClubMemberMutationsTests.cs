@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -13,7 +12,6 @@ using EMS.ClubMember_Services.API.Context.Model;
 using EMS.ClubMember_Services.API.Controllers.Request;
 using EMS.ClubMember_Services.API.GraphQlQueries;
 using EMS.ClubMember_Services.API.Mapper;
-using HotChocolate.Execution;
 using Microsoft.EntityFrameworkCore;
 
 namespace EMS.ClubMember_Services.API.UnitTests.GraphQL

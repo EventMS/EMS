@@ -20,7 +20,6 @@ namespace EMS.TemplateWebHost.Customization.EventService
         private readonly ILogger<EventService<TContext>> _logger;
         private readonly BaseSettings _settings;
         private readonly IPublishEndpoint _publishEndpoint;
-        private readonly ISendEndpoint _sendEndpoint;
 
         public EventService(
             ILogger<EventService<TContext>> logger,
