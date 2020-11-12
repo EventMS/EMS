@@ -30,4 +30,4 @@ spec:
           - name: EventBusConnection
             value: "message-queue"
           - name: PATH_BASE
-            value: /api
+            value: /api/websocket
