@@ -23,7 +23,13 @@ namespace EMS.Websocket_Services.API
 
         public override IServiceCollection AddServices(IServiceCollection service)
         {
-            service.AddSignalR();
+            service.AddSignalR(settings =>
+            {
+                settings.ClientTimeoutInterval = new System.TimeSpan(1,0,0);
+                settings.KeepAliveInterval = new System.TimeSpan(1, 0, 0);
+                settings.HandshakeTimeout = new System.TimeSpan(1, 0, 0);
+				settings.EnableDetailedErrors = true;
+            });
             return base.AddServices(service);
         }
 

@@ -6,6 +6,9 @@ metadata:
     env: testing
   name: websocket-api
   namespace: eventms
+  annotations: 
+    cloud.google.com/backend-config: '{"ports": {"80":"my-backendconfig"}}'
+    cloud.google.com/neg: '{"ingress": true}'
 spec:
   ports:
   - port: 80
