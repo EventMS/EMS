@@ -21,6 +21,7 @@ spec:
       containers:
       - image: eventms/frontend:dev
         name: frontendservice
+        imagePullPolicy: Always
         env:
           - name: apiUrl
             value: "http://eventms.dk/api/"
