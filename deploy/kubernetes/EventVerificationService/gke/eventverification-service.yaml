@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: eventverification-api
+    env: testing
+  name: eventverification-api
+  namespace: eventms
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: eventverification-api
+  type: NodePort

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: room-api
+    env: testing
+  name: room-api
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: room-api
+  template:
+    metadata:
+      labels:
+        app: room-api
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/room.api:linux
+        name: room-api
+        imagePullPolicy: Always
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=172.20.192.3;Database=Services.roomDb;User Id=sqlserver;Password=Pass@word"
+          - name: EventBusConnection
+            value: "message-queue"

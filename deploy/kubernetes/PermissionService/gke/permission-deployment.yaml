@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: permission-api
+    env: testing
+  name: permission-api
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: permission-api
+  template:
+    metadata:
+      labels:
+        app: permission-api
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/permission.api:linux
+        name: permission-api
+        imagePullPolicy: Always
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=172.20.192.3;Database=Services.permissionDb;User Id=sqlserver;Password=Pass@word"
+          - name: EventBusConnection
+            value: "message-queue"
