@@ -11,6 +11,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EMS.Websocket_Services.API
 {
+    public class UserIdProvider: IUserIdProvider
+    {
+        public string GetUserId(HubConnectionContext connection)
+        {
+            if(connection.User != null)
+            {
+                return connection.User.FindFirst(claim => claim.Type == "id").Value;
+            }
+            return connection.UserIdentifier;
+        }
+    }
+
     public class WebsocketQueries
     {
 
@@ -23,6 +35,7 @@ namespace EMS.Websocket_Services.API
 
         public override IServiceCollection AddServices(IServiceCollection service)
         {
+            service.AddSingleton<IUserIdProvider, UserIdProvider>();
             service.AddSignalR();
             return base.AddServices(service);
         }
