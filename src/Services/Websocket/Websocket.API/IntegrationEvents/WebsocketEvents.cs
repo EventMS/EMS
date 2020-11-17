@@ -18,4 +18,10 @@ namespace EMS.Events
         public string Reason { get; set; }
         public Guid ClubId { get; set; }
     }
+
+    public class SignUpSubscriptionSuccessEvent : Event // All events should inherit from Integration event
+    {
+        public Guid ClubSubscriptionId { get; set; }
+        public Guid UserId { get; set; }
+    }
 }
