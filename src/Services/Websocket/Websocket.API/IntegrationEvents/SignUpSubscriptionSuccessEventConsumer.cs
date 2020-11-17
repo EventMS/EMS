@@ -21,7 +21,7 @@ namespace EMS.Websocket_Services.API.Events
             Log.Information("Received SignUpSubscriptionSuccessEvent event");
             var userId = context.Message.UserId;
 
-            await _hub.Clients.All.SendAsync(userId.ToString("N") + "-ClubSignup", new
+            await _hub.Clients.User(userId.ToString("N")).SendAsync(userId.ToString("N") + "-ClubSignup", new
             {
                 UserId = context.Message.UserId,
                 ClubSubscriptionId = context.Message.ClubSubscriptionId,
