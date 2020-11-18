@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: ingress
@@ -7,16 +7,14 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-  - host: eventms.dk
+  - host: 
     http:
       paths:
       - path: /api/websocket(/|$)(.*)
         pathType: Prefix
         backend:
-          service:
-              name: websocket-api
-              port:
-                number: 80   
+          serviceName: websocket-api
+          servicePort: 80
       - path: /api(/|$)(.*)
         pathType: Prefix
         backend:
@@ -34,14 +32,11 @@ spec:
       - path: /rabbitmq(/|$)(.*) #admin rabbit
         pathType: Prefix
         backend:
-          service: 
-              name: message-queue
-              port:
-                number: 15672     
+          serviceName: message-queue
+          servicePort: 15672   
       - path: /()(.*)
         pathType: Prefix
         backend:
-          service: 
-              name: frontendservice
-              port:
-                number: 80   
+          serviceName: frontendservice
+          servicePort: 80 
+          

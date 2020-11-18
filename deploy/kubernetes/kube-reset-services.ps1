@@ -10,11 +10,11 @@ kubectl config set-context --current --namespace=eventms;
 
 #Delete all resources
 # kubectl delete -f .\Namespaces\.; # No need to delete this namespace every time.
-Get-ChildItem -Directory -Filter *Service | ForEach-Object {kubectl delete -f .\$_\.;}
+Get-ChildItem -Directory -Filter *Service | ForEach-Object {kubectl delete -f .\$_\lokal.;}
 # kubectl apply -f .\Ingress\.; # No need to always delete the ingress as it takes forever to get it up again
 
 
 #Deploy all resources
 kubectl apply -f .\Namespaces\.;
-Get-ChildItem -Directory -Filter *Service | ForEach-Object {kubectl apply -f .\$_\.;}
+Get-ChildItem -Directory -Filter *Service | ForEach-Object {kubectl apply -f .\$_\lokal\.;}
 kubectl apply -f .\Ingress\.;

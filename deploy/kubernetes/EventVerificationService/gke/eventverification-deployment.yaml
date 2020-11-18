@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: eventverification-api
+    env: testing
+  name: eventverification-api
+  namespace: eventms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventverification-api
+  template:
+    metadata:
+      labels:
+        app: eventverification-api
+        env: testing
+      namespace: eventms
+    spec:
+      containers:
+      - image: eventms/eventverification.api:linux
+        name: eventverification-api
+        imagePullPolicy: Always
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: ConnectionString
+            value: "Server=172.20.192.3;Database=Services.eventverificationDb;User Id=sqlserver;Password=Pass@word"
+          - name: EventBusConnection
+            value: "message-queue"

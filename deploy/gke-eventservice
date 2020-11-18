@@ -1,0 +1,10 @@
+steps:
+
+# deploy container image to GKE
+
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=kubernetes/EventService/gke/
+  - --location=us-central1-c
+  - --cluster=my-first-cluster-1
