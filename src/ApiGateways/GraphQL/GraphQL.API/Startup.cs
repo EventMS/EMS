@@ -171,12 +171,23 @@ namespace EMS.GraphQL.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-
             app.UsePlayground();
+            var pathBase = Configuration["PATH_BASE"];
+            if (!string.IsNullOrEmpty(pathBase))
+            {
+                app.UsePathBase(pathBase);
+            }
             app.UseCors("CorsPolicy");
             app.UseRouting();
             app.UseMiddleware<PermissionMiddleware>();
             app.UseGraphQL();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("Hello World!");
+                });
+            });
         }
 
         protected string GetName()

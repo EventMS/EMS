@@ -314,6 +314,12 @@ namespace EMS.TemplateWebHost.Customization.StartUp
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            var pathBase = Configuration["PATH_BASE"];
+            if (!string.IsNullOrEmpty(pathBase))
+            {
+                app.UsePathBase(pathBase);
+            }
+
             app.UsePlayground();
             app.UseCors("CorsPolicy");
             app.UseRouting();
@@ -323,6 +329,11 @@ namespace EMS.TemplateWebHost.Customization.StartUp
   
             app.UseEndpoints(endpoints =>
             {
+
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("Hello World!");
+                });
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapControllers();
                 AddUseEndpoints(endpoints);
