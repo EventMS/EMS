@@ -378,8 +378,8 @@ namespace Test
     {
         private readonly Dictionary<string, GraphQlFieldCriteria> _fieldCriteria = new Dictionary<string, GraphQlFieldCriteria>();
     
-        private string _operationType { get; }
-        private string _operationName { get; }
+        private readonly string _operationType;
+        private readonly string _operationName;
         private Dictionary<string, GraphQlFragmentCriteria> _fragments;
         private List<QueryBuilderArgumentInfo> _queryParameters;
     
@@ -822,11 +822,18 @@ namespace Test
                 new FieldMetadata { Name = "eventsConfirmed", IsComplex = true, QueryBuilderType = typeof(EventQueryBuilder) },
                 new FieldMetadata { Name = "eventsForClub", IsComplex = true, QueryBuilderType = typeof(EventQueryBuilder) },
                 new FieldMetadata { Name = "eventsForUser", IsComplex = true, QueryBuilderType = typeof(EventVerificationQueryBuilder) },
+                new FieldMetadata { Name = "eventUserPrice" },
                 new FieldMetadata { Name = "eventVerifications", IsComplex = true, QueryBuilderType = typeof(EventVerificationQueryBuilder) },
+                new FieldMetadata { Name = "futureEvents", IsComplex = true, QueryBuilderType = typeof(EventQueryBuilder) },
                 new FieldMetadata { Name = "getEvent", IsComplex = true, QueryBuilderType = typeof(EventQueryBuilder) },
                 new FieldMetadata { Name = "instructorInClub", IsComplex = true, QueryBuilderType = typeof(PermissionRoleQueryBuilder) },
                 new FieldMetadata { Name = "membersForClub", IsComplex = true, QueryBuilderType = typeof(ClubMemberQueryBuilder) },
-                new FieldMetadata { Name = "myClubs", IsComplex = true, QueryBuilderType = typeof(ClubQueryBuilder) },
+                new FieldMetadata { Name = "myAdminClubs", IsComplex = true, QueryBuilderType = typeof(ClubQueryBuilder) },
+                new FieldMetadata { Name = "myEventParticipations", IsComplex = true, QueryBuilderType = typeof(EventParticipantQueryBuilder) },
+                new FieldMetadata { Name = "myInstructorEvents", IsComplex = true, QueryBuilderType = typeof(EventQueryBuilder) },
+                new FieldMetadata { Name = "participants", IsComplex = true, QueryBuilderType = typeof(EventVerificationQueryBuilder) },
+                new FieldMetadata { Name = "paymentapi_clubSubscriptions", IsComplex = true, QueryBuilderType = typeof(PaymentClubSubscriptionQueryBuilder) },
+                new FieldMetadata { Name = "paymentapi_users", IsComplex = true, QueryBuilderType = typeof(PaymentUserQueryBuilder) },
                 new FieldMetadata { Name = "permissions", IsComplex = true, QueryBuilderType = typeof(PermissionUserQueryBuilder) },
                 new FieldMetadata { Name = "permissionsInClub", IsComplex = true, QueryBuilderType = typeof(PermissionRoleQueryBuilder) },
                 new FieldMetadata { Name = "rolesForUserId", IsComplex = true, QueryBuilderType = typeof(PermissionRoleQueryBuilder) },
@@ -839,7 +846,8 @@ namespace Test
                 new FieldMetadata { Name = "user", IsComplex = true, QueryBuilderType = typeof(IdentityApplicationUserQueryBuilder) },
                 new FieldMetadata { Name = "userRoles", IsComplex = true, QueryBuilderType = typeof(PermissionRoleQueryBuilder) },
                 new FieldMetadata { Name = "users", IsComplex = true, QueryBuilderType = typeof(IdentityApplicationUserQueryBuilder) },
-                new FieldMetadata { Name = "usersById", IsComplex = true, QueryBuilderType = typeof(IdentityApplicationUserQueryBuilder) }
+                new FieldMetadata { Name = "usersById", IsComplex = true, QueryBuilderType = typeof(IdentityApplicationUserQueryBuilder) },
+                new FieldMetadata { Name = "verifiedParticipants", IsComplex = true, QueryBuilderType = typeof(EventVerificationQueryBuilder) }
             };
 
         protected override string TypeName { get { return "Query"; } } 
@@ -1019,6 +1027,18 @@ namespace Test
             return ExceptField("eventsForUser");
         }
 
+        public QueryQueryBuilder WithEventUserPrice(QueryBuilderParameter<string> eventId, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            var args = new List<QueryBuilderArgumentInfo>();
+            args.Add(new QueryBuilderArgumentInfo { ArgumentName = "eventId", ArgumentValue = eventId} );
+            return WithScalarField("eventUserPrice", alias, new GraphQlDirective[] { skip, include }, args);
+        }
+
+        public QueryQueryBuilder ExceptEventUserPrice()
+        {
+            return ExceptField("eventUserPrice");
+        }
+
         public QueryQueryBuilder WithEventVerifications(EventVerificationQueryBuilder eventVerificationQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
         {
             return WithObjectField("eventVerifications", alias, eventVerificationQueryBuilder, new GraphQlDirective[] { skip, include });
@@ -1027,6 +1047,16 @@ namespace Test
         public QueryQueryBuilder ExceptEventVerifications()
         {
             return ExceptField("eventVerifications");
+        }
+
+        public QueryQueryBuilder WithFutureEvents(EventQueryBuilder eventQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("futureEvents", alias, eventQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public QueryQueryBuilder ExceptFutureEvents()
+        {
+            return ExceptField("futureEvents");
         }
 
         public QueryQueryBuilder WithGetEvent(EventQueryBuilder eventQueryBuilder, QueryBuilderParameter<string> eventId, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
@@ -1065,14 +1095,66 @@ namespace Test
             return ExceptField("membersForClub");
         }
 
-        public QueryQueryBuilder WithMyClubs(ClubQueryBuilder clubQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        public QueryQueryBuilder WithMyAdminClubs(ClubQueryBuilder clubQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
         {
-            return WithObjectField("myClubs", alias, clubQueryBuilder, new GraphQlDirective[] { skip, include });
+            return WithObjectField("myAdminClubs", alias, clubQueryBuilder, new GraphQlDirective[] { skip, include });
         }
 
-        public QueryQueryBuilder ExceptMyClubs()
+        public QueryQueryBuilder ExceptMyAdminClubs()
         {
-            return ExceptField("myClubs");
+            return ExceptField("myAdminClubs");
+        }
+
+        public QueryQueryBuilder WithMyEventParticipations(EventParticipantQueryBuilder eventParticipantQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("myEventParticipations", alias, eventParticipantQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public QueryQueryBuilder ExceptMyEventParticipations()
+        {
+            return ExceptField("myEventParticipations");
+        }
+
+        public QueryQueryBuilder WithMyInstructorEvents(EventQueryBuilder eventQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("myInstructorEvents", alias, eventQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public QueryQueryBuilder ExceptMyInstructorEvents()
+        {
+            return ExceptField("myInstructorEvents");
+        }
+
+        public QueryQueryBuilder WithParticipants(EventVerificationQueryBuilder eventVerificationQueryBuilder, QueryBuilderParameter<string> eventId, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            var args = new List<QueryBuilderArgumentInfo>();
+            args.Add(new QueryBuilderArgumentInfo { ArgumentName = "eventId", ArgumentValue = eventId} );
+            return WithObjectField("participants", alias, eventVerificationQueryBuilder, new GraphQlDirective[] { skip, include }, args);
+        }
+
+        public QueryQueryBuilder ExceptParticipants()
+        {
+            return ExceptField("participants");
+        }
+
+        public QueryQueryBuilder WithPaymentapiClubSubscriptions(PaymentClubSubscriptionQueryBuilder paymentClubSubscriptionQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("paymentapi_clubSubscriptions", alias, paymentClubSubscriptionQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public QueryQueryBuilder ExceptPaymentapiClubSubscriptions()
+        {
+            return ExceptField("paymentapi_clubSubscriptions");
+        }
+
+        public QueryQueryBuilder WithPaymentapiUsers(PaymentUserQueryBuilder paymentUserQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("paymentapi_users", alias, paymentUserQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public QueryQueryBuilder ExceptPaymentapiUsers()
+        {
+            return ExceptField("paymentapi_users");
         }
 
         public QueryQueryBuilder WithPermissions(PermissionUserQueryBuilder permissionUserQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
@@ -1220,6 +1302,18 @@ namespace Test
         {
             return ExceptField("usersById");
         }
+
+        public QueryQueryBuilder WithVerifiedParticipants(EventVerificationQueryBuilder eventVerificationQueryBuilder, QueryBuilderParameter<string> eventId, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            var args = new List<QueryBuilderArgumentInfo>();
+            args.Add(new QueryBuilderArgumentInfo { ArgumentName = "eventId", ArgumentValue = eventId} );
+            return WithObjectField("verifiedParticipants", alias, eventVerificationQueryBuilder, new GraphQlDirective[] { skip, include }, args);
+        }
+
+        public QueryQueryBuilder ExceptVerifiedParticipants()
+        {
+            return ExceptField("verifiedParticipants");
+        }
     }
 
     public class MutationQueryBuilder : GraphQlQueryBuilder<MutationQueryBuilder>
@@ -1238,6 +1332,9 @@ namespace Test
                 new FieldMetadata { Name = "editUser", IsComplex = true, QueryBuilderType = typeof(IdentityApplicationUserQueryBuilder) },
                 new FieldMetadata { Name = "loginUser", IsComplex = true, QueryBuilderType = typeof(IdentityResponseQueryBuilder) },
                 new FieldMetadata { Name = "removeInstructor", IsComplex = true, QueryBuilderType = typeof(PermissionRoleQueryBuilder) },
+                new FieldMetadata { Name = "signUpForEvent", IsComplex = true, QueryBuilderType = typeof(PaymentIntentResponseQueryBuilder) },
+                new FieldMetadata { Name = "signUpForFreeEvent", IsComplex = true, QueryBuilderType = typeof(PaymentEventQueryBuilder) },
+                new FieldMetadata { Name = "signUpForSubscription", IsComplex = true, QueryBuilderType = typeof(PaymentClubSubscriptionQueryBuilder) },
                 new FieldMetadata { Name = "signUpFreeEvent", IsComplex = true, QueryBuilderType = typeof(EventParticipantQueryBuilder) },
                 new FieldMetadata { Name = "updateClub", IsComplex = true, QueryBuilderType = typeof(ClubQueryBuilder) },
                 new FieldMetadata { Name = "updateClubMember", IsComplex = true, QueryBuilderType = typeof(ClubMemberQueryBuilder) },
@@ -1408,6 +1505,44 @@ namespace Test
         public MutationQueryBuilder ExceptRemoveInstructor()
         {
             return ExceptField("removeInstructor");
+        }
+
+        public MutationQueryBuilder WithSignUpForEvent(PaymentIntentResponseQueryBuilder paymentIntentResponseQueryBuilder, QueryBuilderParameter<string> eventId, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            var args = new List<QueryBuilderArgumentInfo>();
+            args.Add(new QueryBuilderArgumentInfo { ArgumentName = "eventId", ArgumentValue = eventId} );
+            return WithObjectField("signUpForEvent", alias, paymentIntentResponseQueryBuilder, new GraphQlDirective[] { skip, include }, args);
+        }
+
+        public MutationQueryBuilder ExceptSignUpForEvent()
+        {
+            return ExceptField("signUpForEvent");
+        }
+
+        public MutationQueryBuilder WithSignUpForFreeEvent(PaymentEventQueryBuilder paymentEventQueryBuilder, QueryBuilderParameter<string> eventId, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            var args = new List<QueryBuilderArgumentInfo>();
+            args.Add(new QueryBuilderArgumentInfo { ArgumentName = "eventId", ArgumentValue = eventId} );
+            return WithObjectField("signUpForFreeEvent", alias, paymentEventQueryBuilder, new GraphQlDirective[] { skip, include }, args);
+        }
+
+        public MutationQueryBuilder ExceptSignUpForFreeEvent()
+        {
+            return ExceptField("signUpForFreeEvent");
+        }
+
+        public MutationQueryBuilder WithSignUpForSubscription(PaymentClubSubscriptionQueryBuilder paymentClubSubscriptionQueryBuilder, QueryBuilderParameter<SignUpSubscriptionRequestInput> request = null, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            var args = new List<QueryBuilderArgumentInfo>();
+            if (request != null)
+                args.Add(new QueryBuilderArgumentInfo { ArgumentName = "request", ArgumentValue = request} );
+
+            return WithObjectField("signUpForSubscription", alias, paymentClubSubscriptionQueryBuilder, new GraphQlDirective[] { skip, include }, args);
+        }
+
+        public MutationQueryBuilder ExceptSignUpForSubscription()
+        {
+            return ExceptField("signUpForSubscription");
         }
 
         public MutationQueryBuilder WithSignUpFreeEvent(EventParticipantQueryBuilder eventParticipantQueryBuilder, QueryBuilderParameter<string> eventId, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
@@ -2350,6 +2485,7 @@ namespace Test
                 new FieldMetadata { Name = "instructorForEvents", IsComplex = true, QueryBuilderType = typeof(InstructorForEventQueryBuilder) },
                 new FieldMetadata { Name = "locations", IsComplex = true, QueryBuilderType = typeof(RoomEventQueryBuilder) },
                 new FieldMetadata { Name = "name" },
+                new FieldMetadata { Name = "participants", IsComplex = true, QueryBuilderType = typeof(EventVerificationQueryBuilder) },
                 new FieldMetadata { Name = "publicPrice" },
                 new FieldMetadata { Name = "startTime", IsComplex = true },
                 new FieldMetadata { Name = "status" },
@@ -2451,6 +2587,16 @@ namespace Test
             return ExceptField("name");
         }
 
+        public EventQueryBuilder WithParticipants(EventVerificationQueryBuilder eventVerificationQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("participants", alias, eventVerificationQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public EventQueryBuilder ExceptParticipants()
+        {
+            return ExceptField("participants");
+        }
+
         public EventQueryBuilder WithPublicPrice(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
         {
             return WithScalarField("publicPrice", alias, new GraphQlDirective[] { skip, include });
@@ -2541,7 +2687,7 @@ namespace Test
         private static readonly FieldMetadata[] AllFieldMetadata =
             new []
             {
-                new FieldMetadata { Name = "clubSubscription", IsComplex = true, QueryBuilderType = typeof(EventClubSubscriptionQueryBuilder) },
+                new FieldMetadata { Name = "clubSubscription", IsComplex = true, QueryBuilderType = typeof(ClubSubscriptionQueryBuilder) },
                 new FieldMetadata { Name = "clubSubscriptionId" },
                 new FieldMetadata { Name = "event", IsComplex = true, QueryBuilderType = typeof(EventQueryBuilder) },
                 new FieldMetadata { Name = "eventId" },
@@ -2553,9 +2699,9 @@ namespace Test
 
         public override IReadOnlyList<FieldMetadata> AllFields { get { return AllFieldMetadata; } } 
 
-        public EventPriceQueryBuilder WithClubSubscription(EventClubSubscriptionQueryBuilder eventClubSubscriptionQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        public EventPriceQueryBuilder WithClubSubscription(ClubSubscriptionQueryBuilder clubSubscriptionQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
         {
-            return WithObjectField("clubSubscription", alias, eventClubSubscriptionQueryBuilder, new GraphQlDirective[] { skip, include });
+            return WithObjectField("clubSubscription", alias, clubSubscriptionQueryBuilder, new GraphQlDirective[] { skip, include });
         }
 
         public EventPriceQueryBuilder ExceptClubSubscription()
@@ -2877,7 +3023,7 @@ namespace Test
         private static readonly FieldMetadata[] AllFieldMetadata =
             new []
             {
-                new FieldMetadata { Name = "event", IsComplex = true, QueryBuilderType = typeof(EventparticipantEventQueryBuilder) },
+                new FieldMetadata { Name = "event", IsComplex = true, QueryBuilderType = typeof(EventQueryBuilder) },
                 new FieldMetadata { Name = "eventId" },
                 new FieldMetadata { Name = "eventParticipantId" },
                 new FieldMetadata { Name = "userId" }
@@ -2887,9 +3033,9 @@ namespace Test
 
         public override IReadOnlyList<FieldMetadata> AllFields { get { return AllFieldMetadata; } } 
 
-        public EventParticipantQueryBuilder WithEvent(EventparticipantEventQueryBuilder eventparticipantEventQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        public EventParticipantQueryBuilder WithEvent(EventQueryBuilder eventQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
         {
-            return WithObjectField("event", alias, eventparticipantEventQueryBuilder, new GraphQlDirective[] { skip, include });
+            return WithObjectField("event", alias, eventQueryBuilder, new GraphQlDirective[] { skip, include });
         }
 
         public EventParticipantQueryBuilder ExceptEvent()
@@ -3208,6 +3354,242 @@ namespace Test
         }
     }
 
+    public class PaymentUserQueryBuilder : GraphQlQueryBuilder<PaymentUserQueryBuilder>
+    {
+        private static readonly FieldMetadata[] AllFieldMetadata =
+            new []
+            {
+                new FieldMetadata { Name = "stripeUserId" },
+                new FieldMetadata { Name = "userId" }
+            };
+
+        protected override string TypeName { get { return "payment_User"; } } 
+
+        public override IReadOnlyList<FieldMetadata> AllFields { get { return AllFieldMetadata; } } 
+
+        public PaymentUserQueryBuilder WithStripeUserId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("stripeUserId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentUserQueryBuilder ExceptStripeUserId()
+        {
+            return ExceptField("stripeUserId");
+        }
+
+        public PaymentUserQueryBuilder WithUserId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("userId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentUserQueryBuilder ExceptUserId()
+        {
+            return ExceptField("userId");
+        }
+    }
+
+    public class PaymentClubSubscriptionQueryBuilder : GraphQlQueryBuilder<PaymentClubSubscriptionQueryBuilder>
+    {
+        private static readonly FieldMetadata[] AllFieldMetadata =
+            new []
+            {
+                new FieldMetadata { Name = "clubId" },
+                new FieldMetadata { Name = "clubSubscriptionId" },
+                new FieldMetadata { Name = "stripePriceId" },
+                new FieldMetadata { Name = "stripeProductId" }
+            };
+
+        protected override string TypeName { get { return "payment_ClubSubscription"; } } 
+
+        public override IReadOnlyList<FieldMetadata> AllFields { get { return AllFieldMetadata; } } 
+
+        public PaymentClubSubscriptionQueryBuilder WithClubId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("clubId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentClubSubscriptionQueryBuilder ExceptClubId()
+        {
+            return ExceptField("clubId");
+        }
+
+        public PaymentClubSubscriptionQueryBuilder WithClubSubscriptionId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("clubSubscriptionId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentClubSubscriptionQueryBuilder ExceptClubSubscriptionId()
+        {
+            return ExceptField("clubSubscriptionId");
+        }
+
+        public PaymentClubSubscriptionQueryBuilder WithStripePriceId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("stripePriceId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentClubSubscriptionQueryBuilder ExceptStripePriceId()
+        {
+            return ExceptField("stripePriceId");
+        }
+
+        public PaymentClubSubscriptionQueryBuilder WithStripeProductId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("stripeProductId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentClubSubscriptionQueryBuilder ExceptStripeProductId()
+        {
+            return ExceptField("stripeProductId");
+        }
+    }
+
+    public class PaymentIntentResponseQueryBuilder : GraphQlQueryBuilder<PaymentIntentResponseQueryBuilder>
+    {
+        private static readonly FieldMetadata[] AllFieldMetadata =
+            new []
+            {
+                new FieldMetadata { Name = "clientSecret" },
+                new FieldMetadata { Name = "price" }
+            };
+
+        protected override string TypeName { get { return "PaymentIntentResponse"; } } 
+
+        public override IReadOnlyList<FieldMetadata> AllFields { get { return AllFieldMetadata; } } 
+
+        public PaymentIntentResponseQueryBuilder WithClientSecret(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("clientSecret", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentIntentResponseQueryBuilder ExceptClientSecret()
+        {
+            return ExceptField("clientSecret");
+        }
+
+        public PaymentIntentResponseQueryBuilder WithPrice(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("price", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentIntentResponseQueryBuilder ExceptPrice()
+        {
+            return ExceptField("price");
+        }
+    }
+
+    public class PaymentEventQueryBuilder : GraphQlQueryBuilder<PaymentEventQueryBuilder>
+    {
+        private static readonly FieldMetadata[] AllFieldMetadata =
+            new []
+            {
+                new FieldMetadata { Name = "clubId" },
+                new FieldMetadata { Name = "eventId" },
+                new FieldMetadata { Name = "eventPrices", IsComplex = true, QueryBuilderType = typeof(PaymentEventPriceQueryBuilder) },
+                new FieldMetadata { Name = "publicPrice" }
+            };
+
+        protected override string TypeName { get { return "payment_Event"; } } 
+
+        public override IReadOnlyList<FieldMetadata> AllFields { get { return AllFieldMetadata; } } 
+
+        public PaymentEventQueryBuilder WithClubId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("clubId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentEventQueryBuilder ExceptClubId()
+        {
+            return ExceptField("clubId");
+        }
+
+        public PaymentEventQueryBuilder WithEventId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("eventId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentEventQueryBuilder ExceptEventId()
+        {
+            return ExceptField("eventId");
+        }
+
+        public PaymentEventQueryBuilder WithEventPrices(PaymentEventPriceQueryBuilder paymentEventPriceQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("eventPrices", alias, paymentEventPriceQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentEventQueryBuilder ExceptEventPrices()
+        {
+            return ExceptField("eventPrices");
+        }
+
+        public PaymentEventQueryBuilder WithPublicPrice(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("publicPrice", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentEventQueryBuilder ExceptPublicPrice()
+        {
+            return ExceptField("publicPrice");
+        }
+    }
+
+    public class PaymentEventPriceQueryBuilder : GraphQlQueryBuilder<PaymentEventPriceQueryBuilder>
+    {
+        private static readonly FieldMetadata[] AllFieldMetadata =
+            new []
+            {
+                new FieldMetadata { Name = "clubSubscriptionId" },
+                new FieldMetadata { Name = "event", IsComplex = true, QueryBuilderType = typeof(PaymentEventQueryBuilder) },
+                new FieldMetadata { Name = "eventId" },
+                new FieldMetadata { Name = "price" }
+            };
+
+        protected override string TypeName { get { return "payment_EventPrice"; } } 
+
+        public override IReadOnlyList<FieldMetadata> AllFields { get { return AllFieldMetadata; } } 
+
+        public PaymentEventPriceQueryBuilder WithClubSubscriptionId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("clubSubscriptionId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentEventPriceQueryBuilder ExceptClubSubscriptionId()
+        {
+            return ExceptField("clubSubscriptionId");
+        }
+
+        public PaymentEventPriceQueryBuilder WithEvent(PaymentEventQueryBuilder paymentEventQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("event", alias, paymentEventQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentEventPriceQueryBuilder ExceptEvent()
+        {
+            return ExceptField("event");
+        }
+
+        public PaymentEventPriceQueryBuilder WithEventId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("eventId", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentEventPriceQueryBuilder ExceptEventId()
+        {
+            return ExceptField("eventId");
+        }
+
+        public PaymentEventPriceQueryBuilder WithPrice(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithScalarField("price", alias, new GraphQlDirective[] { skip, include });
+        }
+
+        public PaymentEventPriceQueryBuilder ExceptPrice()
+        {
+            return ExceptField("price");
+        }
+    }
+
     public class EventVerificationQueryBuilder : GraphQlQueryBuilder<EventVerificationQueryBuilder>
     {
         private static readonly FieldMetadata[] AllFieldMetadata =
@@ -3217,6 +3599,7 @@ namespace Test
                 new FieldMetadata { Name = "eventId" },
                 new FieldMetadata { Name = "eventVerificationId" },
                 new FieldMetadata { Name = "status" },
+                new FieldMetadata { Name = "user", IsComplex = true, QueryBuilderType = typeof(IdentityApplicationUserQueryBuilder) },
                 new FieldMetadata { Name = "userId" }
             };
 
@@ -3262,6 +3645,16 @@ namespace Test
         public EventVerificationQueryBuilder ExceptStatus()
         {
             return ExceptField("status");
+        }
+
+        public EventVerificationQueryBuilder WithUser(IdentityApplicationUserQueryBuilder identityApplicationUserQueryBuilder, string alias = null, SkipDirective skip = null, IncludeDirective include = null)
+        {
+            return WithObjectField("user", alias, identityApplicationUserQueryBuilder, new GraphQlDirective[] { skip, include });
+        }
+
+        public EventVerificationQueryBuilder ExceptUser()
+        {
+            return ExceptField("user");
         }
 
         public EventVerificationQueryBuilder WithUserId(string alias = null, SkipDirective skip = null, IncludeDirective include = null)
@@ -3994,6 +4387,36 @@ namespace Test
         }
     }
 
+    public class SignUpSubscriptionRequestInput : IGraphQlInputObject
+    {
+        private InputPropertyInfo _clubSubscriptionId;
+        private InputPropertyInfo _paymentMethodId;
+
+        #if !GRAPHQL_GENERATOR_DISABLE_NEWTONSOFT_JSON
+        [JsonConverter(typeof(QueryBuilderParameterConverter<string>))]
+        #endif
+        public QueryBuilderParameter<string> ClubSubscriptionId
+        {
+            get { return (QueryBuilderParameter<string>)_clubSubscriptionId.Value; }
+            set { _clubSubscriptionId = new InputPropertyInfo { Name = "clubSubscriptionId", Value = value }; }
+        }
+
+        #if !GRAPHQL_GENERATOR_DISABLE_NEWTONSOFT_JSON
+        [JsonConverter(typeof(QueryBuilderParameterConverter<string>))]
+        #endif
+        public QueryBuilderParameter<string> PaymentMethodId
+        {
+            get { return (QueryBuilderParameter<string>)_paymentMethodId.Value; }
+            set { _paymentMethodId = new InputPropertyInfo { Name = "paymentMethodId", Value = value }; }
+        }
+
+        IEnumerable<InputPropertyInfo> IGraphQlInputObject.GetPropertyValues()
+        {
+            if (_clubSubscriptionId.Name != null) yield return _clubSubscriptionId;
+            if (_paymentMethodId.Name != null) yield return _paymentMethodId;
+        }
+    }
+
     public class VerifyCodeRequestInput : IGraphQlInputObject
     {
         private InputPropertyInfo _code;
@@ -4043,11 +4466,18 @@ namespace Test
         public ICollection<Event> EventsConfirmed { get; set; }
         public ICollection<Event> EventsForClub { get; set; }
         public ICollection<EventVerification> EventsForUser { get; set; }
+        public decimal? EventUserPrice { get; set; }
         public ICollection<EventVerification> EventVerifications { get; set; }
+        public ICollection<Event> FutureEvents { get; set; }
         public Event GetEvent { get; set; }
         public ICollection<PermissionRole> InstructorInClub { get; set; }
         public ICollection<ClubMember> MembersForClub { get; set; }
-        public ICollection<Club> MyClubs { get; set; }
+        public ICollection<Club> MyAdminClubs { get; set; }
+        public ICollection<EventParticipant> MyEventParticipations { get; set; }
+        public ICollection<Event> MyInstructorEvents { get; set; }
+        public ICollection<EventVerification> Participants { get; set; }
+        public ICollection<PaymentClubSubscription> PaymentapiClubSubscriptions { get; set; }
+        public ICollection<PaymentUser> PaymentapiUsers { get; set; }
         public ICollection<PermissionUser> Permissions { get; set; }
         public ICollection<PermissionRole> PermissionsInClub { get; set; }
         public ICollection<PermissionRole> RolesForUserId { get; set; }
@@ -4061,6 +4491,7 @@ namespace Test
         public ICollection<PermissionRole> UserRoles { get; set; }
         public ICollection<IdentityApplicationUser> Users { get; set; }
         public ICollection<IdentityApplicationUser> UsersById { get; set; }
+        public ICollection<EventVerification> VerifiedParticipants { get; set; }
     }
 
     public class Mutation
@@ -4076,6 +4507,9 @@ namespace Test
         public IdentityApplicationUser EditUser { get; set; }
         public IdentityResponse LoginUser { get; set; }
         public PermissionRole RemoveInstructor { get; set; }
+        public PaymentIntentResponse SignUpForEvent { get; set; }
+        public PaymentEvent SignUpForFreeEvent { get; set; }
+        public PaymentClubSubscription SignUpForSubscription { get; set; }
         public EventParticipant SignUpFreeEvent { get; set; }
         public Club UpdateClub { get; set; }
         public ClubMember UpdateClubMember { get; set; }
@@ -4203,6 +4637,7 @@ namespace Test
         public ICollection<InstructorForEvent> InstructorForEvents { get; set; }
         public ICollection<RoomEvent> Locations { get; set; }
         public string Name { get; set; }
+        public ICollection<EventVerification> Participants { get; set; }
         public decimal? PublicPrice { get; set; }
         public object StartTime { get; set; }
         public EventStatus? Status { get; set; }
@@ -4218,7 +4653,7 @@ namespace Test
 
     public class EventPrice
     {
-        public EventClubSubscription ClubSubscription { get; set; }
+        public ClubSubscription ClubSubscription { get; set; }
         public string ClubSubscriptionId { get; set; }
         public Event Event { get; set; }
         public string EventId { get; set; }
@@ -4266,7 +4701,7 @@ namespace Test
 
     public class EventParticipant
     {
-        public EventparticipantEvent Event { get; set; }
+        public Event Event { get; set; }
         public string EventId { get; set; }
         public string EventParticipantId { get; set; }
         public string UserId { get; set; }
@@ -4312,12 +4747,49 @@ namespace Test
         public ICollection<PermissionRole> Users { get; set; }
     }
 
+    public class PaymentUser
+    {
+        public string StripeUserId { get; set; }
+        public string UserId { get; set; }
+    }
+
+    public class PaymentClubSubscription
+    {
+        public string ClubId { get; set; }
+        public string ClubSubscriptionId { get; set; }
+        public string StripePriceId { get; set; }
+        public string StripeProductId { get; set; }
+    }
+
+    public class PaymentIntentResponse
+    {
+        public string ClientSecret { get; set; }
+        public decimal? Price { get; set; }
+    }
+
+    public class PaymentEvent
+    {
+        public string ClubId { get; set; }
+        public string EventId { get; set; }
+        public ICollection<PaymentEventPrice> EventPrices { get; set; }
+        public decimal? PublicPrice { get; set; }
+    }
+
+    public class PaymentEventPrice
+    {
+        public string ClubSubscriptionId { get; set; }
+        public PaymentEvent Event { get; set; }
+        public string EventId { get; set; }
+        public decimal? Price { get; set; }
+    }
+
     public class EventVerification
     {
         public string Code { get; set; }
         public string EventId { get; set; }
         public int? EventVerificationId { get; set; }
         public PresenceStatusEnum? Status { get; set; }
+        public IdentityApplicationUser User { get; set; }
         public string UserId { get; set; }
     }
     #endregion

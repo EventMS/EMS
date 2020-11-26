@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Test;
@@ -15,6 +16,7 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
         protected HttpClient _webhookClient;
         protected string lastEmailUsed;
         protected Club latestClub;
+        protected Event latestEvent;
         protected IdentityApplicationUser lastestUser;
         protected List<ClubSubscription> latestSubscriptions = new List<ClubSubscription>();
 
@@ -61,6 +63,7 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
                 throw new Exception(s);
             }
             var r = await result.Content.ReadAsAsync<MutationResponse>();
+            Thread.Sleep(1000);
             return r.data;
         }
 
@@ -86,9 +89,30 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
             return result;
         }
 
+        protected async Task<Mutation> CreateNewUser(string email, string navn)
+        {
+            lastEmailUsed = email;
+            var query = new MutationQueryBuilder().WithCreateUser(
+                    new IdentityResponseQueryBuilder()
+                        .WithToken()
+                        .WithUser(new IdentityApplicationUserQueryBuilder().WithId().WithEmail()),
+                    new CreateUserRequestInput
+                    {
+                        BirthDate = "2020-01-01",
+                        Name = navn,
+                        Email = email,
+                        PhoneNumber = "12345678",
+                        Password = "Test1234!"
+                    })
+                .Build();
+
+            var result = await Mutate(query);
+            lastestUser = result.CreateUser.User;
+            return result;
+        }
+
         protected async Task<Mutation> LoginOnUser()
         {
-
             var query = new MutationQueryBuilder().WithLoginUser(
                     new IdentityResponseQueryBuilder()
                         .WithToken()
@@ -102,11 +126,33 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
             return await Mutate(query);
         }
 
+        protected async Task<Mutation> LoginOnUser(string email)
+        {
+            var query = new MutationQueryBuilder().WithLoginUser(
+                    new IdentityResponseQueryBuilder()
+                        .WithToken()
+                        .WithUser(new IdentityApplicationUserQueryBuilder().WithId()),
+                    new LoginUserRequestInput()
+                    {
+                        Email = email,
+                        Password = "Test1234!"
+                    })
+                .Build();
+            return await Mutate(query);
+        }
+
         protected async Task CreateAuthorizedClient()
         {
             var result = await CreateNewUser();
             _client.DefaultRequestHeaders.Authorization =
                 AuthenticationHeaderValue.Parse("Bearer " + result.CreateUser.Token);
+        }
+
+        protected async Task LoginOnAuthorizedClient(string email)
+        {
+            var result = await LoginOnUser(email);
+            _client.DefaultRequestHeaders.Authorization =
+                AuthenticationHeaderValue.Parse("Bearer " + result.LoginUser.Token);
         }
 
 
@@ -137,13 +183,42 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
 
             return result;
         }
-        
+
+        protected async Task<Mutation> CreateAClub(string navn, List<string> lokaler)
+        {
+            var name = navn;
+            var query = new MutationQueryBuilder().WithCreateClub(
+                    new ClubQueryBuilder()
+                        .WithClubId().WithDescription(),
+                    new CreateClubRequestInput()
+                    {
+                        Name = name,
+                        PhoneNumber = "12345678",
+                        Locations = lokaler,
+                        Description = "Test club",
+                        RegistrationNumber = "1234",
+                        Address = "Test klub address",
+                        AccountNumber = "12345678"
+                    })
+                .Build();
+
+            var result = await Mutate(query);
+            latestClub = result.CreateClub;
+
+            return result;
+        }
+
         protected async Task<Mutation> CreateSubscription()
         {
             var name = Guid.NewGuid().ToString().Substring(15);
+
+            return await CreateSubscription(name);
+        }
+        protected async Task<Mutation> CreateSubscription(string navn)
+        {
             var input = new CreateClubSubscriptionRequestInput()
             {
-                Name = name,
+                Name = navn,
                 Price = 100,
                 ClubId = latestClub.ClubId
             };
@@ -163,26 +238,48 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
             return result;
         }
 
-        protected async Task CreateMember()
+
+        protected async Task CreateMember(string id)
         {
             var result = await _webhookClient.PostAsJsonAsync("webhook/sub", new
             {
-                UserId = lastestUser.Id,
+                UserId = id,
                 ClubSubscriptionId = latestSubscription.ClubSubscriptionId
             });
             result.EnsureSuccessStatusCode();
         }
 
-        protected async Task<Mutation> CreateInstructor()
+        protected async Task CreateSignUpToLastCreatedEvent(string id)
+        {
+            var result = await _webhookClient.PostAsJsonAsync("webhook/event", new
+            {
+                UserId = id,
+                EventId = latestEvent.EventId
+            });
+            result.EnsureSuccessStatusCode();
+        }
+
+        protected async Task CreateMember()
+        {
+            await CreateMember(lastestUser.Id);
+        }
+
+
+        protected async Task<Mutation> CreateInstructor(string id)
         {
             var name = Guid.NewGuid().ToString().Substring(15);
             var query = new MutationQueryBuilder().WithAddInstructor(
                     new PermissionRoleQueryBuilder().WithAllFields()
                     ,
                     latestClub.ClubId,
-                    lastestUser.Id)
+                    id)
                 .Build();
             return await Mutate(query);
+        }
+
+        protected async Task<Mutation> CreateInstructor()
+        {
+            return await CreateInstructor(lastestUser.Id);
         }
 
         protected async Task<Mutation> CreateEvent()
@@ -217,7 +314,63 @@ namespace EMS.Template1_Services.API.UnitTests.GraphQL
                     new EventQueryBuilder().WithEventId()
                     ,input )
                 .Build();
-            return await Mutate(query);
+            var result = await Mutate(query);
+            latestEvent = result.CreateEvent;
+            return result;
+        }
+
+        protected async Task<Mutation> CreateEvent(string navn, 
+            decimal? publicPrice = null,
+            string lokale = null, 
+            string? instructor = null)
+        {
+            var name = navn;
+            var locations = new List<string>();
+            if(lokale != null)
+            {
+                locations.Add(lokale);
+            }
+
+            var instructors = new List<string>();
+            if (instructor != null)
+            {
+                instructors.Add(instructor);
+            }
+
+            var input = new CreateEventRequestInput
+            {
+                ClubId = latestClub.ClubId,
+                Name = name,
+                StartTime = DateTime.Now.AddHours(1).ToString(),
+                EndTime = DateTime.Now.AddHours(2).ToString(),
+                Description = "Test klub description",
+                Locations = locations,
+                EventPrices = new List<EventPriceRequestInput>()
+                {
+                },
+                InstructorForEvents = instructors
+            };
+            if(publicPrice != null)
+            {
+                input.PublicPrice = publicPrice;
+            }
+            if (latestSubscriptions.Count > 0)
+            {
+                input.EventPrices = latestSubscriptions
+                    .Select(sub => new EventPriceRequestInput()
+                    {
+                        ClubSubscriptionId = sub.ClubSubscriptionId,
+                        Price = 50
+                    }).ToList();
+            }
+
+            var query = new MutationQueryBuilder().WithCreateEvent(
+                    new EventQueryBuilder().WithEventId()
+                    , input)
+                .Build();
+            var result =  await Mutate(query);
+            latestEvent = result.CreateEvent;
+            return result;
         }
     }
 }

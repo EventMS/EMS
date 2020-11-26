@@ -19,8 +19,6 @@ services:
       - ACCEPT_EULA=Y
     ports:
       - "5433:1433"
-    volumes:
-      - ems-sqldata:/var/opt/mssql
 
   rabbitmq:
     ports:
