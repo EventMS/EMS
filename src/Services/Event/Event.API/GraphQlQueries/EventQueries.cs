@@ -46,6 +46,6 @@ namespace EMS.Event_Services.API.GraphQlQueries
             return _context.Events.Where(ev => ev.InstructorForEvents.Any(instructor => instructor.InstructorId == user.UserId)).AsQueryable();
         }
 
-        public IQueryable<Event> FutureEvents => _context.Events.Where(e => e.EndTime > DateTime.Today).AsQueryable();
+        public IQueryable<Event> FutureEvents => _context.Events.Where(e => e.EndTime > DateTime.Today && e.Status == EventStatus.Confirmed).AsQueryable();
     }
 }
