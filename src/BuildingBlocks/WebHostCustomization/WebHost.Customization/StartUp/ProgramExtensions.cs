@@ -12,7 +12,10 @@ using ILogger = Serilog.ILogger;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
-
+    /// <summary>
+    /// Basic program extensions for domain services primarily. 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BaseProgramHelper<T> where T : class
     {
         private readonly String _appName;

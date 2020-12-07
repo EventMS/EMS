@@ -6,6 +6,9 @@ using EMS.BuildingBlocks.EventLogEF;
 
 namespace EMS.TemplateWebHost.Customization.EventService
 {
+    /// <summary>
+    /// Based on: https://github.com/dotnet-architecture/eShopOnContainers
+    /// </summary>
     public interface IEventService
     {
         Task SaveEventAndDbContextChangesAsync(Event evt, Func<Task> action = null);

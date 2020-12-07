@@ -17,6 +17,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Club_Service.API.GraphQlQueries
 {
+    /// <summary>
+    /// Update club mutations
+    /// </summary>
     public class ClubMutations : BaseMutations
     {
         private readonly ClubContext _context;

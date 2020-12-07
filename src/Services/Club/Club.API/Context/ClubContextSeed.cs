@@ -12,6 +12,9 @@ using EMS.TemplateWebHost.Customization.Settings;
 
 namespace EMS.Club_Service.API.Context
 {
+    /// <summary>
+    /// Default seeding for Club - Not used. 
+    /// </summary>
     public class ClubContextSeed
     {
         public async Task SeedAsync(ClubContext context, IWebHostEnvironment env, IOptions<BaseSettings> settings, ILogger<ClubContextSeed> logger)

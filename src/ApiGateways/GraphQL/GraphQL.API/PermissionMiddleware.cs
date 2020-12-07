@@ -10,8 +10,9 @@ using Serilog;
 
 namespace EMS.GraphQL.API
 {
-
-
+    /// <summary>
+    /// Middleware that intercept request, and attaches new Bearer token with permission from Permission Service.
+    /// </summary>
     public class PermissionMiddleware
     {
         private readonly RequestDelegate _next;

@@ -3,6 +3,10 @@ using Newtonsoft.Json;
 
 namespace EMS.BuildingBlocks.EventLogEF
 {
+    /// <summary>
+    /// Base class for all events -
+    /// Based on: https://github.com/dotnet-architecture/eShopOnContainers
+    /// </summary>
     public class Event
     {
         public Event()

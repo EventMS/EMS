@@ -24,6 +24,9 @@ using DirectiveLocation = HotChocolate.Types.DirectiveLocation;
 
 namespace EMS.GraphQL.API
 {
+    /// <summary>
+    /// Startup class that defines gateway configuration. 
+    /// </summary>
     public class Startup
     {
 
@@ -42,9 +45,13 @@ namespace EMS.GraphQL.API
             AddServices(services);
         }
 
+        /// <summary>
+        /// Adds permission http client
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public virtual IServiceCollection AddServices(IServiceCollection services)
         {
-
             services.AddHttpClient<PermissionService>("permission", (sp, client) =>
             {
                 HttpContext context = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
@@ -59,6 +66,11 @@ namespace EMS.GraphQL.API
             return services;
         }
 
+        /// <summary>
+        /// Disables Cors
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public virtual IServiceCollection AddCustomMVC(IServiceCollection services)
         {
             services.AddControllers(options =>
@@ -78,6 +90,11 @@ namespace EMS.GraphQL.API
 
             return services;
         }
+        /// <summary>
+        /// Adds all other services as http named clients, for schema getting.
+        /// </summary>
+        /// <param name="https"></param>
+        /// <param name="services"></param>
 
         public void AddHttpClients(string[] https, IServiceCollection services)
         {
@@ -99,6 +116,11 @@ namespace EMS.GraphQL.API
             }
         }
 
+        /// <summary>
+        /// Configures GraphQL schema
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public IServiceCollection AddGraphQlServices(IServiceCollection services)
         {
             services.AddDataLoaderRegistry();
@@ -141,6 +163,12 @@ namespace EMS.GraphQL.API
             return d;
         }
 
+        /// <summary>
+        /// Renames files when neccessary. 
+        /// </summary>
+        /// <param name="schema"></param>
+        /// <param name="definitionSchema"></param>
+        /// <returns></returns>
         private DocumentNode RewriteDocument(ISchemaInfo schema, DocumentNode definitionSchema)
         {
             var definitions = new List<IDefinitionNode>();

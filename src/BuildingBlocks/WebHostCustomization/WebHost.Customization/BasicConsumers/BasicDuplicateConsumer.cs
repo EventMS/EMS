@@ -10,9 +10,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace TemplateWebHost.Customization.BasicConsumers
 {
+    /// <summary>
+    /// Extension for ease of finding Entity framework primary keys. 
+    /// Based on: https://stackoverflow.com/questions/30688909/how-to-get-primary-key-value-with-entity-framework-core
+    /// </summary>
     public static class Extensions
     {
-
         private static IEnumerable<string> FindPrimaryKeyNames<T>(this DbContext dbContext, T entity)
         {
             return from p in dbContext.FindPrimaryKeyProperties(entity)
@@ -37,7 +40,12 @@ namespace TemplateWebHost.Customization.BasicConsumers
         }
 
     }
-
+    /// <summary>
+    /// Simple duplicating consumer, that based on Automapper configuration creates a entry in DB. 
+    /// </summary>
+    /// <typeparam name="TContext"></typeparam>
+    /// <typeparam name="TType"></typeparam>
+    /// <typeparam name="TEvent"></typeparam>
     public class BasicDuplicateConsumer<TContext, TType, TEvent> :
         IConsumer<TEvent> where TEvent : class where TType : class where TContext : DbContext
     {

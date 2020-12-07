@@ -4,7 +4,9 @@ using EMS.TemplateWebHost.Customization.StartUp;
 
 namespace EMS.Club_Service_Services.API
 {
-
+    /// <summary>
+    /// The current user objekt that gets exposed as global accessable on GraphQL queries based on Bearer token. 
+    /// </summary>
     public class CurrentUser
     {
         public Guid UserId { get; }

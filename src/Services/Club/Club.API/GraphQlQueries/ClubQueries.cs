@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Club_Service.API.GraphQlQueries
 {
+    /// <summary>
+    /// Club queries
+    /// </summary>
     public class ClubQueries
     {
         private readonly ClubContext _context;

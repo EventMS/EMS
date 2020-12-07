@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
+    /// <summary>
+    /// Base mutations service that implement basic authorisations. 
+    /// </summary>
     public class BaseMutations
     {
         protected readonly IAuthorizationService _authorizationService;

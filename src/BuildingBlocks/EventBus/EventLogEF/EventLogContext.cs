@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EMS.BuildingBlocks.EventLogEF
 {
+    /// <summary>
+    /// Simple EventLogContext that are used in most services. 
+    /// Based on: https://github.com/dotnet-architecture/eShopOnContainers
+    /// </summary>
     public class EventLogContext : DbContext
     {       
         public EventLogContext(DbContextOptions<EventLogContext> options) : base(options)

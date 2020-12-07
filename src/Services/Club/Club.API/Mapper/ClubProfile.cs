@@ -4,6 +4,9 @@ using EMS.Events;
 
 namespace EMS.Club_Service.API.Mapper
 {
+    /// <summary>
+    /// Automapper configuration for Club
+    /// </summary>
     public class ClubProfile : Profile
     {
         public ClubProfile()

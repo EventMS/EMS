@@ -13,6 +13,11 @@ using EMS.TemplateWebHost.Customization.Settings;
 
 namespace EMS.TemplateWebHost.Customization.EventService
 {
+    /// <summary>
+    /// Event service that exposes function to publish events
+    /// Based on: https://github.com/dotnet-architecture/eShopOnContainers
+    /// </summary>
+    /// <typeparam name="TContext"></typeparam>
     public class EventService<TContext> : IEventService where TContext : DbContext
     {
         private readonly TContext _context;

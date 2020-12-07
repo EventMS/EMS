@@ -7,6 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace EMS.TemplateWebHost.Customization.OutboxService
 {
+    /// <summary>
+    /// This service implements a time that ensures that once a minute DB are checked for failed tasks. This does not do the work, just delegates.
+    /// </summary>
     public class OutboxHostedService : BackgroundService
     {
         private readonly ILogger<OutboxHostedService> _logger;

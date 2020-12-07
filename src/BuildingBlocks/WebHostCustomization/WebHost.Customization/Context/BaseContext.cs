@@ -7,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EMS.TemplateWebHost.Customization.Context
 {
+    /// <summary>
+    /// Base context that all Context should inherit from
+    /// Ensures that validation are applied before saving. 
+    /// </summary>
     public abstract class BaseContext : DbContext
     {
         protected BaseContext(DbContextOptions options) : base(options)
