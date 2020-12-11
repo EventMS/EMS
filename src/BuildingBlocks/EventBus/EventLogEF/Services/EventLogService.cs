@@ -11,6 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EMS.BuildingBlocks.EventLogEF.Services
 {
+    /// <summary>
+    /// Event log service that wraps basic actions on the EventLogContext
+    /// Based on: https://github.com/dotnet-architecture/eShopOnContainers
+    /// </summary>
     public class EventLogService : IEventLogService
     {
         private readonly EventLogContext _eventLogContext;

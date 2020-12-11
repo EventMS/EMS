@@ -8,6 +8,9 @@ using Serilog;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
+    /// <summary>
+    /// Client implementation for Permission Service as REST.
+    /// </summary>
     public class PermissionService
     {
         private readonly HttpClient _client;

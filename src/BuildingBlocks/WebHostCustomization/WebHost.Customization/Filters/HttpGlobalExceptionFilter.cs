@@ -12,6 +12,9 @@ using Serilog;
 
 namespace EMS.TemplateWebHost.Customization.Filters
 {
+    /// <summary>
+    /// Rest exception filtering. Is used to slightly prettyfy error object. Mostly redundant. 
+    /// </summary>
     public class HttpGlobalExceptionFilter : IExceptionFilter
     {
         private readonly IWebHostEnvironment env;

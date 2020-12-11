@@ -3,7 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.TemplateWebHost.Customization.Attributes
 {
-    //https://stackoverflow.com/questions/14945536/mvc-validate-date-time-is-at-least-1-minute-in-the-future
+    /// <summary>
+    /// Checks whether current date is in the future
+    /// Based on: https://stackoverflow.com/questions/14945536/mvc-validate-date-time-is-at-least-1-minute-in-the-future
+    /// </summary>
     public class FutureDateAttribute : ValidationAttribute
     {
         public override bool IsValid(object value)
@@ -12,7 +15,10 @@ namespace EMS.TemplateWebHost.Customization.Attributes
         }
     }
 
-    //https://andrewlock.net/creating-an-empty-guid-validation-attribute/
+    /// <summary>
+    /// Checks whether current Guid is empty
+    /// Based on: https://andrewlock.net/creating-an-empty-guid-validation-attribute/
+    /// </summary>
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter,
         AllowMultiple = false)]

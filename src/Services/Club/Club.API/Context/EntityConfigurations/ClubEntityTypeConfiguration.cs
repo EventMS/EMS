@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace EMS.Club_Service.API.Context.EntityConfigurations
 {
+    /// <summary>
+    /// Club entity configuration
+    /// </summary>
     class ClubEntityTypeConfiguration
         : IEntityTypeConfiguration<Model.Club>
     {

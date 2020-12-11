@@ -46,6 +46,10 @@ using Serilog;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
+    /// <summary>
+    /// Base startup class for domain services
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class BaseStartUp<T> where T:DbContext
     {
         public BaseStartUp(IConfiguration configuration)

@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Club_Service.API.Controllers.Request
 {
+    /// <summary>
+    /// Create club request
+    /// </summary>
     public class CreateClubRequest
     {       
         [Required]

@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace EMS.TemplateWebHost.Customization
 {
+    /// <summary>
+    /// Migrating on startup
+    /// Based on: https://github.com/dotnet-architecture/eShopOnContainers
+    /// </summary>
     public static class IWebHostExtensions
     {
         public static bool IsInKubernetes(this IWebHost webHost)

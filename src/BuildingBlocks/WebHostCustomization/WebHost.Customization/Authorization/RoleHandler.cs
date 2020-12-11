@@ -13,7 +13,9 @@ using Serilog;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
-
+    /// <summary>
+    /// Permissions for user
+    /// </summary>
     public class ClubPermission
     {
         public Guid ClubId { get; set; }
@@ -21,13 +23,14 @@ namespace EMS.TemplateWebHost.Customization.StartUp
         public Guid? SubscriptionId { get; set; }
     }
 
+    /// <summary>
+    /// Authorization that check whether current user have the expected role in the club with mentioned ID. 
+    /// </summary>
     public class RoleHandler : AuthorizationHandler<RoleRequirement, Guid>
     {
-        private readonly PermissionService _permissionService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public RoleHandler(PermissionService permissionService, IHttpContextAccessor httpContextAccessor)
+        public RoleHandler(IHttpContextAccessor httpContextAccessor)
         {
-            _permissionService = permissionService;
             _httpContextAccessor = httpContextAccessor;
         }
 

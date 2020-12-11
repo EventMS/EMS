@@ -6,6 +6,10 @@ using Newtonsoft.Json;
 
 namespace EMS.BuildingBlocks.EventLogEF
 {
+    /// <summary>
+    /// Database entry that wraps a event
+    /// Based on: https://github.com/dotnet-architecture/eShopOnContainers
+    /// </summary>
     public class EventLogEntry
     {
         private EventLogEntry() { }

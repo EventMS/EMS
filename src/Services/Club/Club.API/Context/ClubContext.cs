@@ -6,6 +6,9 @@ using EMS.TemplateWebHost.Customization.Context;
 namespace EMS.Club_Service.API.Context
 {
     using Model;
+    /// <summary>
+    /// Club context that inherits from Base Context
+    /// </summary>
     public class ClubContext : BaseContext
     {
         public ClubContext(DbContextOptions<ClubContext> options) : base(options)

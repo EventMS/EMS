@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace EMS.TemplateWebHost.Customization.StartUp
 {
+    /// <summary>
+    /// Simple class that implements basic logging for GraphQL.
+    /// </summary>
     public class DiagnosticObserver
         : IDiagnosticObserver
     {

@@ -10,6 +10,10 @@ using EMS.TemplateWebHost.Customization.EventService;
 
 namespace EMS.TemplateWebHost.Customization.OutboxService
 {
+    /// <summary>
+    /// This is the executing client that does the actual work of checking for failed tasks
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     internal class OutboxProcessingService<T> : IOutboxProcessingService where T:DbContext
     {
         private readonly ILogger _logger;

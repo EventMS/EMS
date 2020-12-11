@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Club_Service.API.Controllers.Request
 {
+    /// <summary>
+    /// Update club request
+    /// </summary>
     public class UpdateClubRequest
     {
         [Required]

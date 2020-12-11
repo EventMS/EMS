@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EMS.BuildingBlocks.EventLogEF.Utilities
 {
+    /// <summary>
+    /// Resilient transaction that attempts multiple times in case of "unfortunate" timing failure.
+    /// Based on: https://github.com/dotnet-architecture/eShopOnContainers
+    /// </summary>
     public class ResilientTransaction
     {
         private DbContext _context;

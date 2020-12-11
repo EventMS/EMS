@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace EMS.TemplateWebHost.Customization.Filters
 {
+    /// <summary>
+    /// Simple graphql error filtering. Is used to decorate error objects from exceptions. 
+    /// </summary>
     public class GraphQlErrorFilter : IErrorFilter
     {
         public IError OnError(IError error)
@@ -22,6 +25,9 @@ namespace EMS.TemplateWebHost.Customization.Filters
             return error;
         }
     }
+    /// <summary>
+    /// Input validation middleware that ensures Attribute input validation as "Empty", "FutureDate" are applied.
+    /// </summary>
     public class ValidateInputMiddleware
     {
         private readonly FieldDelegate _next;
